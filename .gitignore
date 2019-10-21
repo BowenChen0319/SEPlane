@@ -47,6 +47,21 @@ Thumbs.db
 ehthumbs.db
 ehthumbs_vista.db
 
+###STS###
+.atp_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
 # Dump file
 *.stackdump
 
