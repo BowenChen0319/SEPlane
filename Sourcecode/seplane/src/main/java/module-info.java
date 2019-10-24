@@ -1,7 +1,8 @@
-module de.paluno.app {
+module de.paluno {
     requires javafx.controls;
     requires javafx.fxml;
+    //requires kotlin.stdlib;
 
-    opens de.paluno.app to javafx.fxml;
-    exports de.paluno.app;
+    opens de.paluno to javafx.fxml;
+    exports de.paluno;
 }

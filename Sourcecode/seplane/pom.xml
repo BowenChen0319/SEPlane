@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>de.paluno.app</groupId>
-    <artifactId>se-plane</artifactId>
+    <groupId>de.paluno</groupId>
+    <artifactId>SE-Plane</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,6 +20,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>13</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>1.3.50</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -34,9 +39,15 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.1</version>
+                <version>0.0.3</version>
                 <configuration>
-                    <mainClass>de.paluno.app.App</mainClass>
+                    <mainClass>de.paluno.App</mainClass>
+                    <launcher>launch</launcher>
+                    <compress>2</compress>
+                    <jlinkZipName>SE-Plane</jlinkZipName>
+                    <jlinkImageName>SE-Plane</jlinkImageName>
+                    <noManPages>true</noManPages>
+                    <noHeaderFiles>true</noHeaderFiles>
                 </configuration>
             </plugin>
         </plugins>
