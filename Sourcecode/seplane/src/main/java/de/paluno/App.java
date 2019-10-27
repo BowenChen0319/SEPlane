@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import DBTest.DBManager;
+
 /**
  * JavaFX App
  */
@@ -33,6 +35,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+        DBManager db = new DBManager();
     }
 
 }
