@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -20,6 +21,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,7 +35,10 @@ import java.net.URL;
 public class App extends Application {
 
     //private static Scene scene;
-    int i =0;
+    String password ="1234";
+    String username = "admin";
+    int Height = 400;
+    int Width = 600;
     @Override
     public void start(Stage primaryStage) throws IOException {
         //HostServices host = getHostServices();
@@ -50,14 +55,36 @@ public class App extends Application {
 //        URL url = getClass().getClassLoader().getResource("logo.png");
 //        String path = url.toExternalForm();
 
-        Group root = new Group();
+        VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        root.setPadding(new Insets(10));
+        root.setSpacing(20.0);
+        root.setPrefHeight(Height);
+        root.setPrefWidth(Width);
         Scene scene = new Scene(root);
 
+        Label text1 = new Label(
+                "Willkommen bei SE-Plane");
+        text1.setFont(Font.font(25));
+        root.getChildren().add(text1);
+
+        Label text2 = new Label(
+                "                      " +
+                        "deine Flugverwaltungsanwendung :)");
+        text2.setFont(Font.font(20));
+        root.getChildren().add(text2);
+
+
+        TextField user = new TextField();
+        user.setFont((Font.font(10)));
+        root.getChildren().add(user);
+        Tooltip tip1 = new Tooltip("Username Please :)");
+        tip1.setFont(Font.font(12));
+        user.setTooltip(tip1);
+        user.setPromptText("Username");
+        user.setFocusTraversable(false);
+
         PasswordField pwd = new PasswordField();
-        //pwd.setText("Password");
-        pwd.setLayoutX(200);
-        pwd.setLayoutY(250);
-        pwd.setPrefWidth(100);
         pwd.setFont((Font.font(10)));
         root.getChildren().add(pwd);
         Tooltip tip = new Tooltip("Password Please :)");
@@ -76,9 +103,9 @@ public class App extends Application {
         });
 
 
-        Button b1 = new Button("b1");
-        b1.setPrefWidth(50);
-        b1.setPrefHeight(50);
+        Button b1 = new Button("Login");
+        b1.setPrefWidth(100);
+        b1.setPrefHeight(20);
         b1.setFont(Font.font(15));
         /*
         b1.setTextFill(Paint.valueOf("#8A2BE2"));
@@ -95,42 +122,45 @@ public class App extends Application {
                 "-fx-text-fill: #5CACEE"
         );
 
-        Button b2 = new Button("b2");
-        Button b3 = new Button("b3");
+        Button b2 = new Button("Quit");
+        b2.setPrefWidth(100);
+        b2.setPrefHeight(20);
+        b2.setFont(Font.font(15));
+        b2.setStyle("-fx-background-color: #5CACEE;"+
+                "-fx-background-radius: 8;"+
+                "-fx-text-fill: #7CCD7C"
+        );
 
 
+        Label warning = new Label();
+        warning.setFont(Font.font(17));
+        root.getChildren().add(warning);
 
-        b1.setLayoutX(0);
-        b1.setLayoutY(0);
-        b2.setLayoutX(200);
-        b2.setLayoutY(0);
-        b3.setLayoutX(400);
-        b3.setLayoutY(0);
-        root.getChildren().addAll(b1,b2,b3);
+        HBox butt = new HBox();
+        butt.setAlignment(Pos.CENTER);
+        butt.getChildren().addAll(b1,b2);
+        root.getChildren().add(butt);
 
 
         b1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                i=i+10;
-                Button bu = (Button)actionEvent.getSource();
-                if(pwd.getText().matches("1234")){
-                    bu.setText(Integer.toString(i/10));
+
+                if(pwd.getText().matches(password)&&user.getText().matches(username)){
+                    warning.setText("Welcome");
+                }else if(!user.getText().matches(username)){
+                    warning.setText("Wrong Username");
+                }else if(!pwd.getText().matches(password)&&user.getText().matches(username)){
+                    warning.setText("Wrong Password");
+                }else{
+                    warning.setText("Try again");
                 }
-
-                System.out.println(i+bu.getText());
-                Button b4 = new Button(Integer.toString(i/10));
-                b4.setLayoutX(400);
-                b4.setLayoutY(i);
-                root.getChildren().add(b4);
-
             }
         });
 
         b1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-
 
                 if(mouseEvent.getClickCount()==2 && mouseEvent.getButton().name().equals(MouseButton.PRIMARY.name())){
                     System.out.println("double click");
@@ -145,48 +175,32 @@ public class App extends Application {
             }
         });
 
-
-
-  /*      root.getChildren().addAll(b1,b2,b3);
-        Object[] obj = root.getChildren().toArray();
-        for(Object i:obj) {
-            Button button = (Button)i;
-            button.setPrefWidth(50);
-            button.setPrefHeight(50);
-        }
-*/
-
-//        root.getChildren().add(button);
-
+        b2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                primaryStage.close();
+            }
+        });
 
         KeyCombination kcb = new KeyCharacterCombination(String.valueOf(KeyCode.Q),KeyCombination.ALT_ANY);
         scene.getAccelerators().put(kcb, new Runnable() {
             @Override
             public void run() {
                 System.out.println("key q alt");
-
             }
         });
 
-
-
-        Label label = new Label("SEP");
-        label.setLayoutX(50);
-        label.setLayoutY(200);
-        root.getChildren().add(label);
         primaryStage.setTitle("SE-Plane Gruppe I");
 
         //primaryStage.getIcons().add(new Image(path)); //png Bild
 
 
-        primaryStage.setWidth(500);
-        primaryStage.setHeight(500);
-
-        //primaryStage.setResizable(false);
-        //primaryStage.setFullScreen(true);
-
+        primaryStage.setWidth(Width);
+        primaryStage.setHeight(Height);
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
 
+        //primaryStage.setFullScreen(true);
         //primaryStage.setOpacity(0.5); //transparency
         //primaryStage.setAlwaysOnTop(true);
         //primaryStage.setX(100);
@@ -194,8 +208,6 @@ public class App extends Application {
         //primaryStage.initStyle(StageStyle.UTILITY);
         //primaryStage.initModality(Modality.APPLICATION_MODAL);
         //Platform.exit();
-
-
 
         primaryStage.show();
 
