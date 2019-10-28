@@ -7,8 +7,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
 
-import DBTest.DBManager;
+import Models.Fluggesellschaft;
+import Models.Flughafen;
+import Models.Fluglinie;
+import Models.Flugzeug;
+import Models.Intervall;
 
 /**
  * JavaFX App
@@ -34,8 +40,15 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+    
         DBManager db = new DBManager();
+        db.createFL(new Fluglinie(new Flughafen(), new Flughafen(), new java.sql.Date(Calendar.getInstance().getTime().getTime()), Intervall.TAG, new Fluggesellschaft(), new Flugzeug(), 0,1,12.0,13.0 ));
+        Fluglinie fl = db.getFLById(1);
+        System.out.println(fl.getIntervall() + " "+ fl.getPreisee());
+        
+        
+        launch();
+        
     }
 
 }

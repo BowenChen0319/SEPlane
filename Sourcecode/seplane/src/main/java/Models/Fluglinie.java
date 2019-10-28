@@ -2,6 +2,9 @@ package Models;
 
 import java.util.Date;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 @DatabaseTable(tableName = "fluglinie")
 public class Fluglinie {
 

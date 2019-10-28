@@ -4,10 +4,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.h2.jdbcx.JdbcConnectionPool;
+import java.util.List;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.support.ConnectionSource;
+
+import org.h2.jdbcx.JdbcConnectionPool;
 
 import Models.Fluggesellschaft;
 import Models.Flughafen;
@@ -17,7 +22,7 @@ import Models.Flugzeug;
 public class DBManager {
 
 	static final String dbURL = "jdbc:h2:~/SEPlaneDB";	
-	static JdbcConnectionPool cp;
+	static JdbcPooledConnectionSource cs;
 	
 	Dao<Fluggesellschaft,Integer> fgDao;
 	Dao<Flughafen,String> fhDao;
@@ -27,12 +32,12 @@ public class DBManager {
 	public DBManager() {
 
 		try {       
-			cp = JdbcConnectionPool.create(dbURL, "sa", "");
+			cs = new JdbcPooledConnectionSource(dbURL, "sa", "");
 			
-        	flDao = DaoManager.createDao(cp, Fluglinie.class);
+        	flDao = DaoManager.createDao(cs, Fluglinie.class);
         	
-        	//Test DB Verbindung:        	
-        	Connection conn = cp.getConnection();
+        	/*Test DB Verbindung:        	
+        	Connection conn = cs.getConnection();
             Statement stm = conn.createStatement();
         	String sql = "select * from fluggesellschaft";
         	ResultSet rs = stm.executeQuery(sql);
@@ -41,11 +46,12 @@ public class DBManager {
                 System.out.println("TestDB " + rs.getString(2));
             }
             stm.close();
-            conn.close(); 
+            conn.close(); */
         } catch (SQLException ex) {
         	ex.printStackTrace();
         }    
-		cp.dispose();
+		//cs.close();
+        	
 	}
 	
 	
@@ -53,7 +59,7 @@ public class DBManager {
 	public void createFL(Fluglinie fl) {
 		try {
 			flDao.create(fl);
-		} catch (SQLException | IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -77,7 +83,7 @@ public class DBManager {
 			fl = flDao.queryForId(flID);
 			
 			return fl;
-		}catch (SQLException | IOException e) {
+		}catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
