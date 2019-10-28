@@ -152,6 +152,16 @@ public class App extends Application {
 
                 if(pwd.getText().matches(password)&&user.getText().matches(username)){
                     warning.setText("Welcome");
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new dash().start(new Stage());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                     //dash.launch();
                 }else if(!user.getText().matches(username)){
                     warning.setText("Wrong Username");

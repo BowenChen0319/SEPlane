@@ -28,6 +28,7 @@ public class dash extends Application {
         VBox root = new VBox();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.show();
 
     }
 }
