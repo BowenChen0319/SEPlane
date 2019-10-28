@@ -35,8 +35,12 @@ import java.net.URL;
 public class App extends Application {
 
     //private static Scene scene;
+
+
     String password ="1234";
     String username = "admin";
+
+
     int Height = 400;
     int Width = 600;
     @Override
@@ -148,6 +152,7 @@ public class App extends Application {
 
                 if(pwd.getText().matches(password)&&user.getText().matches(username)){
                     warning.setText("Welcome");
+                    //dash.launch();
                 }else if(!user.getText().matches(username)){
                     warning.setText("Wrong Username");
                 }else if(!pwd.getText().matches(password)&&user.getText().matches(username)){
