@@ -21,7 +21,7 @@ import Models.Flugzeug;
 
 public class DBManager {
 
-	static final String dbURL = "jdbc:h2:~/SEPlaneDB";	
+	static final String dbURL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";	
 	static JdbcPooledConnectionSource cs;
 	
 	Dao<Fluggesellschaft,Integer> fgDao;
@@ -35,6 +35,7 @@ public class DBManager {
 			cs = new JdbcPooledConnectionSource(dbURL, "sa", "");
 			
         	flDao = DaoManager.createDao(cs, Fluglinie.class);
+        	fDao = DaoManager.createDao(cs, Flugzeug.class);
         	
         	/*Test DB Verbindung:        	
         	Connection conn = cs.getConnection();
@@ -64,6 +65,14 @@ public class DBManager {
 		}
 	}
 	
+	public void createF(Flugzeug f) {
+		try {
+			fDao.create(f);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//Select all
 	public List<Fluglinie> getFluglinieZuFG(Integer fgID)throws Exception{
 				
@@ -83,6 +92,18 @@ public class DBManager {
 			fl = flDao.queryForId(flID);
 			
 			return fl;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Flugzeug getFById(int fID) {
+		Flugzeug f = null;
+		try {
+			f = fDao.queryForId(fID);
+			
+			return f;
 		}catch (Exception e) {
 			e.printStackTrace();
 			return null;

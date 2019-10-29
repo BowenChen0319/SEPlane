@@ -25,7 +25,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"));
+    	Parent primary = FXMLLoader.load(getClass().getResource("/resources/de/paluno/app/primary.fxml"));
+    	scene = new Scene(primary);
+    	//scene = new Scene(loadFXML("primary"));
         stage.setScene(scene);
         stage.show();
     }
@@ -42,9 +44,15 @@ public class App extends Application {
     public static void main(String[] args) {
     
         DBManager db = new DBManager();
-        db.createFL(new Fluglinie(new Flughafen(), new Flughafen(), new java.sql.Date(Calendar.getInstance().getTime().getTime()), Intervall.TAG, new Fluggesellschaft(), new Flugzeug(), 0,1,12.0,13.0 ));
-        Fluglinie fl = db.getFLById(1);
-        System.out.println(fl.getIntervall() + " "+ fl.getPreisee());
+        db.createF(new Flugzeug("Hans", "Hubschrauber", 2.99, 2000.0 ,5));
+        //db.createFL(new Fluglinie(new Flughafen(), new Flughafen(), new java.sql.Date(Calendar.getInstance().getTime().getTime()), Intervall.TAG, new Fluggesellschaft(), new Flugzeug(), 0,1,12.0,13.0 ));
+        //Fluglinie fl = db.getFLById(1);
+        Flugzeug f = db.getFById(0);
+        
+        if(f != null)
+        	System.out.println(f.getFlugzeugtyp());
+        
+        //System.out.println(fl.getIntervall() + " "+ fl.getPreisee());
         
         
         launch();
