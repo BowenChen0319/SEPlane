@@ -36,7 +36,7 @@ public class App extends Application {
 
     //private static Scene scene;
 
-
+    
     String password ="1234";
     String username = "admin";
 
@@ -157,12 +157,14 @@ public class App extends Application {
                         public void run() {
                             try {
                                 new dash().start(new Stage());
+                                primaryStage.close();
                             } catch (IOException e) {
                                 e.printStackTrace();
+
                             }
                         }
                     });
-                    //dash.launch();
+
                 }else if(!user.getText().matches(username)){
                     warning.setText("Wrong Username");
                 }else if(!pwd.getText().matches(password)&&user.getText().matches(username)){
