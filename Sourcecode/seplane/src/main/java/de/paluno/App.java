@@ -42,6 +42,9 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+    	
+        
+        launch();
     
         DBManager db = new DBManager();
         db.createF(new Flugzeug("Hans", "Hubschrauber", 2.99, 2000.0 ,5));
@@ -54,8 +57,7 @@ public class App extends Application {
         
         //System.out.println(fl.getIntervall() + " "+ fl.getPreisee());
         
-        
-        launch();
+    
         
     }
 
