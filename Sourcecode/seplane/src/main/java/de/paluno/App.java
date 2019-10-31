@@ -25,9 +25,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-    	Parent primary = FXMLLoader.load(getClass().getResource("/resources/de/paluno/app/primary.fxml"));
-    	scene = new Scene(primary);
-    	//scene = new Scene(loadFXML("primary"));
+    	//Parent primary = FXMLLoader.load(getClass().getResource("fxml/primary.fxml"));
+    	//scene = new Scene(primary);
+    	scene = new Scene(loadFXML("primary"));
         stage.setScene(scene);
         stage.show();
     }
@@ -37,7 +37,7 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fxml/"+ fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
