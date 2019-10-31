@@ -1,0 +1,153 @@
+package Models;
+
+import java.util.Date;
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "fluglinie")
+public class Fluglinie {
+
+	@DatabaseField(generatedId = true)
+	private Integer id;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	private Flughafen start;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	private Flughafen ziel;
+
+	@DatabaseField
+	private Date startdatum;
+
+	@DatabaseField
+	private Intervall intervall;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	private Fluggesellschaft fluggesellschaft;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	private Flugzeug flugzeug;
+
+	@DatabaseField
+	private int flugnummer;
+
+	@DatabaseField
+	private int anze;
+
+	@DatabaseField
+	private int anzb;
+
+	@DatabaseField
+	private Double preisee;
+
+	@DatabaseField
+	private Double preiseb;
+
+	public Fluglinie() {
+
+	}
+
+	public Fluglinie(Flughafen start, Flughafen ziel, Date startdatum, Intervall intervall, Fluggesellschaft fg,
+			Flugzeug f, int anze, int anzb, Double preisee, Double preiseb) {
+
+		this.start = start;
+		this.ziel = ziel;
+		this.startdatum = startdatum;
+		this.intervall = intervall;
+		fluggesellschaft = fg;
+		flugzeug = f;
+		this.anze = anze;
+		this.anzb = anzb;
+		this.preisee = preisee;
+		this.preiseb = preiseb;
+	}
+
+	public Flughafen getStart() {
+		return start;
+	}
+
+	public void setStart(Flughafen start) {
+		this.start = start;
+	}
+
+	public Flughafen getZiel() {
+		return ziel;
+	}
+
+	public void setZiel(Flughafen ziel) {
+		this.ziel = ziel;
+	}
+
+	public Date getStartdatum() {
+		return startdatum;
+	}
+
+	public void setStartdatum(Date startdatum) {
+		this.startdatum = startdatum;
+	}
+
+	public Intervall getIntervall() {
+		return intervall;
+	}
+
+	public void setIntervall(Intervall intervall) {
+		this.intervall = intervall;
+	}
+
+	public Fluggesellschaft getFluggesellschaft() {
+		return fluggesellschaft;
+	}
+
+	public void setFluggesellschaft(Fluggesellschaft fluggesellschaft) {
+		this.fluggesellschaft = fluggesellschaft;
+	}
+
+	public Flugzeug getFlugzeug() {
+		return flugzeug;
+	}
+
+	public void setFlugzeug(Flugzeug flugzeug) {
+		this.flugzeug = flugzeug;
+	}
+
+	public int getFlugnummer() {
+		return flugnummer;
+	}
+
+	public void setFlugnummer(int flugnummer) {
+		this.flugnummer = flugnummer;
+	}
+
+	public int getAnze() {
+		return anze;
+	}
+
+	public void setAnze(int anze) {
+		this.anze = anze;
+	}
+
+	public int getAnzb() {
+		return anzb;
+	}
+
+	public void setAnzb(int anzb) {
+		this.anzb = anzb;
+	}
+
+	public Double getPreisee() {
+		return preisee;
+	}
+
+	public void setPreisee(Double preisee) {
+		this.preisee = preisee;
+	}
+
+	public Double getPreiseb() {
+		return preiseb;
+	}
+
+	public void setPreiseb(Double preiseb) {
+		this.preiseb = preiseb;
+	}
+}
