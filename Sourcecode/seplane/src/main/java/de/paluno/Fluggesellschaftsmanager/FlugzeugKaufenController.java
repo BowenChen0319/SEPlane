@@ -6,7 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class FlugzeugKaufenController; {
+public class FlugzeugKaufenController {
 
 @FXML
 private ScrollPane scrillpane;
