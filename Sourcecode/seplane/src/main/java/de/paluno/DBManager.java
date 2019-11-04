@@ -28,6 +28,9 @@ public class DBManager {
 	Dao<Flughafen,String> fhDao;
 	Dao<Fluglinie,Integer> flDao;
 	Dao<Flugzeug,Integer> fDao;
+
+	//Dao<Benutzer,Integer> bDao;
+
 	
 	public DBManager() {
 
@@ -73,6 +76,32 @@ public class DBManager {
 		}
 	}
 	
+
+	public void createFG(Fluggesellschaft fg) {
+		try {
+			fgDao.create(fg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createFH(Flughafen fh) {
+		try {
+			fhDao.create(fh);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*public void createUser(Benutzer b) {
+		try {
+			bDao.create(b);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
+	
+
 	//Select all
 	public List<Fluglinie> getFluglinieZuFG(Integer fgID)throws Exception{
 				
@@ -85,7 +114,26 @@ public class DBManager {
 		return fl;
 	}
 	
-	//Select
+	//Select single
+	public Benutzer getUser(String name, String pw) {
+		Benutzer b = null;
+		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
+		query.where().eq("benutzername", name).and().eq("passwort_klar", pw);
+		
+		b = bDao.query(query.prepare());
+	}
+	
+	public int getFGID(Benutzer b) {
+		if(b.getType.equals("FLUGGESELLSCHAFTMANAGER")) {
+			Fluggesellschaft fg = null;
+			QueryBuilder<Fluggesellschaft, Integer> query = fgDao.queryBuilder();
+			query.where().in("fgmanager", b.getID);
+			
+			fg = fgDao.queryForFirst(query.prepare());
+		}
+	}
+	
+
 	public Fluglinie getFLById(Integer flID) {
 		Fluglinie fl = null;
 		try {
