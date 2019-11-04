@@ -7,13 +7,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,6 +34,8 @@ public class App extends Application {
     String password ="1234";
     String username = "admin";
 
+    public static DBManager db;
+    //public static Benutzer user;
 
     int Height = 400;
     int Width = 600;
@@ -146,8 +152,17 @@ public class App extends Application {
                         @Override
                         public void run() {
                             try {
-                                new dash().start(new Stage());
-                                primaryStage.close();
+                                //Szenenwechsel zu jew. Rolle
+                            	//TODO DB Abfrage checkBenutzer() return Nutzerprofil
+                            	
+                            	//Scene ändern
+                            	Parent login = FXMLLoader.load(getClass().getResource("/Fluggesellschaftsmanager/FGMDashboardMain.fxml"));
+                    			Scene loginScene = new Scene(login);
+                    			primaryStage.setScene(loginScene);
+                    			fitScreen(primaryStage);
+                    			primaryStage.setResizable(true);
+                            	//new dash().start(new Stage());
+                                //primaryStage.close();
                             } catch (IOException e) {
                                 e.printStackTrace();
 
@@ -232,25 +247,27 @@ public class App extends Application {
 
     public static void main(String[] args) {
 
-        //Conn c = new Conn();
-        //c.getConnection();
-        launch();
-
-
-        DBManager db = new DBManager();
+    	launch();
+    	db = new DBManager();
+        /* DB Test
+    	DBManager db = new DBManager();
         db.createF(new Flugzeug("Hans", "Hubschrauber", 2.99, 2000.0 ,5));
         //db.createFL(new Fluglinie(new Flughafen(), new Flughafen(), new java.sql.Date(Calendar.getInstance().getTime().getTime()), Intervall.TAG, new Fluggesellschaft(), new Flugzeug(), 0,1,12.0,13.0 ));
         //Fluglinie fl = db.getFLById(1);
-        Flugzeug f = db.getFById(0);
+        Flugzeug f = db.getFById(1);
 
         if(f != null)
             System.out.println(f.getFlugzeugtyp());
-
-        //System.out.println(fl.getIntervall() + " "+ fl.getPreisee());
-
+            */
 
     }
 
-
+    public void fitScreen(Stage stage) {
+		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX(primaryScreenBounds.getMinX());
+        stage.setY(primaryScreenBounds.getMinY());
+        stage.setWidth(primaryScreenBounds.getWidth());
+        stage.setHeight(primaryScreenBounds.getHeight());
+	}
 
 }
