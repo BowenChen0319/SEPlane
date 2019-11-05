@@ -3,7 +3,7 @@ package Models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "airport_test")
+@DatabaseTable(tableName = "Flughafen")
 public class Airport {
 
     @DatabaseField(id = true)
@@ -69,6 +69,15 @@ public class Airport {
         this.carriers = carriers;
     }
 
+    public Airport(String code, String city, String name, int runwayLength, double lat, double lon, String adress){
+        this.code = code;
+        this.city = city;
+        this.name = name;
+        this.runwayLength = runwayLength;
+        this.lat = lat;
+        this.lon = lon;
+        this.adress = adress;
+    }
     public String getCode() {
         return code;
     }

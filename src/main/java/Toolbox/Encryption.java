@@ -53,6 +53,6 @@ public class Encryption {
         System.out.println("Vorher " + password);
         String tmp = getSaltedHash(password);
         System.out.println("Hashed Pw: " + tmp);
-        System.out.println("Entschlüsselt: " + check(password, tmp));
+        System.out.println("Test: " + check(password, tmp));
     }
 }

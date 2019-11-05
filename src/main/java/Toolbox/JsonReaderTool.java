@@ -19,9 +19,6 @@ public class JsonReaderTool {
     public static Airport readFromJson(int posInJson) throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Kevin\\Desktop\\AW_Zusatzdateien\\flughaefen.json"));
 
-
-
-
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .registerTypeAdapter(int.class, new EmptyStringToNumberTypeAdapter())
@@ -33,20 +30,11 @@ public class JsonReaderTool {
 
         Airport[] gAirport = gson.fromJson(reader, Airport[].class);
 
-        Object[] airportTmp = {gAirport[posInJson].getCode(), gAirport[posInJson].getLat(), gAirport[posInJson].getLon(), gAirport[posInJson].getAdress(),
-                gAirport[posInJson].getName(), gAirport[posInJson].getCity(), gAirport[posInJson].getState(),
-                gAirport[posInJson].getCountry(), gAirport[posInJson].getWoeid(), gAirport[posInJson].getTz(),
-                gAirport[posInJson].getPhone(),gAirport[posInJson].getType(), gAirport[posInJson].getEmail(), gAirport[posInJson].getUrl(),
-                gAirport[posInJson].getRunwayLength(), gAirport[posInJson].getElev(), gAirport[posInJson].getIcao(),
-                gAirport[posInJson].getDirectFlights(),gAirport[posInJson].getCarriers()};
+        Object[] airportTmp = {gAirport[posInJson].getCode(), gAirport[posInJson].getCity(), gAirport[posInJson].getName(), gAirport[posInJson].getRunwayLength(),
+                gAirport[posInJson].getLat(), gAirport[posInJson].getLon(), gAirport[posInJson].getAdress()};
 
-
-        Airport airport = new Airport((String) airportTmp[0],(Double) airportTmp[1], (Double)airportTmp[2], (String)airportTmp[3],(String) airportTmp[4], (String)airportTmp[5], (String)airportTmp[6],
-                (String) airportTmp[7], (Integer) airportTmp[8], (String)airportTmp[9], (String)airportTmp[10], (String)airportTmp[11], (String)airportTmp[12],(String) airportTmp[13], (Integer)airportTmp[14], (Integer) airportTmp[15],
-                (String) airportTmp[16],(Integer) airportTmp[17], (Integer)airportTmp[18]);
-
-        // String code, String lat, String lon, String name, String city, String state, String country, String woeid, String tz, String phone, String type, String email, String url, String runwayLength, String elev, String icao, String directFlights, String carriers
-
+        Airport airport = new Airport((String) airportTmp[0], (String) airportTmp[1], (String) airportTmp[2],(int) airportTmp[3],
+                (double) airportTmp[4], (double) airportTmp[5], (String) airportTmp[6]);
 
         return airport;
 

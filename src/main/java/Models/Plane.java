@@ -2,15 +2,16 @@ package Models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 
 @DatabaseTable(tableName = "Flugzeuge")
 public class Plane {
 
-    @DatabaseField(uniqueCombo = true)
+    @DatabaseField
     @CsvBindByPosition(position = 0)
     private String hersteller;
-    @DatabaseField(id = true, uniqueCombo = true)
+    @DatabaseField(id = true)
     @CsvBindByPosition(position = 1)
     private String type;
     @DatabaseField
@@ -60,5 +61,15 @@ public class Plane {
         return range;
     }
 
-
+    @Override
+    public String toString() {
+        return "Plane{" +
+                "hersteller='" + hersteller + '\'' +
+                ", type='" + type + '\'' +
+                ", seats='" + seats + '\'' +
+                ", speed='" + speed + '\'' +
+                ", price='" + price + '\'' +
+                ", range='" + range + '\'' +
+                '}';
+    }
 }
