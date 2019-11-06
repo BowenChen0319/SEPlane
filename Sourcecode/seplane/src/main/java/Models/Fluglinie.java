@@ -19,7 +19,13 @@ public class Fluglinie {
 
 	@DatabaseField
 	private Date startdatum;
+	
+	@DatabaseField
+	private Double entfernung;
 
+	@DatabaseField
+	private int intervall_int;
+	
 	@DatabaseField
 	private Intervall intervall;
 
@@ -44,9 +50,7 @@ public class Fluglinie {
 	@DatabaseField
 	private Double preiseb;
 
-	public Fluglinie() {
-
-	}
+	public Fluglinie() {}
 
 	public Fluglinie(Flughafen start, Flughafen ziel, Date startdatum, Intervall intervall, Fluggesellschaft fg,
 			Flugzeug f, int anze, int anzb, Double preisee, Double preiseb) {
@@ -61,6 +65,10 @@ public class Fluglinie {
 		this.anzb = anzb;
 		this.preisee = preisee;
 		this.preiseb = preiseb;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public Flughafen getStart() {
@@ -85,6 +93,22 @@ public class Fluglinie {
 
 	public void setStartdatum(Date startdatum) {
 		this.startdatum = startdatum;
+	}
+	
+	public Double getEntfernung() {
+		return entfernung;
+	}
+	
+	public void setEntfernung(Double e) {
+		entfernung = e;
+	}
+	
+	public int getIntervall_int() {
+		return intervall_int;
+	}
+	
+	public void setIntervall_int(int i) {
+		intervall_int = i;
 	}
 
 	public Intervall getIntervall() {

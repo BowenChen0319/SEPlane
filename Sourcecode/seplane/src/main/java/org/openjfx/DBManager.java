@@ -100,6 +100,13 @@ public class DBManager {
 		}
 	}
 	
+	public void createFM(FlugzeugMapping fm) {
+		try {
+			fmDao.create(fm);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}	
 
 	public void createB(Benutzer b) {
 		try {
@@ -109,6 +116,109 @@ public class DBManager {
 		}
 	}
 	
+	//Update
+	public void updateFL(Fluglinie fl) {
+		try {
+			flDao.update(fl);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateF(Flugzeug f) {
+		try {
+			fDao.update(f);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateFH(Flughafen fh) {
+		try {
+			fhDao.update(fh);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateFG(Fluggesellschaft fg) {
+		try {
+			fgDao.update(fg);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateFM(FlugzeugMapping fm) {
+		try {
+			fmDao.update(fm);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateB(Benutzer b) {
+		try {
+			bDao.update(b);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//Delete
+	public void deleteFL(int id)throws Exception{
+		try {
+			if(flDao.idExists(id))
+				flDao.deleteById(id);			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteF(int id)throws Exception{
+		try {
+			if(fDao.idExists(id))
+				fDao.deleteById(id);			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteFG(int id)throws Exception{
+		try {
+			if(fgDao.idExists(id))
+				fgDao.deleteById(id);			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteFH(String id)throws Exception{
+		try {
+			if(fhDao.idExists(id))
+				fhDao.deleteById(id);			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteFM(int id)throws Exception{
+		try {
+			if(fmDao.idExists(id))
+				fmDao.deleteById(id);			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteB(int id)throws Exception{
+		try {
+			if(bDao.idExists(id))
+				bDao.deleteById(id);			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	//Select all
 	public List<Fluglinie> getFluglinieZuFG(Integer fgID)throws Exception{
@@ -123,7 +233,7 @@ public class DBManager {
 		return fl;
 	}
 	
-	//Select single
+	//Select
 	public Benutzer getUser(String name, String pw) throws SQLException {
 		Benutzer b = null;
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
