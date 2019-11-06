@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DBManager {
+    //passend für den CSVreader und JSONreader
+    //URL USER und PASSWORD muss dementsprechend angepasst werden
+
     private static final String URL = "jdbc:h2:C://Users//Kevin//Documents//IntelliJ";
     private static final String USER ="sa";
     private static final String PASSWORD ="";
