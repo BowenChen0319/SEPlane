@@ -15,6 +15,7 @@ import Models.Fluggesellschaft;
 import Models.Flughafen;
 import Models.Fluglinie;
 import Models.Flugzeug;
+import Models.FlugzeugMapping;
 
 public class DBManager {
 
@@ -26,6 +27,7 @@ public class DBManager {
 	Dao<Fluglinie,Integer> flDao;
 	Dao<Flugzeug,Integer> fDao;
 	Dao<Benutzer,Integer> bDao;
+	Dao<FlugzeugMapping, Integer> fmDao;
 
 	
 	public DBManager() {
@@ -38,6 +40,7 @@ public class DBManager {
         	bDao = DaoManager.createDao(cs, Benutzer.class);
         	fgDao = DaoManager.createDao(cs, Fluggesellschaft.class);
         	flDao = DaoManager.createDao(cs, Fluglinie.class);
+        	fmDao = DaoManager.createDao(cs, FlugzeugMapping.class);
         	      	
         } catch (SQLException ex) {
         	ex.printStackTrace();
@@ -52,12 +55,14 @@ public class DBManager {
 		TableUtils.dropTable(cs, Flugzeug.class, true);
 		TableUtils.dropTable(cs, Flughafen.class, true);
 		TableUtils.dropTable(cs, Benutzer.class, true);
+		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		
 		TableUtils.createTable(cs, Benutzer.class);
 		TableUtils.createTable(cs, Flughafen.class);
 		TableUtils.createTable(cs, Flugzeug.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
 		TableUtils.createTable(cs, Fluglinie.class);
+		TableUtils.createTable(cs, FlugzeugMapping.class);
 	}
 	
 	
