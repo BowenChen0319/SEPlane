@@ -1,9 +1,12 @@
 package org.openjfx.FGManager;
 
+import Models.Benutzer;
+import Models.Fluggesellschaft;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.openjfx.DBManager;
 
 public class FluggesellschaftAnlegenController {
 
@@ -35,9 +38,15 @@ public class FluggesellschaftAnlegenController {
         if (name_textfield.getText()!=null && land_textfield.getText()!=null && budget_textfield!=null) {
             String name = name_textfield.getText();
             String land = land_textfield.getText();
-            String budget = budget_textfield.getText();
+            String budgetAsString = budget_textfield.getText();
+            Double budget= Double.parseDouble(budgetAsString);
+
+            Benutzer aktuellerUser = new Benutzer();
+            Fluggesellschaft fluggesellschaft = new Fluggesellschaft(1, aktuellerUser, name, land, budget);
 
             //Datenbankbefehle
+            DBManager dbm = new DBManager();
+            dbm.createFG(fluggesellschaft);
 
             //Stage stage = (Stage) anlegen_button.getScene().getWindow();
             //stage.close();
