@@ -13,16 +13,18 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-
-    private Stage primaryStage;
+	
+	public static DBManager db = new DBManager();
+	//der Primary Stage wird autogeneriert im JavaFX Lebenszyklus/Framework
+   // private Stage primaryStage;
 
     @Override
     public void start (Stage primaryStage) throws Exception {
-        this.primaryStage = primaryStage;
-        mainWindow();
-    }
+   //    // this.primaryStage = primaryStage;
+   //     mainWindow();
+   // }
 
-    public void mainWindow() {
+   // public void mainWindow() {
 
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("Login.fxml"));
