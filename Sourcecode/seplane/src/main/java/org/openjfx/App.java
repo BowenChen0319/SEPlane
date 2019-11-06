@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import Models.Benutzer;
 import Models.Benutzertyp;
@@ -50,8 +51,8 @@ public class App extends Application {
 
     }
 
-    public static void main(String[] args) {
-    	
+    public static void main(String[] args) throws SQLException {
+    	db.setUpDatabase();
     	Benutzer fgm = new Benutzer("Test", "User", "test", "0000","0000",Benutzertyp.fgm);
     	db.createB(fgm);
     	
