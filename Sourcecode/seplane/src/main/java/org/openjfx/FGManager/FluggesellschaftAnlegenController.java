@@ -37,8 +37,8 @@ public class FluggesellschaftAnlegenController {
     public void  handleFluggesellschaftAnlegen(ActionEvent event){
         Benutzer aktuellerUser = new Benutzer();
 
-          if (aktuellerUser.getBenutzername()=="") {
-              // ueberpruefen ob der eingeloggte FGM bereits eine FG angelegt hat fehlt fuer die if Bedingung noch
+          if (aktuellerUser.getBenutzername()=="") { // ueberpruefen ob der eingeloggte FGM bereits eine FG angelegt hat fehlt fuer die if Bedingung noch
+
               if (name_textfield.getText() != null && land_textfield.getText() != null && budget_textfield != null) {
                   String name = name_textfield.getText();
                   String land = land_textfield.getText();
@@ -52,8 +52,8 @@ public class FluggesellschaftAnlegenController {
                   DBManager dbm = new DBManager();
                   dbm.createFG(fluggesellschaft);
 
-                  //Stage stage = (Stage) anlegen_button.getScene().getWindow();
-                  //stage.close();
+                  Stage stage = (Stage) anlegen_button.getScene().getWindow();
+                  stage.close();
 
               } else {
                   String errorMessage = "Bitte fuellen Sie folgende Felder aus: ";

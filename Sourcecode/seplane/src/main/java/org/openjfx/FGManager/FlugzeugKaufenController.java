@@ -1,5 +1,7 @@
 package org.openjfx.FGManager;
 
+import Models.Flugzeug;
+import Models.Plane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,19 +13,19 @@ public class FlugzeugKaufenController {
 private ScrollPane scrollpane;
 
 @FXML
-private TableView<?> tableview;
+private TableView<Flugzeug> tableview;
 
 @FXML
-private TableColumn<?, ?> modell_column;
+private TableColumn<Flugzeug, String> modell_column;
 
 @FXML
-private TableColumn<?, ?> reichweite_column;
+private TableColumn<Flugzeug, Double> reichweite_column;
 
 @FXML
-private TableColumn<?, ?> sitzplaetze_column;
+private TableColumn<Flugzeug, Integer> sitzplaetze_column;
 
 @FXML
-private TableColumn<?, ?> preis_column;
+private TableColumn<Flugzeug, Double> preis_column;
 
 @FXML
 private Button kaufen_button;
@@ -35,7 +37,7 @@ private Button abbrechen_button;
 
         public void handleKaufen(ActionEvent event){
                 if (0==0){  //ueberpruefen ob eine Zeile aus der Tabelle ausgewaehlt wurde
-                       //ausgewaehltes Flugzeug laden
+                        //ausgewaehltes Flugzeug laden
                         //Preis des ausgewaehlten Flugzeugs laden
                         //Budget der ausgewaehlten FG laden
 
