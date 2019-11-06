@@ -28,7 +28,47 @@ public class Flugzeug {
 		sitzplaetze = sp;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setHersteller (String hersteller) {
+		this.hersteller = hersteller;
+	}
+	
+	public String getHersteller() {
+		return hersteller;
+	}
+	
+	public void setFlugzeugtyp(String flugzeugtyp) {
+		this.flugzeugtyp = flugzeugtyp;
+	}
+	
 	public String getFlugzeugtyp() {
 		return flugzeugtyp;
+	}
+	
+	public void setPreis(Double preis) {
+		this.preis = preis;
+	}
+	
+	public Double getPreis() {
+		return preis;
+	}
+	
+	public void setReichweite(Double reichweite) {
+		this.reichweite = reichweite;
+	}
+	
+	public Double getReichweite() {
+		return reichweite;
+	}
+	
+	public void setSitzplaetze(int sitzplaetze) {
+		this.sitzplaetze = sitzplaetze;
+	}
+	
+	public int getSitzplaetze() {
+		return sitzplaetze;
 	}
 }

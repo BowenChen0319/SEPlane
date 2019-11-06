@@ -13,4 +13,32 @@ public class FlugzeugMapping {
 	@DatabaseField (foreign = true)
 	private Flugzeug f_id;
 	
+	public FlugzeugMapping() {}
+	
+	public FlugzeugMapping(Fluggesellschaft fg_id, Flugzeug f_id) {
+		this.fg_id = fg_id;
+		this.f_id = f_id;
+	}
+	
+	public int getSub_id() {
+		return sub_id;
+	}
+	
+	public void setFg_id(Fluggesellschaft fg_id) {
+		this.fg_id = fg_id;
+	}
+	
+	public Fluggesellschaft getFg_id() {
+		return fg_id;
+	}
+	
+	public void setF_id(Flugzeug f_id) {
+		this.f_id = f_id;
+	}
+	
+	public Flugzeug getF_id() {
+		return f_id;
+	}
+	
+	
 }
