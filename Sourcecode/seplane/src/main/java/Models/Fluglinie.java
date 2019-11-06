@@ -9,12 +9,12 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Fluglinie {
 
 	@DatabaseField(generatedId = true)
-	private Integer flid;
+	private Integer id;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignColumnName = "fhid")
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Flughafen start;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignColumnName = "fhid")
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Flughafen ziel;
 
 	@DatabaseField
@@ -23,10 +23,10 @@ public class Fluglinie {
 	@DatabaseField
 	private Intervall intervall;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignColumnName = "fgid")
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Fluggesellschaft fluggesellschaft;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignColumnName = "fid")
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Flugzeug flugzeug;
 
 	@DatabaseField

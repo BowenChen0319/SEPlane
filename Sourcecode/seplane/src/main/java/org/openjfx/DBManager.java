@@ -1,16 +1,14 @@
 package org.openjfx;
 
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.TableUtils;
 
 import Models.Benutzer;
 import Models.Fluggesellschaft;
@@ -35,28 +33,31 @@ public class DBManager {
 		try {       
 			cs = new JdbcPooledConnectionSource(dbURL, "sa", "");
 			
-			fgDao = DaoManager.createDao(cs, Fluggesellschaft.class);
 			fhDao = DaoManager.createDao(cs, Flughafen.class);
-        	flDao = DaoManager.createDao(cs, Fluglinie.class);
         	fDao = DaoManager.createDao(cs, Flugzeug.class);
         	bDao = DaoManager.createDao(cs, Benutzer.class);
-        	
-        	/*Test DB Verbindung:        	
-        	Connection conn = cs.getConnection();
-            Statement stm = conn.createStatement();
-        	String sql = "select * from fluggesellschaft";
-        	ResultSet rs = stm.executeQuery(sql);
-        
-            if (rs.next()) {
-                System.out.println("TestDB " + rs.getString(2));
-            }
-            stm.close();
-            conn.close(); */
+        	fgDao = DaoManager.createDao(cs, Fluggesellschaft.class);
+        	flDao = DaoManager.createDao(cs, Fluglinie.class);
+        	      	
         } catch (SQLException ex) {
         	ex.printStackTrace();
         }    
-		//cs.close();
         	
+	}
+	
+	public void setUpDatabase() throws SQLException {
+		
+		TableUtils.dropTable(cs, Fluglinie.class, true);
+		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
+		TableUtils.dropTable(cs, Flugzeug.class, true);
+		TableUtils.dropTable(cs, Flughafen.class, true);
+		TableUtils.dropTable(cs, Benutzer.class, true);
+		
+		TableUtils.createTable(cs, Benutzer.class);
+		TableUtils.createTable(cs, Flughafen.class);
+		TableUtils.createTable(cs, Flugzeug.class);
+		TableUtils.createTable(cs, Fluggesellschaft.class);
+		TableUtils.createTable(cs, Fluglinie.class);
 	}
 	
 	
@@ -109,7 +110,8 @@ public class DBManager {
 				
 		List<Fluglinie> fl ;
 		QueryBuilder<Fluglinie,Integer> query = flDao.queryBuilder();
-		query.where().in("fluggesellschaft", fgID);
+		// "_id" wird durch Ormlite/h2 angefügt in DB
+		query.where().in("fluggesellschaft_id", fgID);
 		
 		fl = flDao.query(query.prepare());
 		
@@ -133,12 +135,12 @@ public class DBManager {
 		//if(b.getBenutzertyp().equals(Benutzertyp.FGM)) {
 			
 			QueryBuilder<Fluggesellschaft, Integer> query = fgDao.queryBuilder();
-			query.where().in("fgmanager", b.getBenutzerId());
+			query.where().in("fgmanager_id", b.getId());
 			
 			fg = fgDao.queryForFirst(query.prepare());
 		//}
 		if(fg!=null)
-		return fg.getFgid();
+		return fg.getId();
 		else return 0;
 	}
 	

@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Flughafen {
 
 	@DatabaseField (id = true)
-	private String fhid;
+	private String id;
 	@DatabaseField
 	private String ort;
 	@DatabaseField

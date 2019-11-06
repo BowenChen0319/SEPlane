@@ -5,7 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 public class Flugzeug {
 
 	@DatabaseField(generatedId=true)
-	int fid;
+	int id;
 	@DatabaseField
 	String hersteller;
 	@DatabaseField
