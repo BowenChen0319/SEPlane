@@ -15,4 +15,7 @@ public class Fluggesellschaft {
 	@DatabaseField
 	Double budget;
 
+	public int getId() {
+		return id;
+	}
 }

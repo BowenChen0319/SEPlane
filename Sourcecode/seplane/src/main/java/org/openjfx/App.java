@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import Models.Benutzer;
+import Models.Benutzertyp;
+
 /**
  * JavaFX App
  */
@@ -48,6 +51,10 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+    	
+    	Benutzer fgm = new Benutzer("Test", "User", "test", "0000","0000",Benutzertyp.FGM);
+    	db.createB(fgm);
+    	
         launch();
     }
 

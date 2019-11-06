@@ -1,8 +1,12 @@
 package org.openjfx;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import org.openjfx.App;
+
+import Models.Benutzer;
+import Models.Benutzertyp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +14,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -25,23 +27,27 @@ public class LoginController {
     private TextField passwort_textfield;
 
     public App app;
+    public DBManager db = App.db;
+    public static int fg_id;
 
     public void setApp (App app){
         this.app = app;
     }
 
     @FXML
-    void handleLogin(ActionEvent event) throws IOException {
+    void handleLogin(ActionEvent event) throws IOException, SQLException {
     	
     	//TODO Login Logik
-    	Benutzer b = app.db.getUser(username_textfield.getText(), passwort_textfield);
+    	Benutzer b = App.db.getUser(username_textfield.getText(), passwort_textfield.getText());
     	
     	//TODO Szenewechsel je nach Rolle
-    	Intervall userTyp = b.getNutzertyp();
+    	Benutzertyp userTyp = b.getBenutzertyp();
     	
     	switch (userTyp) {
     	case FGM: {
-    		//Fluggesellschaftsmanager
+    		//zum übergeben
+    		fg_id = db.getFGID(b);
+    		
         	Parent fgm = FXMLLoader.load(getClass().getResource("FGMDashboardMain.fxml"));
     		Scene fgmScene = new Scene(fgm);
     		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();

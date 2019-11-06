@@ -15,6 +15,8 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import org.h2.jdbcx.JdbcConnectionPool;
 
+import Models.Benutzer;
+import Models.Benutzertyp;
 import Models.Fluggesellschaft;
 import Models.Flughafen;
 import Models.Fluglinie;
@@ -29,8 +31,7 @@ public class DBManager {
 	Dao<Flughafen,String> fhDao;
 	Dao<Fluglinie,Integer> flDao;
 	Dao<Flugzeug,Integer> fDao;
-
-	//Dao<Benutzer,Integer> bDao;
+	Dao<Benutzer,Integer> bDao;
 
 	
 	public DBManager() {
@@ -38,8 +39,11 @@ public class DBManager {
 		try {       
 			cs = new JdbcPooledConnectionSource(dbURL, "sa", "");
 			
+			fgDao = DaoManager.createDao(cs, Fluggesellschaft.class);
+			fhDao = DaoManager.createDao(cs, Flughafen.class);
         	flDao = DaoManager.createDao(cs, Fluglinie.class);
         	fDao = DaoManager.createDao(cs, Flugzeug.class);
+        	bDao = DaoManager.createDao(cs, Benutzer.class);
         	
         	/*Test DB Verbindung:        	
         	Connection conn = cs.getConnection();
@@ -94,13 +98,14 @@ public class DBManager {
 		}
 	}
 	
-	/*public void createUser(Benutzer b) {
+
+	public void createB(Benutzer b) {
 		try {
 			bDao.create(b);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
 
 	//Select all
@@ -116,22 +121,28 @@ public class DBManager {
 	}
 	
 	//Select single
-	public Benutzer getUser(String name, String pw) {
+	public Benutzer getUser(String name, String pw) throws SQLException {
 		Benutzer b = null;
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
 		query.where().eq("benutzername", name).and().eq("passwort_klar", pw);
 		
-		b = bDao.query(query.prepare());
+		return b = bDao.queryForFirst(query.prepare());
 	}
 	
-	public int getFGID(Benutzer b) {
-		if(b.getType.equals("FLUGGESELLSCHAFTMANAGER")) {
-			Fluggesellschaft fg = null;
+	//zum Anzeigen der jew. Fluggesellschaft des Managers
+	public int getFGID(Benutzer b) throws SQLException {
+		
+		Fluggesellschaft fg = null;
+		
+		//if(b.getBenutzertyp().equals(Benutzertyp.FGM)) {
+			
 			QueryBuilder<Fluggesellschaft, Integer> query = fgDao.queryBuilder();
-			query.where().in("fgmanager", b.getID);
+			query.where().in("fgmanager", b.getId());
 			
 			fg = fgDao.queryForFirst(query.prepare());
-		}
+		//}
+		
+		return fg.getId();
 	}
 	
 
@@ -158,5 +169,7 @@ public class DBManager {
 			return null;
 		}
 	}
+
+	
 }
 
