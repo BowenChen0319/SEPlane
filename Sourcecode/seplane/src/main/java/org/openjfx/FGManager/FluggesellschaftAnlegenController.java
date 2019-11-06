@@ -35,39 +35,46 @@ public class FluggesellschaftAnlegenController {
     private Button abbrechen_button;
 
     public void  handleFluggesellschaftAnlegen(ActionEvent event){
-        if (name_textfield.getText()!=null && land_textfield.getText()!=null && budget_textfield!=null) {
-            String name = name_textfield.getText();
-            String land = land_textfield.getText();
-            String budgetAsString = budget_textfield.getText();
-            Double budget= Double.parseDouble(budgetAsString);
+        Benutzer aktuellerUser = new Benutzer();
 
-            Benutzer aktuellerUser = new Benutzer();
-            Fluggesellschaft fluggesellschaft = new Fluggesellschaft(1, aktuellerUser, name, land, budget);
-
-            //Datenbankbefehle
-            DBManager dbm = new DBManager();
-            dbm.createFG(fluggesellschaft);
-
-            //Stage stage = (Stage) anlegen_button.getScene().getWindow();
-            //stage.close();
-
-        }
-        else{
-            String errorMessage = "Bitte fuellen Sie folgende Felder aus: ";
-            if (name_textfield.getText()==null){
-                errorMessage = errorMessage + "Name ";
-            }
-            else if (land_textfield.getText()==null){
-                errorMessage = errorMessage + "Land ";
-            }
-            else{
-                errorMessage = errorMessage + "Budget ";
-            }
+          if (aktuellerUser.getBenutzername()=="") {
+              // ueberpruefen ob der eingeloggte FGM bereits eine FG angelegt hat fehlt fuer die if Bedingung noch
+              if (name_textfield.getText() != null && land_textfield.getText() != null && budget_textfield != null) {
+                  String name = name_textfield.getText();
+                  String land = land_textfield.getText();
+                  String budgetAsString = budget_textfield.getText();
+                  Double budget = Double.parseDouble(budgetAsString);
 
 
-            Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
-            alert.showAndWait();
-        }
+                  Fluggesellschaft fluggesellschaft = new Fluggesellschaft(aktuellerUser, name, land, budget);
+
+                  //Datenbankbefehle
+                  DBManager dbm = new DBManager();
+                  dbm.createFG(fluggesellschaft);
+
+                  //Stage stage = (Stage) anlegen_button.getScene().getWindow();
+                  //stage.close();
+
+              } else {
+                  String errorMessage = "Bitte fuellen Sie folgende Felder aus: ";
+                  if (name_textfield.getText() == null) {
+                      errorMessage = errorMessage + "Name ";
+                  } else if (land_textfield.getText() == null) {
+                      errorMessage = errorMessage + "Land ";
+                  } else {
+                      errorMessage = errorMessage + "Budget ";
+                  }
+
+
+                  Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+                  alert.showAndWait();
+              }
+          }
+          else{
+              String errorMessage = "Als Fluggesllschaftsmanager koennen Sie nur eine Fluggesellschaft anlegen";
+              Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+              alert.showAndWait();
+          }
     }
 
     public void handleAbbrechen (ActionEvent event){
