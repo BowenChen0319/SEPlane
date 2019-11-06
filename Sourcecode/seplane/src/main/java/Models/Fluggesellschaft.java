@@ -20,9 +20,9 @@ public class Fluggesellschaft {
 	@DatabaseField
 	private Double budget;
 
+	public Fluggesellschaft() {}
 
-	public Fluggesellschaft(int id, Benutzer fgmanager, String name, String land, Double budget) {
-		this.id = id;
+	public Fluggesellschaft(Benutzer fgmanager, String name, String land, Double budget) {
 		this.fgmanager = fgmanager;
 		this.name = name;
 		this.land = land;
