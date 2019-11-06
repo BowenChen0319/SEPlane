@@ -1,21 +1,29 @@
 package Models;
 
+
 import com.j256.ormlite.field.DatabaseField;
+
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "fluggesellschaft")
 public class Fluggesellschaft {
 
 	@DatabaseField (generatedId=true)
-	int id;
+	private int fgid;
+	@DatabaseField (foreign = true, foreignColumnName = "benutzerId")
+	private Benutzer fgmanager;
 	@DatabaseField
-	int fgmanager;
+	private String name;
 	@DatabaseField
-	String name;
+	private String land;
 	@DatabaseField
-	Double budget;
+	private Double budget;
+	
 
-	public int getId() {
-		return id;
+	public Fluggesellschaft() {}
+	
+	
+	public int getFgid() {
+		return fgid;
 	}
 }

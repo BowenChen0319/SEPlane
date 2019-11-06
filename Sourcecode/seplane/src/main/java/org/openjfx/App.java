@@ -52,7 +52,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
     	
-    	Benutzer fgm = new Benutzer("Test", "User", "test", "0000","0000",Benutzertyp.FGM);
+    	Benutzer fgm = new Benutzer("Test", "User", "test", "0000","0000",Benutzertyp.fgm);
     	db.createB(fgm);
     	
         launch();

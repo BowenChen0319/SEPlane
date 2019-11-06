@@ -9,12 +9,12 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Fluglinie {
 
 	@DatabaseField(generatedId = true)
-	private Integer id;
+	private Integer flid;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignColumnName = "fhid")
 	private Flughafen start;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignColumnName = "fhid")
 	private Flughafen ziel;
 
 	@DatabaseField
@@ -23,10 +23,10 @@ public class Fluglinie {
 	@DatabaseField
 	private Intervall intervall;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignColumnName = "fgid")
 	private Fluggesellschaft fluggesellschaft;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignColumnName = "fid")
 	private Flugzeug flugzeug;
 
 	@DatabaseField
@@ -95,19 +95,19 @@ public class Fluglinie {
 		this.intervall = intervall;
 	}
 
-	public Fluggesellschaft getFluggesellschaft() {
+	public Fluggesellschaft getFluggesellschaft_id() {
 		return fluggesellschaft;
 	}
 
-	public void setFluggesellschaft(Fluggesellschaft fluggesellschaft) {
+	public void setFluggesellschaft_id(Fluggesellschaft fluggesellschaft) {
 		this.fluggesellschaft = fluggesellschaft;
 	}
 
-	public Flugzeug getFlugzeug() {
+	public Flugzeug getFlugzeug_id() {
 		return flugzeug;
 	}
 
-	public void setFlugzeug(Flugzeug flugzeug) {
+	public void setFlugzeug_id(Flugzeug flugzeug) {
 		this.flugzeug = flugzeug;
 	}
 

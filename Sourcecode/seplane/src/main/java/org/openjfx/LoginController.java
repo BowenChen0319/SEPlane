@@ -44,7 +44,7 @@ public class LoginController {
     	Benutzertyp userTyp = b.getBenutzertyp();
     	
     	switch (userTyp) {
-    	case FGM: {
+    	case fgm: {
     		//zum übergeben
     		fg_id = db.getFGID(b);
     		
@@ -55,10 +55,10 @@ public class LoginController {
     		fitScreen(stage);
     		stage.setResizable(true);
     	}
-    	case ADMIN: {
+    	case admin: {
     		
     	}
-    	case KUNDE: {
+    	case kunde: {
     		
     	}
     	}

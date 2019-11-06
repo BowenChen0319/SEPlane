@@ -11,12 +11,8 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.support.ConnectionSource;
-
-import org.h2.jdbcx.JdbcConnectionPool;
 
 import Models.Benutzer;
-import Models.Benutzertyp;
 import Models.Fluggesellschaft;
 import Models.Flughafen;
 import Models.Fluglinie;
@@ -137,12 +133,13 @@ public class DBManager {
 		//if(b.getBenutzertyp().equals(Benutzertyp.FGM)) {
 			
 			QueryBuilder<Fluggesellschaft, Integer> query = fgDao.queryBuilder();
-			query.where().in("fgmanager", b.getId());
+			query.where().in("fgmanager", b.getBenutzerId());
 			
 			fg = fgDao.queryForFirst(query.prepare());
 		//}
-		
-		return fg.getId();
+		if(fg!=null)
+		return fg.getFgid();
+		else return 0;
 	}
 	
 

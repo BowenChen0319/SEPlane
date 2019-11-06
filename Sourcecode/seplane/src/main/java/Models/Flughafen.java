@@ -6,23 +6,23 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "flughafen")
 public class Flughafen {
 
-	@DatabaseField (id=true)
-	String id;
+	@DatabaseField (id = true)
+	private String fhid;
 	@DatabaseField
-	String ort;
+	private String ort;
 	@DatabaseField
-	String land;
+	private String land;
 	@DatabaseField
-	String name;
+	private String name;
 	@DatabaseField
-	int runway;
+	private int runway;
 	@DatabaseField
-	Double satzung;
+	private Double satzung;
 	@DatabaseField
-	Double latitude;
+	private Double latitude;
 	@DatabaseField
-	Double longitude;
+	private Double longitude;
 	@DatabaseField
-	String adresse;
+	private String adresse;
 	
 }

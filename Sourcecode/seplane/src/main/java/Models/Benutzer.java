@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Benutzer {
 	
 	@DatabaseField(generatedId = true)
-	private Integer id;
+	private Integer benutzerId;
 	
 	@DatabaseField
 	private String vorname;
@@ -27,6 +27,8 @@ public class Benutzer {
 	@DatabaseField
 	private Benutzertyp benutzertyp;
 	
+	//public enum Benutzertyp{ADMIN, FGM, KUNDE;}
+	
 	public Benutzer() {}
 	
 	public Benutzer(String vn, String nn, String bn, String pw, String pwk, Benutzertyp bt) {
@@ -38,8 +40,8 @@ public class Benutzer {
 		benutzertyp = bt;
 	}
 	
-	public int getId() {
-		return id;
+	public int getBenutzerId() {
+		return benutzerId;
 	}
 	
 	public void setVorname(String vn) {
