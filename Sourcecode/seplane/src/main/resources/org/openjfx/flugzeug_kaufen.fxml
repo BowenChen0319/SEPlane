@@ -13,7 +13,7 @@
    <children>
       <VBox alignment="CENTER" layoutY="-0.3333333432674408" spacing="40.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0">
          <children>
-            <ScrollPane fx:id="scrillpane" prefHeight="253.0" prefWidth="480.0">
+            <ScrollPane fx:id="scrollpane" prefHeight="253.0" prefWidth="480.0">
                <content>
                   <TableView fx:id="tableview" prefHeight="253.0" prefWidth="465.0">
                     <columns>
