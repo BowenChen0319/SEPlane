@@ -36,6 +36,10 @@ private Button abbrechen_button;
 
 
 
+        public void handleKaufen(ActionEvent event){
+
+        }
+
         public void handleAbbrechen (ActionEvent event){
                 Stage stage = (Stage) abbrechen_button.getScene().getWindow();
                 stage.close();
