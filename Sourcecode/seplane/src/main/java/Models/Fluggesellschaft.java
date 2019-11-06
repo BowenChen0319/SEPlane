@@ -10,8 +10,8 @@ public class Fluggesellschaft {
 
 
 	@DatabaseField (generatedId=true)
-	private int fgid;
-	@DatabaseField (foreign = true, foreignColumnName = "benutzerId")
+	private int id;
+	@DatabaseField (foreign = true)
 	private Benutzer fgmanager;
 	@DatabaseField
 	private String name;
@@ -21,8 +21,8 @@ public class Fluggesellschaft {
 	private Double budget;
 
 
-	public Fluggesellschaft(int fgid, Benutzer fgmanager, String name, String land, Double budget) {
-		this.fgid = fgid;
+	public Fluggesellschaft(int id, Benutzer fgmanager, String name, String land, Double budget) {
+		this.id = id;
 		this.fgmanager = fgmanager;
 		this.name = name;
 		this.land = land;
@@ -30,8 +30,8 @@ public class Fluggesellschaft {
 	}
 
 
-	public int getFgid() {
-		return fgid;
+	public int getId() {
+		return id;
 	}
 
 	public Benutzer getFgmanager() {
@@ -48,10 +48,6 @@ public class Fluggesellschaft {
 
 	public Double getBudget() {
 		return budget;
-	}
-
-	public void setFgid(int fgid) {
-		this.fgid = fgid;
 	}
 
 	public void setFgmanager(Benutzer fgmanager) {
