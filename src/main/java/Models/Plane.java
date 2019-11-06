@@ -28,6 +28,7 @@ public class Plane {
     private String range;
     public Plane(){ }
 
+    //alle Flugzeuginfos aus CSV
     public Plane(String hersteller, String type, String seats, String speed, String price, String range) {
         this.hersteller = hersteller;
         this.type = type;
@@ -35,6 +36,15 @@ public class Plane {
         this.speed = speed;
         this.price = price;
         this.range = range;
+    }
+
+    //Flugzeuginfos passend zur DB
+    public Plane(String hersteller, String type, String price, String range, String seats) {
+        this.hersteller = hersteller;
+        this.type = type;
+        this.price = price;
+        this.range = range;
+        this.seats = seats;
     }
 
     public String getHersteller() {
