@@ -1,3 +1,10 @@
+Models\Flughafen.class
+Models\Intervall.class
+Models\Fluglinie.class
+org\openjfx\FGManager\FluggesellschaftAnlegenController.class
+org\openjfx\FGManager\FlugzeugKaufenController.class
 module-info.class
+Models\Flugzeug.class
+Models\Fluggesellschaft.class
 org\openjfx\LoginController.class
 org\openjfx\App.class

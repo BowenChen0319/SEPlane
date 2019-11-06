@@ -2,6 +2,7 @@ package org.openjfx;
 
 import java.io.IOException;
 
+import org.openjfx.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
