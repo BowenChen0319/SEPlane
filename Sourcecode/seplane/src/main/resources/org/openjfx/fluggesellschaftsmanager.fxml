@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" layoutX="57.0" layoutY="30.0" spacing="40.0" AnchorPane.bottomAnchor="55.333333333333314" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <TabPane prefHeight="289.0" prefWidth="480.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Fluggesellschaft">
+                     <content>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <ScrollPane prefHeight="260.0" prefWidth="480.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="263.0" prefWidth="468.0">
+                                             <children>
+                                                <TableView prefHeight="261.0" prefWidth="465.0">
+                                                  <columns>
+                                                    <TableColumn prefWidth="125.0" text="Name" />
+                                                    <TableColumn prefWidth="125.0" text="Land" />
+                                                      <TableColumn prefWidth="125.0" text="Budget" />
+                                                  </columns>
+                                                </TableView>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+                <Tab text="Fluglinie">
+                     <content>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <ScrollPane prefHeight="217.0" prefWidth="480.0">
+                                       <content>
+                                          <TableView prefHeight="220.0" prefWidth="477.0">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="Modell" />
+                                              <TableColumn prefWidth="75.0" text="Reichweite" />
+                                                <TableColumn prefWidth="75.0" text="Hersteller" />
+                                                <TableColumn prefWidth="75.0" text="Sitzplätze" />
+                                                <TableColumn prefWidth="75.0" text="In Besitz" />
+                                                <TableColumn prefWidth="75.0" text="Preis" />
+                                            </columns>
+                                          </TableView>
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <HBox alignment="CENTER" spacing="40.0">
+               <children>
+                  <Button mnemonicParsing="false" text="anlegen" />
+                  <Button mnemonicParsing="false" text="bearbeiten" />
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="LogOut" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
