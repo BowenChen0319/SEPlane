@@ -1,0 +1,16 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class FGManagerAnlegen {
+
+    private Label Benutzername_Label;
+
+    private JPasswordField password_passwordfield;
+
+    private Fluggesellschaft fluggesellschaftAuswählen;
+
+    private Button anlegen_button;
+
+    private Button abbrechen_button;
+
+}
