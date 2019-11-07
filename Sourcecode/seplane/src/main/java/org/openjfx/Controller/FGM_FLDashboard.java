@@ -1,4 +1,4 @@
-package Controller;
+package org.openjfx.Controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -80,13 +80,13 @@ public class FGM_FLDashboard implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		System.out.println("Test init");
 		try {
 			getInhalte();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println("Test nach inhalte");
 		//Mapping Fluglinientabelle
 		//TODO Startdatum, Flugnummer
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -109,16 +109,22 @@ public class FGM_FLDashboard implements Initializable{
 			return new SimpleStringProperty(cellData.getValue().getStart().toString());
 		});
 		//TODO Intervall Zahl Spalte hinzufügen (oder nur anhand Startdatum nur *einmal* wöchentl. usw. einstellbar)
-		//intervallZahlCol.setCellValueFactory();
+		intervallZahlCol.setCellValueFactory(new PropertyValueFactory<>("intervall_int"));
 		intervallEinhCol.setCellValueFactory(new PropertyValueFactory<>("intervall"));
 		sitzBCol.setCellValueFactory(new PropertyValueFactory<>("anzb"));
 		sitzECol.setCellValueFactory(new PropertyValueFactory<>("anze"));
 		preisBCol.setCellValueFactory(new PropertyValueFactory<>("preiseb"));
 		preisECol.setCellValueFactory(new PropertyValueFactory<>("preisee"));
+		
+		flTable.setItems(flList);
+	}
+	public void button(ActionEvent event) throws IOException {
+		fluglinieAnlegen(event);
 	}
 	
 	public void fluglinieAnlegen(ActionEvent event) throws IOException{
 		//Open Pop-Up
+		System.out.println("Test flan");
 		Node source = (Node) event.getSource();
 		Window parentStage = source.getScene().getWindow();
 
@@ -132,7 +138,7 @@ public class FGM_FLDashboard implements Initializable{
 		stage.setTitle("neue Fluglinie anlegen");
 		Scene scene = new Scene(neueFL);
 		stage.setScene(scene);
-		
+		System.out.println("Test flan2");
 		//Parameter
 		//Combo statt Choice Box weil letztere kein PromptText
 		
@@ -143,10 +149,6 @@ public class FGM_FLDashboard implements Initializable{
 		//TODO Sitzplätze Constraint
 		
 		stage.showAndWait();
-	}
-	
-	public void fl_anlegen(ActionEvent event) {
-		//TODO Daten auslesen, Objekt erstellen, Objekt an DB
 	}
 		
 	public void fluglinieBearbeiten(ActionEvent event) throws IOException{

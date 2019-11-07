@@ -25,7 +25,8 @@ public class Flughafen {
 	
 	public Flughafen() {}
 	
-	public Flughafen(String ort, String land, String name, int runway, Double satzung, Double latitude, Double longitude) {
+	public Flughafen(String id, String ort, String land, String name, int runway, Double satzung, Double latitude, Double longitude) {
+		this.id = id;
 		this.ort = ort;
 		this.land = land;
 		this.name = name;
@@ -33,6 +34,10 @@ public class Flughafen {
 		this.satzung = satzung;
 		this.latitude = latitude;
 		this.longitude = longitude;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public String getId() {

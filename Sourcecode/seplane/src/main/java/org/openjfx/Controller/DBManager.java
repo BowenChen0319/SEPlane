@@ -1,4 +1,4 @@
-package DB;
+package org.openjfx.Controller;
 
 import Models.Airport;
 import Models.Plane;

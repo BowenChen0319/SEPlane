@@ -2,11 +2,15 @@ package org.openjfx;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 
 import org.openjfx.App;
 
 import Models.Benutzer;
 import Models.Benutzertyp;
+import Models.Flughafen;
+import Models.Fluglinie;
+import Models.Intervall;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,9 +40,14 @@ public class LoginController {
 
     @FXML
     void handleLogin(ActionEvent event) throws IOException, SQLException {
+    	String test = username_textfield.getText();
     	
+    	System.out.println(passwort_textfield.getText());
     	//TODO Login Logik
     	Benutzer b = App.db.getUser(username_textfield.getText(), passwort_textfield.getText());
+    	
+    	//Test Fluglinien
+    	db.createFL(new Fluglinie(new Flughafen("DUS","Düsseldorf", "D","name1", 0, 0.0,0.0,0.0),new Flughafen("FRA","nicht Düsseldorf", "D","name2", 0, 0.0,0.0,0.0),new Date(),0,Intervall.MONAT, null,null,0,0,0.0,0.0));
     	
     	//TODO Szenewechsel je nach Rolle
     	Benutzertyp userTyp = b.getBenutzertyp();
@@ -48,7 +57,7 @@ public class LoginController {
     		//zum übergeben
     		fg_id = db.getFGID(b);
     		
-        	Parent fgm = FXMLLoader.load(getClass().getResource("FGMDashboardMain.fxml"));
+        	Parent fgm = FXMLLoader.load(App.class.getResource("FGMDashboardMain.fxml"));
     		Scene fgmScene = new Scene(fgm);
     		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
     		stage.setScene(fgmScene);
