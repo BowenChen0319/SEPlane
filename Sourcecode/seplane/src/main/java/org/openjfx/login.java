@@ -210,8 +210,8 @@ public class login extends Application {
                                         public void run() {
                                             try {
                                                 new CurrentUser().setCurrent(finalB);
-                                                new dash().start(new Stage());
-                                            } catch (IOException e) {
+                                                new adminboard().start(new Stage());
+                                            } catch (IOException | SQLException e) {
                                                 e.printStackTrace();
 
                                             }
@@ -295,7 +295,11 @@ public class login extends Application {
                     b2.fire();
                 }
                 if(keyEvent.getCode()==KeyCode.F5){
-                    new Benutzer().showall();
+                    try {
+                        new Benutzer().showall();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

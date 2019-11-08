@@ -5,6 +5,8 @@ import Models.CurrentUser;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,6 +19,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * JavaFX App
@@ -31,9 +35,10 @@ public class dash extends Application {
 
     @Override
 
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, SQLException {
         int Height = 600;
         int Width = 600;
+
 
         Benutzer be = new CurrentUser().getCurrent();
         System.out.println("Admin window");
@@ -150,21 +155,24 @@ public class dash extends Application {
                 if(bname.getText().matches("")||psw.getText().matches("")||psw.getText().contains(" ")){
                     warning.setText("Username or Password Please");
                 }else{
-                    if(b.checkname(bname.getText())==false){
-                        warning.setText("Wrong: Two same username!");
-                    }else{
-                        try {
-                            db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),"fgm"));
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    try {
+                        if(b.checkname(bname.getText())==false){
+                            warning.setText("Wrong: Two same username!");
+                        }else{
+                            try {
+                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),"fgm"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("FGM creat finished");
+                            warning.setText("FGM creat finished, please close this windows and refresh");
                         }
-                        System.out.println("FGM creat finished");
-                        warning.setText("FGM creat finished");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                 }
             }
         });
-
 
 
         root.getChildren().addAll(h0,h1,h2,h3,h4,h5,warning,b3);

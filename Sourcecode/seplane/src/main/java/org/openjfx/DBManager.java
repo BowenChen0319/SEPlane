@@ -16,6 +16,7 @@ import Models.Flughafen;
 import Models.Fluglinie;
 import Models.Flugzeug;
 import Models.FlugzeugMapping;
+import javafx.collections.ObservableList;
 
 public class DBManager {
 
@@ -249,6 +250,11 @@ public class DBManager {
 		query.where().eq("benutzername", name);
 
 		return b = bDao.queryForFirst(query.prepare());
+	}
+
+	public List<Benutzer> getallUser() throws SQLException {
+		List<Benutzer> all = bDao.queryForAll();
+		return all;
 	}
 
 	public Benutzer getbeId(int id) {

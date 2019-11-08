@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import Models.Benutzer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -73,7 +74,7 @@ public class App extends Application {
     	//db.createB(fgm);
     	//db.createFG(fg);
     	//db.createFL(new Fluglinie(new Flughafen("DUS","Düsseldorf", "D","name1", 0, 0.0,51.2794,6.76481),new Flughafen("FRA","nicht Düsseldorf", "D","name2", 0, 0.0,50.0483,8.57041),new Date(),1,Intervall.MONAT, fg ,new Flugzeug("Hans","ein Typ",2000.0,1000.0,0),5,20,13.0,10.0));
- 
+        //new Benutzer().showall();
         launch();
     }
 

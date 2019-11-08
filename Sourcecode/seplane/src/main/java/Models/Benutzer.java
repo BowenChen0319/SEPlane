@@ -4,6 +4,9 @@ import com.j256.ormlite.field.DatabaseField;
 import org.openjfx.DBManager;
 import org.openjfx.SHA;
 
+import java.sql.SQLException;
+import java.util.List;
+
 
 public class Benutzer {
 
@@ -55,65 +58,58 @@ public class Benutzer {
         return passwort_klar;
     }
 
-    public Benutzer getBenutzer(String username){
+    public String getVorname(){
+        return vorname;
+    }
+
+    public String getNachname(){
+        return nachname;
+    }
+
+
+
+    public Benutzer getBenutzer(String username) throws SQLException {
         DBManager db = new DBManager();
         Benutzer getb = null;
-        int i =1;
-        try {
-            while(db.getbeId(i)!=null){
-                getb = db.getbeId(i);
-                if(getb.getBenutzername().matches(username)){
-                    System.out.println("Finded the user"+username);
-                    return getb;
-                }else {
-                    i++;
-                }
-            }
-        return null;
 
-        }catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        List<Benutzer> all= new DBManager().getallUser();
+        for(int i=0;i<all.size();i++){
+            Benutzer b = all.get(i);
+            if(b.getBenutzername().matches(username)){
+                System.out.println("Finde user"+username);
+                getb=b;
+            }
         }
+        return getb;
 
     }
 
-    public boolean checkname(String username){
-        DBManager db = new DBManager();
+    public boolean checkname(String username) throws SQLException {
+        DBManager dbManager = new DBManager();
         boolean right = true;
-        int i =1;
-        try {
-            while(db.getbeId(i)!=null){
-                Benutzer b = db.getbeId(i);
-                if(b.getBenutzername().matches(username)){
-                    right=false;
-                    System.out.println("Wrong: Two same username");
-                    break;
-                }else {
-                    i++;
-                }
+        List<Benutzer> all= new DBManager().getallUser();
+        for(int i=0;i<all.size();i++){
+            Benutzer b = all.get(i);
+            if(b.getBenutzername().matches(username)){
+                System.out.println("Wrong two same username!");
+                right=false;
             }
-
-
-        }catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
         return right;
     }
 
-    public void showall(){
-        int i=1;
+    public void showall() throws SQLException {
         DBManager db = new DBManager();
-        while(db.getbeId(i)!=null){
-            Benutzer b = db.getbeId(i);
+        List<Benutzer> all= new DBManager().getallUser();
+        for(int i=0;i<all.size();i++){
+            Benutzer b = all.get(i);
             System.out.print(i+" ");
             System.out.print(b.getBenutzertyp()+" ");
             System.out.print(b.getBenutzername()+" ");
             System.out.print(b.getPasswort_klar()+" ");
             System.out.print(b.getPasswort()+" ");
-            i++;
         }
+
     }
 
     public int getId() {

@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * JavaFX App
@@ -138,16 +139,20 @@ public class register extends Application {
                 if(bname.getText().matches("")||psw.getText().matches("")||psw.getText().contains(" ")){
                     warning.setText("Username or Password Please");
                 }else{
-                    if(b.checkname(bname.getText())==false){
-                        warning.setText("Wrong: Two same username!");
-                    }else{
-                        try {
-                            db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),bty.getValue().toString()));
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    try {
+                        if(b.checkname(bname.getText())==false){
+                            warning.setText("Wrong: Two same username!");
+                        }else{
+                            try {
+                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),bty.getValue().toString()));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("user creat finished");
+                            warning.setText("User creat finished");
                         }
-                        System.out.println("user creat finished");
-                        warning.setText("User creat finished");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                 }
             }
