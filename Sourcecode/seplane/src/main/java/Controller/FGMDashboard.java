@@ -1,24 +1,27 @@
 package Controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
+import Models.Fluglinie;
 import Toolbox.AlertHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
-public class FGMDashboard {
+public class FGMDashboard implements Initializable{
 	
 	//Anwendung
 	DBManager db = App.db;
@@ -27,11 +30,19 @@ public class FGMDashboard {
 	
 	@FXML Tab flTab;
 	@FXML Tab fgTab;
+	@FXML TabPane FGMTabs;
+	@FXML BorderPane fGM_Fluglinie;
+	@FXML FGM_FLDashboard fGM_FluglinieController;
 	
-	//TODO muss hier schon Tabs initialisieren, sonst immer NullPointer bei Tabellenauswahl
-	//TODO Test mit static
-	public static FGM_FLDashboard fg= new FGM_FLDashboard();
+	Fluglinie curFL;
 	
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+		fGM_FluglinieController.setParentController(this);
+	}
+	public void injectController(FGM_FLDashboard fg) {
+		this.fGM_FluglinieController = fg;
+	}
 	
 	public void logout(ActionEvent event) throws IOException {
 		Parent login = FXMLLoader.load(App.class.getResource("Login.fxml"));
@@ -46,32 +57,38 @@ public class FGMDashboard {
 	
 	public void anlegen(ActionEvent event) throws IOException {
 		if(flTab.isSelected()) {
-			fg.fluglinieAnlegen(event);
+			
+			fGM_FluglinieController.fluglinieAnlegen(event);
 			}
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
-			//fluggesellschaftAnlegen(event);
+			//fluggesellschaftAnlegen(event);	*/
 	}
 
 	public void bearbeiten(ActionEvent event) throws IOException {
 		if(flTab.isSelected())
-			if(fg.flTable.getSelectionModel().isEmpty())
+			if(fGM_FluglinieController.flTable.getSelectionModel().isEmpty())
 				AlertHandler.keineAuswahl();
-			else
-				fg.fluglinieBearbeiten(event);
+			else {
+				System.out.println(fGM_FluglinieController.flTable.getSelectionModel().getSelectedItem()+" und "+fGM_FluglinieController.flTable.getSelectionModel().getSelectedItem().getStart());
+				curFL = fGM_FluglinieController.flTable.getSelectionModel().getSelectedItem();
+				System.out.println(curFL.getStart());
+				fGM_FluglinieController.fluglinieBearbeiten(event, fGM_FluglinieController.getRowFL());
+				
+			}
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
-			//fluggesellschaftBearbeiten(event);
+			//fluggesellschaftBearbeiten(event);*/
 	}
 	public void loeschen(ActionEvent event) throws Exception {
 		if(flTab.isSelected())
-			if(fg.flTable.getSelectionModel().isEmpty())
+			if(fGM_FluglinieController.flTable.getSelectionModel().isEmpty())
 				AlertHandler.keineAuswahl();
 			else
-				fg.fluglinieLoeschen(event);
+				fGM_FluglinieController.fluglinieLoeschen(event);
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
-			//fluggesellschaftLoeschen(event);
+			//fluggesellschaftLoeschen(event);*/
 	}
 	
 }
