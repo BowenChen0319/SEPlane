@@ -222,39 +222,77 @@ public class DBManager {
 	}
 
 	//Select all
-	public List<Fluglinie> getFluglinieZuFG(Integer fgID)throws Exception{
+	public List<Fluglinie> getFluglinieZuFG(Integer fgID){
 				
-		List<Fluglinie> fl ;
+		List<Fluglinie> fl;
 		QueryBuilder<Fluglinie,Integer> query = flDao.queryBuilder();
 		// "_id" wird durch Ormlite/h2 angefügt in DB
-		query.where().in("fluggesellschaft_id", fgID);
+		try {
+			query.where().in("fluggesellschaft_id", fgID);
+			fl = flDao.query(query.prepare());
+			return fl;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+
+	public List<Benutzer> getallUser() {
+		List<Benutzer> all;
+		try {
+			all = bDao.queryForAll();
+			return all;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 		
-		fl = flDao.query(query.prepare());
-		
-		return fl;
+	}
+	
+	public List<Flugzeug> getFlugzeuge(){
+		try {
+			return fDao.queryForAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}	
+	}
+	
+	public List<Flughafen> getFlughafen(){
+		try {
+			return fhDao.queryForAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	//Select
-	public Benutzer getUser(String name, String pw) throws SQLException {
+	public Benutzer getUser(String name, String pw) {
 		Benutzer b = null;
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
 		//TODO Vergleich mit Methode aus Hash/Salt
-		query.where().eq("benutzername", name).and().eq("passwort_klar", pw);
-		
-		return b = bDao.queryForFirst(query.prepare());
+		try {
+			query.where().eq("benutzername", name).and().eq("passwort_klar", pw);		
+			return b = bDao.queryForFirst(query.prepare());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
-	public Benutzer getUser(String name) throws SQLException {
+	public Benutzer getUser(String name) {
 		Benutzer b = null;
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
-		query.where().eq("benutzername", name);
+		try {
+			query.where().eq("benutzername", name);
+			return b = bDao.queryForFirst(query.prepare());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 
-		return b = bDao.queryForFirst(query.prepare());
-	}
-
-	public List<Benutzer> getallUser() throws SQLException {
-		List<Benutzer> all = bDao.queryForAll();
-		return all;
 	}
 
 	public Benutzer getbeId(int id) {
@@ -270,20 +308,17 @@ public class DBManager {
 	}
 	
 	//zum Anzeigen der jew. Fluggesellschaft des Managers
-	public int getFGID(Benutzer b) throws SQLException {
-		
-		Fluggesellschaft fg = null;
-		
-		//if(b.getBenutzertyp().equals(Benutzertyp.FGM)) {
-			
-			QueryBuilder<Fluggesellschaft, Integer> query = fgDao.queryBuilder();
+	public Fluggesellschaft getFGzuFGM(Benutzer b) {
+		Fluggesellschaft fg;
+		QueryBuilder<Fluggesellschaft, Integer> query = fgDao.queryBuilder();
+		try {
 			query.where().in("fgmanager_id", b.getId());
-			
 			fg = fgDao.queryForFirst(query.prepare());
-		//}
-		if(fg!=null)
-		return fg.getId();
-		else return 0;
+			return fg;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 

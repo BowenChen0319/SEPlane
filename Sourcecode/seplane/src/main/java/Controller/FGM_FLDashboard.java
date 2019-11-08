@@ -270,10 +270,16 @@ public class FGM_FLDashboard implements Initializable{
 	}
 
 //-----Helper
-	public void getInhalte() throws Exception {
+	public void getInhalte()  {
 		flList = FXCollections.observableArrayList();
+		fhList = FXCollections.observableArrayList();
+		fList = FXCollections.observableArrayList();
+		//TODO
 		//flList.addAll(db.getFluglinieZuFG(fgID));
-		flList.addAll(db.getFluglinieZuFG(1));
+		flList.addAll(db.getFluglinieZuFG(2));
+		fhList.addAll(db.getFlughafen());
+		fList.addAll(db.getFlugzeuge());
+		
 	}
 	
 	//initialize FX Elements Anlegen und Bearbeiten
