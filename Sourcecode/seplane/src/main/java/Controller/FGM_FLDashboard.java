@@ -88,14 +88,24 @@ public class FGM_FLDashboard implements Initializable{
 	static DBManager db = App.db;
 	//Benutzer user = App.user;
 	//FG ID zur Anzeige jew. FLs
-	int fgID = db.getFGID(new CurrentUser().getCurrent());
 
-	public FGM_FLDashboard() throws SQLException {
+//	int fgID = LoginController.fg_id;
+	
+	private FGMDashboard fGMDashboard;
+	
+	public void setParentController(FGMDashboard fgmd) {
+		fGMDashboard = fgmd;
 	}
+	
+	//TODO
+//	int fgID = db.getFGID(new CurrentUser().getCurrent());
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
+		System.out.println(fGMDashboard);
+		System.out.println(this);
+		//fGMDashboard.injectController(this);
+		
 		try {
 			getInhalte();
 		} catch (Exception e) {
@@ -181,19 +191,19 @@ public class FGM_FLDashboard implements Initializable{
 	}
 
 //-----Bearbeiten
-	public void fluglinieBearbeiten(ActionEvent event) throws IOException{
+	public void fluglinieBearbeiten(ActionEvent event, Fluglinie fluglinie) throws IOException{
 		//if(flTable == null)
 		//	System.out.println("Table ist null");
 		//if(!flTable.getSelectionModel().isEmpty()) {
 
-		fluglinie = flTable.getSelectionModel().getSelectedItem();
+		this.fluglinie = fluglinie;
 		//Open Pop-Up
 		Node source = (Node) event.getSource();
 		Window parentStage = source.getScene().getWindow();
 
 		AnchorPane editFL = new AnchorPane();
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("FGM_FLedit.fxml"));
-		loader.setController(FGM_FLDashboard.class);
+		loader.setController(this);
 		editFL = (AnchorPane)loader.load();
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL); //überlagert immer
@@ -202,7 +212,11 @@ public class FGM_FLDashboard implements Initializable{
 		Scene scene = new Scene(editFL);
 		stage.setScene(scene);
 		
+		System.out.println(fluglinie.getStart());
+		
 		initParam();
+		
+		System.out.println(startBox.getValue() +" und prompt "+startBox.getPromptText());
 		
 		//vorhandene Werte als Promttext setzen und nur übernehmen, was nicht null ist
 		startBox.setPromptText(fluglinie.getStart().getId());
@@ -254,7 +268,7 @@ public class FGM_FLDashboard implements Initializable{
 	public void abbrechen(ActionEvent event) throws IOException {
 		((Node) event.getSource()).getScene().getWindow().hide();
 	}
-	
+
 //-----Helper
 	public void getInhalte() throws Exception {
 		flList = FXCollections.observableArrayList();
@@ -404,6 +418,12 @@ public class FGM_FLDashboard implements Initializable{
 		if(Fentf<FLentf)
 			return false;
 		else return true;
+	}
+	
+	public Fluglinie getRowFL() {
+		fluglinie = flTable.getSelectionModel().getSelectedItem();
+		System.out.println(fluglinie +" und auch hier "+fluglinie.getAnzb());
+		return fluglinie;
 	}
 
 }
