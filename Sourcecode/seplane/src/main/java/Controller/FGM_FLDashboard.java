@@ -2,23 +2,18 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import Models.*;
 import org.openjfx.App;
 import org.openjfx.DBManager;
-import org.openjfx.LoginController;
 
-import Models.Flughafen;
-import Models.Fluglinie;
-import Models.Flugzeug;
-import Models.Intervall;
 import Toolbox.AlertHandler;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -93,8 +88,11 @@ public class FGM_FLDashboard implements Initializable{
 	static DBManager db = App.db;
 	//Benutzer user = App.user;
 	//FG ID zur Anzeige jew. FLs
-	int fgID = LoginController.fg_id;
-	
+	int fgID = db.getFGID(new CurrentUser().getCurrent());
+
+	public FGM_FLDashboard() throws SQLException {
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	
