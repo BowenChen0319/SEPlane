@@ -120,19 +120,19 @@ public class Fluglinie {
 		this.intervall = intervall;
 	}
 
-	public Fluggesellschaft getFluggesellschaft_id() {
+	public Fluggesellschaft getFluggesellschaft() {
 		return fluggesellschaft;
 	}
 
-	public void setFluggesellschaft_id(Fluggesellschaft fluggesellschaft) {
+	public void setFluggesellschaft(Fluggesellschaft fluggesellschaft) {
 		this.fluggesellschaft = fluggesellschaft;
 	}
 
-	public Flugzeug getFlugzeug_id() {
+	public Flugzeug getFlugzeug() {
 		return flugzeug;
 	}
 
-	public void setFlugzeug_id(Flugzeug flugzeug) {
+	public void setFlugzeug(Flugzeug flugzeug) {
 		this.flugzeug = flugzeug;
 	}
 

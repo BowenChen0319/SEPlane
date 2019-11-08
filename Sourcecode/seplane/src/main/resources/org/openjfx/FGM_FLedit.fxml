@@ -155,7 +155,7 @@
                      </HBox.margin>
                   </Button>
                   <Pane HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#fl_anlegen" prefWidth="150.0" text="Anlegen">
+                  <Button mnemonicParsing="false" onAction="#fl_bearbeiten" prefWidth="150.0" text="Anlegen">
                      <HBox.margin>
                         <Insets left="10.0" right="10.0" />
                      </HBox.margin>

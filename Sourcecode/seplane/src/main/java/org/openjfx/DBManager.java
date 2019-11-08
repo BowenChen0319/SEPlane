@@ -237,6 +237,7 @@ public class DBManager {
 	public Benutzer getUser(String name, String pw) throws SQLException {
 		Benutzer b = null;
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
+		//TODO Vergleich mit Methode aus Hash/Salt
 		query.where().eq("benutzername", name).and().eq("passwort_klar", pw);
 		
 		return b = bDao.queryForFirst(query.prepare());

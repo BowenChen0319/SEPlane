@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.openjfx.App;
 
+import Controller.FGMDashboard;
 import Models.Benutzer;
 import Models.Benutzertyp;
 import Models.Flughafen;
@@ -40,14 +41,10 @@ public class LoginController {
 
     @FXML
     void handleLogin(ActionEvent event) throws IOException, SQLException {
-    	String test = username_textfield.getText();
     	
-    	System.out.println(passwort_textfield.getText());
     	//TODO Login Logik
+    	//Test User
     	Benutzer b = App.db.getUser(username_textfield.getText(), passwort_textfield.getText());
-    	
-    	//Test Fluglinien
-    	db.createFL(new Fluglinie(new Flughafen("DUS","Düsseldorf", "D","name1", 0, 0.0,0.0,0.0),new Flughafen("FRA","nicht Düsseldorf", "D","name2", 0, 0.0,0.0,0.0),new Date(),0,Intervall.MONAT, null,null,0,0,0.0,0.0));
     	
     	//TODO Szenewechsel je nach Rolle
     	Benutzertyp userTyp = b.getBenutzertyp();
@@ -82,4 +79,5 @@ public class LoginController {
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
 	}
+	
 }

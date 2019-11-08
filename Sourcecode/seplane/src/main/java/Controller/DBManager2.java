@@ -1,4 +1,4 @@
-package org.openjfx.Controller;
+package Controller;
 
 import Models.Airport;
 import Models.Plane;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DBManager {
+public class DBManager2 {
     //passend für den CSVreader und JSONreader
     //URL USER und PASSWORD muss dementsprechend angepasst werden
 

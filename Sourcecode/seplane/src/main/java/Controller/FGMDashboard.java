@@ -1,10 +1,11 @@
-package org.openjfx.Controller;
+package Controller;
 
 import java.io.IOException;
 
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
+import Toolbox.AlertHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,12 +22,15 @@ public class FGMDashboard {
 	
 	//Anwendung
 	DBManager db = App.db;
+	//TODO Current User abfragen
 	//Benutzer user = App.user;
 	
 	@FXML Tab flTab;
 	@FXML Tab fgTab;
 	
-	public  FGM_FLDashboard fg= new FGM_FLDashboard();
+	//TODO muss hier schon Tabs initialisieren, sonst immer NullPointer bei Tabellenauswahl
+	//TODO Test mit static
+	public static FGM_FLDashboard fg= new FGM_FLDashboard();
 	
 	
 	public void logout(ActionEvent event) throws IOException {
@@ -42,20 +46,6 @@ public class FGMDashboard {
 	
 	public void anlegen(ActionEvent event) throws IOException {
 		if(flTab.isSelected()) {
-			/*/Open Pop-Up
-			Node source = (Node) event.getSource();
-			Window parentStage = source.getScene().getWindow();
-
-			AnchorPane neueFL = new AnchorPane();
-			FXMLLoader loader = new FXMLLoader(App.class.getResource("FGM_FLneu.fxml"));
-			loader.setController(this);
-			neueFL = (AnchorPane)loader.load();
-			Stage stage = new Stage();
-			stage.initModality(Modality.APPLICATION_MODAL); //überlagert immer
-			stage.initOwner(parentStage);
-			stage.setTitle("neue Fluglinie anlegen");
-			Scene scene = new Scene(neueFL);
-			stage.setScene(scene);*/
 			fg.fluglinieAnlegen(event);
 			}
 		else if(fgTab.isSelected()) 
@@ -65,14 +55,20 @@ public class FGMDashboard {
 
 	public void bearbeiten(ActionEvent event) throws IOException {
 		if(flTab.isSelected())
-			fg.fluglinieBearbeiten(event);
+			if(fg.flTable.getSelectionModel().isEmpty())
+				AlertHandler.keineAuswahl();
+			else
+				fg.fluglinieBearbeiten(event);
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
 			//fluggesellschaftBearbeiten(event);
 	}
 	public void loeschen(ActionEvent event) throws Exception {
 		if(flTab.isSelected())
-			fg.fluglinieLoeschen(event);
+			if(fg.flTable.getSelectionModel().isEmpty())
+				AlertHandler.keineAuswahl();
+			else
+				fg.fluglinieLoeschen(event);
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
 			//fluggesellschaftLoeschen(event);
