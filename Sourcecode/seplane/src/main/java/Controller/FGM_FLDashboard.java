@@ -97,11 +97,8 @@ public class FGM_FLDashboard implements Initializable{
 		fGMDashboard = fgmd;
 	}
 	
-
-	int fgID = db.getFGID(new CurrentUser().getCurrent());
-
-	public FGM_FLDashboard() throws SQLException {
-	}
+	//TODO
+//	int fgID = db.getFGID(new CurrentUser().getCurrent());
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

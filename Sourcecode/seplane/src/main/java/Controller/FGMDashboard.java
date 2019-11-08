@@ -49,21 +49,14 @@ public class FGMDashboard implements Initializable{
 	public void initialize(URL url, ResourceBundle rb) {
 		fGM_FluglinieController.setParentController(this);
 	}
-//	public void injectController(FGM_FLDashboard fg) {
-//		this.fGM_FluglinieController = fg;
-//	}
-	
-	//TODO muss hier schon Tabs initialisieren, sonst immer NullPointer bei Tabellenauswahl
-	//TODO Test mit static
-	public static FGM_FLDashboard fg;
 
-	static {
+/*	static {
 		try {
 			fg = new FGM_FLDashboard();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 
 	public void logout(ActionEvent event) throws IOException {
