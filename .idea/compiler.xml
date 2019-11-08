@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SEP" />
+        <module name="Paluno" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Paluno" target="1.8" />
       <module name="SEP" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -242,6 +242,26 @@ public class DBManager {
 		
 		return b = bDao.queryForFirst(query.prepare());
 	}
+
+	public Benutzer getUser(String name) throws SQLException {
+		Benutzer b = null;
+		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
+		query.where().eq("benutzername", name);
+
+		return b = bDao.queryForFirst(query.prepare());
+	}
+
+	public Benutzer getbeId(int id) {
+		Benutzer b1  = null;
+		try {
+			b1 = bDao.queryForId(id);
+			return b1;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+
+		}
+	}
 	
 	//zum Anzeigen der jew. Fluggesellschaft des Managers
 	public int getFGID(Benutzer b) throws SQLException {

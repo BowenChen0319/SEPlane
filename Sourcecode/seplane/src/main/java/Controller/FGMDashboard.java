@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import java.sql.SQLException;
+
+import Models.CurrentUser;
+import javafx.application.Application;
+import javafx.application.Platform;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
@@ -20,6 +25,10 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import javafx.stage.Window;
+import org.openjfx.login;
+
 
 public class FGMDashboard implements Initializable{
 	
@@ -40,19 +49,39 @@ public class FGMDashboard implements Initializable{
 	public void initialize(URL url, ResourceBundle rb) {
 		fGM_FluglinieController.setParentController(this);
 	}
-	public void injectController(FGM_FLDashboard fg) {
-		this.fGM_FluglinieController = fg;
-	}
+//	public void injectController(FGM_FLDashboard fg) {
+//		this.fGM_FluglinieController = fg;
+//	}
 	
+	//TODO muss hier schon Tabs initialisieren, sonst immer NullPointer bei Tabellenauswahl
+	//TODO Test mit static
+	public static FGM_FLDashboard fg;
+
+	static {
+		try {
+			fg = new FGM_FLDashboard();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	public void logout(ActionEvent event) throws IOException {
-		Parent login = FXMLLoader.load(App.class.getResource("Login.fxml"));
-		Scene loginScene = new Scene(login);
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-		stage.setScene(loginScene);
-		stage.setWidth(800);
-		stage.setHeight(600);
-		stage.centerOnScreen();
-		stage.setResizable(true);
+		stage.close();
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					new CurrentUser().setCurrent(null);
+					new login().start(new Stage());
+
+				} catch (IOException e) {
+					e.printStackTrace();
+
+				}
+			}
+		});
 	}
 	
 	public void anlegen(ActionEvent event) throws IOException {
