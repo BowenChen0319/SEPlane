@@ -1,6 +1,7 @@
-package org.openjfx.FGManager;
+package org.openjfx;
 
 import Models.Benutzer;
+import Models.CurrentUser;
 import Models.Fluggesellschaft;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,7 +38,7 @@ public class FluggesellschaftAnlegenController {
     public void  handleFluggesellschaftAnlegen(ActionEvent event){
         Benutzer aktuellerUser = new Benutzer();
 
-          if (aktuellerUser.getBenutzername()=="") { // ueberpruefen ob der eingeloggte FGM bereits eine FG angelegt hat fehlt fuer die if Bedingung noch
+          if (aktuellerUser.getBenutzername()=="fgm") { // ueberpruefen ob der eingeloggte FGM bereits eine FG angelegt hat fehlt fuer die if Bedingung noch
 
               if (name_textfield.getText() != null && land_textfield.getText() != null && budget_textfield != null) {
                   String name = name_textfield.getText();
@@ -49,8 +50,9 @@ public class FluggesellschaftAnlegenController {
                   Fluggesellschaft fluggesellschaft = new Fluggesellschaft(aktuellerUser, name, land, budget);
 
                   //Datenbankbefehle
-                  DBManager dbm = new DBManager();
-                  dbm.createFG(fluggesellschaft);
+
+                  DBManager db = new DBManager();
+                  db.createFG(fluggesellschaft);
 
                   Stage stage = (Stage) anlegen_button.getScene().getWindow();
                   stage.close();

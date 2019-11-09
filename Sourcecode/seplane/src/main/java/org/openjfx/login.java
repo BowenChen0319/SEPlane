@@ -153,11 +153,7 @@ public class login extends Application {
 
 //                Benutzer b = new Benutzer().getBenutzer(user.getText());
                 Benutzer b = null;
-                try {
-                    b = new DBManager().getUser(user.getText());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                b = new DBManager().getUser(user.getText());
                 if(b==null){
                     warning.setText("Wrong Username");
 

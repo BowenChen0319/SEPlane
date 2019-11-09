@@ -1,4 +1,4 @@
-package org.openjfx.FGManager;
+package org.openjfx;
 
 import Models.Flugzeug;
 import Models.Plane;

@@ -2,7 +2,6 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -39,6 +38,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -89,7 +89,7 @@ public class FGM_FLDashboard implements Initializable{
 	//Benutzer user = App.user;
 	//FG ID zur Anzeige jew. FLs
 
-//	int fgID = LoginController.fg_id;
+	
 	
 	private FGMDashboard fGMDashboard;
 	
@@ -98,22 +98,17 @@ public class FGM_FLDashboard implements Initializable{
 	}
 	
 	//TODO
-//	int fgID = db.getFGID(new CurrentUser().getCurrent());
+	Fluggesellschaft fg = db.getFGzuFGM(new CurrentUser().getCurrent());
+	//Fluggesellschaft fgID = db.getFGzuFGM(App.user);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println(fGMDashboard);
-		System.out.println(this);
-		//fGMDashboard.injectController(this);
 		
-		try {
-			getInhalte();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if(fg!=null)
+		getInhalte();
 
 		//Mapping Fluglinientabelle
-		//TODO Startdatum, Flugnummer
+		//TODO Flugnummer
 		try {
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 		startCol.setCellValueFactory(cellData -> {
@@ -123,10 +118,10 @@ public class FGM_FLDashboard implements Initializable{
 				return new SimpleStringProperty(cellData.getValue().getStart().getId());
 		});
 		zielCol.setCellValueFactory(cellData -> {
-			if(cellData.getValue().getStart() == null)
+			if(cellData.getValue().getZiel() == null)
 				return new SimpleStringProperty("");
 			else
-				return new SimpleStringProperty(cellData.getValue().getStart().getId());
+				return new SimpleStringProperty(cellData.getValue().getZiel().getId());
 		});
 		entfCol.setCellValueFactory(new PropertyValueFactory<>("entfernung"));
 		flugzeugCol.setCellValueFactory(cellData -> {
@@ -171,9 +166,9 @@ public class FGM_FLDashboard implements Initializable{
 	}
 	
 	//Anlegen confirm
-	public void fl_anlegen() {
+	public void fl_anlegen(ActionEvent event) {
 		//leere Felder oder falsche Eingaben (start = ziel, Datum Vergangenheit, 25% Business, Entfernung F und FL falsch)
-		if (startBox.getValue()==null || zielBox.getValue()==null || startBox.getValue() == zielBox.getValue() || dateLabel.isVisible()
+		if (startBox.getValue()==null || zielBox.getValue()==null || startBox.getValue() == zielBox.getValue() || jungfernFlug.getValue()==null ||dateLabel.isVisible()
 				|| intervallFeld.getText()==null || intervallBox.getValue() == null || prozentLabel.getTextFill()==Color.RED 
 				|| flugzeugBox.getValue() == null || kmLabel.getTextFill()==Color.RED || preisE.getText()==null || preisB.getText()==null)
 			AlertHandler.falscheAngaben();
@@ -182,20 +177,19 @@ public class FGM_FLDashboard implements Initializable{
 			AlertHandler.falscheAngaben();
 		else {
 			//TODO FG aus Current User
-			db.createFL(new Fluglinie(startBox.getValue(),zielBox.getValue(),Date.from(jungfernFlug.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-					Integer.parseInt(intervallFeld.getText()), intervallBox.getValue(), null, 
+			db.createFL(new Fluglinie(startBox.getValue(),zielBox.getValue(),convertLocal(jungfernFlug.getValue()), entfernung,
+					Integer.parseInt(intervallFeld.getText()), intervallBox.getValue(), fg, 
 					flugzeugBox.getValue(), Integer.parseInt(labelE.getText()),Integer.parseInt(labelB.getText()),
 					Double.parseDouble(preisE.getText()), Double.parseDouble(preisB.getText())));
+			
+			((Node) event.getSource()).getScene().getWindow().hide();
+			initialize(null, null);
 		}
-		//}
 	}
 
 //-----Bearbeiten
 	public void fluglinieBearbeiten(ActionEvent event, Fluglinie fluglinie) throws IOException{
-		//if(flTable == null)
-		//	System.out.println("Table ist null");
-		//if(!flTable.getSelectionModel().isEmpty()) {
-
+		
 		this.fluglinie = fluglinie;
 		//Open Pop-Up
 		Node source = (Node) event.getSource();
@@ -223,19 +217,53 @@ public class FGM_FLDashboard implements Initializable{
 		zielBox.setPromptText(fluglinie.getZiel().getId());
 		intervallFeld.setText(fluglinie.getIntervall_int()+"");
 		intervallBox.setValue(fluglinie.getIntervall());
-		jungfernFlug.setPromptText(fluglinie.getStartdatum().toInstant()+"");
+		jungfernFlug.setPromptText(fluglinie.getStartdatum()+"");
 		flugzeugBox.setPromptText(fluglinie.getFlugzeug().getHersteller()+" "+fluglinie.getFlugzeug().getFlugzeugtyp()+" "+ fluglinie.getFlugzeug().getReichweite());
 		slider.setValue(fluglinie.getAnzb());
 		preisB.setPromptText(fluglinie.getPreiseb()+"");
 		preisE.setPromptText(fluglinie.getPreisee()+"");
 		
 		stage.show();
-		//}
-//		else AlertHandler.keineAuswahl();
+
 	}
 	
 	public void fl_bearbeiten(ActionEvent event) throws IOException{
-		//if(startBox.getValue() != )
+		boolean entfneu = false;
+		if(startBox.getValue() != null && startBox.getValue() != fluglinie.getStart()) {
+			fluglinie.setStart(startBox.getValue());
+			entfneu = true;
+		}
+		if(zielBox.getValue()!= null && zielBox.getValue()!= fluglinie.getZiel()) {
+			fluglinie.setZiel(zielBox.getValue());
+			entfneu = true;
+		}
+		if(entfneu) {
+			calcEntf(fluglinie.getStart().getLatitude(), fluglinie.getStart().getLongitude(), fluglinie.getZiel().getLatitude(), fluglinie.getZiel().getLongitude());
+			fluglinie.setEntfernung(entfernung);
+		}
+		if(!intervallFeld.getText().isBlank() && checkInt(intervallFeld.getText()) )//erkennt Leerzeichen
+			if(Integer.parseInt(intervallFeld.getText())!= fluglinie.getIntervall_int())
+				fluglinie.setIntervall_int(Integer.parseInt(intervallFeld.getText()));
+		if(intervallBox.getValue()!= null && intervallBox.getValue()!= fluglinie.getIntervall())
+			fluglinie.setIntervall(intervallBox.getValue());
+		if(jungfernFlug.getValue()!= null && checkStart(jungfernFlug.getValue()))
+			fluglinie.setStartdatum(convertLocal(jungfernFlug.getValue()));
+		if(flugzeugBox.getValue()!= null && flugzeugBox.getValue()!= fluglinie.getFlugzeug())
+			if(checkEntf(fluglinie.getEntfernung(), flugzeugBox.getValue().getReichweite()))
+				fluglinie.setFlugzeug(flugzeugBox.getValue());
+		if((int)slider.getValue()!= fluglinie.getAnzb())
+			fluglinie.setAnzb(Integer.parseInt(labelB.getText()));
+		if((int)slider.getMax()!= fluglinie.getAnze())
+			fluglinie.setAnze(Integer.parseInt(labelE.getText()));
+		if(!preisB.getText().isBlank() && fluglinie.getPreiseb()!=Double.parseDouble(preisB.getText()))
+			fluglinie.setPreiseb(Double.parseDouble(preisB.getText()));
+		if(!preisE.getText().isBlank() && fluglinie.getPreisee()!=Double.parseDouble(preisE.getText()))
+			fluglinie.setPreisee(Double.parseDouble(preisE.getText()));
+		
+		db.updateFL(fluglinie);
+		((Node) event.getSource()).getScene().getWindow().hide();
+		initialize(null, null);
+			
 	}
 
 //-----Löschen
@@ -248,10 +276,10 @@ public class FGM_FLDashboard implements Initializable{
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		alert.setTitle("Fluglinie entfernen");
-		alert.setHeaderText("Bitte best\u00e4tigen Sie den L\u00f6schvorgang");
-		alert.setContentText("M\u00f6chten Sie die Fluglinie von '" + fluglinie.getStart() + "' nach '" + fluglinie.getZiel() + "' wirklich l\u00f6schen?");
-
-		ButtonType buttonTypeConfirm = new ButtonType("Best\u00e4tigen", ButtonData.LEFT);
+		alert.setHeaderText("Bitte bestätigen Sie den Löschvorgang");
+		alert.setContentText("Möchten Sie die Fluglinie von '" + fluglinie.getStart().getId() + "' nach '" + fluglinie.getZiel().getId() + "' wirklich löschen?");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE); //statt wrap text...
+		ButtonType buttonTypeConfirm = new ButtonType("Bestätigen", ButtonData.LEFT);
 		ButtonType buttonTypeAbbrechen = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
 
 		alert.getButtonTypes().setAll(buttonTypeConfirm, buttonTypeAbbrechen);
@@ -270,10 +298,15 @@ public class FGM_FLDashboard implements Initializable{
 	}
 
 //-----Helper
-	public void getInhalte() throws Exception {
+	public void getInhalte()  {
 		flList = FXCollections.observableArrayList();
-		//flList.addAll(db.getFluglinieZuFG(fgID));
-		flList.addAll(db.getFluglinieZuFG(1));
+		fhList = FXCollections.observableArrayList();
+		fList = FXCollections.observableArrayList();
+		//TODO
+		flList.addAll(db.getFluglinieZuFG(fg.getId()));
+		fhList.addAll(db.getFlughafen());
+		fList.addAll(db.getFlugzeuge());
+		
 	}
 	
 	//initialize FX Elements Anlegen und Bearbeiten
@@ -371,7 +404,7 @@ public class FGM_FLDashboard implements Initializable{
 	      });
 	}
 
-	//check parse Int
+	//check parse Int returns true if parsbar
 	public boolean checkInt(String i) {
 		try {
 			Integer.parseInt(i);
@@ -395,7 +428,7 @@ public class FGM_FLDashboard implements Initializable{
 	//check Startdatum in Zukunft
 	public boolean checkStart(LocalDate newValue) {
 		//convert localDate aus DatePicker zu Date, < 0 ist vor heute
-		if(Date.from(newValue.atStartOfDay(ZoneId.systemDefault()).toInstant()).compareTo(new Date())<0)
+		if(convertLocal(newValue).compareTo(new Date())<0)
 			return false;
 		else return true;
 	}
@@ -410,7 +443,10 @@ public class FGM_FLDashboard implements Initializable{
 	               Math.cos(Math.toRadians(sLat)) * Math.cos(Math.toRadians(zLat)) *
 	               Math.sin(dLng/2) * Math.sin(dLng/2);
 	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-	    entfernung = earthRadius * c;
+	    //vom m auf km
+	    entfernung =(earthRadius * c)/1000;
+	    //auf 2 Nachkommastellen
+	    entfernung = Math.round(entfernung *100.0)/100.0;
 	    kmLabel.setText(entfernung+"");
 	}
 	//Reichweite Constraint Flugzeug und FL Entfernung
@@ -424,6 +460,10 @@ public class FGM_FLDashboard implements Initializable{
 		fluglinie = flTable.getSelectionModel().getSelectedItem();
 		System.out.println(fluglinie +" und auch hier "+fluglinie.getAnzb());
 		return fluglinie;
+	}
+	
+	public Date convertLocal (LocalDate date) {
+		return Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 	}
 
 }

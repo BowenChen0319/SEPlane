@@ -52,12 +52,13 @@ public class Fluglinie {
 
 	public Fluglinie() {}
 
-	public Fluglinie(Flughafen start, Flughafen ziel, Date startdatum, int intervall_int, Intervall intervall, Fluggesellschaft fg,
+	public Fluglinie(Flughafen start, Flughafen ziel, Date startdatum, double entf, int intervall_int, Intervall intervall, Fluggesellschaft fg,
 			Flugzeug f, int anze, int anzb, Double preisee, Double preiseb) {
 
 		this.start = start;
 		this.ziel = ziel;
 		this.startdatum = startdatum;
+		entfernung = entf;
 		this.intervall_int = intervall_int;
 		this.intervall = intervall;
 		fluggesellschaft = fg;
