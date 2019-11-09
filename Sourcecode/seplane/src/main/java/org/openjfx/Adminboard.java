@@ -27,7 +27,7 @@ import java.util.List;
  * JavaFX App
  */
 
-public class adminboard extends Application {
+public class Adminboard extends Application {
 //    Benutzer be = null;
 //    public void setBenutzerRun(Benutzer benutzer) throws IOException {
 //        be=benutzer;
@@ -151,7 +151,7 @@ public class adminboard extends Application {
                     @Override
                     public void run() {
                         try {
-                            new dash().start(new Stage());
+                            new FGMRegister().start(new Stage());
                             stage.close();
 
 

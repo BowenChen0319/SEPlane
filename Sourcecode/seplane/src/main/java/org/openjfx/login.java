@@ -2,6 +2,7 @@ package org.openjfx;
 
 import Models.Benutzer;
 import Models.CurrentUser;
+import Toolbox.HASH;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -163,7 +164,7 @@ public class login extends Application {
                     }else{
                         if(b.getBenutzertyp().matches("fgm")){
                             try {
-                                if(b.getPasswort().matches(SHA.getResult(pwd.getText()))){
+                                if(b.getPasswort().matches(HASH.getResult(pwd.getText()))){
                                     warning.setText("Welcome fgm");
                                     System.out.println("Welcome fgm");
                                     Benutzer finalB2 = b;
@@ -197,7 +198,7 @@ public class login extends Application {
 
                         }else if(b.getBenutzertyp().matches("admin")){
                             try {
-                                if(b.getPasswort().matches(SHA.getResult(pwd.getText()))){
+                                if(b.getPasswort().matches(HASH.getResult(pwd.getText()))){
                                     warning.setText("Welcome admin");
                                     System.out.println("Welcome admin");
                                     Benutzer finalB = b;
@@ -206,7 +207,7 @@ public class login extends Application {
                                         public void run() {
                                             try {
                                                 new CurrentUser().setCurrent(finalB);
-                                                new adminboard().start(new Stage());
+                                                new Adminboard().start(new Stage());
                                             } catch (IOException | SQLException e) {
                                                 e.printStackTrace();
 
@@ -222,7 +223,7 @@ public class login extends Application {
 
                         }else if(b.getBenutzertyp().matches("kunde")){
                             try {
-                                if(b.getPasswort().matches(SHA.getResult(pwd.getText()))){
+                                if(b.getPasswort().matches(HASH.getResult(pwd.getText()))){
                                     warning.setText("Welcome Kunde");
                                     System.out.println("Welcome kunde");
                                     Benutzer finalB1 = b;

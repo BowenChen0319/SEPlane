@@ -28,7 +28,7 @@ import java.util.List;
  * JavaFX App
  */
 
-public class dash extends Application {
+public class FGMRegister extends Application {
 //    Benutzer be = null;
 //    public void setBenutzerRun(Benutzer benutzer) throws IOException {
 //        be=benutzer;
