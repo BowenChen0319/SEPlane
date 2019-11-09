@@ -28,7 +28,6 @@ org\openjfx\DBManager.class
 org\openjfx\FGMRegister$2.class
 Models\Fluggesellschaft.class
 Models\FlugzeugMapping.class
-Controller\DBManager2.class
 org\openjfx\login$2$2.class
 Toolbox\ReverseGeoEncoder.class
 org\openjfx\App.class
