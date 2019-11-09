@@ -33,5 +33,7 @@ public class FGManager {
 
     public void setFluggesellschaft(Fluggesellschaft fluggesellschaft) {
         this.fluggesellschaft = fluggesellschaft;
+        //nichts
+
     }
 }
