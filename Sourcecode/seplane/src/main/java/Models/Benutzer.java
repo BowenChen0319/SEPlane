@@ -2,7 +2,7 @@ package Models;
 
 import com.j256.ormlite.field.DatabaseField;
 import org.openjfx.DBManager;
-import org.openjfx.SHA;
+import Toolbox.HASH;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -39,7 +39,7 @@ public class Benutzer {
         this.benutzername=benutzername;
         this.passwort_klar=passwort_klar;
         this.benutzertyp=benutzertyp;
-        this.passwort= SHA.getResult(passwort_klar);
+        this.passwort= HASH.getResult(passwort_klar);
     }
 
     public String getBenutzertyp() {

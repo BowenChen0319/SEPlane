@@ -1,4 +1,4 @@
-package org.openjfx;
+package Toolbox;
 
 
 import org.apache.commons.codec.binary.Base64;
@@ -8,7 +8,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 
-public class SHA {
+public class HASH {
 
     private static byte[] salt={2};
     private static final int iterations = 1000; //more iterations == safer
@@ -17,7 +17,7 @@ public class SHA {
 
 
 
-    public SHA(){ }
+    public HASH(){ }
     public static String getSaltedHash(String password) throws Exception {
 //        byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
         // store the salt with the password
