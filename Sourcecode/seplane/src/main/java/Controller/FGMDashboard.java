@@ -40,7 +40,7 @@ public class FGMDashboard implements Initializable{
 	@FXML BorderPane fGM_Fluglinie;
 	//Tab1
 	@FXML FGM_FLDashboard fGM_FluglinieController;
-	
+
 	Fluglinie curFL;
 	
 	@Override
