@@ -19,17 +19,9 @@ public class App extends Application {
 
     @Override
     public void start (Stage primaryStage) throws Exception {
-    	//TODO wieso nicht primary Stage nutzen?
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new login().start(new Stage());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+
+        new login().start(primaryStage);
+
     }
 
 
