@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Models.CurrentUser;
+import Models.Fluggesellschaft;
 import javafx.application.Platform;
 import org.openjfx.App;
 import org.openjfx.DBManager;
@@ -48,7 +49,11 @@ public class FGMDashboard implements Initializable{
     	db.createFH(new Flughafen("DUS","Düsseldorf", "D","name1", 0, 0.0,51.2794,6.76481));
     	db.createFH(new Flughafen("FRA","nicht Düsseldorf", "D","name2", 0, 0.0,50.0483,8.57041));
     	db.createF(new Flugzeug("HansPeter", "1 Typ", 2000.0, 2000.0, 65));
+    	db.createF(new Flugzeug("kommtWeit", "1 Typ", 2000.0, 300000.0, 65));
+    	db.createFG(new Fluggesellschaft(db.getUser("melli-fgm", "0000"), "Flieg", "DE", 100.0));
     	*/
+		
+		
 		fGM_FluglinieController.setParentController(this);
 	}
 
@@ -71,8 +76,7 @@ public class FGMDashboard implements Initializable{
 	}
 	
 	public void anlegen(ActionEvent event) throws IOException {
-		if(flTab.isSelected()) {
-			
+		if(flTab.isSelected()) {		
 			fGM_FluglinieController.fluglinieAnlegen(event);
 			}
 		else if(fgTab.isSelected()) 
@@ -100,7 +104,7 @@ public class FGMDashboard implements Initializable{
 			if(fGM_FluglinieController.flTable.getSelectionModel().isEmpty())
 				AlertHandler.keineAuswahl();
 			else
-				fGM_FluglinieController.fluglinieLoeschen(event);
+				fGM_FluglinieController.fluglinieLoeschen(event); //, fGM_FluglinieController.getRowFL());
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
 			//fluggesellschaftLoeschen(event);*/

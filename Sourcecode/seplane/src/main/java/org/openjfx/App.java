@@ -7,12 +7,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import Models.CurrentUser;
+
 /**
  * JavaFX App
  */
 public class App extends Application {
 	
 	public static DBManager db = new DBManager();
+	public static CurrentUser user = new CurrentUser();
 
     @Override
     public void start (Stage primaryStage) throws Exception {
