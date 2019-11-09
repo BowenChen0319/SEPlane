@@ -1,7 +1,7 @@
 package org.openjfx;
 
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.List;
@@ -27,6 +27,7 @@ public class DBManager {
 	Dao<FlugzeugMapping, Integer> fmDao;
 	Dao<Airport,String> apDao;
 	static Dao<Plane,Integer> planeDao;
+
 
 	
 	public DBManager() {
@@ -352,13 +353,23 @@ public class DBManager {
 		}
 	}
 	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
-	public void addAirportToDb() throws FileNotFoundException, SQLException, URISyntaxException {
-		new JsonReaderTool();
-		for(int i=0; i<JsonReaderTool.getJsonSize();i++) {
-			if(JsonReaderTool.readFromJson(i) != null){
-				getAirportFromJSon(JsonReaderTool.readFromJson(i));
-			}		}
+	public void addAirportToDb() {
+		try {
+			new JsonReaderTool();
+			for(int i=0; i<JsonReaderTool.getJsonSize();i++) {
+				if(JsonReaderTool.readFromJson(i) != null){
+					getAirportFromJSon(JsonReaderTool.readFromJson(i));
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
 
 
 	//an airport will be added to DB
@@ -450,6 +461,7 @@ public class DBManager {
 
 
 	}*/
+
 
 
 

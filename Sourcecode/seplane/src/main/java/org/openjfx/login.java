@@ -25,6 +25,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 /**
@@ -136,6 +137,15 @@ public class login extends Application {
                 "-fx-text-fill: #5CACEE"
         );
 
+        Button b4 = new Button("DB Update");
+        b4.setPrefWidth(100);
+        b4.setPrefHeight(20);
+        b4.setFont(Font.font(15));
+        b4.setStyle("-fx-background-color: #5CACEE;"+
+                "-fx-background-radius: 8;"+
+                "-fx-text-fill: #7CCD7C"
+        );
+
 
         Label warning = new Label();
         warning.setFont(Font.font(17));
@@ -143,7 +153,7 @@ public class login extends Application {
 
         HBox butt = new HBox();
         butt.setAlignment(Pos.CENTER);
-        butt.getChildren().addAll(b1,b2,b3);
+        butt.getChildren().addAll(b1,b4,b3,b2);
         root.getChildren().add(butt);
 
 
@@ -327,6 +337,24 @@ public class login extends Application {
             }
         });
 
+
+        b4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                primaryStage.close();
+                try {
+                    new DBManager().addAirportToDb();
+                    new login().start(new Stage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
         primaryStage.setTitle("SE-Plane Gruppe I");
 
         //primaryStage.getIcons().add(new Image(path)); //png Bild
@@ -365,4 +393,5 @@ public class login extends Application {
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
     }
+
 }

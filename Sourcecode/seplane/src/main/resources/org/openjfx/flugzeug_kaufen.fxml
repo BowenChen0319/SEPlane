@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.FlugzeugKaufenController">
    <children>
       <VBox alignment="CENTER" layoutY="-0.3333333432674408" spacing="40.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0">
          <children>
@@ -27,8 +26,8 @@
             </ScrollPane>
             <HBox alignment="CENTER_RIGHT" spacing="40.0">
                <children>
-                  <Button fx:id="kaufen_button" mnemonicParsing="false" text="kaufen" />
-                  <Button fx:id="abbrechen_button" mnemonicParsing="false" text="abbrechen" />
+                  <Button fx:id="kaufen_button" mnemonicParsing="false" onAction="#handleKaufen" text="kaufen" />
+                  <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="abbrechen" />
                </children>
             </HBox>
          </children>
