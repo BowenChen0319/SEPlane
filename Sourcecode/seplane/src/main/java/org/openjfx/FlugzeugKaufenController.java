@@ -33,6 +33,8 @@ private Button kaufen_button;
 @FXML
 private Button abbrechen_button;
 
+static DBManager db = App.db;
+
 
 
         public void handleKaufen(ActionEvent event){

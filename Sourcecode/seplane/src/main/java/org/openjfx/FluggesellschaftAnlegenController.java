@@ -5,11 +5,16 @@ import Models.CurrentUser;
 import Models.Fluggesellschaft;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.ObjectUtils;
 import org.openjfx.DBManager;
 
-public class FluggesellschaftAnlegenController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class FluggesellschaftAnlegenController  {
 
     @FXML
     private Label name_label;
@@ -35,13 +40,13 @@ public class FluggesellschaftAnlegenController {
     @FXML
     private Button abbrechen_button;
 
+    static DBManager db = App.db;
+
     public void  handleFluggesellschaftAnlegen(ActionEvent event){
         Benutzer currentUser = new CurrentUser().getCurrent();
         System.out.println(currentUser.getBenutzername());
-          if (currentUser.getBenutzername() =="fgm") { // ueberpruefen ob der eingeloggte FGM bereits eine FG angelegt hat fehlt fuer die if Bedingung noch
-                //System.out.println("hello1");
+          if (db.getFGzuFGM(currentUser)==null) {
               if (name_textfield.getText() != null && land_textfield.getText() != null && budget_textfield != null) {
-                  //System.out.println("Hello2");
                   String name = name_textfield.getText();
                   String land = land_textfield.getText();
                   String budgetAsString = budget_textfield.getText();
@@ -51,8 +56,8 @@ public class FluggesellschaftAnlegenController {
                   Fluggesellschaft fluggesellschaft = new Fluggesellschaft(currentUser, name, land, budget);
 
                   //Datenbankbefehle
-                  DBManager db = new DBManager();
                   db.createFG(fluggesellschaft);
+
 
                   Stage stage = (Stage) anlegen_button.getScene().getWindow();
                   stage.close();
@@ -83,4 +88,5 @@ public class FluggesellschaftAnlegenController {
         Stage stage = (Stage) abbrechen_button.getScene().getWindow();
         stage.close();
     }
+
 }

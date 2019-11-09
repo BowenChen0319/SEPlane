@@ -42,17 +42,17 @@
       </Label>
       <VBox layoutX="289.0" layoutY="119.0" spacing="40.0">
          <children>
-            <Label text="Leer">
+            <Label fx:id="nameInhalt_label" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="Leer">
+            <Label fx:id="landInhalt_label" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="Leer">
+            <Label fx:id="bugetInhalt_label" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>
