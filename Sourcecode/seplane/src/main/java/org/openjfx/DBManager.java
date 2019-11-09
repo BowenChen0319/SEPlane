@@ -356,7 +356,7 @@ public class DBManager {
 		}
 	}
 	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
-	public void addAirportToDb() throws FileNotFoundException, SQLException, URISyntaxException {
+	public void addAirportToDb() throws IOException, SQLException, URISyntaxException {
 		//Airport ai = new Airport("adv", "dui", "de", "asd", 1234, 0.4123,9.233);
 		JsonReaderTool jreader = new JsonReaderTool();
 		for(int i=0; i<jreader.getJsonSize();i++) {
@@ -443,6 +443,7 @@ public class DBManager {
 
 
 	}
+
 
 
 

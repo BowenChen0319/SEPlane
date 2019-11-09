@@ -12,7 +12,6 @@ import com.google.gson.*;
 public class JsonReaderTool {
 
 //   private static final String FILEPATH = "C:\\Users\\Kevin\\IdeaProjects\\gruppe-i\\Sourcecode\\seplane\\src\\main\\resources\\org\\openjfx\\flughaefen.json";
-     private static final String FILEPATH = JsonReaderTool.class.getResource("").getPath()+"resources/"+"flughaefen.json";
 
 
     public JsonReaderTool() throws URISyntaxException {}
@@ -31,13 +30,16 @@ public class JsonReaderTool {
 
 
     //read from Json File and return an initialized airport object
-    public static Airport readFromJson(int posInJson) throws FileNotFoundException {
+    public static Airport readFromJson(int posInJson) throws IOException {
         Airport airport = null;
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader(FILEPATH))){
-
-
-            Gson gson = new GsonBuilder()
+        InputStream is = JsonReaderTool.class.getResourceAsStream("resources/flughaefen.json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is) {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+        });
+        Gson gson = new GsonBuilder()
                 .setLenient()
                 .registerTypeAdapter(int.class, new EmptyStringToNumberTypeAdapter())
                 .registerTypeAdapter(Integer.class, new EmptyStringToNumberTypeAdapter())
@@ -46,34 +48,36 @@ public class JsonReaderTool {
                 .create();
 
 
-            Airport[] gAirport = gson.fromJson(reader, Airport[].class);
-            //für die DB aufbereiteter FLughafen ... (Nich leer sind:  code, lat, lon, city, country, runway_length
+        Airport[] gAirport = gson.fromJson(reader, Airport[].class);
+        //für die DB aufbereiteter FLughafen ... (Nich leer sind:  code, lat, lon, city, country, runway_length
 
 
-            Object[] airportTmp = {gAirport[posInJson].getCode(), gAirport[posInJson].getCity(), gAirport[posInJson].getCountry(),
+        Object[] airportTmp = {gAirport[posInJson].getCode(), gAirport[posInJson].getCity(), gAirport[posInJson].getCountry(),
                 gAirport[posInJson].getName(), gAirport[posInJson].getRunway_length(), gAirport[posInJson].getLat(),
                 gAirport[posInJson].getLon()};
 
-            airport = new Airport((String) airportTmp[0], (String) airportTmp[1], (String) airportTmp[2],
+        airport = new Airport((String) airportTmp[0], (String) airportTmp[1], (String) airportTmp[2],
                 (String) airportTmp[3], (int) airportTmp[4], (double) airportTmp[5], (double) airportTmp[6]);
 
-            if(airportHasEmptyInfos(airport))
-            {
-                return airport = null;
-            }
-            System.out.println(airport.toString());
+        if(airportHasEmptyInfos(airport))
+        {
+            return airport = null;
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println(airport.toString());
         return airport;
-
     }
 
     //Return the amount of indexes of a JSON file
     //JSON file to Array to get length
-    public static int getJsonSize() throws FileNotFoundException {
-        BufferedReader reader = new BufferedReader(new FileReader(FILEPATH));
+    public static int getJsonSize() throws IOException {
+        InputStream is = JsonReaderTool.class.getResourceAsStream("resources/flughaefen.json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is) {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+        });
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();

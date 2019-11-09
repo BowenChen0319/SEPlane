@@ -27,6 +27,7 @@ private static final String FILEPATH = CSVReader.class.getResource("").getPath()
         String fileName = FILEPATH;
 
         Path myPath = Paths.get(fileName);
+
         List<Plane> plane = null;
         try (FileInputStream fis = new FileInputStream(fileName);
              InputStreamReader isr = new InputStreamReader(fis,
@@ -50,6 +51,9 @@ private static final String FILEPATH = CSVReader.class.getResource("").getPath()
 
             System.out.println("Infos aus JSon: " + Arrays.toString(plane.toArray()));
 
+            isr.close();
+            fis.close();
+
         }catch(IOException e)
         {
             e.printStackTrace();
@@ -57,6 +61,7 @@ private static final String FILEPATH = CSVReader.class.getResource("").getPath()
         }
 
         return plane;
+
     }
 
 
