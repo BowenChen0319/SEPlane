@@ -63,7 +63,7 @@ public class JsonReaderTool {
         {
             return airport = null;
         }
-        System.out.println(airport.toString());
+        //System.out.println(airport.toString());
         return airport;
     }
 
@@ -86,7 +86,7 @@ public class JsonReaderTool {
     }
 
     public void getfile(){
-        System.out.println(JsonReaderTool.class.getResource(""));
+        //System.out.println(JsonReaderTool.class.getResource(""));
     }
 
 }

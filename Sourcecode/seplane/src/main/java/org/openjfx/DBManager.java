@@ -35,6 +35,7 @@ public class DBManager {
 	Dao<FlugzeugMapping, Integer> fmDao;
 	Dao<Airport,String> apDao;
 
+
 	
 	public DBManager() {
 
@@ -356,14 +357,19 @@ public class DBManager {
 		}
 	}
 	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
-	public void addAirportToDb() throws IOException, SQLException, URISyntaxException {
+	public void addAirportToDb() throws IOException, URISyntaxException {
 		//Airport ai = new Airport("adv", "dui", "de", "asd", 1234, 0.4123,9.233);
+		System.out.println("Updating DB for airport, it takes few minutes");
 		JsonReaderTool jreader = new JsonReaderTool();
+		int size=jreader.getJsonSize();
 		for(int i=0; i<jreader.getJsonSize();i++) {
+			System.out.println(i+" / "+size);
 			if(jreader.readFromJson(i) != null){
 				getAirportFromJSon(jreader.readFromJson(i));
-			}		}
+			}
+		}
 	}
+
 
 
 	//an airport will be added to DB
