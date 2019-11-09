@@ -30,8 +30,6 @@ public class FGMDashboard implements Initializable{
 	
 	//Anwendung
 	DBManager db = App.db;
-	//TODO Current User abfragen
-	//Benutzer user = App.user;
 	
 	@FXML Tab flTab;
 	@FXML Tab fgTab;
