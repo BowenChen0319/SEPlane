@@ -14,6 +14,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -37,7 +39,7 @@ public class adminboard extends Application {
     @Override
 
     public void start(Stage stage) throws IOException, SQLException {
-        int Height = 600;
+        int Height = 400;
         int Width = 600;
 
 
@@ -52,12 +54,16 @@ public class adminboard extends Application {
 
 
         Label text = new Label(
-                "Account management, Willkommen "+ be.getBenutzername());
+                "Account management");
+        text.setFont(Font.font(30));
+
+        Label text1 = new Label(
+                "Willkommen "+ be.getBenutzername());
         text.setFont(Font.font(25));
 
-        HBox h0 = new HBox();
-        h0.setAlignment(Pos.CENTER);
-        h0.getChildren().addAll(text);
+        VBox v0 = new VBox();
+        v0.setAlignment(Pos.CENTER);
+        v0.getChildren().addAll(text,text1);
 
 
         ObservableList<String> data = FXCollections.observableArrayList();
@@ -75,6 +81,8 @@ public class adminboard extends Application {
         }
 
         listView.setItems(data);
+
+
 
 
 
@@ -103,8 +111,12 @@ public class adminboard extends Application {
                     List<Benutzer> alle = new DBManager().getallUser();
                     data.clear();
                     for(int i=0;i<alle.size();i++){
-                        Benutzer ben = alle.get(i);
-                        data.add(ben.getBenutzername()+" is "+ben.getBenutzertyp());
+                        Benutzer ben = all.get(i);
+                        data.add("ID "+ben.getId()
+                                +": '"+ben.getBenutzername()
+                                +"' ist "+ben.getBenutzertyp()
+                                +" with name "+ben.getVorname()
+                                +" "+ben.getNachname());
                     }
                     System.out.println("delected");
 
@@ -114,6 +126,20 @@ public class adminboard extends Application {
 
             }
         });
+
+        listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode()== KeyCode.BACK_SPACE){
+                    b3.fire();
+                }
+                if(keyEvent.getCode()==KeyCode.ESCAPE){
+                    stage.close();
+                }
+
+            }
+        });
+
 
         Button b2 = new Button("New FGM");
         b2.setPrefWidth(100);
@@ -132,6 +158,8 @@ public class adminboard extends Application {
                     public void run() {
                         try {
                             new dash().start(new Stage());
+                            stage.close();
+
 
                         } catch (IOException | SQLException e) {
                             e.printStackTrace();
@@ -178,7 +206,8 @@ public class adminboard extends Application {
         butts.setAlignment(Pos.CENTER);
         butts.getChildren().addAll(b1,b2,b3);
 
-        root.getChildren().addAll(h0,listView,butts);
+        root.getChildren().addAll(v0,listView,butts);
+
         Scene scene = new Scene(root);
 
         stage.setWidth(Width);
