@@ -50,7 +50,6 @@ public class FluggesellschaftAnlegenController {
                   Fluggesellschaft fluggesellschaft = new Fluggesellschaft(aktuellerUser, name, land, budget);
 
                   //Datenbankbefehle
-
                   DBManager db = new DBManager();
                   db.createFG(fluggesellschaft);
 
