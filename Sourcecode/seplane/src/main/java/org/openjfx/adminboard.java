@@ -92,11 +92,7 @@ public class adminboard extends Application {
                 int d=listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Benutzer> all = null;
-                try {
-                    all = new DBManager().getallUser();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                all = new DBManager().getallUser();
                 Benutzer del = all.get(d);
                 try {
                     new DBManager().deleteB(del.getId());
@@ -155,11 +151,7 @@ public class adminboard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 List<Benutzer> all = null;
-                try {
-                    all = new DBManager().getallUser();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                all = new DBManager().getallUser();
                 data.clear();
                 for(int i=0;i<all.size();i++){
                     Benutzer ben = all.get(i);
