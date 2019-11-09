@@ -86,9 +86,8 @@ public class FGM_FLDashboard implements Initializable{
 	
 	//Anwendung
 	static DBManager db = App.db;
-	//Benutzer user = App.user;
-	//FG ID zur Anzeige jew. FLs
-
+	//FG zur Anzeige jew. FLs
+	Fluggesellschaft fg = db.getFGzuFGM(new CurrentUser().getCurrent());
 	
 	
 	private FGMDashboard fGMDashboard;
@@ -96,10 +95,6 @@ public class FGM_FLDashboard implements Initializable{
 	public void setParentController(FGMDashboard fgmd) {
 		fGMDashboard = fgmd;
 	}
-	
-	//TODO
-	Fluggesellschaft fg = db.getFGzuFGM(new CurrentUser().getCurrent());
-	//Fluggesellschaft fgID = db.getFGzuFGM(App.user);
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -176,7 +171,6 @@ public class FGM_FLDashboard implements Initializable{
 		else if(!checkInt(intervallFeld.getText())||!checkDouble(preisB.getText())||!checkDouble(preisE.getText()))
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO FG aus Current User
 			db.createFL(new Fluglinie(startBox.getValue(),zielBox.getValue(),convertLocal(jungfernFlug.getValue()), entfernung,
 					Integer.parseInt(intervallFeld.getText()), intervallBox.getValue(), fg, 
 					flugzeugBox.getValue(), Integer.parseInt(labelE.getText()),Integer.parseInt(labelB.getText()),
@@ -302,7 +296,7 @@ public class FGM_FLDashboard implements Initializable{
 		flList = FXCollections.observableArrayList();
 		fhList = FXCollections.observableArrayList();
 		fList = FXCollections.observableArrayList();
-		//TODO
+		
 		flList.addAll(db.getFluglinieZuFG(fg.getId()));
 		fhList.addAll(db.getFlughafen());
 		fList.addAll(db.getFlugzeuge());
@@ -336,7 +330,16 @@ public class FGM_FLDashboard implements Initializable{
 				return null;
 			}
 		});	
-		//TODO start/ziel ClickListener für Entfernung
+		//start/ziel ClickListener für Entfernung
+		startBox.valueProperty().addListener(new ChangeListener<Flughafen>() {
+			@Override
+			public void changed(ObservableValue<? extends Flughafen> observable, Flughafen oldValue,
+					Flughafen newValue) {
+				if(startBox.getValue()!=null && zielBox.getValue()!=null)
+					//berechne entfernung und setze km label
+					calcEntf(startBox.getValue().getLatitude(),startBox.getValue().getLongitude(),zielBox.getValue().getLatitude(),zielBox.getValue().getLongitude());
+			}
+		});
 		zielBox.valueProperty().addListener(new ChangeListener<Flughafen>() {
 			@Override
 			public void changed(ObservableValue<? extends Flughafen> observable, Flughafen oldValue,
@@ -347,7 +350,7 @@ public class FGM_FLDashboard implements Initializable{
 			}
 		});
 		//datePicker Listener für Warnung zukünftiges Datum
-		//Lambda weil kp wie von DP zu LD
+		//Lambda weil kp wie von DatePicker zu LD
 		jungfernFlug.valueProperty().addListener((observable, oldValue, newValue)-> {
 				if(!checkStart(newValue))
 					dateLabel.setVisible(true);
@@ -434,7 +437,6 @@ public class FGM_FLDashboard implements Initializable{
 	}
 	
 	//Berechne Entfernung von Start zu Ziel
-	//TODO in Setter?
 	public void calcEntf(Double sLat, Double slong, Double zLat, Double zLong) {
 		double earthRadius = 6371000; //meters
 	    double dLat = Math.toRadians(zLat-sLat);
