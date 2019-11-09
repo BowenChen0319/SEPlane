@@ -11,7 +11,8 @@ import com.google.gson.*;
 
 public class JsonReaderTool {
 
-   private static final String FILEPATH = "C:\\Users\\Kevin\\IdeaProjects\\gruppe-i\\Sourcecode\\seplane\\src\\main\\resources\\org\\openjfx\\flughaefen.json";
+//   private static final String FILEPATH = "C:\\Users\\Kevin\\IdeaProjects\\gruppe-i\\Sourcecode\\seplane\\src\\main\\resources\\org\\openjfx\\flughaefen.json";
+     private static final String FILEPATH = JsonReaderTool.class.getResource("").getPath()+"resources/"+"flughaefen.json";
 
 
     public JsonReaderTool() throws URISyntaxException {}
@@ -78,6 +79,10 @@ public class JsonReaderTool {
                 .create();
         Airport[] ap = gson.fromJson(reader, Airport[].class);
         return ap.length;
+    }
+
+    public void getfile(){
+        System.out.println(JsonReaderTool.class.getResource(""));
     }
 
 }

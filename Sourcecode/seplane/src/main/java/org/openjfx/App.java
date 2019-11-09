@@ -1,10 +1,14 @@
 package org.openjfx;
 
+import Toolbox.JsonReaderTool;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 import Models.CurrentUser;
@@ -25,9 +29,10 @@ public class App extends Application {
 
 
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, URISyntaxException, FileNotFoundException {
     	//db.setUpDatabase();
-
+        //new DBManager().addAirportToDb();
+        //System.out.println(JsonReaderTool.class.getResource("").getPath());
         launch();
     }
 
