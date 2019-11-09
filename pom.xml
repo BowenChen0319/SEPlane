@@ -14,6 +14,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>14-ea+2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>14-ea+2</version>
+        </dependency>
+        <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>4.5</version>
@@ -48,7 +58,7 @@
         <dependency>
             <groupId>de.rtner</groupId>
             <artifactId>PBKDF2</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.4</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
@@ -56,7 +66,10 @@
             <version>1.13</version>
         </dependency>
 
+
     </dependencies>
+    <build>
 
 
+    </build>
 </project>

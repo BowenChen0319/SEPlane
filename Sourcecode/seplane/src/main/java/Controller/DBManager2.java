@@ -26,9 +26,9 @@ public class DBManager2 {
         JdbcPooledConnectionSource connectionSource = new JdbcPooledConnectionSource(URL, USER, PASSWORD);
 
         Dao<Airport, String> airportDao = DaoManager.createDao(connectionSource, Airport.class);
-                if(airportDao.idExists(airport.getCode()))
+                if(airportDao.idExists(airport.getId()))
         {
-            System.out.println("Airport: " + airport.getCode() + " already exits!");
+            System.out.println("Airport: " + airport.getId() + " already exits!");
             return;
         }
         airportDao.createIfNotExists(airportTmp);
