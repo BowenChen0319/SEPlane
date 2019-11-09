@@ -3,22 +3,21 @@ package org.openjfx;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.List;
 
 import Models.*;
-import Toolbox.*;
+import Toolbox.JsonReaderTool;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
 
-import javafx.collections.ObservableList;
-
 public class DBManager {
 	//kann gelöscht werden
-	private static final String URL = "jdbc:h2:~/test";
+	private static final String URL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";
 	private static final String USER ="sa";
 	private static final String PASSWORD ="";
 
@@ -32,6 +31,7 @@ public class DBManager {
 	Dao<Flugzeug,Integer> fDao;
 	Dao<Benutzer,Integer> bDao;
 	Dao<FlugzeugMapping, Integer> fmDao;
+	Dao<Airport,String> apDao;
 
 	
 	public DBManager() {
@@ -45,6 +45,7 @@ public class DBManager {
         	fgDao = DaoManager.createDao(cs, Fluggesellschaft.class);
         	flDao = DaoManager.createDao(cs, Fluglinie.class);
         	fmDao = DaoManager.createDao(cs, FlugzeugMapping.class);
+        	apDao = DaoManager.createDao(cs,Airport.class);
         	      	
         } catch (SQLException ex) {
         	ex.printStackTrace();
@@ -118,6 +119,10 @@ public class DBManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void creatAp(Airport ap) throws SQLException {
+		apDao.create(ap);
 	}
 	
 	//Update
@@ -348,14 +353,14 @@ public class DBManager {
 			return null;
 		}
 	}
-
-	public static void addAirportToDb() throws FileNotFoundException {
-
+	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
+	public static void addAirportToDb() throws FileNotFoundException, SQLException, URISyntaxException {
+		//Airport ai = new Airport("adv", "dui", "de", "asd", 1234, 0.4123,9.233);
 		JsonReaderTool jreader = new JsonReaderTool();
 		for(int i=0; i<jreader.getJsonSize();i++) {
-			getAirportFromJSon(jreader.readFromJson(i));
-		}
-
+			if(jreader.readFromJson(i) != null){
+				getAirportFromJSon(jreader.readFromJson(i));
+			}		}
 	}
 
 
@@ -366,9 +371,9 @@ public class DBManager {
 		try {
 			 connectionSource = new JdbcPooledConnectionSource(URL, USER, PASSWORD);
 			Dao<Airport, String> airportDao = DaoManager.createDao(connectionSource, Airport.class);
-			if(airportDao.idExists(airport.getId()))
+			if(airportDao.idExists(airport.getCode()))
 			{
-				System.out.println("Airport: " + airport.getId() + " already exits!");
+				System.out.println("Airport: " + airport.getCode() + " already exits!");
 				return;
 			}
 			airportDao.createIfNotExists(airportTmp);
@@ -418,9 +423,10 @@ public class DBManager {
 		}
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
-		//addAirportToDb();
-		//System.out.println("!!!");
+	public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
+		addAirportToDb();
+
+
 	}
 
 
