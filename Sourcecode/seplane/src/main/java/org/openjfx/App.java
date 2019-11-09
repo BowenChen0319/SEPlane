@@ -15,7 +15,6 @@ import Models.CurrentUser;
 public class App extends Application {
 	
 	public static DBManager db = new DBManager();
-	public static CurrentUser user = new CurrentUser();
 
     @Override
     public void start (Stage primaryStage) throws Exception {
