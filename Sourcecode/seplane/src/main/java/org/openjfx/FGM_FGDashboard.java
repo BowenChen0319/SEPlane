@@ -63,13 +63,18 @@ public class FGM_FGDashboard implements Initializable {
         stage.setScene(scene);
         stage.showAndWait();
     }
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         Benutzer currentUser = new CurrentUser().getCurrent();
         Fluggesellschaft fluggesellschaft= db.getFGzuFGM(currentUser);
+        if (fluggesellschaft!= null){
 
-        nameInhalt_label.setText(fluggesellschaft.getName());
-        landInhalt_label.setText(fluggesellschaft.getLand());
-        bugetInhalt_label.setText(String.valueOf(fluggesellschaft.getBudget()));
+
+            nameInhalt_label.setText(fluggesellschaft.getName());
+            landInhalt_label.setText(fluggesellschaft.getLand());
+            bugetInhalt_label.setText(String.valueOf(fluggesellschaft.getBudget()));
+        }
     }
 }

@@ -166,7 +166,7 @@ public class login extends Application {
                             try {
                                 if(b.getPasswort().matches(HASH.getResult(pwd.getText()))){
                                     warning.setText("Welcome fgm");
-                                    System.out.println("Welcome fgm");
+
                                     Benutzer finalB2 = b;
                                     Platform.runLater(new Runnable() {
                                         @Override
@@ -174,8 +174,8 @@ public class login extends Application {
                                             try {
                                                 new CurrentUser().setCurrent(finalB2);
                                                 primaryStage.setResizable(true);
-                                                Parent fgm = FXMLLoader.load(getClass().getResource("FGMDashboardMain.fxml"));
-                                                Scene fgmScene = new Scene(fgm);
+                                                Parent fgm1 = FXMLLoader.load(getClass().getResource("FGMDashboardMain.fxml"));
+                                                Scene fgmScene = new Scene(fgm1);
                                                 Stage stage = primaryStage;
 
                                                 stage.setScene(fgmScene);

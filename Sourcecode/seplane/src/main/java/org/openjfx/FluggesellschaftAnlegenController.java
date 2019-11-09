@@ -57,7 +57,8 @@ public class FluggesellschaftAnlegenController  {
 
                   //Datenbankbefehle
                   db.createFG(fluggesellschaft);
-
+                 //FGM_FGDashboard fgmfgd = new FGM_FGDashboard();
+                 //fgmfgd.initialize(null, null);
 
                   Stage stage = (Stage) anlegen_button.getScene().getWindow();
                   stage.close();

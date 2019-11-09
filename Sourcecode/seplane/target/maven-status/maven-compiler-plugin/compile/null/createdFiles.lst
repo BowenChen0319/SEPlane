@@ -16,6 +16,7 @@ org\openjfx\Adminboard$4.class
 org\openjfx\login$3.class
 Controller\FGMDashboard.class
 org\openjfx\register$3.class
+Controller\FGM_FLDashboard$7.class
 Controller\FGM_FLDashboard$5.class
 Models\Flughafen.class
 org\openjfx\login$5.class
@@ -52,5 +53,6 @@ Models\Flugzeug.class
 org\openjfx\login$1.class
 org\openjfx\register.class
 org\openjfx\login.class
+Models\FGManager.class
 org\openjfx\login$4.class
 Controller\FGM_FLDashboard$3.class
