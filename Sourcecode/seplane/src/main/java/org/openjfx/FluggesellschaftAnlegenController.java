@@ -36,18 +36,19 @@ public class FluggesellschaftAnlegenController {
     private Button abbrechen_button;
 
     public void  handleFluggesellschaftAnlegen(ActionEvent event){
-        Benutzer aktuellerUser = new Benutzer();
-
-          if (aktuellerUser.getBenutzername()=="fgm") { // ueberpruefen ob der eingeloggte FGM bereits eine FG angelegt hat fehlt fuer die if Bedingung noch
-
+        Benutzer currentUser = new CurrentUser().getCurrent();
+        System.out.println(currentUser.getBenutzername());
+          if (currentUser.getBenutzername() =="fgm") { // ueberpruefen ob der eingeloggte FGM bereits eine FG angelegt hat fehlt fuer die if Bedingung noch
+                //System.out.println("hello1");
               if (name_textfield.getText() != null && land_textfield.getText() != null && budget_textfield != null) {
+                  //System.out.println("Hello2");
                   String name = name_textfield.getText();
                   String land = land_textfield.getText();
                   String budgetAsString = budget_textfield.getText();
                   Double budget = Double.parseDouble(budgetAsString);
 
 
-                  Fluggesellschaft fluggesellschaft = new Fluggesellschaft(aktuellerUser, name, land, budget);
+                  Fluggesellschaft fluggesellschaft = new Fluggesellschaft(currentUser, name, land, budget);
 
                   //Datenbankbefehle
                   DBManager db = new DBManager();
