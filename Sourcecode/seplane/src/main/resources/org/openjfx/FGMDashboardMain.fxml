@@ -34,7 +34,9 @@
              </content>
           </Tab>
           <Tab fx:id="fgTab" text="Fluggesellschaft">
-            <!-- fx:include fx:id="TabPage" source="TabPage.fxml"/-->
+            <content>
+               <fx:include fx:id="fluggesellschaftsmanager" source="fluggesellschaftsmanager.fxml" />
+             </content>
           </Tab>
         </tabs>
       </TabPane>

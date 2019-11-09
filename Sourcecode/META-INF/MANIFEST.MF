@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: de.paluno.App
+Main-Class: org.openjfx.App
 
