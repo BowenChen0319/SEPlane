@@ -38,7 +38,7 @@ public class FGMRegister extends Application {
     @Override
 
     public void start(Stage stage) throws IOException, SQLException {
-        int Height = 400;
+        int Height = 600;
         int Width = 600;
 
 
