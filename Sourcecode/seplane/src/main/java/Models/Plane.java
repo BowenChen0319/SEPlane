@@ -8,38 +8,49 @@ import com.opencsv.bean.CsvBindByPosition;
 @DatabaseTable(tableName = "Flugzeuge")
 public class Plane {
 
-    @DatabaseField
+//    @DatabaseField(uniqueCombo = true)
+//    @CsvBindByPosition(position = 0)
+//    private String hersteller;
+//    @DatabaseField(id = true, uniqueCombo = true)
+//    @CsvBindByPosition(position = 1)
+//    private String type;
+//    @DatabaseField
+//    @CsvBindByPosition(position = 2)
+//    private String seats;
+//    @DatabaseField
+//    @CsvBindByPosition(position = 3)
+//    private String speed;
+//    @DatabaseField
+//    @CsvBindByPosition(position = 4)
+//    private String price;
+//    @DatabaseField
+//    @CsvBindByPosition(position = 5)
+//    private String range;
+
+    @DatabaseField(uniqueCombo = true)
     @CsvBindByPosition(position = 0)
     private String hersteller;
-    @DatabaseField(id = true)
-    @CsvBindByPosition(position = 1)
+    @DatabaseField(uniqueCombo = true, id = true)
+    @CsvBindByPosition(position =1)
     private String type;
     @DatabaseField
-    @CsvBindByPosition(position = 2)
-    private String seats;
-    @DatabaseField
-    @CsvBindByPosition(position = 3)
-    private String speed;
-    @DatabaseField
-    @CsvBindByPosition(position = 4)
-    private String price;
+    @CsvBindByPosition(position =4)
+    private double price;
     @DatabaseField
     @CsvBindByPosition(position = 5)
-    private String range;
+    private double range;
+    @DatabaseField
+    @CsvBindByPosition(position = 2)
+    private int seats;
     public Plane(){ }
 
     //alle Flugzeuginfos aus CSV
-    public Plane(String hersteller, String type, String seats, String speed, String price, String range) {
-        this.hersteller = hersteller;
-        this.type = type;
-        this.seats = seats;
-        this.speed = speed;
-        this.price = price;
-        this.range = range;
-    }
+
 
     //Flugzeuginfos passend zur DB
-    public Plane(String hersteller, String type, String price, String range, String seats) {
+
+
+    public Plane(String hersteller, String type, double price, double range, int seats) {
         this.hersteller = hersteller;
         this.type = type;
         this.price = price;
@@ -55,20 +66,16 @@ public class Plane {
         return type;
     }
 
-    public String getSeats() {
-        return seats;
-    }
-
-    public String getSpeed() {
-        return speed;
-    }
-
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public String getRange() {
+    public double getRange() {
         return range;
+    }
+
+    public int getSeats() {
+        return seats;
     }
 
     @Override
@@ -76,10 +83,9 @@ public class Plane {
         return "Plane{" +
                 "hersteller='" + hersteller + '\'' +
                 ", type='" + type + '\'' +
-                ", seats='" + seats + '\'' +
-                ", speed='" + speed + '\'' +
-                ", price='" + price + '\'' +
-                ", range='" + range + '\'' +
+                ", price=" + price +
+                ", range=" + range +
+                ", seats=" + seats +
                 '}';
     }
 }

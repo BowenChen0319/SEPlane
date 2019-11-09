@@ -16,15 +16,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CSVReader {
-    private static final String FILEPATH = "C:\\Users\\Kevin\\IdeaProjects\\SEP\\src\\main\\resources\\flugzeuge.csv";
+    private static final String FILEPATH = "C:\\Users\\Kevin\\IdeaProjects\\gruppe-i\\Sourcecode\\seplane\\src\\main\\resources\\org\\openjfx\\flugzeuge.csv";
 
     public CSVReader() { }
 
     //Reads from CSV and returns a list of Planes from it
     //File needs following headers: Hersteller;Flugzeugtyp;Anzahl_Sitzplaetze;Geschwindigkeit;Preis_in_Mio;Reichweite
-    public static List<Plane> CSVReaderr() {
+    public static List<Plane> OwnCSVReader() {
 
-        String fileName = "C:\\Users\\Kevin\\IdeaProjects\\GeoTest\\flugzeuge.csv";
+        String fileName = FILEPATH;
 
         Path myPath = Paths.get(fileName);
         List<Plane> plane = null;
@@ -48,7 +48,7 @@ public class CSVReader {
 
             plane = csvToBean.parse();
 
-            System.out.println("Infos aus JSon: " + Arrays.toString(plane.toArray()).toString());
+            System.out.println("Infos aus JSon: " + Arrays.toString(plane.toArray()));
 
         }catch(IOException e)
         {
@@ -59,12 +59,7 @@ public class CSVReader {
         return plane;
     }
 
-    public static void main(String[] args) throws IOException {
 
-            CSVReaderr();
-
-
-    }
 
 
 

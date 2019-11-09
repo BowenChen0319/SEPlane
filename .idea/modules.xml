@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Paluno.iml" filepath="$PROJECT_DIR$/Paluno.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sourcecode/seplane/SE-Plane.iml" filepath="$PROJECT_DIR$/Sourcecode/seplane/SE-Plane.iml" />
     </modules>
   </component>
 </project>

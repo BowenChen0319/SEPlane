@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import Models.*;
+import Toolbox.CSVReader;
 import Toolbox.JsonReaderTool;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -395,20 +397,26 @@ public class DBManager {
 	public static void CSVToDB(List<Plane> planeUeberg) {
 		// create a connection source to our database
 		JdbcPooledConnectionSource connectionSource = null;
-		Dao<Plane, String> planeDao = null;
+
 		try {
 			 connectionSource =
 					new JdbcPooledConnectionSource(URL, USER, PASSWORD);
-			DaoManager.createDao(connectionSource, Plane.class);
+			Dao<Plane, String> planeDao = DaoManager.createDao(connectionSource, Plane.class);
 
 
-		 String[] planeArray = new String[planeUeberg.size()];
+		 Object[] planeArray = new String[planeUeberg.size()];
+		 planeArray = planeUeberg.toArray();
+		System.out.println(planeUeberg.size());
 
-		for(int i=1;i<planeUeberg.size();i++) {
+		for(int i=0;i<planeArray.length;i++) {
 			//(Plane plane = new Plane(planeUeberg.get(i).getHersteller().toString(), planeUeberg.get(i).getType().toString(), planeUeberg.get(i).getSeats().toString(), planeUeberg.get(i).getSpeed().toString(), planeUeberg.get(i).getPrice().toString(), planeUeberg.get(i).getRange().toString());
 			Plane plane = new Plane(planeUeberg.get(i).getHersteller(), planeUeberg.get(i).getType(),
 					planeUeberg.get(i).getPrice(), planeUeberg.get(i).getRange(), planeUeberg.get(i).getSeats());
+
+			System.out.println(plane.toString());
+
 			planeDao.createIfNotExists(plane);
+			//planeDao.createIfNotExists(plane);
 		}
 
 		connectionSource.close();
@@ -424,7 +432,14 @@ public class DBManager {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
-		addAirportToDb();
+		//addAirportToDb();
+		JdbcPooledConnectionSource connectionSource =
+				new JdbcPooledConnectionSource(URL, USER, PASSWORD);
+		TableUtils tu = null;
+		//tu.createTable(connectionSource,Plane.class);
+
+		CSVToDB(new CSVReader().OwnCSVReader());
+
 
 
 	}

@@ -11,7 +11,7 @@ import com.google.gson.*;
 
 public class JsonReaderTool {
 
-   private static final String FILEPATH = "C:\\Users\\Kevin\\IdeaProjects\\gruppe-Neu\\Sourcecode\\seplane\\src\\main\\resources\\flughaefen.json";
+   private static final String FILEPATH = "C:\\Users\\Kevin\\IdeaProjects\\gruppe-i\\Sourcecode\\seplane\\src\\main\\resources\\org\\openjfx\\flughaefen.json";
 
 
     public JsonReaderTool() throws URISyntaxException {}
@@ -33,7 +33,7 @@ public class JsonReaderTool {
     public static Airport readFromJson(int posInJson) throws FileNotFoundException {
         Airport airport = null;
         try (BufferedReader reader = new BufferedReader(
-                new FileReader("C:\\Users\\Kevin\\IdeaProjects\\gruppe-Neu\\Sourcecode\\seplane\\src\\main\\resources\\flughaefen.json"))){
+                new FileReader(FILEPATH))){
 
 
             Gson gson = new GsonBuilder()
@@ -55,9 +55,9 @@ public class JsonReaderTool {
 
             airport = new Airport((String) airportTmp[0], (String) airportTmp[1], (String) airportTmp[2],
                 (String) airportTmp[3], (int) airportTmp[4], (double) airportTmp[5], (double) airportTmp[6]);
+
             if(airportHasEmptyInfos(airport))
             {
-
                 return airport = null;
             }
             System.out.println(airport.toString());
