@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CSVReader {
 //    private static final String FILEPATH = "C:\\Users\\Kevin\\IdeaProjects\\gruppe-i\\Sourcecode\\seplane\\src\\main\\resources\\org\\openjfx\\flugzeuge.csv";
-private static final String FILEPATH = CSVReader.class.getResource("").getPath()+"resources/"+"flugzeuge.csv";
+private static final String FILEPATH = "C:\\Users\\melei\\Desktop\\Mellis Zeugs\\Uni\\SEP 4.0\\gruppe-i\\Sourcecode\\seplane\\src\\main\\resources\\org\\openjfx\\flugzeuge.csv"; //CSVReader.class.getResource("").getPath()+"resources/"+"flugzeuge.csv";
     public CSVReader() { }
 
     //Reads from CSV and returns a list of Planes from it

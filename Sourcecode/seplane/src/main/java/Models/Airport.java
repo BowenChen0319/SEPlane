@@ -1,5 +1,6 @@
 package Models;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -44,7 +45,11 @@ public class Airport {
 //    private int directFlights;
 //    //@DatabaseField
 //    private int carriers;
-    @DatabaseField(id = true)
+    @DatabaseField(id = true, dataType = DataType.STRING, width = 5)
+    //TODO
+    //getFieldConverter
+    //Return the field converter associated with a particular field type. This allows the database instance to convert a field as necessary before it goes to the database.
+
     private String code;
     @DatabaseField
     private String city;

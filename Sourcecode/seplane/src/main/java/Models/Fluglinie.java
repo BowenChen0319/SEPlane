@@ -12,10 +12,10 @@ public class Fluglinie {
 	private Integer id;
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
-	private Flughafen start;
+	private Airport start;
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
-	private Flughafen ziel;
+	private Airport ziel;
 
 	@DatabaseField
 	private Date startdatum;
@@ -33,7 +33,7 @@ public class Fluglinie {
 	private Fluggesellschaft fluggesellschaft;
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
-	private Flugzeug flugzeug;
+	private Plane flugzeug;
 
 	@DatabaseField
 	private int flugnummer;
@@ -52,8 +52,8 @@ public class Fluglinie {
 
 	public Fluglinie() {}
 
-	public Fluglinie(Flughafen start, Flughafen ziel, Date startdatum, double entf, int intervall_int, Intervall intervall, Fluggesellschaft fg,
-			Flugzeug f, int anze, int anzb, Double preisee, Double preiseb) {
+	public Fluglinie(Airport start, Airport ziel, Date startdatum, double entf, int intervall_int, Intervall intervall, Fluggesellschaft fg,
+			Plane f, int anze, int anzb, Double preisee, Double preiseb) {
 
 		this.start = start;
 		this.ziel = ziel;
@@ -73,19 +73,19 @@ public class Fluglinie {
 		return id;
 	}
 
-	public Flughafen getStart() {
+	public Airport getStart() {
 		return start;
 	}
 
-	public void setStart(Flughafen start) {
+	public void setStart(Airport start) {
 		this.start = start;
 	}
 
-	public Flughafen getZiel() {
+	public Airport getZiel() {
 		return ziel;
 	}
 
-	public void setZiel(Flughafen ziel) {
+	public void setZiel(Airport ziel) {
 		this.ziel = ziel;
 	}
 
@@ -129,11 +129,11 @@ public class Fluglinie {
 		this.fluggesellschaft = fluggesellschaft;
 	}
 
-	public Flugzeug getFlugzeug() {
+	public Plane getFlugzeug() {
 		return flugzeug;
 	}
 
-	public void setFlugzeug(Flugzeug flugzeug) {
+	public void setFlugzeug(Plane flugzeug) {
 		this.flugzeug = flugzeug;
 	}
 

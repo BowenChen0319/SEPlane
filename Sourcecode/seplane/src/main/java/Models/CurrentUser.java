@@ -4,7 +4,7 @@ public class CurrentUser extends Benutzer {
     private static Benutzer current;
 
     public void setCurrent(Benutzer be){
-        this.current=be;
+        CurrentUser.current=be;
     }
 
     public Benutzer getCurrent(){

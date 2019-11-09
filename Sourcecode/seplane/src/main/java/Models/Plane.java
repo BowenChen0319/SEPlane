@@ -2,7 +2,6 @@ package Models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 
 @DatabaseTable(tableName = "Flugzeuge")
@@ -27,10 +26,12 @@ public class Plane {
 //    @CsvBindByPosition(position = 5)
 //    private String range;
 
-    @DatabaseField(uniqueCombo = true)
+	@DatabaseField(generatedId = true)
+	private int id;
+    @DatabaseField//(uniqueCombo = true)
     @CsvBindByPosition(position = 0)
     private String hersteller;
-    @DatabaseField(uniqueCombo = true, id = true)
+    @DatabaseField//(uniqueCombo = true, id = true)
     @CsvBindByPosition(position =1)
     private String type;
     @DatabaseField
@@ -56,6 +57,10 @@ public class Plane {
         this.price = price;
         this.range = range;
         this.seats = seats;
+    }
+    
+    public int getId() {
+    	return id;
     }
 
     public String getHersteller() {

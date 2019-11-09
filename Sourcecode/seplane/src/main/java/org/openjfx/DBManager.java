@@ -2,14 +2,11 @@ package org.openjfx;
 
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 import Models.*;
-import Toolbox.CSVReader;
 import Toolbox.JsonReaderTool;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -18,22 +15,18 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 public class DBManager {
-	//kann gelöscht werden
-	private static final String URL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";
-	private static final String USER ="sa";
-	private static final String PASSWORD ="";
-
 
 	static final String dbURL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";	
 	static JdbcPooledConnectionSource cs;
 	
 	Dao<Fluggesellschaft,Integer> fgDao;
-	Dao<Flughafen,String> fhDao;
+	//Dao<Flughafen,String> fhDao;
 	Dao<Fluglinie,Integer> flDao;
-	Dao<Flugzeug,Integer> fDao;
+	//Dao<Flugzeug,Integer> fDao;
 	Dao<Benutzer,Integer> bDao;
 	Dao<FlugzeugMapping, Integer> fmDao;
 	Dao<Airport,String> apDao;
+	static Dao<Plane,Integer> planeDao;
 
 	
 	public DBManager() {
@@ -41,13 +34,14 @@ public class DBManager {
 		try {       
 			cs = new JdbcPooledConnectionSource(dbURL, "sa", "");
 			
-			fhDao = DaoManager.createDao(cs, Flughafen.class);
-        	fDao = DaoManager.createDao(cs, Flugzeug.class);
+			//fhDao = DaoManager.createDao(cs, Flughafen.class);
+        	//fDao = DaoManager.createDao(cs, Flugzeug.class);
         	bDao = DaoManager.createDao(cs, Benutzer.class);
         	fgDao = DaoManager.createDao(cs, Fluggesellschaft.class);
         	flDao = DaoManager.createDao(cs, Fluglinie.class);
         	fmDao = DaoManager.createDao(cs, FlugzeugMapping.class);
         	apDao = DaoManager.createDao(cs,Airport.class);
+        	planeDao = DaoManager.createDao(cs,Plane.class);
         	      	
         } catch (SQLException ex) {
         	ex.printStackTrace();
@@ -63,13 +57,17 @@ public class DBManager {
 		TableUtils.dropTable(cs, Flughafen.class, true);
 		TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
+		TableUtils.dropTable(cs, Airport.class, true);
+		TableUtils.dropTable(cs, Plane.class, true);
 		
 		TableUtils.createTable(cs, Benutzer.class);
-		TableUtils.createTable(cs, Flughafen.class);
-		TableUtils.createTable(cs, Flugzeug.class);
+		//TableUtils.createTable(cs, Flughafen.class);
+		//TableUtils.createTable(cs, Flugzeug.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
 		TableUtils.createTable(cs, Fluglinie.class);
 		TableUtils.createTable(cs, FlugzeugMapping.class);
+		TableUtils.createTable(cs, Airport.class);
+		TableUtils.createTable(cs, Plane.class);
 	}
 	
 	
@@ -82,9 +80,9 @@ public class DBManager {
 		}
 	}
 	
-	public void createF(Flugzeug f) {
+	public void createF(Plane f) {
 		try {
-			fDao.create(f);
+			planeDao.create(f);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,9 +97,9 @@ public class DBManager {
 		}
 	}
 	
-	public void createFH(Flughafen fh) {
+	public void createFH(Airport fh) {
 		try {
-			fhDao.create(fh);
+			apDao.create(fh);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -136,17 +134,17 @@ public class DBManager {
 		}
 	}
 	
-	public void updateF(Flugzeug f) {
+	public void updateF(Plane f) {
 		try {
-			fDao.update(f);
+			planeDao.update(f);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void updateFH(Flughafen fh) {
+	public void updateFH(Airport fh) {
 		try {
-			fhDao.update(fh);
+			apDao.update(fh);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -188,8 +186,8 @@ public class DBManager {
 	
 	public void deleteF(int id)throws Exception{
 		try {
-			if(fDao.idExists(id))
-				fDao.deleteById(id);			
+			if(planeDao.idExists(id))
+				planeDao.deleteById(id);			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -206,8 +204,8 @@ public class DBManager {
 	
 	public void deleteFH(String id)throws Exception{
 		try {
-			if(fhDao.idExists(id))
-				fhDao.deleteById(id);			
+			if(apDao.idExists(id))
+				apDao.deleteById(id);			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -260,18 +258,18 @@ public class DBManager {
 		
 	}
 	
-	public List<Flugzeug> getFlugzeuge(){
+	public List<Plane> getFlugzeuge(){
 		try {
-			return fDao.queryForAll();
+			return planeDao.queryForAll();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}	
 	}
 	
-	public List<Flughafen> getFlughafen(){
+	public List<Airport> getFlughafen(){
 		try {
-			return fhDao.queryForAll();
+			return apDao.queryForAll();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -280,12 +278,11 @@ public class DBManager {
 	
 	//Select
 	public Benutzer getUser(String name, String pw) {
-		Benutzer b = null;
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
 		//TODO Vergleich mit Methode aus Hash/Salt
 		try {
 			query.where().eq("benutzername", name).and().eq("passwort_klar", pw);		
-			return b = bDao.queryForFirst(query.prepare());
+			return bDao.queryForFirst(query.prepare());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -293,11 +290,10 @@ public class DBManager {
 	}
 
 	public Benutzer getUser(String name) {
-		Benutzer b = null;
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
 		try {
 			query.where().eq("benutzername", name);
-			return b = bDao.queryForFirst(query.prepare());
+			return bDao.queryForFirst(query.prepare());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -344,10 +340,10 @@ public class DBManager {
 		}
 	}
 	
-	public Flugzeug getFById(int fID) {
-		Flugzeug f = null;
+	public Plane getFById(int fID) {
+		Plane f = null;
 		try {
-			f = fDao.queryForId(fID);
+			f = planeDao.queryForId(fID);
 			
 			return f;
 		}catch (Exception e) {
@@ -357,18 +353,17 @@ public class DBManager {
 	}
 	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
 	public void addAirportToDb() throws FileNotFoundException, SQLException, URISyntaxException {
-		//Airport ai = new Airport("adv", "dui", "de", "asd", 1234, 0.4123,9.233);
-		JsonReaderTool jreader = new JsonReaderTool();
-		for(int i=0; i<jreader.getJsonSize();i++) {
-			if(jreader.readFromJson(i) != null){
-				getAirportFromJSon(jreader.readFromJson(i));
+		new JsonReaderTool();
+		for(int i=0; i<JsonReaderTool.getJsonSize();i++) {
+			if(JsonReaderTool.readFromJson(i) != null){
+				getAirportFromJSon(JsonReaderTool.readFromJson(i));
 			}		}
 	}
 
 
 	//an airport will be added to DB
-	public static void getAirportFromJSon(Airport airport){
-		Airport airportTmp = airport;
+	public void getAirportFromJSon(Airport airport){
+		/*Airport airportTmp = airport;
 		JdbcPooledConnectionSource connectionSource = null;
 		try {
 			 connectionSource = new JdbcPooledConnectionSource(URL, USER, PASSWORD);
@@ -388,6 +383,11 @@ public class DBManager {
 		{
 			i.printStackTrace();
 			System.out.println("Konnte keine Airport Klasse findenn");
+		}*/
+		try {
+			apDao.createIfNotExists(airport);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -396,13 +396,13 @@ public class DBManager {
 	// each Listelemnt (plane) will only be added to db if it doenst exist already
 	public static void CSVToDB(List<Plane> planeUeberg) {
 		// create a connection source to our database
-		JdbcPooledConnectionSource connectionSource = null;
+		/*JdbcPooledConnectionSource connectionSource = null;
 
 		try {
 			 connectionSource =
 					new JdbcPooledConnectionSource(URL, USER, PASSWORD);
 			Dao<Plane, String> planeDao = DaoManager.createDao(connectionSource, Plane.class);
-
+		*/
 
 		 Object[] planeArray = new String[planeUeberg.size()];
 		 planeArray = planeUeberg.toArray();
@@ -415,10 +415,15 @@ public class DBManager {
 
 			System.out.println(plane.toString());
 
-			planeDao.createIfNotExists(plane);
+			try {
+				planeDao.createIfNotExists(plane);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//planeDao.createIfNotExists(plane);
 		}
-
+		/*
 		connectionSource.close();
 		}catch(SQLException e)
 		{
@@ -428,21 +433,23 @@ public class DBManager {
 		{
 			i.printStackTrace();
 			System.out.println("Klasse Plane kann nicht gefunden werden");
-		}
+		}*/
+		
 	}
 
-	public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
+/*	public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
 		//addAirportToDb();
 		JdbcPooledConnectionSource connectionSource =
 				new JdbcPooledConnectionSource(URL, USER, PASSWORD);
 		TableUtils tu = null;
 		//tu.createTable(connectionSource,Plane.class);
 
-		CSVToDB(new CSVReader().OwnCSVReader());
+		new CSVReader();
+		CSVToDB(CSVReader.OwnCSVReader());
 
 
 
-	}
+	}*/
 
 
 

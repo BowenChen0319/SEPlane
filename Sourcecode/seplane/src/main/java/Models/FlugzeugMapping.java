@@ -11,11 +11,11 @@ public class FlugzeugMapping {
 	@DatabaseField (foreign = true)
 	private Fluggesellschaft fg_id;
 	@DatabaseField (foreign = true)
-	private Flugzeug f_id;
+	private Plane f_id;
 	
 	public FlugzeugMapping() {}
 	
-	public FlugzeugMapping(Fluggesellschaft fg_id, Flugzeug f_id) {
+	public FlugzeugMapping(Fluggesellschaft fg_id, Plane f_id) {
 		this.fg_id = fg_id;
 		this.f_id = f_id;
 	}
@@ -32,11 +32,11 @@ public class FlugzeugMapping {
 		return fg_id;
 	}
 	
-	public void setF_id(Flugzeug f_id) {
+	public void setF_id(Plane f_id) {
 		this.f_id = f_id;
 	}
 	
-	public Flugzeug getF_id() {
+	public Plane getF_id() {
 		return f_id;
 	}
 	

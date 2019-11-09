@@ -47,15 +47,15 @@ import javafx.stage.Window;
 public class FGM_FLDashboard implements Initializable{
 	
 	//Popup-Fenster
-	@FXML ComboBox<Flughafen> startBox;
-	@FXML ComboBox<Flughafen> zielBox;
+	@FXML ComboBox<Airport> startBox;
+	@FXML ComboBox<Airport> zielBox;
 	@FXML Label kmLabel;
 	Double entfernung;
 	@FXML DatePicker jungfernFlug;
 	@FXML Label dateLabel;
 	@FXML TextField intervallFeld;
 	@FXML ComboBox<Intervall> intervallBox;
-	@FXML ComboBox<Flugzeug> flugzeugBox;
+	@FXML ComboBox<Plane> flugzeugBox;
 	@FXML Slider slider;
 	@FXML Label prozentLabel;
 	@FXML Label labelB;
@@ -79,8 +79,8 @@ public class FGM_FLDashboard implements Initializable{
 	
 	//Inhalte
 	ObservableList<Fluglinie> flList;
-	ObservableList<Flugzeug> fList;
-	ObservableList<Flughafen> fhList;
+	ObservableList<Plane> fList;
+	ObservableList<Airport> fhList;
 	//aktuelle Auswahl
 	Fluglinie fluglinie = new Fluglinie();
 	
@@ -90,6 +90,7 @@ public class FGM_FLDashboard implements Initializable{
 	Fluggesellschaft fg = db.getFGzuFGM(new CurrentUser().getCurrent());
 	
 	
+	@SuppressWarnings("unused")
 	private FGMDashboard fGMDashboard;
 	
 	public void setParentController(FGMDashboard fgmd) {
@@ -110,20 +111,20 @@ public class FGM_FLDashboard implements Initializable{
 			if(cellData.getValue().getStart() == null)
 				return new SimpleStringProperty("");
 			else
-				return new SimpleStringProperty(cellData.getValue().getStart().getId());
+				return new SimpleStringProperty(cellData.getValue().getStart().getCode());
 		});
 		zielCol.setCellValueFactory(cellData -> {
 			if(cellData.getValue().getZiel() == null)
 				return new SimpleStringProperty("");
 			else
-				return new SimpleStringProperty(cellData.getValue().getZiel().getId());
+				return new SimpleStringProperty(cellData.getValue().getZiel().getCode());
 		});
 		entfCol.setCellValueFactory(new PropertyValueFactory<>("entfernung"));
 		flugzeugCol.setCellValueFactory(cellData -> {
 			if(cellData.getValue().getStart() == null)
 				return new SimpleStringProperty("");
 			else
-				return new SimpleStringProperty(cellData.getValue().getFlugzeug().getHersteller() +" "+ cellData.getValue().getFlugzeug().getFlugzeugtyp());
+				return new SimpleStringProperty(cellData.getValue().getFlugzeug().getHersteller() +" "+ cellData.getValue().getFlugzeug().getType());
 		});
 		intervallZahlCol.setCellValueFactory(new PropertyValueFactory<>("intervall_int"));
 		intervallEinhCol.setCellValueFactory(new PropertyValueFactory<>("intervall"));
@@ -207,12 +208,12 @@ public class FGM_FLDashboard implements Initializable{
 		System.out.println(startBox.getValue() +" und prompt "+startBox.getPromptText());
 		
 		//vorhandene Werte als Promttext setzen und nur übernehmen, was nicht null ist
-		startBox.setPromptText(fluglinie.getStart().getId());
-		zielBox.setPromptText(fluglinie.getZiel().getId());
+		startBox.setPromptText(fluglinie.getStart().getCode());
+		zielBox.setPromptText(fluglinie.getZiel().getCode());
 		intervallFeld.setText(fluglinie.getIntervall_int()+"");
 		intervallBox.setValue(fluglinie.getIntervall());
 		jungfernFlug.setPromptText(fluglinie.getStartdatum()+"");
-		flugzeugBox.setPromptText(fluglinie.getFlugzeug().getHersteller()+" "+fluglinie.getFlugzeug().getFlugzeugtyp()+" "+ fluglinie.getFlugzeug().getReichweite());
+		flugzeugBox.setPromptText(fluglinie.getFlugzeug().getHersteller()+" "+fluglinie.getFlugzeug().getType()+" "+ fluglinie.getFlugzeug().getRange());
 		slider.setValue(fluglinie.getAnzb());
 		preisB.setPromptText(fluglinie.getPreiseb()+"");
 		preisE.setPromptText(fluglinie.getPreisee()+"");
@@ -232,7 +233,7 @@ public class FGM_FLDashboard implements Initializable{
 			entfneu = true;
 		}
 		if(entfneu) {
-			calcEntf(fluglinie.getStart().getLatitude(), fluglinie.getStart().getLongitude(), fluglinie.getZiel().getLatitude(), fluglinie.getZiel().getLongitude());
+			calcEntf(fluglinie.getStart().getLat(), fluglinie.getStart().getLon(), fluglinie.getZiel().getLat(), fluglinie.getZiel().getLon());
 			fluglinie.setEntfernung(entfernung);
 		}
 		if(!intervallFeld.getText().isBlank() && checkInt(intervallFeld.getText()) )//erkennt Leerzeichen
@@ -243,7 +244,7 @@ public class FGM_FLDashboard implements Initializable{
 		if(jungfernFlug.getValue()!= null && checkStart(jungfernFlug.getValue()))
 			fluglinie.setStartdatum(convertLocal(jungfernFlug.getValue()));
 		if(flugzeugBox.getValue()!= null && flugzeugBox.getValue()!= fluglinie.getFlugzeug())
-			if(checkEntf(fluglinie.getEntfernung(), flugzeugBox.getValue().getReichweite()))
+			if(checkEntf(fluglinie.getEntfernung(), flugzeugBox.getValue().getRange()))
 				fluglinie.setFlugzeug(flugzeugBox.getValue());
 		if((int)slider.getValue()!= fluglinie.getAnzb())
 			fluglinie.setAnzb(Integer.parseInt(labelB.getText()));
@@ -268,10 +269,9 @@ public class FGM_FLDashboard implements Initializable{
 		fluglinie = flTable.getSelectionModel().getSelectedItem();
 			
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 		alert.setTitle("Fluglinie entfernen");
 		alert.setHeaderText("Bitte bestätigen Sie den Löschvorgang");
-		alert.setContentText("Möchten Sie die Fluglinie von '" + fluglinie.getStart().getId() + "' nach '" + fluglinie.getZiel().getId() + "' wirklich löschen?");
+		alert.setContentText("Möchten Sie die Fluglinie von '" + fluglinie.getStart().getCode() + "' nach '" + fluglinie.getZiel().getCode() + "' wirklich löschen?");
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE); //statt wrap text...
 		ButtonType buttonTypeConfirm = new ButtonType("Bestätigen", ButtonData.LEFT);
 		ButtonType buttonTypeAbbrechen = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
@@ -309,44 +309,44 @@ public class FGM_FLDashboard implements Initializable{
 		dateLabel.managedProperty().bind(dateLabel.visibleProperty());
 		//Combos statt Choice Box weil letztere kein PromptText
 		startBox.setItems(fhList);
-		startBox.setConverter(new StringConverter<Flughafen>() {
+		startBox.setConverter(new StringConverter<Airport>() {
 			@Override
-			public String toString(Flughafen object) {
-				return object == null ? null : (object.getId());
+			public String toString(Airport object) {
+				return object == null ? null : (object.getCode());
 			}
 			@Override
-			public Flughafen fromString(String arg0) { //pflicht
+			public Airport fromString(String arg0) { //pflicht
 				return null;
 			}
 		});
 		zielBox.setItems(fhList);
-		zielBox.setConverter(new StringConverter<Flughafen>() {
+		zielBox.setConverter(new StringConverter<Airport>() {
 			@Override
-			public String toString(Flughafen object) {
-				return object == null ? null : (object.getId());
+			public String toString(Airport object) {
+				return object == null ? null : (object.getCode());
 			}
 			@Override
-			public Flughafen fromString(String arg0) { //pflicht
+			public Airport fromString(String arg0) { //pflicht
 				return null;
 			}
 		});	
 		//start/ziel ClickListener für Entfernung
-		startBox.valueProperty().addListener(new ChangeListener<Flughafen>() {
+		startBox.valueProperty().addListener(new ChangeListener<Airport>() {
 			@Override
-			public void changed(ObservableValue<? extends Flughafen> observable, Flughafen oldValue,
-					Flughafen newValue) {
+			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue,
+					Airport newValue) {
 				if(startBox.getValue()!=null && zielBox.getValue()!=null)
 					//berechne entfernung und setze km label
-					calcEntf(startBox.getValue().getLatitude(),startBox.getValue().getLongitude(),zielBox.getValue().getLatitude(),zielBox.getValue().getLongitude());
+					calcEntf(startBox.getValue().getLat(),startBox.getValue().getLon(),zielBox.getValue().getLat(),zielBox.getValue().getLon());
 			}
 		});
-		zielBox.valueProperty().addListener(new ChangeListener<Flughafen>() {
+		zielBox.valueProperty().addListener(new ChangeListener<Airport>() {
 			@Override
-			public void changed(ObservableValue<? extends Flughafen> observable, Flughafen oldValue,
-					Flughafen newValue) {
+			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue,
+					Airport newValue) {
 				if(startBox.getValue()!=null && zielBox.getValue()!=null)
 					//berechne entfernung und setze km label
-					calcEntf(startBox.getValue().getLatitude(),startBox.getValue().getLongitude(),zielBox.getValue().getLatitude(),zielBox.getValue().getLongitude());
+					calcEntf(startBox.getValue().getLat(),startBox.getValue().getLon(),zielBox.getValue().getLat(),zielBox.getValue().getLon());
 			}
 		});
 		//datePicker Listener für Warnung zukünftiges Datum
@@ -360,25 +360,25 @@ public class FGM_FLDashboard implements Initializable{
 		});
 		intervallBox.getItems().setAll(Intervall.values());
 		flugzeugBox.setItems(fList);
-		flugzeugBox.setConverter(new StringConverter<Flugzeug>() {
+		flugzeugBox.setConverter(new StringConverter<Plane>() {
 			@Override
-			public String toString(Flugzeug object) {
-				return object == null ? null : (object.getHersteller() +", "+object.getFlugzeugtyp() +", "+object.getReichweite());
+			public String toString(Plane object) {
+				return object == null ? null : (object.getHersteller() +", "+object.getType() +", "+object.getRange());
 			}
 			@Override
-			public Flugzeug fromString(String arg0) { //pflicht
+			public Plane fromString(String arg0) { //pflicht
 				return null;
 			}
 		});
 		//Update Slider Values je nach Auswahl
-		flugzeugBox.valueProperty().addListener(new ChangeListener<Flugzeug>() {
+		flugzeugBox.valueProperty().addListener(new ChangeListener<Plane>() {
 			@Override
-			public void changed(ObservableValue<? extends Flugzeug> observable, 
-					Flugzeug oldValue, Flugzeug newValue) {
-				slider.setMax(newValue.getSitzplaetze());
-				labelE.setText(newValue.getSitzplaetze()+"");	
+			public void changed(ObservableValue<? extends Plane> observable, 
+					Plane oldValue, Plane newValue) {
+				slider.setMax(newValue.getSeats());
+				labelE.setText(newValue.getSeats()+"");	
 				if(startBox.getValue()!=null && zielBox.getValue()!=null)
-					if(!checkEntf(entfernung, newValue.getReichweite()))
+					if(!checkEntf(entfernung, newValue.getRange()))
 						kmLabel.setTextFill(Color.RED);
 					else kmLabel.setTextFill(Color.BLACK);
 			}

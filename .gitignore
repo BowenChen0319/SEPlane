@@ -103,3 +103,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 Sourcecode/seplane/target/classes/org/openjfx/App.class
+Sourcecode/seplane/target/classes/META-INF/maven/org.openjfx/SE-Plane/pom.properties
+Sourcecode/seplane/target/classes/META-INF/MANIFEST.MF
+*.class

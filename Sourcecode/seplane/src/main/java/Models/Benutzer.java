@@ -1,7 +1,8 @@
 package Models;
 
 import com.j256.ormlite.field.DatabaseField;
-import org.openjfx.DBManager;
+
+import org.openjfx.App;
 import Toolbox.HASH;
 
 import java.sql.SQLException;
@@ -69,10 +70,9 @@ public class Benutzer {
 
 
     public Benutzer getBenutzer(String username) throws SQLException {
-        DBManager db = new DBManager();
         Benutzer getb = null;
 
-        List<Benutzer> all= new DBManager().getallUser();
+        List<Benutzer> all= App.db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
             if(b.getBenutzername().matches(username)){
@@ -85,9 +85,8 @@ public class Benutzer {
     }
 
     public boolean checkname(String username) throws SQLException {
-        DBManager dbManager = new DBManager();
         boolean right = true;
-        List<Benutzer> all= new DBManager().getallUser();
+        List<Benutzer> all= App.db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
             if(b.getBenutzername().matches(username)){
@@ -99,8 +98,7 @@ public class Benutzer {
     }
 
     public void showall() throws SQLException {
-        DBManager db = new DBManager();
-        List<Benutzer> all= new DBManager().getallUser();
+        List<Benutzer> all= App.db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
             System.out.print(i+" ");
