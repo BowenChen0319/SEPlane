@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Airport {
 
     @DatabaseField(id = true)
-    private String code;
+    private String id; //id
     @DatabaseField
     private double lat;
     @DatabaseField
@@ -47,39 +47,19 @@ public class Airport {
 
     public Airport(){}
 
-    public Airport(String code, double lat, double lon, String adress, String name, String city, String state, String country, int woeid, String tz, String phone, String type, String email, String url, int runwayLength, int elev, String icao, int directFlights, int carriers) {
-        this.code = code;
+    public Airport(String id, String city, String country,
+                   String name, int runwayLength, double lat, double lon) {
+        this.id = id;
+        this.city = city;
+        this.country = country;
+        this.name = name;
+        this.runwayLength = runwayLength;
         this.lat = lat;
         this.lon = lon;
-        this.adress = adress;
-        this.name = name;
-        this.city = city;
-        this.state = state;
-        this.country = country;
-        this.woeid = woeid;
-        this.tz = tz;
-        this.phone = phone;
-        this.type = type;
-        this.email = email;
-        this.url = url;
-        this.runwayLength = runwayLength;
-        this.elev = elev;
-        this.icao = icao;
-        this.directFlights = directFlights;
-        this.carriers = carriers;
     }
 
-    public Airport(String code, String city, String name, int runwayLength, double lat, double lon, String adress){
-        this.code = code;
-        this.city = city;
-        this.name = name;
-        this.runwayLength = runwayLength;
-        this.lat = lat;
-        this.lon = lon;
-        this.adress = adress;
-    }
-    public String getCode() {
-        return code;
+    public String getId(){
+        return id;
     }
 
     public double getLat() {
@@ -157,7 +137,7 @@ public class Airport {
     @Override
     public String toString() {
         return "Airport{" +
-                "code='" + code + '\'' +
+                "code='" + id + '\'' +
                 ", lat=" + lat +
                 ", lon=" + lon +
                 ", name='" + name + '\'' +

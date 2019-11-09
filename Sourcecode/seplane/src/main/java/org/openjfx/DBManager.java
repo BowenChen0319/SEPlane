@@ -1,24 +1,27 @@
 package org.openjfx;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import Models.*;
+import Toolbox.*;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
 
-import Models.Benutzer;
-import Models.Fluggesellschaft;
-import Models.Flughafen;
-import Models.Fluglinie;
-import Models.Flugzeug;
-import Models.FlugzeugMapping;
 import javafx.collections.ObservableList;
 
 public class DBManager {
+	//kann gelöscht werden
+	private static final String URL = "jdbc:h2:~/test";
+	private static final String USER ="sa";
+	private static final String PASSWORD ="";
+
 
 	static final String dbURL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";	
 	static JdbcPooledConnectionSource cs;
@@ -346,6 +349,81 @@ public class DBManager {
 		}
 	}
 
-	
+	public static void addAirportToDb() throws FileNotFoundException {
+
+		JsonReaderTool jreader = new JsonReaderTool();
+		for(int i=0; i<jreader.getJsonSize();i++) {
+			getAirportFromJSon(jreader.readFromJson(i));
+		}
+
+	}
+
+
+	//an airport will be added to DB
+	public static void getAirportFromJSon(Airport airport){
+		Airport airportTmp = airport;
+		JdbcPooledConnectionSource connectionSource = null;
+		try {
+			 connectionSource = new JdbcPooledConnectionSource(URL, USER, PASSWORD);
+			Dao<Airport, String> airportDao = DaoManager.createDao(connectionSource, Airport.class);
+			if(airportDao.idExists(airport.getId()))
+			{
+				System.out.println("Airport: " + airport.getId() + " already exits!");
+				return;
+			}
+			airportDao.createIfNotExists(airportTmp);
+
+			connectionSource.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+			System.out.println("konnte keine Verbindung zur DB aufbauen");
+		}catch (IOException i)
+		{
+			i.printStackTrace();
+			System.out.println("Konnte keine Airport Klasse findenn");
+		}
+
+	}
+
+	//a list of planes will be added to DB
+	// each Listelemnt (plane) will only be added to db if it doenst exist already
+	public static void CSVToDB(List<Plane> planeUeberg) {
+		// create a connection source to our database
+		JdbcPooledConnectionSource connectionSource = null;
+		Dao<Plane, String> planeDao = null;
+		try {
+			 connectionSource =
+					new JdbcPooledConnectionSource(URL, USER, PASSWORD);
+			DaoManager.createDao(connectionSource, Plane.class);
+
+
+		 String[] planeArray = new String[planeUeberg.size()];
+
+		for(int i=1;i<planeUeberg.size();i++) {
+			//(Plane plane = new Plane(planeUeberg.get(i).getHersteller().toString(), planeUeberg.get(i).getType().toString(), planeUeberg.get(i).getSeats().toString(), planeUeberg.get(i).getSpeed().toString(), planeUeberg.get(i).getPrice().toString(), planeUeberg.get(i).getRange().toString());
+			Plane plane = new Plane(planeUeberg.get(i).getHersteller(), planeUeberg.get(i).getType(),
+					planeUeberg.get(i).getPrice(), planeUeberg.get(i).getRange(), planeUeberg.get(i).getSeats());
+			planeDao.createIfNotExists(plane);
+		}
+
+		connectionSource.close();
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("Konnte keine Verbindung zur DB aufbauen");
+		}catch(IOException i)
+		{
+			i.printStackTrace();
+			System.out.println("Klasse Plane kann nicht gefunden werden");
+		}
+	}
+
+	public static void main(String[] args) throws FileNotFoundException {
+		//addAirportToDb();
+		//System.out.println("!!!");
+	}
+
+
+
 }
 

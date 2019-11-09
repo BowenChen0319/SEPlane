@@ -22,12 +22,12 @@ public class CSVReader {
 
     //Reads from CSV and returns a list of Planes from it
     //File needs following headers: Hersteller;Flugzeugtyp;Anzahl_Sitzplaetze;Geschwindigkeit;Preis_in_Mio;Reichweite
-    public static List<Plane> CSVReaderr() throws IOException {
+    public static List<Plane> CSVReaderr() {
 
         String fileName = "C:\\Users\\Kevin\\IdeaProjects\\GeoTest\\flugzeuge.csv";
 
         Path myPath = Paths.get(fileName);
-
+        List<Plane> plane = null;
         try (FileInputStream fis = new FileInputStream(fileName);
              InputStreamReader isr = new InputStreamReader(fis,
                      StandardCharsets.ISO_8859_1)) {
@@ -46,21 +46,22 @@ public class CSVReader {
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
 
-            List<Plane> plane = csvToBean.parse();
+            plane = csvToBean.parse();
 
-            System.out.println(Arrays.toString(plane.toArray()).toString());
+            System.out.println("Infos aus JSon: " + Arrays.toString(plane.toArray()).toString());
 
-            return plane;
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+            System.out.println("keine Json gefunden");
         }
+
+        return plane;
     }
 
     public static void main(String[] args) throws IOException {
-        try{
+
             CSVReaderr();
-        }catch (IOException e)
-        {
-            System.out.println("keine datei");
-        }
 
 
     }
