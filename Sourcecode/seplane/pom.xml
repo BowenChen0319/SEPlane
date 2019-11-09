@@ -94,6 +94,12 @@
                 <version>0.0.3</version>
                 <configuration>
                     <mainClass>org.openjfx.App</mainClass>
+                    <launcher>launch</launcher>
+                    <compress>2</compress>
+                    <jlinkZipName>SE-Plane</jlinkZipName>
+                    <jlinkImageName>SE-Plane</jlinkImageName>
+                    <noManPages>true</noManPages>
+                    <noHeaderFiles>true</noHeaderFiles>
                 </configuration>
             </plugin>
         </plugins>

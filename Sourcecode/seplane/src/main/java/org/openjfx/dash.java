@@ -13,6 +13,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -36,7 +38,7 @@ public class dash extends Application {
     @Override
 
     public void start(Stage stage) throws IOException, SQLException {
-        int Height = 600;
+        int Height = 400;
         int Width = 600;
 
 
@@ -165,7 +167,9 @@ public class dash extends Application {
                                 e.printStackTrace();
                             }
                             System.out.println("FGM creat finished");
-                            warning.setText("FGM creat finished, please close this windows and refresh");
+                            warning.setText("FGM creat finished, please close this window");
+
+
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -176,6 +180,20 @@ public class dash extends Application {
 
 
         root.getChildren().addAll(h0,h1,h2,h3,h4,h5,warning,b3);
+
+        root.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode()== KeyCode.ENTER){
+                    b3.fire();
+                }
+                if(keyEvent.getCode()==KeyCode.ESCAPE){
+                    stage.close();
+                }
+
+            }
+        });
+
         Scene scene = new Scene(root);
 
         stage.setWidth(Width);

@@ -11,6 +11,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -155,6 +157,19 @@ public class register extends Application {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        root.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode()== KeyCode.ENTER){
+                    b3.fire();
+                }
+                if(keyEvent.getCode()==KeyCode.ESCAPE){
+                    stage.close();
+                }
+
             }
         });
 
