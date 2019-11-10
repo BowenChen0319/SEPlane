@@ -248,12 +248,12 @@ public class DBManager {
 	}
 	
 	public List<Plane> getFzuFG(Fluggesellschaft fg) {
-		List<Plane> pl = new ArrayList<Plane>();
+		List<Plane> pl = new ArrayList<>();
 		List<FlugzeugMapping> fm;
 		QueryBuilder<FlugzeugMapping, Integer> query = fmDao.queryBuilder();
 		
 		try {
-			query.where().in("fg_id_id", fg);
+			query.where().in("FG_ID_ID", fg);
 			fm = fmDao.query(query.prepare());
 			for (FlugzeugMapping fM : fm) {
 				pl.add(fM.getF_id());
@@ -451,7 +451,12 @@ public class DBManager {
 			System.out.println(plane.toString());
 
 			try {
-				planeDao.createIfNotExists(plane);
+				Plane p = new Plane();
+				if((p.checkPlane(planeUeberg.get(i).getHersteller(), planeUeberg.get(i).getType(),
+						planeUeberg.get(i).getPrice(), planeUeberg.get(i).getRange(), planeUeberg.get(i).getSeats()))){
+					planeDao.createOrUpdate(plane);
+				}
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

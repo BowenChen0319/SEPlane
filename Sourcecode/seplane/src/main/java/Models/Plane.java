@@ -3,6 +3,10 @@ package Models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.opencsv.bean.CsvBindByPosition;
+import org.h2.table.Plan;
+import org.openjfx.App;
+
+import java.util.List;
 
 @DatabaseTable(tableName = "Flugzeuge")
 public class Plane {
@@ -26,21 +30,21 @@ public class Plane {
 //    @CsvBindByPosition(position = 5)
 //    private String range;
 
-	@DatabaseField(generatedId = true)
+	@DatabaseField(generatedId  = true)
 	private int id;
-    @DatabaseField//(uniqueCombo = true)
+    @DatabaseField(uniqueCombo = true)
     @CsvBindByPosition(position = 0)
     private String hersteller;
-    @DatabaseField//(uniqueCombo = true, id = true)
+    @DatabaseField(uniqueCombo = true)
     @CsvBindByPosition(position =1)
     private String type;
-    @DatabaseField
+    @DatabaseField(uniqueCombo = true)
     @CsvBindByPosition(position =4)
     private double price;
-    @DatabaseField
+    @DatabaseField(uniqueCombo = true)
     @CsvBindByPosition(position = 5)
     private double range;
-    @DatabaseField
+    @DatabaseField(uniqueCombo = true)
     @CsvBindByPosition(position = 2)
     private int seats;
     public Plane(){ }
@@ -83,6 +87,22 @@ public class Plane {
         return seats;
     }
 
+    public boolean checkPlane(String hersteller, String type, double price, double range, int seats)
+    {
+        boolean right = true;
+        List<Plane> planes = App.db.getFlugzeuge();
+        for(int i=0;i<planes.size();i++){
+            Plane p = planes.get(i);
+            if(p.getHersteller().matches(hersteller) &&
+            p.getType().matches(type) && p.getPrice()==price && p.getRange() == range
+            && p.getSeats() == seats){
+                System.out.println("Wrong two same Planes!");
+                right=false;
+            }
+        }
+        return right;
+
+    }
 
     @Override
     public String toString() {
