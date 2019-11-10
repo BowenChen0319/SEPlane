@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import Models.Benutzer;
 import Models.CurrentUser;
+import Toolbox.CSVReader;
 import Toolbox.HASH;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -348,6 +349,7 @@ public class login extends Application {
             public void handle(ActionEvent event) {
                 primaryStage.close();
                 try {
+                    DBManager.CSVToDB(CSVReader.OwnCSVReader());
                     new DBManager().addAirportToDb();
                     new login().start(new Stage());
                 } catch (IOException e) {
