@@ -207,6 +207,7 @@ public class FGM_FLDashboard implements Initializable{
 		System.out.println(startBox.getValue() +" und prompt "+startBox.getPromptText());
 		
 		//vorhandene Werte als Promttext setzen und nur übernehmen, was nicht null ist
+		kmLabel.setText(fluglinie.getEntfernung()+"");
 		startBox.setPromptText(fluglinie.getStart().getCode());
 		zielBox.setPromptText(fluglinie.getZiel().getCode());
 		intervallFeld.setText(fluglinie.getIntervall_int()+"");
@@ -323,6 +324,7 @@ public class FGM_FLDashboard implements Initializable{
 					dateLabel.setVisible(false);
 				}
 		});
+		
 		intervallBox.getItems().setAll(Intervall.values());
 		flugzeugBox.setItems(fList);
 		flugzeugBox.setConverter(new StringConverter<Plane>() {
@@ -454,6 +456,8 @@ public class FGM_FLDashboard implements Initializable{
 				if(flugzeugBox.getValue()!=null)
 					if(!checkEntf(entfernung, flugzeugBox.getValue().getRange()))
 						kmLabel.setTextFill(Color.RED);
+					else
+						kmLabel.setTextFill(Color.BLACK);
 			}
 		}			
 	};

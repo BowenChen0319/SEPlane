@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
 import org.openjfx.DBManager;
@@ -84,6 +85,7 @@ public class FluggesellschaftAnlegenController  {
         } else {
             String errorMessage = "Als Fluggesllschaftsmanager koennen Sie nur eine Fluggesellschaft anlegen";
             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
         }
     }
