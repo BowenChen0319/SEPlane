@@ -52,6 +52,5 @@ Toolbox\HASH.class
 org\openjfx\login$1.class
 org\openjfx\register.class
 org\openjfx\login.class
-Models\FGManager.class
 org\openjfx\login$4.class
 Controller\FGM_FLDashboard$3.class
