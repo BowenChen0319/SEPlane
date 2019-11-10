@@ -338,8 +338,10 @@ public class DBManager {
 	}
 	
 	public List<Plane> getFlugzeuge(){
+		List<Plane> all;
 		try {
-			return planeDao.queryForAll();
+			all= planeDao.queryForAll();
+			return all;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -358,6 +360,8 @@ public class DBManager {
 		}
 		
 	}
+
+
 	
 	public List<Airport> getFlughafen(){
 		QueryBuilder<Airport,String> query = apDao.queryBuilder();

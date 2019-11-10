@@ -34,8 +34,7 @@ public class App extends Application {
 
 
     public static void main(String[] args) throws SQLException {
-    	new CSVReader();
-		//db.setUpDatabase();
+    	//new CSVReader();
     	//TODO popup ob einlesen will
     	//db.addAirportToDb();
     	DBManager.CSVToDB(CSVReader.OwnCSVReader());
