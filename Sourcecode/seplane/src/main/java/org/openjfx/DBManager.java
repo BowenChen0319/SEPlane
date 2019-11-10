@@ -25,7 +25,7 @@ public class DBManager {
 	Dao<Benutzer,Integer> bDao;
 	Dao<FlugzeugMapping, Integer> fmDao;
 	Dao<Airport,String> apDao;
-	static Dao<Plane,Integer> planeDao;
+	static Dao<Plane, Object> planeDao;
 
 
 	
@@ -51,16 +51,12 @@ public class DBManager {
 		
 		/*TableUtils.dropTable(cs, Fluglinie.class, true);
 		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-		TableUtils.dropTable(cs, Plane.class, true);
-		TableUtils.dropTable(cs, Airport.class, true);
 		TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		TableUtils.dropTable(cs, Airport.class, true);*/
 		TableUtils.dropTable(cs, Plane.class, true);
 		
 		/*TableUtils.createTable(cs, Benutzer.class);
-		//TableUtils.createTable(cs, Flughafen.class);
-		//TableUtils.createTable(cs, Flugzeug.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
 		TableUtils.createTable(cs, Fluglinie.class);
 		TableUtils.createTable(cs, FlugzeugMapping.class);
@@ -68,8 +64,88 @@ public class DBManager {
 		TableUtils.createTable(cs, Plane.class);
 	}
 	
+//------Auslesen Flughäfen und Flugzeuge
+	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
+	public void addAirportToDb() {
+		try {
+			new JsonReaderTool();
+			int size = JsonReaderTool.getJsonSize();
+			System.out.println(size+" Planes in all, it takes few minutes, please wait :)");
+			for(int i=0; i<JsonReaderTool.getJsonSize();i++) {
+				if(JsonReaderTool.readFromJson(i) != null){
+					System.out.println(i+" / "+size);
+					getAirportFromJSon(JsonReaderTool.readFromJson(i));
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	//an airport will be added to DB
+	public void getAirportFromJSon(Airport airport){
+		Airport airportTmp = airport;
+		JdbcPooledConnectionSource connectionSource = null;
+		try {
+			 connectionSource = new JdbcPooledConnectionSource(dbURL, "sa","" );
+			Dao<Airport, String> airportDao = DaoManager.createDao(connectionSource, Airport.class);
+			if(airportDao.idExists(airport.getCode()))
+			{
+				System.out.println("Airport: " + airport.getCode() + " already exits!");
+				return;
+			}
+			airportDao.createIfNotExists(airportTmp);
+
+			connectionSource.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+			System.out.println("konnte keine Verbindung zur DB aufbauen");
+		}catch (IOException i)
+		{
+			i.printStackTrace();
+			System.out.println("Konnte keine Airport Klasse findenn");
+		}
+		try {
+			apDao.createIfNotExists(airport);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	//a list of planes will be added to DB
+	// each Listelemnt (plane) will only be added to db if it doenst exist already
+	public static void CSVToDB(List<Plane> planeUeberg) {
+
+		Object[] planeArray = new String[planeUeberg.size()];
+		planeArray = planeUeberg.toArray();
+		System.out.println(planeUeberg.size());
+
+		for(int i=0;i<planeArray.length;i++) {
+			//(Plane plane = new Plane(planeUeberg.get(i).getHersteller().toString(), planeUeberg.get(i).getType().toString(), planeUeberg.get(i).getSeats().toString(), planeUeberg.get(i).getSpeed().toString(), planeUeberg.get(i).getPrice().toString(), planeUeberg.get(i).getRange().toString());
+			Plane plane = new Plane(planeUeberg.get(i).getHersteller(), planeUeberg.get(i).getType(),
+					planeUeberg.get(i).getPrice(), planeUeberg.get(i).getRange(), planeUeberg.get(i).getSeats());
+
+			System.out.println(plane.toString());
+
+			try {
+				Plane p = new Plane();
+				if((p.checkPlane(planeUeberg.get(i).getHersteller(), planeUeberg.get(i).getType(),
+						planeUeberg.get(i).getPrice(), planeUeberg.get(i).getRange(), planeUeberg.get(i).getSeats()))){
+					planeDao.createIfNotExists(plane);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
-	//Create
+//------Create
 	public void createFL(Fluglinie fl) {
 		try {
 			flDao.create(fl);
@@ -123,7 +199,7 @@ public class DBManager {
 		apDao.create(ap);
 	}
 	
-	//Update
+//------Update
 	public void updateFL(Fluglinie fl) {
 		try {
 			flDao.update(fl);
@@ -172,7 +248,7 @@ public class DBManager {
 		}
 	}
 	
-	//Delete
+//------Delete
 	public void deleteFL(int id)throws Exception{
 		try {
 			if(flDao.idExists(id))
@@ -227,7 +303,7 @@ public class DBManager {
 		}
 	}
 
-	//Select all
+//-----Select Objektlisten
 	public List<Fluglinie> getFluglinieZuFG(Integer fgID){
 				
 		List<Fluglinie> fl;
@@ -244,7 +320,7 @@ public class DBManager {
 	}
 	
 	public List<Plane> getFzuFG(Fluggesellschaft fg) {
-		List<Plane> pl = new ArrayList<Plane>();
+		List<Plane> pl = new ArrayList<>();
 		List<FlugzeugMapping> fm;
 		QueryBuilder<FlugzeugMapping, Integer> query = fmDao.queryBuilder();
 		
@@ -270,6 +346,7 @@ public class DBManager {
 		}	
 	}
 	
+
 	public List<Benutzer> getallUser() {
 		List<Benutzer> all;
 		try {
@@ -292,7 +369,8 @@ public class DBManager {
 			return null;
 		}
 	}
-
+	
+//-----Select Single
 	public Benutzer getUser(String name) {
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
 		try {
@@ -355,59 +433,6 @@ public class DBManager {
 			return null;
 		}
 	}
-	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
-	public void addAirportToDb() {
-		try {
-			new JsonReaderTool();
-			int size = JsonReaderTool.getJsonSize();
-			System.out.println(size+" Planes in all, it takes few minutes, please wait :)");
-			for(int i=0; i<JsonReaderTool.getJsonSize();i++) {
-				if(JsonReaderTool.readFromJson(i) != null){
-					System.out.println(i+" / "+size);
-					getAirportFromJSon(JsonReaderTool.readFromJson(i));
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-	}
 
-
-
-	//an airport will be added to DB
-	public void getAirportFromJSon(Airport airport){
-		try {
-			apDao.createIfNotExists(airport);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	//a list of planes will be added to DB
-	// each Listelemnt (plane) will only be added to db if it doenst exist already
-	public static void CSVToDB(List<Plane> planeUeberg) {
-
-		 Object[] planeArray = new String[planeUeberg.size()];
-		 planeArray = planeUeberg.toArray();
-		System.out.println(planeUeberg.size());
-
-		for(int i=0;i<planeArray.length;i++) {
-			Plane plane = new Plane(planeUeberg.get(i).getHersteller(), planeUeberg.get(i).getType(),
-					planeUeberg.get(i).getPrice(), planeUeberg.get(i).getRange(), planeUeberg.get(i).getSeats());
-
-			System.out.println(plane.toString());
-
-			try {
-				if(planeDao.queryForMatching(plane)!=null)
-					planeDao.createIfNotExists(plane);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 }
 
