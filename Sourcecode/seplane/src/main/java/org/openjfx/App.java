@@ -37,7 +37,7 @@ public class App extends Application {
     	//new CSVReader();
     	//TODO popup ob einlesen will
     	//db.addAirportToDb();
-    	DBManager.CSVToDB(CSVReader.OwnCSVReader());
+    	//DBManager.CSVToDB(CSVReader.OwnCSVReader());
 
         launch();
     }
