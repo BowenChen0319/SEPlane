@@ -300,6 +300,7 @@ public class FGM_FLDashboard implements Initializable{
 		fhList.addAll(db.getFlughafen());
 		//fList.addAll(db.getFlugzeuge());
 		//Replace
+		//System.out.println(db.getFzuFG(fg));
 		fList.addAll(db.getFzuFG(fg));
 		
 	}

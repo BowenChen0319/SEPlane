@@ -37,6 +37,7 @@ public class FlugzeugMapping {
 	}
 	
 	public Plane getF_id() {
+		//System.out.println(f_id);
 		return f_id;
 	}
 	
