@@ -83,6 +83,7 @@ public class Plane {
         return seats;
     }
 
+
     @Override
     public String toString() {
         return "Plane{" +

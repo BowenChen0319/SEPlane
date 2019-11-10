@@ -55,8 +55,8 @@ public class DBManager {
 		
 		TableUtils.dropTable(cs, Fluglinie.class, true);
 		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-		TableUtils.dropTable(cs, Flugzeug.class, true);
-		TableUtils.dropTable(cs, Flughafen.class, true);
+		TableUtils.dropTable(cs, Plane.class, true);
+		TableUtils.dropTable(cs, Airport.class, true);
 		TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		TableUtils.dropTable(cs, Airport.class, true);

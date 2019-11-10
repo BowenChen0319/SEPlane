@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import Models.CurrentUser;
 import Models.Fluggesellschaft;
 import Models.Fluglinie;
-import Models.Flugzeug;
 import Models.FlugzeugMapping;
 import Models.Plane;
 import Toolbox.AlertHandler;
@@ -19,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.h2.table.Plan;
 
 public class FlugzeugKaufenController implements Initializable {
 
@@ -26,19 +26,19 @@ public class FlugzeugKaufenController implements Initializable {
 private ScrollPane scrollpane;
 
 @FXML
-private TableView<Flugzeug> tableview;
+private TableView<Plane> tableview;
 
 @FXML
-private TableColumn<Flugzeug, String> modell_column;
+private TableColumn<Plane, String> modell_column;
 
 @FXML
-private TableColumn<Flugzeug, Double> reichweite_column;
+private TableColumn<Plane, Double> reichweite_column;
 
 @FXML
-private TableColumn<Flugzeug, Integer> sitzplaetze_column;
+private TableColumn<Plane, Integer> sitzplaetze_column;
 
 @FXML
-private TableColumn<Flugzeug, Double> preis_column;
+private TableColumn<Plane, Double> preis_column;
 
 @FXML
 private Button kaufen_button;
@@ -47,9 +47,9 @@ private Button kaufen_button;
 private Button abbrechen_button;
 
 static DBManager db = App.db;
-ObservableList<Flugzeug> flugzeugListe;
+ObservableList<Plane> flugzeugListe;
 //aktuelle Auswahl
-Flugzeug flugzeug = new Flugzeug();
+Plane flugzeug = new Plane();
 Fluggesellschaft fluggesellschaft = db.getFGzuFGM(new CurrentUser().getCurrent());
 
 @Override
@@ -63,7 +63,7 @@ public void initialize(URL location, ResourceBundle resources) {
 		if(cellData.getValue().getHersteller() == null)
 			return new SimpleStringProperty("");
 		else
-			return new SimpleStringProperty(cellData.getValue().getHersteller() + " "+ cellData.getValue().getFlugzeugtyp());
+			return new SimpleStringProperty(cellData.getValue().getHersteller() + " "+ cellData.getValue().getType());
 	});
 	reichweite_column.setCellValueFactory(new PropertyValueFactory<>("reichweite"));
 	sitzplaetze_column.setCellValueFactory(new PropertyValueFactory<>("sitzplaetze"));
@@ -85,7 +85,7 @@ public void initialize(URL location, ResourceBundle resources) {
 			}
 				else {
 					flugzeug = tableview.getSelectionModel().getSelectedItem();
-					Double preis = flugzeug.getPreis();
+					Double preis = flugzeug.getPrice();
 					Double budget = fluggesellschaft.getBudget();
 
 					if(preis>budget){
@@ -95,7 +95,8 @@ public void initialize(URL location, ResourceBundle resources) {
 					}
 					else{
 						flugzeug = tableview.getSelectionModel().getSelectedItem();
-						//TODO Kosten abbuchen
+						Double newBudget = fluggesellschaft.getBudget()-preis;
+						fluggesellschaft.setBudget(newBudget);
 
 
 
