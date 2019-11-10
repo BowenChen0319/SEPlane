@@ -52,28 +52,23 @@ public class FluggesellschaftAnlegenController  {
                 String errorMessage = "Bitte fuellen Sie folgende Felder aus: ";
                 if (name_textfield.getText().isEmpty()) {
                     errorMessage = errorMessage + "Name ";
-                    System.out.println("test1");
+
                 }  if (land_textfield.getText().isEmpty()) {
                     errorMessage = errorMessage + "Land ";
-                    System.out.println("test2");
-                }  if(budget_textfield.getText().isEmpty()){
-                    System.out.println("test3");
-                    errorMessage = errorMessage + "Budget ";
-                }
 
+                }  if(budget_textfield.getText().isEmpty()){
+                    errorMessage = errorMessage + "Budget ";
+
+                }
 
                 Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
                 alert.showAndWait();
-
-
-
 
             } else {
                 String name = name_textfield.getText();
                 String land = land_textfield.getText();
                 String budgetAsString = budget_textfield.getText();
                 Double budget = Double.parseDouble(budgetAsString);
-
 
                 Fluggesellschaft fluggesellschaft = new Fluggesellschaft(currentUser, name, land, budget);
 
@@ -83,8 +78,6 @@ public class FluggesellschaftAnlegenController  {
                 //fgmfgd.initialize(null, null);
 
                 Stage stage = (Stage) anlegen_button.getScene().getWindow();
-
-
                 stage.close();
 
             }
@@ -93,9 +86,6 @@ public class FluggesellschaftAnlegenController  {
             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
             alert.showAndWait();
         }
-    }
-    public void handleRefresh(){
-
     }
 
     public void handleAbbrechen (ActionEvent event){
