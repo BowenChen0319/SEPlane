@@ -49,22 +49,22 @@ public class DBManager {
 	
 	public void setUpDatabase() throws SQLException {
 		
-		TableUtils.dropTable(cs, Fluglinie.class, true);
+		/*TableUtils.dropTable(cs, Fluglinie.class, true);
 		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
 		TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Airport.class, true);
 		TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
-		TableUtils.dropTable(cs, Airport.class, true);
+		TableUtils.dropTable(cs, Airport.class, true);*/
 		TableUtils.dropTable(cs, Plane.class, true);
 		
-		TableUtils.createTable(cs, Benutzer.class);
+		/*TableUtils.createTable(cs, Benutzer.class);
 		//TableUtils.createTable(cs, Flughafen.class);
 		//TableUtils.createTable(cs, Flugzeug.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
 		TableUtils.createTable(cs, Fluglinie.class);
 		TableUtils.createTable(cs, FlugzeugMapping.class);
-		TableUtils.createTable(cs, Airport.class);
+		TableUtils.createTable(cs, Airport.class);*/
 		TableUtils.createTable(cs, Plane.class);
 	}
 	
@@ -400,7 +400,8 @@ public class DBManager {
 			System.out.println(plane.toString());
 
 			try {
-				planeDao.createIfNotExists(plane);
+				if(planeDao.queryForMatching(plane)!=null)
+					planeDao.createIfNotExists(plane);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

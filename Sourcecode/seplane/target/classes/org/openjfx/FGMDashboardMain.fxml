@@ -17,6 +17,11 @@
             </Button>
             <Button mnemonicParsing="false" onAction="#loeschen" text="löschen" />
             <Pane HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#refresh" text="Refresh">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
             <Button mnemonicParsing="false" onAction="#logout" text="Logout" />
          </children>
          <padding>
