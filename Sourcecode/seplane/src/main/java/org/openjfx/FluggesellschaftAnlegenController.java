@@ -42,50 +42,57 @@ public class FluggesellschaftAnlegenController  {
 
     static DBManager db = App.db;
 
-    public void  handleFluggesellschaftAnlegen(ActionEvent event){
+
+
+    public void  handleFluggesellschaftAnlegen(ActionEvent event) {
         Benutzer currentUser = new CurrentUser().getCurrent();
-        System.out.println(currentUser.getBenutzername());
-          if (db.getFGzuFGM(currentUser)==null) {
-              if (name_textfield.getText() != null && land_textfield.getText() != null && budget_textfield != null) {
-                  String name = name_textfield.getText();
-                  String land = land_textfield.getText();
-                  String budgetAsString = budget_textfield.getText();
-                  Double budget = Double.parseDouble(budgetAsString);
+        if (db.getFGzuFGM(currentUser) == null) {
+            if (name_textfield.getText().isEmpty()|| land_textfield.getText().isEmpty() || budget_textfield.getText().isEmpty()) {
+                System.out.println("test");
+                String errorMessage = "Bitte fuellen Sie folgende Felder aus: ";
+                if (name_textfield.getText().isEmpty()) {
+                    errorMessage = errorMessage + "Name ";
+                    System.out.println("test1");
+                }  if (land_textfield.getText().isEmpty()) {
+                    errorMessage = errorMessage + "Land ";
+                    System.out.println("test2");
+                }  if(budget_textfield.getText().isEmpty()){
+                    System.out.println("test3");
+                    errorMessage = errorMessage + "Budget ";
+                }
 
 
-                  Fluggesellschaft fluggesellschaft = new Fluggesellschaft(currentUser, name, land, budget);
-
-                  //Datenbankbefehle
-                  db.createFG(fluggesellschaft);
-                  FGM_FGDashboard fgmfgd = new FGM_FGDashboard();
-                  //fgmfgd.initialize(null, null);
-
-                  Stage stage = (Stage) anlegen_button.getScene().getWindow();
+                Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+                alert.showAndWait();
 
 
-                  stage.close();
-
-              } else {
-                  String errorMessage = "Bitte fuellen Sie folgende Felder aus: ";
-                  if (name_textfield.getText() == null) {
-                      errorMessage = errorMessage + "Name ";
-                  } else if (land_textfield.getText() == null) {
-                      errorMessage = errorMessage + "Land ";
-                  } else {
-                      errorMessage = errorMessage + "Budget ";
-                  }
 
 
-                  Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
-                  alert.showAndWait();
-              }
-          }
-          else{
-              String errorMessage = "Als Fluggesllschaftsmanager koennen Sie nur eine Fluggesellschaft anlegen";
-              Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
-              alert.showAndWait();
-          }
+            } else {
+                String name = name_textfield.getText();
+                String land = land_textfield.getText();
+                String budgetAsString = budget_textfield.getText();
+                Double budget = Double.parseDouble(budgetAsString);
 
+
+                Fluggesellschaft fluggesellschaft = new Fluggesellschaft(currentUser, name, land, budget);
+
+                //Datenbankbefehle
+                db.createFG(fluggesellschaft);
+                FGM_FGDashboard fgmfgd = new FGM_FGDashboard();
+                //fgmfgd.initialize(null, null);
+
+                Stage stage = (Stage) anlegen_button.getScene().getWindow();
+
+
+                stage.close();
+
+            }
+        } else {
+            String errorMessage = "Als Fluggesllschaftsmanager koennen Sie nur eine Fluggesellschaft anlegen";
+            Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+            alert.showAndWait();
+        }
     }
     public void handleRefresh(){
 
@@ -95,5 +102,4 @@ public class FluggesellschaftAnlegenController  {
         Stage stage = (Stage) abbrechen_button.getScene().getWindow();
         stage.close();
     }
-
 }
