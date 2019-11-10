@@ -87,8 +87,7 @@ public class FGM_FLDashboard implements Initializable{
 	//Anwendung
 	static DBManager db = App.db;
 	//FG zur Anzeige jew. FLs
-	Fluggesellschaft fg = db.getFGzuFGM(new CurrentUser().getCurrent());
-	
+	Fluggesellschaft fg;
 	
 	@SuppressWarnings("unused")
 	private FGMDashboard fGMDashboard;
@@ -99,7 +98,7 @@ public class FGM_FLDashboard implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		fg = db.getFGzuFGM(new CurrentUser().getCurrent());
 		if(fg!=null)
 		getInhalte();
 
