@@ -455,6 +455,8 @@ public class FGM_FLDashboard implements Initializable{
 				if(flugzeugBox.getValue()!=null)
 					if(!checkEntf(entfernung, flugzeugBox.getValue().getRange()))
 						kmLabel.setTextFill(Color.RED);
+					else
+						kmLabel.setTextFill(Color.BLACK);
 			}
 		}			
 	};

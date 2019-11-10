@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import org.openjfx.login;
@@ -30,8 +29,6 @@ public class FGMDashboard implements Initializable{
 	@FXML Tab flTab;
 	@FXML Tab fgTab;
 	@FXML TabPane FGMTabs;
-	//TODO kann weg oder initialisiert?
-	@FXML BorderPane fGM_Fluglinie;
 	//Tab1
 	@FXML FGM_FLDashboard fGM_FluglinieController;
 
