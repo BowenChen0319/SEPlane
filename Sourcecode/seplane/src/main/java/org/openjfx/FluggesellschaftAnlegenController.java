@@ -61,6 +61,8 @@ public class FluggesellschaftAnlegenController  {
                   //fgmfgd.initialize(null, null);
 
                   Stage stage = (Stage) anlegen_button.getScene().getWindow();
+
+
                   stage.close();
 
               } else {
@@ -83,6 +85,10 @@ public class FluggesellschaftAnlegenController  {
               Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
               alert.showAndWait();
           }
+
+    }
+    public void handleRefresh(){
+
     }
 
     public void handleAbbrechen (ActionEvent event){

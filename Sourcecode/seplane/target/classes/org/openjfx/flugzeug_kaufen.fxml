@@ -19,7 +19,7 @@
                       <TableColumn fx:id="modell_column" prefWidth="100.0" text="Modell" />
                       <TableColumn fx:id="reichweite_column" prefWidth="100.0" text="Reichweite" />
                         <TableColumn fx:id="sitzplaetze_column" prefWidth="100.0" text="Sitzplätze" />
-                        <TableColumn fx:id="preis_column" prefWidth="100.0" text="Preis" />
+                        <TableColumn fx:id="preis_column" prefWidth="100.0" text=" Preis (in Mio. €)" />
                     </columns>
                   </TableView>
                </content>

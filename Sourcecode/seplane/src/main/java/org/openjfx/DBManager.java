@@ -358,8 +358,11 @@ public class DBManager {
 	public void addAirportToDb() {
 		try {
 			new JsonReaderTool();
+			int size = JsonReaderTool.getJsonSize();
+			System.out.println(size+" Planes in all, it takes few minutes, please wait :)");
 			for(int i=0; i<JsonReaderTool.getJsonSize();i++) {
 				if(JsonReaderTool.readFromJson(i) != null){
+					System.out.println(i+" / "+size);
 					getAirportFromJSon(JsonReaderTool.readFromJson(i));
 				}
 			}

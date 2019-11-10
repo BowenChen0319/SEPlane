@@ -65,10 +65,11 @@ public void initialize(URL location, ResourceBundle resources) {
 		else
 			return new SimpleStringProperty(cellData.getValue().getHersteller() + " "+ cellData.getValue().getType());
 	});
-	reichweite_column.setCellValueFactory(new PropertyValueFactory<>("reichweite"));
-	sitzplaetze_column.setCellValueFactory(new PropertyValueFactory<>("sitzplaetze"));
-	preis_column.setCellValueFactory(new PropertyValueFactory<>("preis"));
-	
+	reichweite_column.setCellValueFactory(new PropertyValueFactory<>("range"));
+	sitzplaetze_column.setCellValueFactory(new PropertyValueFactory<>("seats"));
+	preis_column.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+	tableview.setItems(flugzeugListe);
 }
 
         public void handleKaufen(ActionEvent event){
@@ -97,8 +98,9 @@ public void initialize(URL location, ResourceBundle resources) {
 						flugzeug = tableview.getSelectionModel().getSelectedItem();
 						Double newBudget = fluggesellschaft.getBudget()-preis;
 						fluggesellschaft.setBudget(newBudget);
+						db.updateFG(fluggesellschaft);
 
-
+						//initalize
 
 						db.createFM(new FlugzeugMapping(fluggesellschaft, flugzeug));
 						String message = "Der Kauf wurde erfolgreich ausgefuehrt.";

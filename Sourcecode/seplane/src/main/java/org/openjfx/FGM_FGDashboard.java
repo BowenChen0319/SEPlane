@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.InputMethodEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -76,5 +77,14 @@ public class FGM_FGDashboard implements Initializable {
             landInhalt_label.setText(fluggesellschaft.getLand());
             bugetInhalt_label.setText(String.valueOf(fluggesellschaft.getBudget()));
         }
+    }
+
+
+    public void handleRefresh() {
+        Benutzer currentUser = new CurrentUser().getCurrent();
+        Fluggesellschaft fluggesellschaft= db.getFGzuFGM(currentUser);
+        nameInhalt_label.setText(fluggesellschaft.getName());
+        landInhalt_label.setText(fluggesellschaft.getLand());
+        bugetInhalt_label.setText(String.valueOf(fluggesellschaft.getBudget()));
     }
 }
