@@ -12,7 +12,6 @@
       <HBox alignment="CENTER" layoutX="220.0" layoutY="345.0" spacing="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Button fx:id="anlegen_button" mnemonicParsing="false" onAction="#handleAnlegen" text="anlegen" />
-            <Button fx:id="bearbeiten_button" mnemonicParsing="false" onAction="#handleBearbeiten" text="bearbeiten" />
             <Button fx:id="FlugzeugKaufen_button" mnemonicParsing="false" onAction="#handleFlugzeugKaufen" text="Flugzeug kaufen" />
          </children>
       </HBox>
@@ -28,7 +27,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="Budget:">
+            <Label text="Budget (in Mio. €):">
                <font>
                   <Font size="18.0" />
                </font>

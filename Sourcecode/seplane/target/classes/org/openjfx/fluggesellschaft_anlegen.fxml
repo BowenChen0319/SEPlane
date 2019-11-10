@@ -22,7 +22,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="budget_label" prefHeight="27.0" prefWidth="70.0" text="Budget:">
+            <Label fx:id="budget_label" prefHeight="27.0" prefWidth="147.0" text="Budget (in Mio. €):">
                <font>
                   <Font size="18.0" />
                </font>
