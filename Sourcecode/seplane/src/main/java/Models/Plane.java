@@ -28,10 +28,10 @@ public class Plane {
 
 	@DatabaseField(generatedId = true)
 	private int id;
-    @DatabaseField//(uniqueCombo = true)
+    @DatabaseField
     @CsvBindByPosition(position = 0)
     private String hersteller;
-    @DatabaseField//(uniqueCombo = true, id = true)
+    @DatabaseField
     @CsvBindByPosition(position =1)
     private String type;
     @DatabaseField
