@@ -13,6 +13,7 @@
          <children>
             <Button fx:id="anlegen_button" mnemonicParsing="false" onAction="#handleAnlegen" text="anlegen" />
             <Button fx:id="FlugzeugKaufen_button" mnemonicParsing="false" onAction="#handleFlugzeugKaufen" text="Flugzeug kaufen" />
+            <Button fx:id="refresh_button" mnemonicParsing="false" onAction="#handleRefresh" text="Refresh" />
          </children>
       </HBox>
       <VBox layoutX="100.0" layoutY="119.0" spacing="40.0">
@@ -41,17 +42,17 @@
       </Label>
       <VBox layoutX="289.0" layoutY="119.0" spacing="40.0">
          <children>
-            <Label fx:id="nameInhalt_label" text="Leer">
+            <Label fx:id="nameInhalt_label" onInputMethodTextChanged="#handleRefresh" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="landInhalt_label" text="Leer">
+            <Label fx:id="landInhalt_label" onInputMethodTextChanged="#handleRefresh" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="bugetInhalt_label" text="Leer">
+            <Label fx:id="bugetInhalt_label" onInputMethodTextChanged="#handleRefresh" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>
