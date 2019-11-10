@@ -207,6 +207,7 @@ public class FGM_FLDashboard implements Initializable{
 		System.out.println(startBox.getValue() +" und prompt "+startBox.getPromptText());
 		
 		//vorhandene Werte als Promttext setzen und nur übernehmen, was nicht null ist
+		kmLabel.setText(fluglinie.getEntfernung()+"");
 		startBox.setPromptText(fluglinie.getStart().getCode());
 		zielBox.setPromptText(fluglinie.getZiel().getCode());
 		intervallFeld.setText(fluglinie.getIntervall_int()+"");
