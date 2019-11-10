@@ -4,6 +4,7 @@ package org.openjfx;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import Models.*;
@@ -246,17 +247,21 @@ public class DBManager {
 		}
 	}
 	
-
-	public List<Benutzer> getallUser() {
-		List<Benutzer> all;
+	public List<Plane> getFzuFG(Fluggesellschaft fg) {
+		List<Plane> pl = new ArrayList<Plane>();
+		List<FlugzeugMapping> fm;
+		QueryBuilder<FlugzeugMapping, Integer> query = fmDao.queryBuilder();
+		
 		try {
-			all = bDao.queryForAll();
-			return all;
+			query.where().in("fg_id_id", fg);
+			fm = fmDao.query(query.prepare());
+			for (FlugzeugMapping fM : fm) {
+				pl.add(fM.getF_id());
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
-		
+		return pl;
 	}
 	
 	public List<Plane> getFlugzeuge(){
@@ -268,9 +273,21 @@ public class DBManager {
 		}	
 	}
 	
-	public List<Airport> getFlughafen(){
 		try {
-			return apDao.queryForAll();
+			all = bDao.queryForAll();
+			return all;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	public List<Airport> getFlughafen(){
+		QueryBuilder<Airport,String> query = apDao.queryBuilder();
+		try {
+			query.orderBy("country", true).orderBy("city", true);
+			return apDao.query(query.prepare());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -278,7 +295,7 @@ public class DBManager {
 	}
 	
 	//Select
-	public Benutzer getUser(String name, String pw) {
+/*	public Benutzer getUser(String name, String pw) {
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
 		//TODO Vergleich mit Methode aus Hash/Salt
 		try {
@@ -289,7 +306,7 @@ public class DBManager {
 			return null;
 		}
 	}
-
+*/
 	public Benutzer getUser(String name) {
 		QueryBuilder<Benutzer,Integer> query = bDao.queryBuilder();
 		try {
@@ -447,6 +464,7 @@ public class DBManager {
 		}*/
 		
 	}
+
 
 /*	public static void main(String[] args) throws FileNotFoundException, SQLException, URISyntaxException {
 		//addAirportToDb();

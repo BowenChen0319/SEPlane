@@ -61,9 +61,14 @@ public class FGMDashboard implements Initializable{
 	}
 	
 	public void anlegen(ActionEvent event) throws IOException {
-		if(flTab.isSelected()) {		
+		if(flTab.isSelected()) {
+			if(fGM_FluglinieController.fg==null)
+				AlertHandler.keineFG();
+			else if(fGM_FluglinieController.fList==null)
+				AlertHandler.keineFlugzeuge();
+			else
 			fGM_FluglinieController.fluglinieAnlegen(event);
-			}
+		}
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
 			//fluggesellschaftAnlegen(event);	*/

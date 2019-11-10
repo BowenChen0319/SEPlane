@@ -1,5 +1,8 @@
 package org.openjfx;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import Models.Benutzer;
 import Models.CurrentUser;
 import Toolbox.HASH;
@@ -15,7 +18,11 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -23,10 +30,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
 
 /**
  * JavaFX App
@@ -289,6 +292,8 @@ public class login extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 primaryStage.close();
+                //beendet FX Applikation, ruft stop() auf und beendet launcher thread
+                Platform.exit();
             }
         });
 
@@ -346,8 +351,6 @@ public class login extends Application {
                     new DBManager().addAirportToDb();
                     new login().start(new Stage());
                 } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
             }

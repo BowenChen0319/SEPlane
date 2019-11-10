@@ -13,6 +13,20 @@ public class AlertHandler {
 		alert.setContentText("Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.");
 		alert.showAndWait();
 	}
+	//Fluglinie
+	public static void keineFG() {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Keine Fluggesellschaft");
+		alert.setHeaderText("Bitte legen Sie eine Fluggesellschaft an, bevor Sie eine Fluglinie anlegen.");
+		alert.showAndWait();
+	}
+	//Fluglinie
+	public static void keineFlugzeuge() {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Keine Flugzeuge");
+		alert.setHeaderText("Bitte kaufen Sie ein Flugzeug, bevor Sie eine Fluglinie anlegen.");
+		alert.showAndWait();		
+	}
 
 	public static void keineAuswahl() {
 		Alert alert = new Alert(AlertType.WARNING);
@@ -28,4 +42,5 @@ public class AlertHandler {
 		alert.setHeaderText("Das Flugzeug wurde erfolgreich Ihrer Fluggesellschaft hinzugefügt.");
 		alert.showAndWait();
 	}
+
 }

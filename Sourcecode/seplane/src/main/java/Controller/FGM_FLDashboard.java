@@ -299,7 +299,9 @@ public class FGM_FLDashboard implements Initializable{
 		
 		flList.addAll(db.getFluglinieZuFG(fg.getId()));
 		fhList.addAll(db.getFlughafen());
-		fList.addAll(db.getFlugzeuge());
+		//fList.addAll(db.getFlugzeuge());
+		//Replace
+		fList.addAll(db.getFzuFG(fg));
 		
 	}
 	
@@ -309,46 +311,12 @@ public class FGM_FLDashboard implements Initializable{
 		dateLabel.managedProperty().bind(dateLabel.visibleProperty());
 		//Combos statt Choice Box weil letztere kein PromptText
 		startBox.setItems(fhList);
-		startBox.setConverter(new StringConverter<Airport>() {
-			@Override
-			public String toString(Airport object) {
-				return object == null ? null : (object.getCode());
-			}
-			@Override
-			public Airport fromString(String arg0) { //pflicht
-				return null;
-			}
-		});
+		startBox.setConverter(apConverter);
 		zielBox.setItems(fhList);
-		zielBox.setConverter(new StringConverter<Airport>() {
-			@Override
-			public String toString(Airport object) {
-				return object == null ? null : (object.getCode());
-			}
-			@Override
-			public Airport fromString(String arg0) { //pflicht
-				return null;
-			}
-		});	
+		zielBox.setConverter(apConverter);
 		//start/ziel ClickListener für Entfernung
-		startBox.valueProperty().addListener(new ChangeListener<Airport>() {
-			@Override
-			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue,
-					Airport newValue) {
-				if(startBox.getValue()!=null && zielBox.getValue()!=null)
-					//berechne entfernung und setze km label
-					calcEntf(startBox.getValue().getLat(),startBox.getValue().getLon(),zielBox.getValue().getLat(),zielBox.getValue().getLon());
-			}
-		});
-		zielBox.valueProperty().addListener(new ChangeListener<Airport>() {
-			@Override
-			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue,
-					Airport newValue) {
-				if(startBox.getValue()!=null && zielBox.getValue()!=null)
-					//berechne entfernung und setze km label
-					calcEntf(startBox.getValue().getLat(),startBox.getValue().getLon(),zielBox.getValue().getLat(),zielBox.getValue().getLon());
-			}
-		});
+		startBox.valueProperty().addListener(showEntfernung);
+		zielBox.valueProperty().addListener(showEntfernung);
 		//datePicker Listener für Warnung zukünftiges Datum
 		//Lambda weil kp wie von DatePicker zu LD
 		jungfernFlug.valueProperty().addListener((observable, oldValue, newValue)-> {
@@ -467,5 +435,29 @@ public class FGM_FLDashboard implements Initializable{
 	public Date convertLocal (LocalDate date) {
 		return Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 	}
+	
+	StringConverter<Airport> apConverter = new StringConverter<Airport>() {
+		@Override
+		public String toString(Airport object) {
+			return object == null ? null : (object.getCountry() +"\t\t"+ object.getCode()+"\t-\t"+object.getCity()+"\t "+ object.getName());
+		}
+		@Override
+		public Airport fromString(String arg0) { //pflicht
+			return null;
+		}
+	};
+	
+	ChangeListener<Airport>showEntfernung= new ChangeListener<Airport>() {
+		@Override
+		public void changed(ObservableValue<? extends Airport> observable, Airport oldValue,
+				Airport newValue) {
+			if(startBox.getValue()!=null && zielBox.getValue()!=null) {
+				//berechne entfernung und setze km label
+				calcEntf(startBox.getValue().getLat(),startBox.getValue().getLon(),zielBox.getValue().getLat(),zielBox.getValue().getLon());
+				if(flugzeugBox.getValue()!=null)
+					checkEntf(entfernung, flugzeugBox.getValue().getRange());
+			}
+		}			
+	};
 
 }
