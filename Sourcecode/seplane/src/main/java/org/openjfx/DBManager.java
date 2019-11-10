@@ -249,10 +249,11 @@ public class DBManager {
 		QueryBuilder<FlugzeugMapping, Integer> query = fmDao.queryBuilder();
 		
 		try {
+			//TODO join statt workaround
 			query.where().in("fg_id_id", fg);
 			fm = fmDao.query(query.prepare());
 			for (FlugzeugMapping fM : fm) {
-				pl.add(fM.getF_id());
+				pl.add(planeDao.queryForSameId(fM.getF_id()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
