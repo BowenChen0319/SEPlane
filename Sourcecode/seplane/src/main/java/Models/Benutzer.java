@@ -89,7 +89,7 @@ public class Benutzer {
         List<Benutzer> all= App.db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
-            if(b.getBenutzername().matches(username)){
+            if(b.getBenutzername().equals(username)){
                 System.out.println("Wrong two same username!");
                 right=false;
             }

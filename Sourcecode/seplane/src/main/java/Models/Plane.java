@@ -93,8 +93,8 @@ public class Plane {
         List<Plane> planes = App.db.getFlugzeuge();
         for(int i=0;i<planes.size();i++){
             Plane p = planes.get(i);
-            if(p.getHersteller().matches(hersteller) &&
-            p.getType().matches(type) && p.getPrice()==price && p.getRange() == range
+            if(p.getHersteller().equals(hersteller) &&
+            p.getType().equals(type) && p.getPrice()==price && p.getRange() == range
             && p.getSeats() == seats){
                 System.out.println("Wrong two same Planes!");
                 right=false;
