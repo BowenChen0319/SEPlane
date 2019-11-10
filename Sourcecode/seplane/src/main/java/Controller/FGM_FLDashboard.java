@@ -323,6 +323,7 @@ public class FGM_FLDashboard implements Initializable{
 					dateLabel.setVisible(false);
 				}
 		});
+		
 		intervallBox.getItems().setAll(Intervall.values());
 		flugzeugBox.setItems(fList);
 		flugzeugBox.setConverter(new StringConverter<Plane>() {
