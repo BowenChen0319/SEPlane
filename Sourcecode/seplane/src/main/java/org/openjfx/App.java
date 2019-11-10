@@ -34,10 +34,12 @@ public class App extends Application {
 
 
     public static void main(String[] args) throws SQLException {
-    	//new CSVReader();
+    	/*new CSVReader();
     	//TODO popup ob einlesen will
-    	//db.addAirportToDb();
-    	//DBManager.CSVToDB(CSVReader.OwnCSVReader());
+    	db.setUpDatabase();
+    	db.addAirportToDb();
+    	DBManager.CSVToDB(CSVReader.OwnCSVReader());
+    	*/
 
         launch();
     }
