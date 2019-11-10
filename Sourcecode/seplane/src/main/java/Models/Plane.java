@@ -3,7 +3,6 @@ package Models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.opencsv.bean.CsvBindByPosition;
-import org.h2.table.Plan;
 import org.openjfx.App;
 
 import java.util.List;

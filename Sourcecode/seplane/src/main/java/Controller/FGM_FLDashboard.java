@@ -298,9 +298,6 @@ public class FGM_FLDashboard implements Initializable{
 		
 		flList.addAll(db.getFluglinieZuFG(fg.getId()));
 		fhList.addAll(db.getFlughafen());
-		//fList.addAll(db.getFlugzeuge());
-		//Replace
-		//System.out.println(db.getFzuFG(fg));
 		fList.addAll(db.getFzuFG(fg));
 		
 	}
@@ -455,7 +452,8 @@ public class FGM_FLDashboard implements Initializable{
 				//berechne entfernung und setze km label
 				calcEntf(startBox.getValue().getLat(),startBox.getValue().getLon(),zielBox.getValue().getLat(),zielBox.getValue().getLon());
 				if(flugzeugBox.getValue()!=null)
-					checkEntf(entfernung, flugzeugBox.getValue().getRange());
+					if(!checkEntf(entfernung, flugzeugBox.getValue().getRange()))
+						kmLabel.setTextFill(Color.RED);
 			}
 		}			
 	};
