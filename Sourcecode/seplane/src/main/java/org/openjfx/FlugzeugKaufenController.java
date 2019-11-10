@@ -100,8 +100,6 @@ public void initialize(URL location, ResourceBundle resources) {
 						fluggesellschaft.setBudget(newBudget);
 						db.updateFG(fluggesellschaft);
 
-						//initalize
-
 						db.createFM(new FlugzeugMapping(fluggesellschaft, flugzeug));
 						String message = "Der Kauf wurde erfolgreich ausgefuehrt.";
 						Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
