@@ -7,7 +7,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FGMDashboard">
    <top>
-      <HBox BorderPane.alignment="CENTER">
+      <HBox style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#anlegen" text="anlegen" />
             <Button mnemonicParsing="false" onAction="#bearbeiten" text="bearbeiten">
@@ -30,7 +30,7 @@
       </HBox>
    </top>
    <center>
-      <TabPane fx:id="FGMTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="FGMTabs" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffccc9;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <!-- Tab fx:id="flTab" text="Fluglinien"-->
           <Tab fx:id="flTab" text="Fluglinien">

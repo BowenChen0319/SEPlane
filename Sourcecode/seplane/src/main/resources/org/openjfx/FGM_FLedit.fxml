@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e7f6fe;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -80,7 +80,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Label>
-                  <DatePicker fx:id="jungfernFlug"/>
+                  <DatePicker fx:id="jungfernFlug" />
                   <Label fx:id="dateLabel" prefWidth="150.0" text="der erste Flug muss in der Zukunft liegen" textFill="RED" visible="false" wrapText="true">
                      <HBox.margin>
                         <Insets left="15.0" />
