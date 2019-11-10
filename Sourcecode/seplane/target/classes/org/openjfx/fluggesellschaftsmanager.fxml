@@ -12,6 +12,7 @@
       <HBox alignment="CENTER" layoutX="220.0" layoutY="345.0" spacing="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Button fx:id="anlegen_button" mnemonicParsing="false" onAction="#handleAnlegen" text="anlegen" />
+            <Button fx:id="bearbeiten_button" mnemonicParsing="false" onAction="#handleBearbeiten" text="bearbeiten"  visible = "false"/>
             <Button fx:id="FlugzeugKaufen_button" mnemonicParsing="false" onAction="#handleFlugzeugKaufen" text="Flugzeug kaufen" />
             <Button fx:id="refresh_button" mnemonicParsing="false" onAction="#handleRefresh" text="Refresh" />
          </children>

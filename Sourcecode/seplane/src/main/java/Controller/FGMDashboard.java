@@ -100,4 +100,8 @@ public class FGMDashboard implements Initializable{
 			//fluggesellschaftLoeschen(event);*/
 	}
 	
+	public void refresh(ActionEvent event) throws IOException {
+		fGM_FluglinieController.initialize(null, null);
+	}
+	
 }

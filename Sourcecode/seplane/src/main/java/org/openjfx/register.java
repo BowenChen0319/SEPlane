@@ -85,7 +85,8 @@ public class register extends Application {
                 "Benutzertyp: ");
         text4.setFont(Font.font(25));
 
-        ChoiceBox bty = new ChoiceBox(FXCollections.observableArrayList(
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+		ChoiceBox bty = new ChoiceBox(FXCollections.observableArrayList(
                 "kunde","admin"));
         bty.getSelectionModel().select(0);
 
