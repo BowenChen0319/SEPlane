@@ -273,6 +273,10 @@ public class DBManager {
 		}	
 	}
 	
+	
+
+	public List<Benutzer> getallUser() {
+		List<Benutzer> all;
 		try {
 			all = bDao.queryForAll();
 			return all;
