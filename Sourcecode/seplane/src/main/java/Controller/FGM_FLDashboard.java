@@ -74,8 +74,8 @@ public class FGM_FLDashboard implements Initializable{
 	@FXML TableColumn <Fluglinie, String> intervallEinhCol;
 	@FXML TableColumn <Fluglinie, Integer> sitzBCol;
 	@FXML TableColumn <Fluglinie, Integer> sitzECol;
-	@FXML TableColumn <Fluglinie, Double> preisBCol;
-	@FXML TableColumn <Fluglinie, Double> preisECol;
+	@FXML TableColumn <Fluglinie, String> preisBCol;
+	@FXML TableColumn <Fluglinie, String> preisECol;
 	
 	//Inhalte
 	ObservableList<Fluglinie> flList;
@@ -129,8 +129,18 @@ public class FGM_FLDashboard implements Initializable{
 		intervallEinhCol.setCellValueFactory(new PropertyValueFactory<>("intervall"));
 		sitzBCol.setCellValueFactory(new PropertyValueFactory<>("anzb"));
 		sitzECol.setCellValueFactory(new PropertyValueFactory<>("anze"));
-		preisBCol.setCellValueFactory(new PropertyValueFactory<>("preiseb"));
-		preisECol.setCellValueFactory(new PropertyValueFactory<>("preisee"));
+		preisBCol.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getPreiseb() == null)
+				return new SimpleStringProperty("");
+			else
+				return new SimpleStringProperty(Math.round(cellData.getValue().getPreiseb()*100.0)/100.0+"");
+		});
+		preisECol.setCellValueFactory(cellData -> {
+			if(cellData.getValue().getPreisee() == null)
+				return new SimpleStringProperty("");
+			else
+				return new SimpleStringProperty(Math.round(cellData.getValue().getPreisee()*100.0)/100.0+"");
+		});
 		
 		flTable.setItems(flList);
 		}
