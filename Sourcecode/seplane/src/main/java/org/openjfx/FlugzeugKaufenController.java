@@ -5,10 +5,8 @@ import java.util.ResourceBundle;
 
 import Models.CurrentUser;
 import Models.Fluggesellschaft;
-import Models.Fluglinie;
 import Models.FlugzeugMapping;
 import Models.Plane;
-import Toolbox.AlertHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.h2.table.Plan;
 
 public class FlugzeugKaufenController implements Initializable {
 

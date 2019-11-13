@@ -225,6 +225,7 @@ public class FGM_FLDashboard implements Initializable{
 		jungfernFlug.setPromptText(fluglinie.getStartdatum()+"");
 		flugzeugBox.setPromptText(fluglinie.getFlugzeug().getHersteller()+" "+fluglinie.getFlugzeug().getType()+" "+ fluglinie.getFlugzeug().getRange());
 		slider.setValue(fluglinie.getAnzb());
+		slider.setMax(fluglinie.getAnze());
 		preisB.setPromptText(fluglinie.getPreiseb()+"");
 		preisE.setPromptText(fluglinie.getPreisee()+"");
 		

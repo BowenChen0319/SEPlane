@@ -30,7 +30,7 @@
       </HBox>
    </top>
    <center>
-      <TabPane fx:id="FGMTabs" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffccc9;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="FGMTabs" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #eafcfd;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <!-- Tab fx:id="flTab" text="Fluglinien"-->
           <Tab fx:id="flTab" text="Fluglinien">

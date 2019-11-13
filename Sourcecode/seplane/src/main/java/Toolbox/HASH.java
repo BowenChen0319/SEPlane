@@ -12,7 +12,8 @@ public class HASH {
 
     private static byte[] salt={2};
     private static final int iterations = 1000; //more iterations == safer
-    private static final int saltLen = 32;
+    @SuppressWarnings("unused")
+	private static final int saltLen = 32;
     private static final int desiredKeyLen = 256;
 
 

@@ -5,15 +5,10 @@ import Models.CurrentUser;
 import Models.Fluggesellschaft;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.ObjectUtils;
 import org.openjfx.DBManager;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class FluggesellschaftAnlegenController  {
 
@@ -75,8 +70,6 @@ public class FluggesellschaftAnlegenController  {
 
                 //Datenbankbefehle
                 db.createFG(fluggesellschaft);
-                FGM_FGDashboard fgmfgd = new FGM_FGDashboard();
-                //fgmfgd.initialize(null, null);
 
                 Stage stage = (Stage) anlegen_button.getScene().getWindow();
                 stage.close();

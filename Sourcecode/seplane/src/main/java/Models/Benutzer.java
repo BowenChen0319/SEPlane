@@ -1,9 +1,8 @@
 package Models;
 
+import Toolbox.Encryption;
 import com.j256.ormlite.field.DatabaseField;
-
 import org.openjfx.App;
-import Toolbox.HASH;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -40,7 +39,7 @@ public class Benutzer {
         this.benutzername=benutzername;
         this.passwort_klar=passwort_klar;
         this.benutzertyp=benutzertyp;
-        this.passwort= HASH.getResult(passwort_klar);
+        this.passwort= Encryption.getSaltedHash(passwort_klar);
     }
 
     public String getBenutzertyp() {
