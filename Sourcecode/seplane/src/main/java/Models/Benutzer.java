@@ -19,11 +19,24 @@ public class Benutzer {
     @DatabaseField
     String benutzername;
     @DatabaseField
+    String adresse;
+    @DatabaseField
+    String telnumber;
+    @DatabaseField
+    String post;
+    @DatabaseField
+    String email;
+    @DatabaseField
     String passwort;
     @DatabaseField
     String passwort_klar;
     @DatabaseField
     String benutzertyp;
+
+
+
+
+
 
 
 //    public enum benutzertyp {
@@ -33,13 +46,18 @@ public class Benutzer {
     public Benutzer() {
 
     }
-    public Benutzer(String vorname, String nachname, String benutzername, String passwort_klar, String benutzertyp) throws Exception {
+    public Benutzer(String vorname, String nachname, String benutzername, String passwort_klar, String benutzertyp, String email, String adresse, String telnumber, String post) throws Exception {
         this.vorname=vorname;
         this.nachname=nachname;
         this.benutzername=benutzername;
         this.passwort_klar=passwort_klar;
         this.benutzertyp=benutzertyp;
         this.passwort= Encryption.getSaltedHash(passwort_klar);
+        this.email=email;
+        this.adresse=adresse;
+        this.telnumber=telnumber;
+        this.post=post;
+
     }
 
     public String getBenutzertyp() {
@@ -66,22 +84,14 @@ public class Benutzer {
         return nachname;
     }
 
+    public String getAdresse(){ return adresse;}
 
+    public String getTelnumber(){ return telnumber; }
 
-    public Benutzer getBenutzer(String username) throws SQLException {
-        Benutzer getb = null;
+    public String getEmail(){ return email;}
 
-        List<Benutzer> all= App.db.getallUser();
-        for(int i=0;i<all.size();i++){
-            Benutzer b = all.get(i);
-            if(b.getBenutzername().matches(username)){
-                System.out.println("Finde user "+username);
-                getb=b;
-            }
-        }
-        return getb;
+    public String getPost(){ return post;}
 
-    }
 
     public boolean checkname(String username) throws SQLException {
         boolean right = true;

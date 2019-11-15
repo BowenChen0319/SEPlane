@@ -29,7 +29,7 @@ public class register extends Application {
     @Override
 
     public void start(Stage stage) throws IOException {
-        int Height = 400;
+        int Height = 600;
         int Width = 600;
         System.out.println("register window");
         VBox root = new VBox();
@@ -94,10 +94,64 @@ public class register extends Application {
         Tooltip tip4 = new Tooltip("Benutzertyp 'admin' or 'kunde' Please :)");
         tip4.setFont(Font.font(12));
         bty.setTooltip(tip4);
-
         HBox h4 = new HBox();
         h4.setAlignment(Pos.CENTER);
         h4.getChildren().addAll(text4,bty);
+
+
+        Label te = new Label(
+                "Email: ");
+        te.setFont(Font.font(25));
+        TextField email = new TextField();
+        email.setFont((Font.font(10)));
+        Tooltip tipe = new Tooltip("Email Please :)");
+        tipe.setFont(Font.font(12));
+        email.setTooltip(tipe);
+        email.setPromptText("Email");
+        HBox he = new HBox();
+        he.setAlignment(Pos.CENTER);
+        he.getChildren().addAll(te,email);
+
+        Label ta = new Label(
+                "Adresse: ");
+        ta.setFont(Font.font(25));
+        TextField adresse = new TextField();
+        adresse.setFont((Font.font(10)));
+        Tooltip tipa = new Tooltip("Adresse Please :)");
+        tipa.setFont(Font.font(12));
+        adresse.setTooltip(tipa);
+        adresse.setPromptText("Adresse");
+        HBox ha = new HBox();
+        ha.setAlignment(Pos.CENTER);
+        ha.getChildren().addAll(ta,adresse);
+
+        Label tt = new Label(
+                "Telephone number: ");
+        tt.setFont(Font.font(25));
+        TextField tel = new TextField();
+        tel.setFont((Font.font(10)));
+        Tooltip tipt = new Tooltip("Telephone number Please :)");
+        tipt.setFont(Font.font(12));
+        tel.setTooltip(tipt);
+        tel.setPromptText("Telephone number");
+        HBox ht = new HBox();
+        ht.setAlignment(Pos.CENTER);
+        ht.getChildren().addAll(tt,tel);
+
+        Label tp = new Label(
+                "Postfach: ");
+        tp.setFont(Font.font(25));
+        TextField post = new TextField();
+        post.setFont((Font.font(10)));
+        Tooltip tipp = new Tooltip("Postfach Please :)");
+        tipp.setFont(Font.font(12));
+        post.setTooltip(tipp);
+        post.setPromptText("Postfach");
+        HBox hp = new HBox();
+        hp.setAlignment(Pos.CENTER);
+        hp.getChildren().addAll(tp,post);
+
+
 
         Label text5 = new Label(
                 "Passwort: ");
@@ -147,7 +201,7 @@ public class register extends Application {
                             warning.setText("Wrong: Two same username!");
                         }else{
                             try {
-                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),bty.getValue().toString()));
+                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),bty.getValue().toString(),email.getText(),adresse.getText(),tel.getText(),post.getText()));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -176,7 +230,7 @@ public class register extends Application {
 
 
 
-        root.getChildren().addAll(h1,h2,h3,h4,h5,warning,b3);
+        root.getChildren().addAll(h1,h2,h3,h4,he,ha,ht,hp,h5,warning,b3);
         Scene scene = new Scene(root);
 
         stage.setWidth(Width);
