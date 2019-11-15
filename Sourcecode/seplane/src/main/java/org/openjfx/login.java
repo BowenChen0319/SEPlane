@@ -1,12 +1,9 @@
 package org.openjfx;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import Models.Benutzer;
 import Models.CurrentUser;
 import Toolbox.CSVReader;
-import Toolbox.HASH;
+import Toolbox.Encryption;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -19,11 +16,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -31,6 +24,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * JavaFX App
@@ -178,7 +174,7 @@ public class login extends Application {
                     }else{
                         if(b.getBenutzertyp().matches("fgm")){
                             try {
-                                if(b.getPasswort().matches(HASH.getResult(pwd.getText()))){
+                                if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome fgm");
 
                                     Benutzer finalB2 = b;
@@ -212,7 +208,7 @@ public class login extends Application {
 
                         }else if(b.getBenutzertyp().matches("admin")){
                             try {
-                                if(b.getPasswort().matches(HASH.getResult(pwd.getText()))){
+                                if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome admin");
                                     System.out.println("Welcome admin");
                                     Benutzer finalB = b;
@@ -237,7 +233,7 @@ public class login extends Application {
 
                         }else if(b.getBenutzertyp().matches("kunde")){
                             try {
-                                if(b.getPasswort().matches(HASH.getResult(pwd.getText()))){
+                                if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome Kunde");
                                     System.out.println("Welcome kunde");
                                     Benutzer finalB1 = b;
