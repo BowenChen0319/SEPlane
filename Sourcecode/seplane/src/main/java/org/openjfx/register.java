@@ -128,7 +128,21 @@ public class register extends Application {
         Label tt = new Label(
                 "Telephone number: ");
         tt.setFont(Font.font(25));
-        TextField tel = new TextField();
+        TextField tel = new TextField(){
+            @Override
+            public void replaceText(int start, int end, String text) {
+                if (!text.matches("[a-z]")) {
+                    super.replaceText(start, end, text);
+                }
+            }
+
+            @Override
+            public void replaceSelection(String text) {
+                if (!text.matches("[a-z]")) {
+                    super.replaceSelection(text);
+                }
+            }
+        };
         tel.setFont((Font.font(10)));
         Tooltip tipt = new Tooltip("Telephone number Please :)");
         tipt.setFont(Font.font(12));
@@ -137,6 +151,7 @@ public class register extends Application {
         HBox ht = new HBox();
         ht.setAlignment(Pos.CENTER);
         ht.getChildren().addAll(tt,tel);
+
 
         Label tp = new Label(
                 "Postfach: ");
