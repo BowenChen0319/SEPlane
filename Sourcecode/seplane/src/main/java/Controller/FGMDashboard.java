@@ -61,10 +61,10 @@ public class FGMDashboard implements Initializable{
 		if(flTab.isSelected()) {
 			if(fGM_FluglinieController.fg==null)
 				AlertHandler.keineFG();
-			else if(fGM_FluglinieController.fList==null)
+			else if(fGM_FluglinieController.fList.isEmpty())
 				AlertHandler.keineFlugzeuge();
 			else
-			fGM_FluglinieController.fluglinieAnlegen(event);
+				fGM_FluglinieController.fluglinieAnlegen(event);
 		}
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");

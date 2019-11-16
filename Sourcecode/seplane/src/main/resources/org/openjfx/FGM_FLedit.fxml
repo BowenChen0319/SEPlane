@@ -44,7 +44,7 @@
                            </HBox.margin>
                         </Label>
                         <Label fx:id="kmLabel" text="0" />
-                        <Label text="km" />
+                        <Label fx:id="kmkmLabel" text=" km" />
                      </children>
                   </HBox>
                </children>

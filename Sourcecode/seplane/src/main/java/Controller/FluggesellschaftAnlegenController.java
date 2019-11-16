@@ -1,4 +1,4 @@
-package org.openjfx;
+package Controller;
 
 import Models.Benutzer;
 import Models.CurrentUser;
@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+
+import org.openjfx.App;
 import org.openjfx.DBManager;
 
 public class FluggesellschaftAnlegenController  {

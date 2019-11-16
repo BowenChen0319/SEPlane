@@ -1,4 +1,4 @@
-package org.openjfx;
+package Controller;
 
 import Models.Benutzer;
 import Models.CurrentUser;
@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.openjfx.App;
+import org.openjfx.DBManager;
 
 public class FGM_FGDashboard implements Initializable {
 
@@ -39,7 +42,7 @@ public class FGM_FGDashboard implements Initializable {
     static DBManager db = App.db;
 
     public void handleAnlegen() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fluggesellschaft_anlegen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fluggesellschaft_anlegen.fxml"));
         Parent root1 = fxmlLoader.load();
         Scene scene = new Scene(root1);
         Stage stage = new Stage();
@@ -55,7 +58,7 @@ public class FGM_FGDashboard implements Initializable {
 
 
     public void handleFlugzeugKaufen() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("flugzeug_kaufen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("flugzeug_kaufen.fxml"));
         Parent root1 = fxmlLoader.load();
         Scene scene = new Scene(root1);
         Stage stage = new Stage();
