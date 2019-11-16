@@ -36,11 +36,28 @@ public class FGMDashboard implements Initializable{
 	//TabController
 	@FXML FGM_FLDashboard fGM_FluglinieController;
 	@FXML FGM_FGDashboard fluggesellschaftsmanagerController;
+	@FXML FluggesellschaftAnlegenController fluggesellschaft_anlegenController;
 	//Button
 	@FXML Button button_loeschen;
 
 	Fluglinie curFL;
 	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		fGM_FluglinieController.setParentController(this);
+		fluggesellschaft_anlegenController.setParentController(this);
+		//Blende Löschen-Button aus bei Fluggesellschaft
+		FGMTabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+			@Override
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+				if(newValue==fgTab)
+					button_loeschen.setDisable(true);
+				else
+					button_loeschen.setDisable(false);
+			}
+		});
+	}
+
 	public void logout(ActionEvent event) throws IOException {
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
 		stage.close();
@@ -97,23 +114,9 @@ public class FGMDashboard implements Initializable{
 			System.out.println("FG Tab");
 	}
 	
-	public void refresh(ActionEvent event) throws IOException {
+	public void refresh(ActionEvent event) {
 		fGM_FluglinieController.initialize(null, null);
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		//Blende Löschen-Button aus bei Fluggesellschaft
-		FGMTabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-				if(newValue==fgTab)
-					button_loeschen.setDisable(true);
-				else
-					button_loeschen.setDisable(false);
-			}
-		});
+		fluggesellschaftsmanagerController.initialize(null, null);
 	}
 	
 }

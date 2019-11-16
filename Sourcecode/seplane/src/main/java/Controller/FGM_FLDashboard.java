@@ -87,8 +87,17 @@ public class FGM_FLDashboard implements Initializable{
 	
 	//Anwendung
 	static DBManager db = App.db;
+	FGMDashboard fgmdb;
+	
 	//FG zur Anzeige jew. FLs
 	Fluggesellschaft fg;
+	
+	private FGMDashboard fGMDashboard;
+	
+	public void setParentController(FGMDashboard fgmd) {
+		fGMDashboard = fgmd;
+	}
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -181,7 +190,8 @@ public class FGM_FLDashboard implements Initializable{
 					Double.parseDouble(preisE.getText()), Double.parseDouble(preisB.getText())));
 			
 			((Node) event.getSource()).getScene().getWindow().hide();
-			initialize(null, null);
+			fGMDashboard.refresh(null);
+			//initialize(null, null);
 		}
 	}
 

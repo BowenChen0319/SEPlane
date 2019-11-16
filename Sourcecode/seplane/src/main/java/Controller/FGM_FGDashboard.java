@@ -83,10 +83,11 @@ public class FGM_FGDashboard implements Initializable {
 
 
     public void handleRefresh() {
-        Benutzer currentUser = new CurrentUser().getCurrent();
+    	initialize(null, null);
+        /*Benutzer currentUser = new CurrentUser().getCurrent();
         Fluggesellschaft fluggesellschaft= db.getFGzuFGM(currentUser);
         nameInhalt_label.setText(fluggesellschaft.getName());
         landInhalt_label.setText(fluggesellschaft.getLand());
-        bugetInhalt_label.setText(String.valueOf(fluggesellschaft.getBudget()));
+        bugetInhalt_label.setText(String.valueOf(fluggesellschaft.getBudget()));*/
     }
 }
