@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 
 import Models.CurrentUser;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 import org.openjfx.App;
 import org.openjfx.DBManager;
 import Models.Fluglinie;
@@ -14,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
@@ -29,16 +33,14 @@ public class FGMDashboard implements Initializable{
 	@FXML Tab flTab;
 	@FXML Tab fgTab;
 	@FXML TabPane FGMTabs;
-	//Tab1
+	//TabController
 	@FXML FGM_FLDashboard fGM_FluglinieController;
+	@FXML FGM_FGDashboard fluggesellschaftsmanagerController;
+	//Button
+	@FXML Button button_loeschen;
 
 	Fluglinie curFL;
 	
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-		fGM_FluglinieController.setParentController(this);
-	}
-
 	public void logout(ActionEvent event) throws IOException {
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
 		stage.close();
@@ -67,8 +69,7 @@ public class FGMDashboard implements Initializable{
 				fGM_FluglinieController.fluglinieAnlegen(event);
 		}
 		else if(fgTab.isSelected()) 
-			System.out.println("FG Tab");
-			//fluggesellschaftAnlegen(event);	*/
+			fluggesellschaftsmanagerController.handleAnlegen();
 	}
 
 	public void bearbeiten(ActionEvent event) throws IOException {
@@ -83,22 +84,36 @@ public class FGMDashboard implements Initializable{
 				
 			}
 		else if(fgTab.isSelected()) 
-			System.out.println("FG Tab");
-			//fluggesellschaftBearbeiten(event);*/
+			fluggesellschaftsmanagerController.handleBearbeiten();
 	}
 	public void loeschen(ActionEvent event) throws Exception {
-		if(flTab.isSelected())
+		if(flTab.isSelected()) {
 			if(fGM_FluglinieController.flTable.getSelectionModel().isEmpty())
 				AlertHandler.keineAuswahl();
 			else
-				fGM_FluglinieController.fluglinieLoeschen(event); //, fGM_FluglinieController.getRowFL());
+				fGM_FluglinieController.fluglinieLoeschen(event);
+		}
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
-			//fluggesellschaftLoeschen(event);*/
 	}
 	
 	public void refresh(ActionEvent event) throws IOException {
 		fGM_FluglinieController.initialize(null, null);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+		//Blende Löschen-Button aus bei Fluggesellschaft
+		FGMTabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+			@Override
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+				if(newValue==fgTab)
+					button_loeschen.setDisable(true);
+				else
+					button_loeschen.setDisable(false);
+			}
+		});
 	}
 	
 }

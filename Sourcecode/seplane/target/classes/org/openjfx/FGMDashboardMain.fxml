@@ -15,7 +15,7 @@
                   <Insets left="10.0" right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#loeschen" text="löschen" />
+            <Button fx:id="button_loeschen" mnemonicParsing="false" onAction="#loeschen" text="löschen" />
             <Pane HBox.hgrow="ALWAYS" />
             <Button mnemonicParsing="false" onAction="#refresh" text="Refresh">
                <HBox.margin>

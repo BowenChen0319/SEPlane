@@ -89,13 +89,6 @@ public class FGM_FLDashboard implements Initializable{
 	static DBManager db = App.db;
 	//FG zur Anzeige jew. FLs
 	Fluggesellschaft fg;
-	
-	@SuppressWarnings("unused")
-	private FGMDashboard fGMDashboard;
-	
-	public void setParentController(FGMDashboard fgmd) {
-		fGMDashboard = fgmd;
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -105,7 +98,7 @@ public class FGM_FLDashboard implements Initializable{
 
 		//Mapping Fluglinientabelle
 		//TODO Flugnummer
-		try {
+		//try {
 		idCol.setCellValueFactory(new PropertyValueFactory<Fluglinie,Integer>("id"));
 		startCol.setCellValueFactory(cellData -> {
 			if(cellData.getValue().getStart() == null)
@@ -144,10 +137,10 @@ public class FGM_FLDashboard implements Initializable{
 		});
 		
 		flTable.setItems(flList);
-		}
+		/*}
 		catch(Exception e) {
 			System.out.println("Data not found");
-		}
+		}*/
 	}
 	
 //-----Anlegen
@@ -213,44 +206,44 @@ public class FGM_FLDashboard implements Initializable{
 		
 		initParam();
 		
-		//vorhandene Werte als Promttext setzen und nur übernehmen, was nicht null ist
+		//vorhandene Werte setzen
 		kmLabel.setText(fluglinie.getEntfernung()+"");
-		startBox.setPromptText(fluglinie.getStart().getCode());
-		zielBox.setPromptText(fluglinie.getZiel().getCode());
+		startBox.setValue(fluglinie.getStart());
+		zielBox.setValue(fluglinie.getZiel());
 		intervallFeld.setText(fluglinie.getIntervall_int()+"");
 		intervallBox.setValue(fluglinie.getIntervall());
 		jungfernFlug.setValue(fluglinie.getStartdatum().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		flugzeugBox.setValue(fluglinie.getFlugzeug());
-		slider.setValue(fluglinie.getAnzb());
+		//zuerst setMax wegen Prozentberechnung
 		slider.setMax(fluglinie.getFlugzeug().getSeats());
-		preisB.setPromptText(fluglinie.getPreiseb()+"");
-		preisE.setPromptText(fluglinie.getPreisee()+"");
+		slider.setValue(fluglinie.getAnzb());
+		preisB.setText(fluglinie.getPreiseb()+"");
+		preisE.setText(fluglinie.getPreisee()+"");
 		
 		stage.show();
 
 	}
 	
 	public void fl_bearbeiten(ActionEvent event) throws IOException{
-		if(startBox.getValue() != null && startBox.getValue() != fluglinie.getStart())
-			fluglinie.setStart(startBox.getValue());
-		if(zielBox.getValue()!= null && zielBox.getValue()!= fluglinie.getZiel()) 
-			fluglinie.setZiel(zielBox.getValue());
-		if(!intervallFeld.getText().isBlank() && checkInt(intervallFeld.getText()) )//erkennt Leerzeichen
-			if(Integer.parseInt(intervallFeld.getText())!= fluglinie.getIntervall_int())
-				fluglinie.setIntervall_int(Integer.parseInt(intervallFeld.getText()));
-		fluglinie.setIntervall(intervallBox.getValue());
-		fluglinie.setStartdatum(convertLocal(jungfernFlug.getValue()));
-		fluglinie.setFlugzeug(flugzeugBox.getValue());
-		fluglinie.setAnzb(Integer.parseInt(labelB.getText()));
-		fluglinie.setAnze(Integer.parseInt(labelE.getText()));
-		if(!preisB.getText().isBlank() && checkDouble(preisB.getText()))
-			fluglinie.setPreiseb(Double.parseDouble(preisB.getText()));
-		if(!preisE.getText().isBlank() && checkDouble(preisE.getText()))
-			fluglinie.setPreisee(Double.parseDouble(preisE.getText()));
 		//Zahlen falsch oder falscher Flieger oder zu frühes Datum
-		if(checkStart(jungfernFlug.getValue())||checkEntf(fluglinie.getEntfernung(), flugzeugBox.getValue().getRange())||(!intervallFeld.getText().isBlank()&&!checkInt(intervallFeld.getText()))||(!preisB.getText().isBlank()&&!checkDouble(preisB.getText()))||(!preisE.getText().isBlank()&&!checkDouble(preisE.getText())))
+		if(!checkStart(jungfernFlug.getValue())||!checkEntf(fluglinie.getEntfernung(), flugzeugBox.getValue().getRange())|| prozentLabel.getTextFill()==Color.RED||
+				(!intervallFeld.getText().isBlank()&&!checkInt(intervallFeld.getText()))||(!preisB.getText().isBlank()&&!checkDouble(preisB.getText()))||
+				(!preisE.getText().isBlank()&&!checkDouble(preisE.getText())))
+			
 			AlertHandler.falscheAngaben();
 		else {	
+			
+			fluglinie.setStart(startBox.getValue());
+			fluglinie.setZiel(zielBox.getValue());		
+			fluglinie.setIntervall_int(Integer.parseInt(intervallFeld.getText()));
+			fluglinie.setIntervall(intervallBox.getValue());
+			fluglinie.setStartdatum(convertLocal(jungfernFlug.getValue()));
+			fluglinie.setFlugzeug(flugzeugBox.getValue());
+			fluglinie.setAnzb(Integer.parseInt(labelB.getText()));
+			fluglinie.setAnze(Integer.parseInt(labelE.getText()));
+			fluglinie.setPreiseb(Double.parseDouble(preisB.getText()));
+			fluglinie.setPreisee(Double.parseDouble(preisE.getText()));
+			
 			db.updateFL(fluglinie);
 			((Node) event.getSource()).getScene().getWindow().hide();
 			initialize(null, null);
@@ -343,7 +336,12 @@ public class FGM_FLDashboard implements Initializable{
 			public void changed(ObservableValue<? extends Plane> observable, 
 					Plane oldValue, Plane newValue) {
 				slider.setMax(newValue.getSeats());
+				slider.setValue(0);
 				labelE.setText(newValue.getSeats()+"");	
+				labelB.setText("0");
+				labelE.setTextFill(Color.BLACK);
+				labelB.setTextFill(Color.BLACK);
+				prozentLabel.setTextFill(Color.BLACK);
 				if(startBox.getValue()!=null && zielBox.getValue()!=null)
 					if(!checkEntf(entfernung, newValue.getRange())) {
 						kmLabel.setTextFill(Color.RED);
@@ -400,10 +398,10 @@ public class FGM_FLDashboard implements Initializable{
 		}
 	}
 	
-	//check Startdatum in Zukunft
+	//check Startdatum in Zukunft, true wenn in der Zukunft oder Heute
 	public boolean checkStart(LocalDate newValue) {
-		//convert localDate aus DatePicker zu Date, < 0 ist vor heute
-		if(convertLocal(newValue).compareTo(new Date())<0)
+		//convert localDate aus DatePicker zu Date, < 0 ist in der Vergangenheit
+		if(convertLocal(newValue).compareTo(new Date())<=0)
 			return false;
 		else return true;
 	}
@@ -423,7 +421,7 @@ public class FGM_FLDashboard implements Initializable{
 	    entfernung = Math.round(entfernung *100.0)/100.0;
 	    kmLabel.setText(entfernung+"");
 	}
-	//Reichweite Constraint Flugzeug und FL Entfernung
+	//Reichweite Constraint Flugzeug und FL Entfernung, true wenn Reichweite ausreicht
 	public boolean checkEntf(double FLentf, Double Fentf) {
 		if(Fentf<FLentf)
 			return false;
