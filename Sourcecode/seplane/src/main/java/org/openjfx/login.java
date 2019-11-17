@@ -176,7 +176,9 @@ public class login extends Application {
                             try {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome fgm");
-
+                                    System.out.println("Welcome fgm");
+                                    user.clear();
+                                    pwd.clear();
                                     Benutzer finalB2 = b;
                                     Platform.runLater(new Runnable() {
                                         @Override
@@ -211,6 +213,8 @@ public class login extends Application {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome admin");
                                     System.out.println("Welcome admin");
+                                    user.clear();
+                                    pwd.clear();
                                     Benutzer finalB = b;
                                     Platform.runLater(new Runnable() {
                                         @Override
@@ -236,6 +240,8 @@ public class login extends Application {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome Kunde");
                                     System.out.println("Welcome kunde");
+                                    user.clear();
+                                    pwd.clear();
                                     Benutzer finalB1 = b;
                                     Platform.runLater(new Runnable() {
                                         @Override

@@ -21,10 +21,11 @@ public class App extends Application {
     public void start (Stage primaryStage) throws Exception {
 
     	//beendet die FX Anwendung bei Klick auf X-Button
+
     	primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				Platform.exit();			
+				Platform.exit();
 			}
 		});
 

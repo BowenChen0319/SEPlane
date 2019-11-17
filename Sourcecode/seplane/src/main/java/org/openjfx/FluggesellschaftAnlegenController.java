@@ -44,7 +44,7 @@ public class FluggesellschaftAnlegenController  {
         Benutzer currentUser = new CurrentUser().getCurrent();
         if (db.getFGzuFGM(currentUser) == null) {
             if (name_textfield.getText().isEmpty()|| land_textfield.getText().isEmpty() || budget_textfield.getText().isEmpty()) {
-                System.out.println("test");
+                //System.out.println("test");
                 String errorMessage = "Bitte fuellen Sie folgende Felder aus: ";
                 if (name_textfield.getText().isEmpty()) {
                     errorMessage = errorMessage + "Name ";

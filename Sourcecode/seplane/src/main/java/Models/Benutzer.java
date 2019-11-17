@@ -2,9 +2,12 @@ package Models;
 
 import Toolbox.Encryption;
 import com.j256.ormlite.field.DatabaseField;
+import org.apache.commons.lang3.StringUtils;
 import org.openjfx.App;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,26 +30,27 @@ public class Benutzer {
     @DatabaseField
     String email;
     @DatabaseField
+    String booking;
+    @DatabaseField
     String passwort;
     @DatabaseField
     String passwort_klar;
     @DatabaseField
     String benutzertyp;
+    @DatabaseField
+    Double kilo;
+    @DatabaseField
+    Double co;
 
 
-
-
-
-
-
-//    public enum benutzertyp {
-//        admin, fgm, kunde
-//    }
 
     public Benutzer() {
 
     }
-    public Benutzer(String vorname, String nachname, String benutzername, String passwort_klar, String benutzertyp, String email, String adresse, String telnumber, String post) throws Exception {
+    public Benutzer(String vorname, String nachname, String benutzername,
+                    String passwort_klar, String benutzertyp, String email,
+                    String adresse, String telnumber, String post,
+                    String booking, Double kilo, Double co) throws Exception {
         this.vorname=vorname;
         this.nachname=nachname;
         this.benutzername=benutzername;
@@ -57,6 +61,9 @@ public class Benutzer {
         this.adresse=adresse;
         this.telnumber=telnumber;
         this.post=post;
+        this.booking=booking;
+        this.kilo=kilo;
+        this.co=co;
 
     }
 
@@ -122,6 +129,37 @@ public class Benutzer {
     public int getId() {
         return id;
     }
+
+    public ArrayList<String> getbooking(){
+        //string 转 ArrayList
+        String book = this.booking;
+        ArrayList<String> list = new ArrayList<String>(Arrays.asList(book.split(";")));
+        System.out.println(list);
+        return list;
+    }
+
+    public void addbooking(String flug,String classe, String seat){
+        ArrayList<String> list = this.getbooking();
+        list.add(flug + "," + classe + "," + seat);
+        System.out.println(list);
+        String list_str = StringUtils.join(list,";");
+        this.booking=list_str;
+        System.out.println(list_str);
+    }
+
+    public void delbooking(String flug,String classe, String seat){
+        ArrayList<String> list = this.getbooking();
+        list.remove(flug + "," + classe + "," + seat);
+        System.out.println(list);
+        String list_str = StringUtils.join(list,";");
+        this.booking=list_str;
+        System.out.println(list_str);
+    }
+
+
+
+
+
 
 
 
