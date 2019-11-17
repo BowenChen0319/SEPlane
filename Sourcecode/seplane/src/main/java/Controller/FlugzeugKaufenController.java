@@ -1,7 +1,10 @@
-package org.openjfx;
+package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.openjfx.App;
+import org.openjfx.DBManager;
 
 import Models.CurrentUser;
 import Models.Fluggesellschaft;

@@ -1,4 +1,4 @@
-package org.openjfx;
+package Controller;
 
 import Models.Benutzer;
 import Models.CurrentUser;
@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import org.openjfx.DBManager;
 
 /**
  * JavaFX App
