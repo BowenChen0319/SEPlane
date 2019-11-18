@@ -26,6 +26,7 @@ public class DBManager {
 	Dao<FlugzeugMapping, Integer> fmDao;
 	Dao<Airport,String> apDao;
 	static Dao<Plane, Object> planeDao;
+	Dao<Flug,Integer> flugDao;
 
 
 	
@@ -40,6 +41,7 @@ public class DBManager {
         	fmDao = DaoManager.createDao(cs, FlugzeugMapping.class);
         	apDao = DaoManager.createDao(cs,Airport.class);
         	planeDao = DaoManager.createDao(cs,Plane.class);
+        	flugDao = DaoManager.createDao(cs,Flug.class);
         	      	
         } catch (SQLException ex) {
         	ex.printStackTrace();
@@ -55,6 +57,7 @@ public class DBManager {
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		TableUtils.dropTable(cs, Airport.class, true);
 		TableUtils.dropTable(cs, Plane.class, true);
+		TableUtils.dropTable(cs, Flug.class,true);
 		
 		TableUtils.createTable(cs, Benutzer.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
@@ -62,6 +65,7 @@ public class DBManager {
 		TableUtils.createTable(cs, FlugzeugMapping.class);
 		TableUtils.createTable(cs, Airport.class);
 		TableUtils.createTable(cs, Plane.class);
+		TableUtils.createTable(cs, Flug.class);
 	}
 	
 //------Auslesen Flughäfen und Flugzeuge

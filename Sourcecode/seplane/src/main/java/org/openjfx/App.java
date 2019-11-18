@@ -40,7 +40,7 @@ public class App extends Application {
     	db.addAirportToDb();
     	DBManager.CSVToDB(CSVReader.OwnCSVReader());
     	*/
-
+    	
         launch();
     }
 

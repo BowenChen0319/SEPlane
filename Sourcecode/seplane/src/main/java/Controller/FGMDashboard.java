@@ -36,7 +36,7 @@ public class FGMDashboard implements Initializable{
 	//TabController
 	@FXML FGM_FLDashboard fGM_FluglinieController;
 	@FXML FGM_FGDashboard fluggesellschaftsmanagerController;
-	@FXML FluggesellschaftAnlegenController fluggesellschaft_anlegenController;
+
 	//Button
 	@FXML Button button_loeschen;
 
@@ -45,7 +45,8 @@ public class FGMDashboard implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fGM_FluglinieController.setParentController(this);
-		fluggesellschaft_anlegenController.setParentController(this);
+		//TODO setParent Tab 2
+		
 		//Blende Löschen-Button aus bei Fluggesellschaft
 		FGMTabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
 			@Override
@@ -74,6 +75,11 @@ public class FGMDashboard implements Initializable{
 				}
 			}
 		});
+	}
+	
+	public void refresh(ActionEvent event) {
+		fGM_FluglinieController.initialize(null, null);
+		fluggesellschaftsmanagerController.initialize(null, null);
 	}
 	
 	public void anlegen(ActionEvent event) throws IOException {
@@ -112,11 +118,6 @@ public class FGMDashboard implements Initializable{
 		}
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
-	}
-	
-	public void refresh(ActionEvent event) {
-		fGM_FluglinieController.initialize(null, null);
-		fluggesellschaftsmanagerController.initialize(null, null);
 	}
 	
 }
