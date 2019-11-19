@@ -28,6 +28,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import Controller.Adminboard;
+
 /**
  * JavaFX App
  */
@@ -176,7 +178,9 @@ public class login extends Application {
                             try {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome fgm");
-
+                                    System.out.println("Welcome fgm");
+                                    user.clear();
+                                    pwd.clear();
                                     Benutzer finalB2 = b;
                                     Platform.runLater(new Runnable() {
                                         @Override
@@ -211,6 +215,8 @@ public class login extends Application {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome admin");
                                     System.out.println("Welcome admin");
+                                    user.clear();
+                                    pwd.clear();
                                     Benutzer finalB = b;
                                     Platform.runLater(new Runnable() {
                                         @Override
@@ -236,13 +242,23 @@ public class login extends Application {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
                                     warning.setText("Welcome Kunde");
                                     System.out.println("Welcome kunde");
+                                    user.clear();
+                                    pwd.clear();
                                     Benutzer finalB1 = b;
                                     Platform.runLater(new Runnable() {
                                         @Override
                                         public void run() {
                                             try {
                                                 new CurrentUser().setCurrent(finalB1);
-                                                new kunde_windows().start(new Stage());
+                                                //new kunde_windows().start(new Stage());
+                                                primaryStage.setResizable(true);
+                                                Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
+                                                Scene fgmScene = new Scene(fgm1);
+                                                Stage stage = primaryStage;
+
+                                                stage.setScene(fgmScene);
+                                                fitScreen(stage);
+                                                stage.setResizable(true);
 
                                             } catch (IOException e) {
                                                 e.printStackTrace();

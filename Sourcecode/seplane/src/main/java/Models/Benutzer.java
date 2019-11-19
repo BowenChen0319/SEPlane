@@ -2,9 +2,12 @@ package Models;
 
 import Toolbox.Encryption;
 import com.j256.ormlite.field.DatabaseField;
+import org.apache.commons.lang3.StringUtils;
 import org.openjfx.App;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -19,27 +22,49 @@ public class Benutzer {
     @DatabaseField
     String benutzername;
     @DatabaseField
+    String adresse;
+    @DatabaseField
+    String telnumber;
+    @DatabaseField
+    String post;
+    @DatabaseField
+    String email;
+    @DatabaseField
+    String booking;
+    @DatabaseField
     String passwort;
     @DatabaseField
     String passwort_klar;
     @DatabaseField
     String benutzertyp;
+    @DatabaseField
+    Double kilo;
+    @DatabaseField
+    Double co;
 
 
-//    public enum benutzertyp {
-//        admin, fgm, kunde
-//    }
 
     public Benutzer() {
 
     }
-    public Benutzer(String vorname, String nachname, String benutzername, String passwort_klar, String benutzertyp) throws Exception {
+    public Benutzer(String vorname, String nachname, String benutzername,
+                    String passwort_klar, String benutzertyp, String email,
+                    String adresse, String telnumber, String post,
+                    String booking, Double kilo, Double co) throws Exception {
         this.vorname=vorname;
         this.nachname=nachname;
         this.benutzername=benutzername;
         this.passwort_klar=passwort_klar;
         this.benutzertyp=benutzertyp;
         this.passwort= Encryption.getSaltedHash(passwort_klar);
+        this.email=email;
+        this.adresse=adresse;
+        this.telnumber=telnumber;
+        this.post=post;
+        this.booking=booking;
+        this.kilo=kilo;
+        this.co=co;
+
     }
 
     public String getBenutzertyp() {
@@ -66,22 +91,14 @@ public class Benutzer {
         return nachname;
     }
 
+    public String getAdresse(){ return adresse;}
 
+    public String getTelnumber(){ return telnumber; }
 
-    public Benutzer getBenutzer(String username) throws SQLException {
-        Benutzer getb = null;
+    public String getEmail(){ return email;}
 
-        List<Benutzer> all= App.db.getallUser();
-        for(int i=0;i<all.size();i++){
-            Benutzer b = all.get(i);
-            if(b.getBenutzername().matches(username)){
-                System.out.println("Finde user "+username);
-                getb=b;
-            }
-        }
-        return getb;
+    public String getPost(){ return post;}
 
-    }
 
     public boolean checkname(String username) throws SQLException {
         boolean right = true;
@@ -112,6 +129,37 @@ public class Benutzer {
     public int getId() {
         return id;
     }
+
+    public ArrayList<String> getbooking(){
+        //string 转 ArrayList
+        String book = this.booking;
+        ArrayList<String> list = new ArrayList<String>(Arrays.asList(book.split(";")));
+        System.out.println(list);
+        return list;
+    }
+
+    public void addbooking(String flug,String classe, String seat){
+        ArrayList<String> list = this.getbooking();
+        list.add(flug + "," + classe + "," + seat);
+        System.out.println(list);
+        String list_str = StringUtils.join(list,";");
+        this.booking=list_str;
+        System.out.println(list_str);
+    }
+
+    public void delbooking(String flug,String classe, String seat){
+        ArrayList<String> list = this.getbooking();
+        list.remove(flug + "," + classe + "," + seat);
+        System.out.println(list);
+        String list_str = StringUtils.join(list,";");
+        this.booking=list_str;
+        System.out.println(list_str);
+    }
+
+
+
+
+
 
 
 

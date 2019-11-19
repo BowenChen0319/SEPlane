@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
+
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Kunde_FlugbuchungController">
+	<left>
+		<VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #2b7eca;" BorderPane.alignment="CENTER" />
+	</left>
+	<center>
+		<ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+			<content>
+				<VBox style="-fx-background-color: #cbf5f6;">
+					<padding>
+						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+					</padding>
+					<children>
+						<VBox alignment="CENTER" style="-fx-background-color: #2b7eca;">
+							<children>
+								<HBox fx:id="mamaHBox" VBox.vgrow="ALWAYS">
+									<children>
+										<VBox fx:id="vLinks" HBox.hgrow="ALWAYS">
+											<children>
+												<HBox>
+													<children>
+														<ComboBox fx:id="startFH" HBox.hgrow="ALWAYS" />
+													</children>
+												</HBox>
+												<HBox>
+													<children>
+														<DatePicker fx:id="startDatum" />
+														<ChoiceBox fx:id="zeitraumHin" />
+														<DatePicker fx:id="rueckdatum" />
+														<ChoiceBox fx:id="zeitraumRueck" />
+													</children>
+												</HBox>
+												<HBox>
+													<children>
+														<CheckBox fx:id="rueckflugCheck" mnemonicParsing="false" text="mit Rückflug" />
+													</children>
+												</HBox>
+											</children>
+											<HBox.margin>
+												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+											</HBox.margin>
+										</VBox>
+										<VBox fx:id="vRechts" HBox.hgrow="ALWAYS">
+											<children>
+												<ComboBox fx:id="zielFH" VBox.vgrow="ALWAYS" />
+												<HBox>
+													<children>
+														<ChoiceBox fx:id="personenZahl" />
+														<ToggleButton fx:id="klasseBE" mnemonicParsing="false" text="ToggleButton" />
+													</children>
+												</HBox>
+											</children>
+											<HBox.margin>
+												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+											</HBox.margin>
+										</VBox>
+									</children>
+								</HBox>
+								<Button mnemonicParsing="false" onAction="#suche" text="Suche" />
+							</children>
+							<VBox.margin>
+								<Insets />
+							</VBox.margin>
+							<padding>
+								<Insets bottom="10.0" />
+							</padding>
+						</VBox>
+					</children>
+				</VBox>
+			</content>
+		</ScrollPane>
+	</center>
+</BorderPane>

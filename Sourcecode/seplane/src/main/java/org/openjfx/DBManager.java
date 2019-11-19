@@ -26,6 +26,7 @@ public class DBManager {
 	Dao<FlugzeugMapping, Integer> fmDao;
 	Dao<Airport,String> apDao;
 	static Dao<Plane, Object> planeDao;
+	Dao<Flug,Integer> flugDao;
 
 
 	
@@ -40,6 +41,7 @@ public class DBManager {
         	fmDao = DaoManager.createDao(cs, FlugzeugMapping.class);
         	apDao = DaoManager.createDao(cs,Airport.class);
         	planeDao = DaoManager.createDao(cs,Plane.class);
+        	flugDao = DaoManager.createDao(cs,Flug.class);
         	      	
         } catch (SQLException ex) {
         	ex.printStackTrace();
@@ -55,6 +57,7 @@ public class DBManager {
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		TableUtils.dropTable(cs, Airport.class, true);
 		TableUtils.dropTable(cs, Plane.class, true);
+		TableUtils.dropTable(cs, Flug.class,true);
 		
 		TableUtils.createTable(cs, Benutzer.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
@@ -62,6 +65,7 @@ public class DBManager {
 		TableUtils.createTable(cs, FlugzeugMapping.class);
 		TableUtils.createTable(cs, Airport.class);
 		TableUtils.createTable(cs, Plane.class);
+		TableUtils.createTable(cs, Flug.class);
 	}
 	
 //------Auslesen Flughäfen und Flugzeuge
@@ -89,33 +93,14 @@ public class DBManager {
 
 	//an airport will be added to DB
 	public void getAirportFromJSon(Airport airport){
-		Airport airportTmp = airport;
-		JdbcPooledConnectionSource connectionSource = null;
 		try {
-			 connectionSource = new JdbcPooledConnectionSource(dbURL, "sa","" );
-			Dao<Airport, String> airportDao = DaoManager.createDao(connectionSource, Airport.class);
-			if(airportDao.idExists(airport.getCode()))
-			{
+			if(apDao.idExists(airport.getCode()))
 				System.out.println("Airport: " + airport.getCode() + " already exits!");
-				return;
-			}
-			airportDao.createIfNotExists(airportTmp);
-
-			connectionSource.close();
-		} catch(SQLException e){
-			e.printStackTrace();
-			System.out.println("konnte keine Verbindung zur DB aufbauen");
-		}catch (IOException i)
-		{
-			i.printStackTrace();
-			System.out.println("Konnte keine Airport Klasse findenn");
-		}
-		try {
-			apDao.createIfNotExists(airport);
+			else
+				apDao.createIfNotExists(airport);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	//a list of planes will be added to DB

@@ -42,7 +42,7 @@
             <HBox>
                <children>
                   <Pane HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" text="Flug instantiieren" visible="false" />
+                  <Button mnemonicParsing="false" text="Flug instantiieren"/>
                </children>
                <padding>
                   <Insets top="10.0" />

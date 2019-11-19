@@ -1874,3 +1874,225 @@ The connection was not closed by the application and is garbage collected [90018
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax Fehler in SQL Befehl "COUNT[*] * FROM AIRPORT"; erwartet "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"
 Syntax error in SQL statement "COUNT[*] * FROM AIRPORT"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
 COUNT * FROM AIRPORT [42001-200]
+2019-11-15 18:16:34 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE BENUTZER(
+EMAIL VARCHAR(45),
+)[*]"; expected "identifier"; SQL statement:
+create table benutzer(
+email varchar(45),
+) [42001-200]
+2019-11-15 18:16:44 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "TABLE BENUTZER([*]
+EMAIL VARCHAR(45),
+)"; SQL statement:
+table benutzer(
+email varchar(45),
+) [42000-200]
+2019-11-15 18:16:55 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "BENUTZER[*](
+EMAIL VARCHAR(45),
+)"; expected "BACKUP, BEGIN"; SQL statement:
+BENUTZER(
+email varchar(45),
+) [42001-200]
+2019-11-15 18:16:56 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "BENUTZER[*](
+EMAIL VARCHAR(45),
+)"; expected "BACKUP, BEGIN"; SQL statement:
+BENUTZER(
+email varchar(45),
+) [42001-200]
+2019-11-15 18:34:23 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO BENUTZER EMAIL[*] VARCHAR(45),"; expected "., (, DIRECT, SORTED, DEFAULT, VALUES, SET, (, WITH, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO BENUTZER email varchar(45), [42001-200]
+2019-11-15 18:35:19 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO BENUTZER  EMAIL[*] VARCHAR(45), "; expected "., (, DIRECT, SORTED, DEFAULT, VALUES, SET, (, WITH, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO BENUTZER  email varchar(45),  [42001-200]
+2019-11-15 18:35:20 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO BENUTZER  EMAIL[*] VARCHAR(45), "; expected "., (, DIRECT, SORTED, DEFAULT, VALUES, SET, (, WITH, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO BENUTZER  email varchar(45),  [42001-200]
+2019-11-15 18:37:47 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BENUTZER" already exists; SQL statement:
+create table benutzer(
+id int not null AUTO_INCREMENT,
+email varchar(45),
+primary key(id)
+) [42101-200]
+2019-11-15 18:38:03 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "UPADTE[*] TABLE BENUTZER(
+ID INT NOT NULL AUTO_INCREMENT,
+EMAIL VARCHAR(45),
+PRIMARY KEY(ID)
+)"; expected "UPDATE, USE"; SQL statement:
+upadte table benutzer(
+id int not null AUTO_INCREMENT,
+email varchar(45),
+primary key(id)
+) [42001-200]
+2019-11-15 18:38:07 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "UPDATE TABLE[*] BENUTZER(
+ID INT NOT NULL AUTO_INCREMENT,
+EMAIL VARCHAR(45),
+PRIMARY KEY(ID)
+)"; expected "identifier"; SQL statement:
+update table benutzer(
+id int not null AUTO_INCREMENT,
+email varchar(45),
+primary key(id)
+) [42001-200]
+2019-11-15 18:39:01 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELECT[*] BENUTZER"; expected "DELETE, DROP, DECLARE, DEALLOCATE"; SQL statement:
+DELECT BENUTZER [42001-200]
+2019-11-15 18:41:18 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP BENUTZER[*]"; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"; SQL statement:
+DROP BENUTZER [42001-200]
+2019-11-15 18:41:33 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP ALL BENUTZER[*]"; expected "OBJECTS"; SQL statement:
+DROP ALL BENUTZER [42001-200]
+2019-11-15 18:41:44 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DROP ALL[*]"; expected "OBJECTS"; SQL statement:
+DROP ALL [42001-200]
+2019-11-17 19:32:09 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE BENUTZER(
+ID INT NOT NULL AUTO_INCREMENT,
+VORNAME VARCHAR(45),
+NACHNAME VARCHAR(45),
+BENUTZERNAME VARCHAR(45),
+ADRESSE  VARCHAR(45),
+TELNUMBER  VARCHAR(45),
+POST  VARCHAR(45),
+EMAIL  VARCHAR(45),
+BOOKING  VARCHAR(45),
+KILO DOUBLE[*]"; expected "PRECISION, (, FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, COMMENT, CHECK, REFERENCES, ,, )"; SQL statement:
+create table benutzer(
+id int not null AUTO_INCREMENT,
+vorname varchar(45),
+nachname varchar(45),
+benutzername varchar(45),
+adresse  varchar(45),
+telnumber  varchar(45),
+post  varchar(45),
+email  varchar(45),
+booking  varchar(45),
+kilo double [42001-200]
+2019-11-17 19:32:09 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CO2[*] DOUBLE,
+PASSWORT CHAR(100),
+PASSWORT_KLAR VARCHAR(45),
+BENUTZERTYP  VARCHAR(45),
+PRIMARY KEY(ID)
+)"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+co2 double,
+passwort char(100),
+passwort_klar varchar(45),
+benutzertyp  varchar(45),
+primary key(id)
+) [42001-200]
+2019-11-17 19:32:41 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE BENUTZER(
+ID INT NOT NULL AUTO_INCREMENT,
+VORNAME VARCHAR(45),
+NACHNAME VARCHAR(45),
+BENUTZERNAME VARCHAR(45),
+ADRESSE  VARCHAR(45),
+TELNUMBER  VARCHAR(45),
+POST  VARCHAR(45),
+EMAIL  VARCHAR(45),
+BOOKING  VARCHAR(45),
+KILO DOUBLE[*]"; expected "PRECISION, (, FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, COMMENT, CHECK, REFERENCES, ,, )"; SQL statement:
+create table benutzer(
+id int not null AUTO_INCREMENT,
+vorname varchar(45),
+nachname varchar(45),
+benutzername varchar(45),
+adresse  varchar(45),
+telnumber  varchar(45),
+post  varchar(45),
+email  varchar(45),
+booking  varchar(45),
+kilo double [42001-200]
+2019-11-17 19:32:41 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CO[*] DOUBLE,
+PASSWORT CHAR(100),
+PASSWORT_KLAR VARCHAR(45),
+BENUTZERTYP  VARCHAR(45),
+PRIMARY KEY(ID)
+)"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+co double,
+passwort char(100),
+passwort_klar varchar(45),
+benutzertyp  varchar(45),
+primary key(id)
+) [42001-200]
+2019-11-17 19:33:08 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE BENUTZER(
+ID INT NOT NULL AUTO_INCREMENT,
+VORNAME VARCHAR(45),
+NACHNAME VARCHAR(45),
+BENUTZERNAME VARCHAR(45),
+ADRESSE  VARCHAR(45),
+TELNUMBER  VARCHAR(45),
+POST  VARCHAR(45),
+EMAIL  VARCHAR(45),
+BOOKING  VARCHAR(45),
+KILO DOUBLE[*]"; expected "PRECISION, (, FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, COMMENT, CHECK, REFERENCES, ,, )"; SQL statement:
+create table benutzer(
+id int not null AUTO_INCREMENT,
+vorname varchar(45),
+nachname varchar(45),
+benutzername varchar(45),
+adresse  varchar(45),
+telnumber  varchar(45),
+post  varchar(45),
+email  varchar(45),
+booking  varchar(45),
+kilo double [42001-200]
+2019-11-17 19:33:08 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CO[*] DOUBLE,
+PASSWORT CHAR(100),
+PASSWORT_KLAR VARCHAR(45),
+BENUTZERTYP  VARCHAR(45),
+PRIMARY KEY(ID)
+)"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+co double,
+passwort char(100),
+passwort_klar varchar(45),
+benutzertyp  varchar(45),
+primary key(id)
+) [42001-200]
+2019-11-17 19:33:34 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE BENUTZER(
+ID INT NOT NULL AUTO_INCREMENT,
+VORNAME VARCHAR(45),
+NACHNAME VARCHAR(45),
+BENUTZERNAME VARCHAR(45),
+ADRESSE  VARCHAR(45),
+TELNUMBER  VARCHAR(45),
+POST  VARCHAR(45),
+EMAIL  VARCHAR(45),
+BOOKING  VARCHAR(45),
+PASSWORT CHAR(100),
+PASSWORT_KLAR VARCHAR(45),
+BENUTZERTYP  VARCHAR(45),
+KILO DOUBLE[*]"; expected "PRECISION, (, FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, COMMENT, CHECK, REFERENCES, ,, )"; SQL statement:
+create table benutzer(
+id int not null AUTO_INCREMENT,
+vorname varchar(45),
+nachname varchar(45),
+benutzername varchar(45),
+adresse  varchar(45),
+telnumber  varchar(45),
+post  varchar(45),
+email  varchar(45),
+booking  varchar(45),
+passwort char(100),
+passwort_klar varchar(45),
+benutzertyp  varchar(45),
+kilo double [42001-200]
+2019-11-17 19:33:34 jdbc[12]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CO[*] DOUBLE,
+PRIMARY KEY(ID)
+)"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+co double,
+primary key(id)
+) [42001-200]
