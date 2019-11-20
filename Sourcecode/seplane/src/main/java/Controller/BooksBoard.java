@@ -42,8 +42,8 @@ public class BooksBoard extends Application {
     @Override
 
     public void start(Stage stage) throws IOException, SQLException {
-        int Height = 400;
-        int Width = 800;
+        int Height = 800;
+        int Width = 1000;
 
 
         Benutzer be = new CurrentUser().getCurrent();
@@ -71,7 +71,7 @@ public class BooksBoard extends Application {
 
         ObservableList<String> data = FXCollections.observableArrayList();
         ListView<String> listView = new ListView<String>(data);
-        listView.setPrefSize(200, 250);
+        listView.setPrefSize(200, 500);
 
         List<Booking> all = new DBManager().getallBookingFromUser(be.getBenutzername());
         for (int i = 0; i < all.size(); i++) {
