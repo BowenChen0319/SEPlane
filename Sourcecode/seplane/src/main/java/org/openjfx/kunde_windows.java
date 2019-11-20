@@ -1,14 +1,20 @@
 package org.openjfx;
 
+import Models.Benutzer;
 import Models.CurrentUser;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -50,8 +56,41 @@ public class kunde_windows extends Application {
         stage.show();
         stage.setTitle("Kunde Board for "+new CurrentUser().getCurrent().getBenutzername());
 
+        System.out.println("Welcome kunde");
+        Benutzer be= new CurrentUser().getCurrent();
+        Benutzer finalB1 = be;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    new CurrentUser().setCurrent(finalB1);
+                    //new kunde_windows().start(new Stage());
+                    Stage stage1 = new Stage();
+                    stage.setResizable(true);
+                    Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
+                    //Parent fgm1 = FXMLLoader.load(getClass().getResource("booking_overview.fxml"));
+                    Scene fgmScene = new Scene(fgm1);
+                    stage1 = stage;
+                    stage1.setScene(fgmScene);
+                    fitScreen(stage1);
+                    stage1.setResizable(true);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        });
 
 
+    }
+    public void fitScreen(Stage stage) {
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX(primaryScreenBounds.getMinX());
+        stage.setY(primaryScreenBounds.getMinY());
+        stage.setWidth(primaryScreenBounds.getWidth());
+        stage.setHeight(primaryScreenBounds.getHeight());
     }
 }
 

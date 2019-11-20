@@ -1,12 +1,6 @@
 package org.openjfx;
 
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import Models.*;
 import Toolbox.JsonReaderTool;
 import com.j256.ormlite.dao.Dao;
@@ -14,6 +8,12 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBManager {
 
@@ -27,6 +27,7 @@ public class DBManager {
 	Dao<Airport,String> apDao;
 	static Dao<Plane, Object> planeDao;
 	Dao<Flug,Integer> flugDao;
+	Dao<Booking,Integer> bkDao;
 
 
 	
@@ -42,7 +43,7 @@ public class DBManager {
         	apDao = DaoManager.createDao(cs,Airport.class);
         	planeDao = DaoManager.createDao(cs,Plane.class);
         	flugDao = DaoManager.createDao(cs,Flug.class);
-        	      	
+			bkDao = DaoManager.createDao(cs,Booking.class);
         } catch (SQLException ex) {
         	ex.printStackTrace();
         }    
@@ -134,6 +135,14 @@ public class DBManager {
 	public void createFL(Fluglinie fl) {
 		try {
 			flDao.create(fl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void createBk(Booking bk) {
+		try {
+			bkDao.create(bk);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -232,6 +241,14 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
+
+	public void updateBk(Booking bk){
+		try {
+			bkDao.update(bk);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 //------Delete
 	public void deleteFL(int id)throws Exception{
@@ -283,6 +300,15 @@ public class DBManager {
 		try {
 			if(bDao.idExists(id))
 				bDao.deleteById(id);			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteBk(int id)throws Exception{
+		try {
+			if(bkDao.idExists(id))
+				bkDao.deleteById(id);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -346,6 +372,20 @@ public class DBManager {
 		
 	}
 
+	public List<Booking> getallBookingFromUser(String username) {
+		List<Booking> all;
+		try {
+			all = bkDao.queryForEq("username",username);
+			return all;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+
+
 
 	
 	public List<Airport> getFlughafen(){
@@ -372,6 +412,26 @@ public class DBManager {
 
 	}
 
+	public  Booking getbkwithbk(Booking bk) {
+		QueryBuilder<Booking,Integer> query = bkDao.queryBuilder();
+		try {
+			query.where()
+					.eq("username",bk.getUsername()).and()
+					.eq("flugid", bk.getFlugid()).and()
+					.eq("classe",bk.getClasse()).and()
+					.eq("seat",bk.getSeat()).and()
+					.eq("paytime",bk.getPaytime()).and()
+					.eq("preise",bk.getPreise()).and()
+					.eq("zeit",bk.getZeit());
+			return bkDao.queryForFirst(query.prepare());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
+
 	public Benutzer getbeId(int id) {
 		Benutzer b1  = null;
 		try {
@@ -380,7 +440,32 @@ public class DBManager {
 		}catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
 
+	public Booking getbkId(int id) {
+		Booking b1  = null;
+		try {
+			b1 = bkDao.queryForId(id);
+			return b1;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
+
+
+
+	public Fluglinie getFluglinie(int id) throws SQLException {
+		Fluglinie fl = null;
+		try {
+			fl = flDao.queryForId(id);
+			return fl;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	

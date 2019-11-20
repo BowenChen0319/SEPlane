@@ -17,11 +17,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.openjfx.DBManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
-import org.openjfx.DBManager;
 
 /**
  * JavaFX App
@@ -161,7 +160,7 @@ public class FGMRegister extends Application {
                             warning.setText("Wrong: Two same username!");
                         }else{
                             try {
-                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),"fgm","","","","","",0.0,0.0));
+                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),"fgm","","","","",0.0,0.0));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

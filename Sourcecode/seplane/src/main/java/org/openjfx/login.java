@@ -1,5 +1,7 @@
 package org.openjfx;
 
+import Controller.Adminboard;
+import Controller.BooksBoard;
 import Models.Benutzer;
 import Models.CurrentUser;
 import Toolbox.CSVReader;
@@ -27,8 +29,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
-import Controller.Adminboard;
 
 /**
  * JavaFX App
@@ -250,17 +250,8 @@ public class login extends Application {
                                         public void run() {
                                             try {
                                                 new CurrentUser().setCurrent(finalB1);
-                                                //new kunde_windows().start(new Stage());
-                                                primaryStage.setResizable(true);
-                                                Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
-                                                Scene fgmScene = new Scene(fgm1);
-                                                Stage stage = primaryStage;
-
-                                                stage.setScene(fgmScene);
-                                                fitScreen(stage);
-                                                stage.setResizable(true);
-
-                                            } catch (IOException e) {
+                                                new BooksBoard().start(new Stage());
+                                            } catch (IOException | SQLException e) {
                                                 e.printStackTrace();
 
                                             }

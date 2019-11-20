@@ -1,41 +1,21 @@
 package Controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import Models.*;
-import org.openjfx.App;
-import org.openjfx.DBManager;
-
 import Toolbox.AlertHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.StringConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -43,6 +23,17 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.StringConverter;
+import org.openjfx.App;
+import org.openjfx.DBManager;
+
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class FGM_FLDashboard implements Initializable{
 	
@@ -301,6 +292,7 @@ public class FGM_FLDashboard implements Initializable{
 		fList = FXCollections.observableArrayList();
 		
 		flList.addAll(db.getFluglinieZuFG(fg.getId()));
+
 		fhList.addAll(db.getFlughafen());
 		fList.addAll(db.getFzuFG(fg));
 		
