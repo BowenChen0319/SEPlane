@@ -4,6 +4,7 @@ import Toolbox.Encryption;
 import com.j256.ormlite.field.DatabaseField;
 import org.apache.commons.lang3.StringUtils;
 import org.openjfx.App;
+import org.openjfx.DBManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -102,7 +103,8 @@ public class Benutzer {
 
     public boolean checkname(String username) throws SQLException {
         boolean right = true;
-        List<Benutzer> all= App.db.getallUser();
+        DBManager db = new DBManager();
+        List<Benutzer> all= db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
             if(b.getBenutzername().equals(username)){
