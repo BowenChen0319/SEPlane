@@ -59,6 +59,7 @@ public class DBManager {
 		TableUtils.dropTable(cs, Airport.class, true);
 		TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
+		TableUtils.dropTable(cs, Booking.class,true);
 		
 		TableUtils.createTable(cs, Benutzer.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
@@ -67,6 +68,7 @@ public class DBManager {
 		TableUtils.createTable(cs, Airport.class);
 		TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
+		TableUtils.createTable(cs, Booking.class);
 	}
 	
 //------Auslesen Flughäfen und Flugzeuge

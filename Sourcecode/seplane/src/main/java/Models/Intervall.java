@@ -1,5 +1,5 @@
 package Models;
 
 public enum Intervall {
-	TAG, WOCHE, MONAT;
+	TAG, ALLE3TAGE, WOCHE;
 }
