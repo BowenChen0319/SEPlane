@@ -44,7 +44,6 @@ public class FGM_FLDashboard implements Initializable{
 	@FXML Label kmkmLabel;
 	@FXML DatePicker jungfernFlug;
 	@FXML Label dateLabel;
-	@FXML TextField intervallFeld;
 	@FXML ComboBox<Intervall> intervallBox;
 	@FXML ComboBox<Plane> flugzeugBox;
 	@FXML Slider slider;
@@ -62,7 +61,6 @@ public class FGM_FLDashboard implements Initializable{
 	@FXML TableColumn <Fluglinie, String> zielCol;
 	@FXML TableColumn <Fluglinie, Integer> entfCol;
 	@FXML TableColumn <Fluglinie, String> flugzeugCol;
-	@FXML TableColumn <Fluglinie, Integer> intervallZahlCol;
 	@FXML TableColumn <Fluglinie, String> intervallEinhCol;
 	@FXML TableColumn <Fluglinie, Integer> sitzBCol;
 	@FXML TableColumn <Fluglinie, Integer> sitzECol;
@@ -119,7 +117,6 @@ public class FGM_FLDashboard implements Initializable{
 			else
 				return new SimpleStringProperty(cellData.getValue().getFlugzeug().getHersteller() +" "+ cellData.getValue().getFlugzeug().getType());
 		});
-		intervallZahlCol.setCellValueFactory(new PropertyValueFactory<>("intervall_int"));
 		intervallEinhCol.setCellValueFactory(new PropertyValueFactory<>("intervall"));
 		sitzBCol.setCellValueFactory(new PropertyValueFactory<>("anzb"));
 		sitzECol.setCellValueFactory(new PropertyValueFactory<>("anze"));
@@ -168,16 +165,16 @@ public class FGM_FLDashboard implements Initializable{
 	public void fl_anlegen(ActionEvent event) {
 		//leere Felder oder falsche Eingaben (start = ziel, Datum Vergangenheit, 25% Business, Entfernung F und FL falsch)
 		if (startBox.getValue()==null || zielBox.getValue()==null || startBox.getValue() == zielBox.getValue() || jungfernFlug.getValue()==null ||dateLabel.isVisible()
-				|| intervallFeld.getText()==null || intervallBox.getValue() == null || prozentLabel.getTextFill()==Color.RED 
+				|| intervallBox.getValue() == null || prozentLabel.getTextFill()==Color.RED 
 				|| flugzeugBox.getValue() == null || kmLabel.getTextFill()==Color.RED || preisE.getText()==null || preisB.getText()==null)
 			AlertHandler.falscheAngaben();
 		//Zahlen Fail
-		else if(!checkInt(intervallFeld.getText())||!checkDouble(preisB.getText())||!checkDouble(preisE.getText()))
+		else if(!checkDouble(preisB.getText())||!checkDouble(preisE.getText()))
 			AlertHandler.falscheAngaben();
 		else {
 			db.createFL(new Fluglinie(startBox.getValue(),zielBox.getValue(),convertLocal(jungfernFlug.getValue()), entfernung,
-					Integer.parseInt(intervallFeld.getText()), intervallBox.getValue(), fg, 
-					flugzeugBox.getValue(), Integer.parseInt(labelE.getText()),Integer.parseInt(labelB.getText()),
+					intervallBox.getValue(), fg, flugzeugBox.getValue(), 
+					Integer.parseInt(labelE.getText()), Integer.parseInt(labelB.getText()),
 					Double.parseDouble(preisE.getText()), Double.parseDouble(preisB.getText())));
 			
 			((Node) event.getSource()).getScene().getWindow().hide();
@@ -211,7 +208,6 @@ public class FGM_FLDashboard implements Initializable{
 		kmLabel.setText(fluglinie.getEntfernung()+"");
 		startBox.setValue(fluglinie.getStart());
 		zielBox.setValue(fluglinie.getZiel());
-		intervallFeld.setText(fluglinie.getIntervall_int()+"");
 		intervallBox.setValue(fluglinie.getIntervall());
 		jungfernFlug.setValue(fluglinie.getStartdatum().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		flugzeugBox.setValue(fluglinie.getFlugzeug());
@@ -228,7 +224,7 @@ public class FGM_FLDashboard implements Initializable{
 	public void fl_bearbeiten(ActionEvent event) throws IOException{
 		//Zahlen falsch oder falscher Flieger oder zu frühes Datum
 		if(!checkStart(jungfernFlug.getValue())||!checkEntf(fluglinie.getEntfernung(), flugzeugBox.getValue().getRange())|| prozentLabel.getTextFill()==Color.RED||
-				(!intervallFeld.getText().isBlank()&&!checkInt(intervallFeld.getText()))||(!preisB.getText().isBlank()&&!checkDouble(preisB.getText()))||
+				(!preisB.getText().isBlank()&&!checkDouble(preisB.getText()))||
 				(!preisE.getText().isBlank()&&!checkDouble(preisE.getText())))
 			
 			AlertHandler.falscheAngaben();
@@ -236,7 +232,6 @@ public class FGM_FLDashboard implements Initializable{
 			
 			fluglinie.setStart(startBox.getValue());
 			fluglinie.setZiel(zielBox.getValue());		
-			fluglinie.setIntervall_int(Integer.parseInt(intervallFeld.getText()));
 			fluglinie.setIntervall(intervallBox.getValue());
 			fluglinie.setStartdatum(convertLocal(jungfernFlug.getValue()));
 			fluglinie.setFlugzeug(flugzeugBox.getValue());

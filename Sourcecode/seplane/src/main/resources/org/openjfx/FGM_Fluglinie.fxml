@@ -19,7 +19,7 @@
                   <TableColumn fx:id="flugzeugCol" minWidth="60.0" prefWidth="-1.0" text="Flugzeug" />
                   <TableColumn minWidth="60.0" prefWidth="-1.0" text="Intervall">
                      <columns>
-                        <TableColumn fx:id="intervallZahlCol" minWidth="60.0" prefWidth="-1.0" />
+                        <TableColumn minWidth="60.0" prefWidth="-1.0" />
                         <TableColumn fx:id="intervallEinhCol" minWidth="60.0" prefWidth="-1.0" text="Einheit" />
                      </columns></TableColumn>
                   <TableColumn minWidth="60.0" prefWidth="-1.0" text="Sitzplätze">
@@ -42,7 +42,7 @@
             <HBox>
                <children>
                   <Pane HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" text="Flug instantiieren"/>
+                  <Button mnemonicParsing="false" text="Flug instantiieren" />
                </children>
                <padding>
                   <Insets top="10.0" />
