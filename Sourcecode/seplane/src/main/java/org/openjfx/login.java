@@ -230,6 +230,7 @@ public class login extends Application {
                                             }
                                         }
                                     });
+                                    warning.setText("");
                                 }else{
                                     warning.setText("Wrong Password!");
                                 }
@@ -240,7 +241,7 @@ public class login extends Application {
                         }else if(b.getBenutzertyp().matches("kunde")){
                             try {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
-                                    warning.setText("Welcome Kunde");
+                                    warning.setText("Welcome Kunde, Loading......");
                                     System.out.println("Welcome kunde");
                                     user.clear();
                                     pwd.clear();
@@ -257,6 +258,7 @@ public class login extends Application {
                                             }
                                         }
                                     });
+                                    warning.setText("");
                                 }else{
                                     warning.setText("Wrong Password!");
                                 }

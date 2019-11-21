@@ -8,6 +8,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -59,6 +60,7 @@ public class DBManager {
 		TableUtils.dropTable(cs, Airport.class, true);
 		TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
+		TableUtils.dropTable(cs, Booking.class,true);
 		
 		TableUtils.createTable(cs, Benutzer.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
@@ -67,9 +69,19 @@ public class DBManager {
 		TableUtils.createTable(cs, Airport.class);
 		TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
+		TableUtils.createTable(cs, Booking.class);
 	}
-	
-//------Auslesen Flughäfen und Flugzeuge
+
+	public void refreshbooking() throws SQLException {
+
+		TableUtils.dropTable(cs, Booking.class,true);
+
+		TableUtils.createTable(cs, Booking.class);
+	}
+
+
+
+	//------Auslesen Flughäfen und Flugzeuge
 	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
 	public void addAirportToDb() {
 		try {
@@ -147,6 +159,27 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
+
+	public void creatmulti(List<Booking> list){
+		ArrayList<String> index = new ArrayList<String>();
+		for(int i=0;i<list.size();i++){
+			Booking bk = list.get(i);
+			this.createBk(bk);
+			int idint = this.getbkwithbk(bk).getId();
+			String id = Integer.toString(idint);
+			index.add(id);
+		}
+		String index_str = StringUtils.join(index,",");
+		for(int i=0;i<list.size();i++){
+			Booking bk = list.get(i);
+			Booking update = this.getbkwithbk(bk);
+			update.setMulti(index_str);
+			this.updateBk(update);
+		}
+
+	}
+
+
 	
 	public void createF(Plane f) {
 		try {
@@ -372,6 +405,18 @@ public class DBManager {
 		
 	}
 
+	public Booking getMultiBook(String name,int bookingId) {
+		QueryBuilder<Booking,Integer> query = bkDao.queryBuilder();
+		try {
+			query.where().eq("username", name).and().eq("id",bookingId);
+			return bkDao.queryForFirst(query.prepare());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
 	public List<Booking> getallBookingFromUser(String username) {
 		List<Booking> all;
 		try {
@@ -416,13 +461,14 @@ public class DBManager {
 		QueryBuilder<Booking,Integer> query = bkDao.queryBuilder();
 		try {
 			query.where()
-					.eq("username",bk.getUsername()).and()
-					.eq("flugid", bk.getFlugid()).and()
-					.eq("classe",bk.getClasse()).and()
-					.eq("seat",bk.getSeat()).and()
-					.eq("paytime",bk.getPaytime()).and()
-					.eq("preise",bk.getPreise()).and()
-					.eq("zeit",bk.getZeit());
+					.eq("HashNr",bk.getHashNr());
+//					.eq("username",bk.getUsername()).and()
+//					.eq("flugid", bk.getFlugid()).and()
+//					.eq("classe",bk.getClasse()).and()
+//					.eq("seat",bk.getSeat()).and()
+//					.eq("paytime",bk.getPaytime()).and()
+//					.eq("preise",bk.getPreise()).and()
+//					.eq("zeit",bk.getZeit());
 			return bkDao.queryForFirst(query.prepare());
 		} catch (SQLException e) {
 			e.printStackTrace();

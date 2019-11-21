@@ -103,23 +103,26 @@ public class Adminboard extends Application {
                 System.out.println(d);
                 List<Benutzer> all = null;
                 all = new DBManager().getallUser();
-                Benutzer del = all.get(d);
-                try {
-                    new DBManager().deleteB(del.getId());
-                    List<Benutzer> alle = new DBManager().getallUser();
-                    data.clear();
-                    for(int i=0;i<alle.size();i++){
-                        Benutzer ben = alle.get(i);
-                        data.add("ID "+ben.getId()
-                                +": '"+ben.getBenutzername()
-                                +"' ist "+ben.getBenutzertyp()
-                                +" with name "+ben.getVorname()
-                                +" "+ben.getNachname());
-                    }
-                    System.out.println("delected");
+                if(d<=all.size()){
+                    Benutzer del = all.get(d);
+                    try {
+                        new DBManager().deleteB(del.getId());
+                        List<Benutzer> alle = new DBManager().getallUser();
+                        data.clear();
+                        for(int i=0;i<alle.size();i++){
+                            Benutzer ben = alle.get(i);
+                            data.add("ID "+ben.getId()
+                                    +": '"+ben.getBenutzername()
+                                    +"' ist "+ben.getBenutzertyp()
+                                    +" with name "+ben.getVorname()
+                                    +" "+ben.getNachname());
+                        }
+                        System.out.println("delected");
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
             }
