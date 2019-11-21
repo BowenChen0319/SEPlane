@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -54,7 +55,12 @@ public class FGM_FLDashboard implements Initializable{
 	@FXML TextField preisB;
 	@FXML TextField preisE;
 	Double entfernung;
-	
+
+	//Buttons
+	@FXML private Button flugInstantiieren_button;
+
+
+
 	//Fluglinien
 	@FXML TableView<Fluglinie> flTable;
 	@FXML TableColumn <Fluglinie, Integer> idCol;
@@ -470,5 +476,20 @@ public class FGM_FLDashboard implements Initializable{
 				}
 		}			
 	};
+
+
+	public void handleFlugInstantiieren(ActionEvent event) throws IOException {
+
+
+
+		System.out.println("test");
+		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FGM_FluegeInstanziieren.fxml"));
+		Parent root1 = fxmlLoader.load();
+		Scene scene = new Scene(root1);
+		Stage stage = new Stage();
+		stage.setTitle("Flug instantiieren");
+		stage.setScene(scene);
+		stage.showAndWait();
+	}
 
 }

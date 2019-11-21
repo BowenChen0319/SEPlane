@@ -9,6 +9,9 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 import Models.Fluglinie;
@@ -119,5 +122,7 @@ public class FGMDashboard implements Initializable{
 		else if(fgTab.isSelected()) 
 			System.out.println("FG Tab");
 	}
+
+
 	
 }
