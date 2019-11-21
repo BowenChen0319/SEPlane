@@ -154,6 +154,16 @@ public class DBManager {
 
 	public void createBk(Booking bk) {
 		try {
+			String user = bk.getUsername();
+			Benutzer be = new DBManager().getUser(user);
+			double co=bk.getco()+be.getco();
+			double distence=bk.getdistence()+be.getkilo();
+			System.out.println("CO: "+co+"  Kilo: "+distence);
+			be.setCo(co);
+			be.setKilo(distence);
+			this.updateB(be);
+			be= new DBManager().getUser(user);
+			System.out.println("CO: "+be.getco()+"  Kilo: "+be.getkilo());
 			bkDao.create(bk);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -340,8 +350,21 @@ public class DBManager {
 
 	public void deleteBk(int id)throws Exception{
 		try {
-			if(bkDao.idExists(id))
+			if(bkDao.idExists(id)){
+				Booking bk=this.getbkId(id);
+				String user = bk.getUsername();
+				Benutzer be = new DBManager().getUser(user);
+				double co=bk.getco()+be.getco();
+				double distence=bk.getdistence()+be.getkilo();
+				be.setCo(co);
+				be.setKilo(distence);
+				this.updateB(be);
+
 				bkDao.deleteById(id);
+			}
+
+
+
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -96,8 +96,21 @@ public class Benutzer {
 
     public String getPost(){ return post;}
 
+    public double getco(){
+        return this.co;
+    }
 
+    public double getkilo(){
+        return this.kilo;
+    }
 
+    public void setCo(Double co) {
+        this.co = co;
+    }
+
+    public void setKilo(Double kilo) {
+        this.kilo = kilo;
+    }
 
     public boolean checkname(String username) throws SQLException {
         boolean right = true;

@@ -4,6 +4,7 @@ import Toolbox.Encryption;
 import com.j256.ormlite.field.DatabaseField;
 import org.openjfx.DBManager;
 
+import java.sql.SQLException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -115,4 +116,27 @@ public class Booking {
         String dateString = formatter.format(currentTime);
         return dateString;
     }
+
+    public double getco() throws SQLException {
+        Fluglinie fl=new DBManager().getFluglinie(Integer.parseInt(flugid));
+        if(fl!=null){
+            double distence = fl.getEntfernung();
+            double co = 0.0571*distence*1;
+            return  co;
+        }else {
+            return 0.0;
+        }
+
+    }
+
+    public double getdistence() throws SQLException {
+        Fluglinie fl=new DBManager().getFluglinie(Integer.parseInt(flugid));
+        if(fl!=null){
+            double distence = fl.getEntfernung();
+            return distence;
+        }else {
+            return 0.0;
+        }
+    }
+
 }

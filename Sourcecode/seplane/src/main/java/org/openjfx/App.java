@@ -38,7 +38,7 @@ public class App extends Application {
     public static void main(String[] args) throws Exception {
     	//neu aufsetzen der DB
     	//db.setUpDatabase();
-//
+        //new DBManager().setUpDatabase();
 //    	new DBManager().refreshbooking();
 //        for(int i =0;i<5;i++){
 //
