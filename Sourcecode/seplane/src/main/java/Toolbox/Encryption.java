@@ -49,10 +49,12 @@ public class Encryption {
     }
 
     public static void main(String[] args) throws Exception {
+        for(int i=0;i<5;i++){
 
-        System.out.println("Vorher " + password);
-        String tmp = getSaltedHash(password);
-        System.out.println("Hashed Pw: " + tmp);
-        System.out.println("Entschlüsselt: " + check(password, tmp));
+            System.out.println(i+"Vorher " + password);
+            String tmp = getSaltedHash(password);
+            System.out.println("Hashed Pw: " + tmp);
+            System.out.println("Entschlüsselt: " + check(password, tmp));
+        }
     }
 }

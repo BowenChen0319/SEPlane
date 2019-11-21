@@ -11,19 +11,20 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.openjfx.DBManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
-import org.openjfx.DBManager;
 
 /**
  * JavaFX App
@@ -108,7 +109,7 @@ public class Adminboard extends Application {
                     List<Benutzer> alle = new DBManager().getallUser();
                     data.clear();
                     for(int i=0;i<alle.size();i++){
-                        Benutzer ben = all.get(i);
+                        Benutzer ben = alle.get(i);
                         data.add("ID "+ben.getId()
                                 +": '"+ben.getBenutzername()
                                 +"' ist "+ben.getBenutzertyp()
