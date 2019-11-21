@@ -8,7 +8,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.CheckBox;
@@ -20,7 +19,6 @@ import java.util.ResourceBundle;
 
 import Models.Airport;
 import Models.Flug;
-import Models.Fluglinie;
 import Toolbox.AlertHandler;
 
 public class Kunde_FlugbuchungController implements Initializable {

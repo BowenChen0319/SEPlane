@@ -32,12 +32,8 @@ public class App extends Application {
 
 
     public static void main(String[] args) throws Exception {
-    	/*new CSVReader();
-    	//TODO popup ob einlesen will
-    	db.setUpDatabase();
-    	db.addAirportToDb();
-    	DBManager.CSVToDB(CSVReader.OwnCSVReader());
-//    	*/
+    	//neu aufsetzen der DB
+    	//db.setUpDatabase();
 //
 //
 //        for(int i=0;i<5;i++){
