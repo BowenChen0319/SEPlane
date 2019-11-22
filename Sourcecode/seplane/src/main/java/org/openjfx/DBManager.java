@@ -3,8 +3,6 @@ package org.openjfx;
 
 import Models.*;
 import Toolbox.JsonReaderTool;
-import javafx.scene.control.Toggle;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
@@ -62,7 +60,7 @@ public class DBManager {
 //		TableUtils.dropTable(cs, Fluglinie.class, true);
 //		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
 //		TableUtils.dropTable(cs, Benutzer.class, true);
-//		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
+		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 //		TableUtils.dropTable(cs, Airport.class, true);
 //		TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
@@ -71,7 +69,7 @@ public class DBManager {
 //		TableUtils.createTable(cs, Benutzer.class);
 //		TableUtils.createTable(cs, Fluggesellschaft.class);
 //		TableUtils.createTable(cs, Fluglinie.class);
-//		TableUtils.createTable(cs, FlugzeugMapping.class);
+		TableUtils.createTable(cs, FlugzeugMapping.class);
 //		TableUtils.createTable(cs, Airport.class);
 //		TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
@@ -161,7 +159,6 @@ public class DBManager {
 	public void createBk(Booking bk) {
 		try {
 			String user = bk.getUsername();
-			//TODO flugline platz --1;
 			Benutzer be = App.db.getUser(user);
 			double co=bk.getco()+be.getco();
 			double distence=bk.getdistence()+be.getkilo();
@@ -171,6 +168,15 @@ public class DBManager {
 			this.updateB(be);
 			be= App.db.getUser(user);
 			System.out.println("CO: "+be.getco()+"  Kilo: "+be.getkilo());
+			Flug fl =bk.getFlug();
+			if(bk.getClass().equals("E")){
+				int anzahl = bk.getFlug().getRestEconomy();
+				fl.setRestEconomy(anzahl-1);
+			}else if(bk.getClass().equals("B")){
+				int anzahl = bk.getFlug().getRestBusiness();
+				fl.setRestBusiness(anzahl-1);
+			}
+			this.updateFlug(fl);
 			bkDao.create(bk);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -397,6 +403,17 @@ public class DBManager {
 				double distence=bk.getdistence()+be.getkilo();
 				be.setCo(co);
 				be.setKilo(distence);
+				Flug fl =bk.getFlug();
+				if(fl!=null){
+					if(bk.getClass().equals("E")){
+						int anzahl = bk.getFlug().getRestEconomy();
+						fl.setRestEconomy(anzahl+1);
+					}else if(bk.getClass().equals("B")){
+						int anzahl = bk.getFlug().getRestBusiness();
+						fl.setRestBusiness(anzahl+1);
+					}
+					this.updateFlug(fl);
+				}
 				this.updateB(be);
 
 				bkDao.deleteById(id);
@@ -494,6 +511,7 @@ public class DBManager {
 
 
 
+
 	
 	public List<Airport> getFlughafen(){
 		QueryBuilder<Airport,String> query = apDao.queryBuilder();
@@ -533,6 +551,17 @@ public class DBManager {
 //					.eq("zeit",bk.getZeit());
 			return bkDao.queryForFirst(query.prepare());
 		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Flug getFlug(int id){
+		Flug flug  = null;
+		try {
+			flug = flugDao.queryForId(id);
+			return flug;
+		}catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
