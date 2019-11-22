@@ -215,7 +215,7 @@
 							</padding>
 						</VBox>
                   <Label text="Suchergebnisse" />
-                  <TreeTableView fx:id="suchergebnis">
+                  <!-- TreeTableView fx:id="suchergebnis">
                     <columns>
                       <TreeTableColumn fx:id="uhrzeitCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Uhrzeit" />
                         <TreeTableColumn fx:id="datumCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Datum" />
@@ -232,7 +232,22 @@
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
-                  </TreeTableView>
+                  </TreeTableView-->
+                  <TableView fx:id="suchergebnis1">
+                     <columns>
+                        <TableColumn fx:id="uhrzeitCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Uhrzeit" />
+                        <TableColumn fx:id="datumCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Datum" />
+                        <!-- TableColumn fx:id="dauerCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugdauer" /-->
+                        <TableColumn fx:id="startZielCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="StartZiel" />
+                        <TableColumn fx:id="flCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Fluglinie" />
+                        <TableColumn fx:id="fCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugzeug" />
+                        <TableColumn fx:id="kmCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="km" />
+                        <TableColumn fx:id="co2Col1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CO2" />
+                        <TableColumn fx:id="preisppCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="PreispP" />
+                        <TableColumn fx:id="preisCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Gesamtpreis" />
+                        <TableColumn fx:id="kaufenCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Kaufen" />
+                     </columns>
+                  </TableView>
 					</children>
 				</VBox>
 			</content>

@@ -1,5 +1,8 @@
 package org.openjfx;
 
+import java.util.Date;
+
+import Models.Flug;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -56,6 +59,17 @@ public class App extends Application {
 //            new DBManager().createBk(notb);
 //        }
         //new DBManager().setUpDatabase();
+//    	Date today = new Date();
+//    	Date today2 = today;
+//    	Date today3 = today;
+//    	today2.setHours(7);
+//    	today3.setHours(15);
+//    	Flug f = new Flug(db.getFLById(1), today , 50, 50);
+//    	Flug f1 = new Flug(db.getFLById(1), today2, 50, 52);
+//    	Flug f2 = new Flug(db.getFLById(1), today3 , 50, 53);
+//    	db.createFlug(f);
+//    	db.createFlug(f1);
+//    	db.createFlug(f2);
 
         launch();
     }

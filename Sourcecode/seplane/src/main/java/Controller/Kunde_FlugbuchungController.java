@@ -19,10 +19,17 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ChoiceBox;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.openjfx.App;
@@ -87,7 +94,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML private HBox vChildRechts2;
 	@FXML private HBox vChildRechts3;
 	//Tabelle Flüge
-	@FXML TreeTableView<Flug> suchergebnis;
+	/*@FXML TreeTableView<Flug> suchergebnis;
 	@FXML TreeTableColumn<Flug, String> uhrzeitCol;
 	@FXML TreeTableColumn<Flug, String> datumCol;
 	@FXML TreeTableColumn<Flug, String> dauerCol;
@@ -98,8 +105,22 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML TreeTableColumn<Flug, String> co2Col;
 	@FXML TreeTableColumn<Flug, String> preisppCol;
 	@FXML TreeTableColumn<Flug, String> preisCol;
-	@FXML TreeTableColumn<Flug, String> kaufenCol;
+	@FXML TreeTableColumn<Flug, String> kaufenCol;*/
+	@FXML TableView<Flug> suchergebnis1;
+	@FXML TableColumn<Flug, String> uhrzeitCol1;
+	@FXML TableColumn<Flug, String> datumCol1;
+	@FXML TableColumn<Flug, String> dauerCol1;
+	@FXML TableColumn<Flug, String> startZielCol1;
+	@FXML TableColumn<Flug, String> flCol1;
+	@FXML TableColumn<Flug, String> fCol1;
+	@FXML TableColumn<Flug, String> kmCol1;
+	@FXML TableColumn<Flug, String> co2Col1;
+	@FXML TableColumn<Flug, String> preisppCol1;
+	@FXML TableColumn<Flug, String> preisCol1;
+	@FXML TableColumn<Flug, String> kaufenCol1;
 	
+	//Inhalte
+	ObservableList<Flug> flugList;
 	DBManager db = App.db;
 
 	@Override
@@ -139,72 +160,66 @@ public class Kunde_FlugbuchungController implements Initializable {
 		
 		
 		//TreeTableView Flüge
-		uhrzeitCol.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
+		uhrzeitCol1.setCellValueFactory(cellData ->{
+			if(cellData.getValue().getStartzeit()==null)
 				return new SimpleStringProperty("");
 			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
+				return new SimpleStringProperty(cellData.getValue().getStartzeit().getTime()+"");
 		});
-		datumCol.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
+		datumCol1.setCellValueFactory(cellData ->{
+			if(cellData.getValue().getStartzeit()==null)
 				return new SimpleStringProperty("");
 			else //TODO Recherche wie aktuell aufzurufen zur Anzeige
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().toLocaleString()+"");
+				return new SimpleStringProperty(cellData.getValue().getStartzeit().toLocaleString()+"");
 		});
-		dauerCol.setCellValueFactory(cellData ->{
+		startZielCol1.setCellValueFactory(cellData ->{
+			if(cellData.getValue().getFluglinie().getStart()==null)
+				return new SimpleStringProperty("");
+			else
+				return new SimpleStringProperty(cellData.getValue().getFluglinie().getStart().getCode());
+		});
+		flCol1.setCellValueFactory(cellData ->{
+			if(cellData.getValue().getFluglinie().getZiel()==null)
+				return new SimpleStringProperty("");
+			else
+				return new SimpleStringProperty(cellData.getValue().getFluglinie().getZiel().getCode());
+		});
+		/*fCol1.setCellValueFactory(cellData ->{
 			if(cellData.getValue().getValue().getStartzeit()==null)
 				return new SimpleStringProperty("");
 			else
 				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
 		});
-		startZielCol.setCellValueFactory(cellData ->{
+		kmCol1.setCellValueFactory(cellData ->{
 			if(cellData.getValue().getValue().getStartzeit()==null)
 				return new SimpleStringProperty("");
 			else
 				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
 		});
-		flCol.setCellValueFactory(cellData ->{
+		co2Col1.setCellValueFactory(cellData ->{
 			if(cellData.getValue().getValue().getStartzeit()==null)
 				return new SimpleStringProperty("");
 			else
 				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
 		});
-		fCol.setCellValueFactory(cellData ->{
+		preisppCol1.setCellValueFactory(cellData ->{
 			if(cellData.getValue().getValue().getStartzeit()==null)
 				return new SimpleStringProperty("");
 			else
 				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
 		});
-		kmCol.setCellValueFactory(cellData ->{
+		preisCol1.setCellValueFactory(cellData ->{
 			if(cellData.getValue().getValue().getStartzeit()==null)
 				return new SimpleStringProperty("");
 			else
 				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
 		});
-		co2Col.setCellValueFactory(cellData ->{
+		kaufenCol1.setCellValueFactory(cellData ->{
 			if(cellData.getValue().getValue().getStartzeit()==null)
 				return new SimpleStringProperty("");
 			else
 				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
-		preisppCol.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
-		preisCol.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
-		kaufenCol.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
+		});*/
 		
 		//TODO 
 		//eine zentrale DB Abfrage für alle Ergebnisse und dann zuordnen
@@ -244,8 +259,26 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search und TableView.setItems	
-			db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), tg.getSelectedToggle());
+			flugList = FXCollections.observableArrayList();
+			List<Flug> flugUnsortiert = new ArrayList<Flug>();
+			String klasse;
+			if(tg.getSelectedToggle().equals(toggleBus))
+				klasse = "business";
+			else klasse = "economy";
+			flugUnsortiert.addAll(db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse));
+			
+			//TODO sortieren nach Preis und TableView.setItems, comparator will net
+			Collections.sort(flugUnsortiert, new Comparator<Flug>() {
+
+				@Override
+				public int compare(Flug o1, Flug o2) {
+					// TODO Auto-generated method stub
+					return o1.getFluglinie().getPreisee().compareTo(o2.getFluglinie().getPreisee());
+				}
+			});
+			flugList.addAll(flugUnsortiert);
+			//if(!flugList.isEmpty())
+			suchergebnis1.setItems(flugList);
 		}
 	}
 
@@ -258,6 +291,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO DB Search TableView.setItems	
 		}
 	}
+	//2 foreach jede Kombi die vom Datum mit Uhrzeit her Sinn ergibt nach Preis sortiert ausgeben
 
 	private void sucheMulti1() {
 		if(startFH.getSelectionModel().getSelectedItem()==null || zielFH.getSelectionModel().getSelectedItem()==null

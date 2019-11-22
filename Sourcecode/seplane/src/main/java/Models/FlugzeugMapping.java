@@ -8,9 +8,9 @@ public class FlugzeugMapping {
 
 	@DatabaseField (generatedId = true)
 	private int sub_id;
-	@DatabaseField (foreign = true)
+	@DatabaseField (foreign = true, foreignAutoRefresh = true)
 	private Fluggesellschaft fg_id;
-	@DatabaseField (foreign = true)
+	@DatabaseField (foreign = true, foreignAutoRefresh = true)
 	private Plane f_id;
 	
 	public FlugzeugMapping() {}

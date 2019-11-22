@@ -8,7 +8,7 @@ public class Flug {
 
 	@DatabaseField(generatedId=true)
 	Integer id;
-	@DatabaseField(foreign=true)
+	@DatabaseField(foreign=true, foreignAutoRefresh = true)
 	Fluglinie fluglinie;
 	@DatabaseField
 	Date startzeit;
