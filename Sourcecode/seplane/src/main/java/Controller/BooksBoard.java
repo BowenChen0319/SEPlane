@@ -193,6 +193,10 @@ public class BooksBoard extends Application {
 
 
                 }
+                text1.setText(
+                        "Willkommen " + be.getBenutzername()+
+                                ".  Ihre CO2 Konto: "+be.getco()+" Kg .  Ihre Kilometer Konto: "+be.getkilo()+" KM");
+
                 System.out.println("Refresh");
             }
 
@@ -251,8 +255,6 @@ public class BooksBoard extends Application {
 
                     System.out.println("delected");
                     b1.fire();
-                    text1.setText(
-                            "Willkommen " + be.getBenutzername());
 
                 }
             }
