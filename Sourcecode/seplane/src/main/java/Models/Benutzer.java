@@ -114,7 +114,7 @@ public class Benutzer {
 
     public boolean checkname(String username) throws SQLException {
         boolean right = true;
-        DBManager db = new DBManager();
+        DBManager db = App.db;
         List<Benutzer> all= db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
@@ -141,7 +141,7 @@ public class Benutzer {
 
 
     public List<Booking> getbookinglist(){
-        return new DBManager().getallBookingFromUser(this.getBenutzername());
+        return App.db.getallBookingFromUser(this.getBenutzername());
     }
 
 

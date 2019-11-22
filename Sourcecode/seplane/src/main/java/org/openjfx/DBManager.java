@@ -60,8 +60,8 @@ public class DBManager {
 		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
 		TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
-		TableUtils.dropTable(cs, Airport.class, true);
-		TableUtils.dropTable(cs, Plane.class, true);
+		//TableUtils.dropTable(cs, Airport.class, true);
+		//TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
 		TableUtils.dropTable(cs, Booking.class,true);
 		
@@ -69,8 +69,8 @@ public class DBManager {
 		TableUtils.createTable(cs, Fluggesellschaft.class);
 		TableUtils.createTable(cs, Fluglinie.class);
 		TableUtils.createTable(cs, FlugzeugMapping.class);
-		TableUtils.createTable(cs, Airport.class);
-		TableUtils.createTable(cs, Plane.class);
+		//TableUtils.createTable(cs, Airport.class);
+		//TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
 		TableUtils.createTable(cs, Booking.class);
 	}
@@ -158,14 +158,15 @@ public class DBManager {
 	public void createBk(Booking bk) {
 		try {
 			String user = bk.getUsername();
-			Benutzer be = new DBManager().getUser(user);
+			//TODO flugline platz --1;
+			Benutzer be = App.db.getUser(user);
 			double co=bk.getco()+be.getco();
 			double distence=bk.getdistence()+be.getkilo();
 			System.out.println("CO: "+co+"  Kilo: "+distence);
 			be.setCo(co);
 			be.setKilo(distence);
 			this.updateB(be);
-			be= new DBManager().getUser(user);
+			be= App.db.getUser(user);
 			System.out.println("CO: "+be.getco()+"  Kilo: "+be.getkilo());
 			bkDao.create(bk);
 		} catch (Exception e) {
@@ -300,6 +301,7 @@ public class DBManager {
 	public void deleteFL(int id)throws Exception{
 		try {
 			if(flDao.idExists(id))
+				//TODO flugline platz ++1
 				flDao.deleteById(id);			
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -356,7 +358,7 @@ public class DBManager {
 			if(bkDao.idExists(id)){
 				Booking bk=this.getbkId(id);
 				String user = bk.getUsername();
-				Benutzer be = new DBManager().getUser(user);
+				Benutzer be = App.db.getUser(user);
 				double co=bk.getco()+be.getco();
 				double distence=bk.getdistence()+be.getkilo();
 				be.setCo(co);

@@ -21,8 +21,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.openjfx.DBManager;
+import org.openjfx.App;
 import org.openjfx.kunde_windows;
+import org.openjfx.login;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -44,6 +45,7 @@ public class BooksBoard extends Application {
     @Override
 
     public void start(Stage stage) throws IOException, SQLException {
+
         int Height = 700;
         int Width = 1000;
 
@@ -63,7 +65,8 @@ public class BooksBoard extends Application {
         text.setFont(Font.font(30));
 
         Label text1 = new Label(
-                "Willkommen " + be.getBenutzername());
+                "Willkommen " + be.getBenutzername()+
+                ".  Ihre CO2 Konto: "+be.getco()+" Kg .  Ihre Kilometer Konto: "+be.getkilo()+" KM");
         text.setFont(Font.font(25));
 
         VBox v0 = new VBox();
@@ -93,7 +96,7 @@ public class BooksBoard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 List<Booking> all = null;
-                all = new DBManager().getallBookingFromUser(be.getBenutzername());
+                all = App.db.getallBookingFromUser(be.getBenutzername());
                 ArrayList<Integer> notwo = new ArrayList<Integer>();
                 for (int i = 0; i < all.size(); i++) {
                     Booking ben = all.get(i);
@@ -130,7 +133,7 @@ public class BooksBoard extends Application {
                             //int flugid = Integer.parseInt(list.get(j));
                             //ben=new DBManager().getMultiBook(be.getBenutzername(),flugid);
                             int index = Integer.parseInt(list.get(j));
-                            ben= new DBManager().getbkId(index);
+                            ben= App.db.getbkId(index);
                             if(!notwo.contains(ben.getId())){
                                 if(j==0){
                                     if(ben.getFluglinie()!=null){
@@ -212,13 +215,13 @@ public class BooksBoard extends Application {
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
-                all= new DBManager().getallBookingFromUser(be.getBenutzername());
+                all= App.db.getallBookingFromUser(be.getBenutzername());
                 if(d<=all.size()){
                     Booking del = all.get(d);
                     ArrayList<Integer> notwo = new ArrayList<Integer>();
                     if(del.getMulti().equals("")){
                         try {
-                            new DBManager().deleteBk(new DBManager().getbkwithbk(del).getId());
+                            App.db.deleteBk(App.db.getbkwithbk(del).getId());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -235,14 +238,14 @@ public class BooksBoard extends Application {
                             //del= new DBManager().getbkId(index);
                             if(!notwo.contains(del.getId())){
                                 try {
-                                    new DBManager().deleteBk(index);
+                                    App.db.deleteBk(index);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
                         }
                     }
-                    List<Booking> all1 = new DBManager().getallBookingFromUser(be.getBenutzername());
+                    List<Booking> all1 = App.db.getallBookingFromUser(be.getBenutzername());
                     data.clear();
 
 
@@ -264,6 +267,18 @@ public class BooksBoard extends Application {
                     b3.fire();
                 }
                 if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new CurrentUser().setCurrent(null);
+                                new login().start(new Stage());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+
+                            }
+                        }
+                    });
                     stage.close();
                 }
 
@@ -303,6 +318,8 @@ public class BooksBoard extends Application {
 
 
 
+
+
         b1.fire();
 
 
@@ -325,5 +342,6 @@ public class BooksBoard extends Application {
 
 
     }
+
 
 }
