@@ -205,7 +205,7 @@ public class register extends Application {
         b3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DBManager db = new DBManager();
+                DBManager db = App.db;
                 Benutzer b = new Benutzer();
                 System.out.println("start  user creat");
                 if(bname.getText().matches("")||psw.getText().matches("")||psw.getText().contains(" ")){

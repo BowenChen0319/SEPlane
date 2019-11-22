@@ -2,7 +2,7 @@ package Models;
 
 import Toolbox.Encryption;
 import com.j256.ormlite.field.DatabaseField;
-import org.openjfx.DBManager;
+import org.openjfx.App;
 
 import java.sql.SQLException;
 import java.text.ParsePosition;
@@ -94,7 +94,7 @@ public class Booking {
 
     public Fluglinie getFluglinie(){
         try {
-            return new DBManager().getFluglinie(Integer.parseInt(flugid));
+            return App.db.getFluglinie(Integer.parseInt(flugid));
         }catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -118,7 +118,7 @@ public class Booking {
     }
 
     public double getco() throws SQLException {
-        Fluglinie fl=new DBManager().getFluglinie(Integer.parseInt(flugid));
+        Fluglinie fl=App.db.getFluglinie(Integer.parseInt(flugid));
         if(fl!=null){
             double distence = fl.getEntfernung();
             double co = 0.0571*distence*1;
@@ -130,7 +130,7 @@ public class Booking {
     }
 
     public double getdistence() throws SQLException {
-        Fluglinie fl=new DBManager().getFluglinie(Integer.parseInt(flugid));
+        Fluglinie fl=App.db.getFluglinie(Integer.parseInt(flugid));
         if(fl!=null){
             double distence = fl.getEntfernung();
             return distence;

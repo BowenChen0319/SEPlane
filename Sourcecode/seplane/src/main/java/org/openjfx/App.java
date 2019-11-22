@@ -1,14 +1,10 @@
 package org.openjfx;
 
-import Models.Booking;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -59,6 +55,7 @@ public class App extends Application {
 //            new DBManager().createBk(b5);
 //            new DBManager().createBk(notb);
 //        }
+        //new DBManager().setUpDatabase();
 
         launch();
     }
