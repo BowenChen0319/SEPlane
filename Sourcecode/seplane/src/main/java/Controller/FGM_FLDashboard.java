@@ -43,7 +43,6 @@ public class FGM_FLDashboard implements Initializable{
 	@FXML Label kmLabel;
 	@FXML Label kmkmLabel;
 	@FXML DatePicker jungfernFlug;
-	@FXML Label dateLabel;
 	@FXML ComboBox<Intervall> intervallBox;
 	@FXML ComboBox<Plane> flugzeugBox;
 	@FXML Slider slider;
@@ -164,7 +163,7 @@ public class FGM_FLDashboard implements Initializable{
 	//Anlegen confirm
 	public void fl_anlegen(ActionEvent event) {
 		//leere Felder oder falsche Eingaben (start = ziel, Datum Vergangenheit, 25% Business, Entfernung F und FL falsch)
-		if (startBox.getValue()==null || zielBox.getValue()==null || startBox.getValue() == zielBox.getValue() || jungfernFlug.getValue()==null ||dateLabel.isVisible()
+		if (startBox.getValue()==null || zielBox.getValue()==null || startBox.getValue() == zielBox.getValue() || jungfernFlug.getValue()==null
 				|| intervallBox.getValue() == null || prozentLabel.getTextFill()==Color.RED 
 				|| flugzeugBox.getValue() == null || kmLabel.getTextFill()==Color.RED || preisE.getText()==null || preisB.getText()==null)
 			AlertHandler.falscheAngaben();
@@ -223,7 +222,7 @@ public class FGM_FLDashboard implements Initializable{
 	
 	public void fl_bearbeiten(ActionEvent event) throws IOException{
 		//Zahlen falsch oder falscher Flieger oder zu frühes Datum
-		if(!checkStart(jungfernFlug.getValue())||!checkEntf(fluglinie.getEntfernung(), flugzeugBox.getValue().getRange())|| prozentLabel.getTextFill()==Color.RED||
+		if(!checkEntf(fluglinie.getEntfernung(), flugzeugBox.getValue().getRange())|| prozentLabel.getTextFill()==Color.RED||
 				(!preisB.getText().isBlank()&&!checkDouble(preisB.getText()))||
 				(!preisE.getText().isBlank()&&!checkDouble(preisE.getText())))
 			
@@ -295,8 +294,6 @@ public class FGM_FLDashboard implements Initializable{
 	
 	//initialize FX Elements Anlegen und Bearbeiten
 	public void initParam() {
-		//macht Platz, wenn unsichtbar
-		dateLabel.managedProperty().bind(dateLabel.visibleProperty());
 		//Combos statt Choice Box weil letztere kein PromptText
 		startBox.setItems(fhList);
 		startBox.setConverter(apConverter);
@@ -305,14 +302,17 @@ public class FGM_FLDashboard implements Initializable{
 		//start/ziel ClickListener für Entfernung
 		startBox.valueProperty().addListener(showEntfernung);
 		zielBox.valueProperty().addListener(showEntfernung);
-		//datePicker Listener für Warnung zukünftiges Datum
-		//Lambda weil kp wie von DatePicker zu LD
-		jungfernFlug.valueProperty().addListener((observable, oldValue, newValue)-> {
-				if(!checkStart(newValue))
-					dateLabel.setVisible(true);
-				else {
-					dateLabel.setVisible(false);
-				}
+
+		jungfernFlug.setDayCellFactory(picker -> new DateCell() {
+			public void updateItem(LocalDate date, boolean empty) {
+				//Überschreiben der Update Methode
+				//empty testet ob leer ist oder von anderem Typ, dann wird Text/Grafik auf null gesetzt
+				//date ist der neue Wert, also auch bei setDisable wird dahingehend gefiltert
+				super.updateItem(date, empty);
+				LocalDate today = LocalDate.now();
+				//disabled leer und vor Heute
+				setDisable(empty || date.compareTo(today) < 0 );
+			}
 		});
 		
 		intervallBox.getItems().setAll(Intervall.values());
@@ -393,14 +393,6 @@ public class FGM_FLDashboard implements Initializable{
 		catch(Exception e) {
 			return false;
 		}
-	}
-	
-	//check Startdatum in Zukunft, true wenn in der Zukunft oder Heute
-	public boolean checkStart(LocalDate newValue) {
-		//convert localDate aus DatePicker zu Date, < 0 ist in der Vergangenheit
-		if(convertLocal(newValue).compareTo(new Date())<=0)
-			return false;
-		else return true;
 	}
 	
 	//Berechne Entfernung von Start zu Ziel

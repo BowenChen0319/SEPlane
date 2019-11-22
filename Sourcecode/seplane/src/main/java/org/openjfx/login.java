@@ -190,12 +190,8 @@ public class login extends Application {
                                                 primaryStage.setResizable(true);
                                                 Parent fgm1 = FXMLLoader.load(getClass().getResource("FGMDashboardMain.fxml"));
                                                 Scene fgmScene = new Scene(fgm1);
-                                                Stage stage = primaryStage;
-
-                                                stage.setScene(fgmScene);
-                                                fitScreen(stage);
-                                                stage.setResizable(true);
-
+                                                primaryStage.setScene(fgmScene);
+                                                fitScreen(primaryStage);
 
                                             } catch (IOException e) {
                                                 e.printStackTrace();
@@ -250,8 +246,21 @@ public class login extends Application {
                                         @Override
                                         public void run() {
                                             try {
-                                                new CurrentUser().setCurrent(finalB1);
-                                                new BooksBoard().start(new Stage());
+                                                new CurrentUser().setCurrent(finalB1);                                                
+                                                
+                                                //Flugsuche
+                                                if(true) {
+                                                primaryStage.setResizable(true);
+                                                Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
+                                                Scene fgmScene = new Scene(fgm1);
+                                                primaryStage.setScene(fgmScene);
+                                                fitScreen(primaryStage);
+                                                }
+                                                else {
+                                                	//Buchungsübersicht
+                                                    new BooksBoard().start(new Stage());
+                                                }
+                                                
                                             } catch (IOException | SQLException e) {
                                                 e.printStackTrace();
 

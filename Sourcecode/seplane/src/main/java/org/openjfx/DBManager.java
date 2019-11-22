@@ -3,6 +3,8 @@ package org.openjfx;
 
 import Models.*;
 import Toolbox.JsonReaderTool;
+import javafx.scene.control.Toggle;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
@@ -13,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -575,6 +578,36 @@ public class DBManager {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+//----Flugsuche
+	public List<Fluglinie> sucheHinflug(Airport start, Airport ziel, LocalDate abflug, Integer zeitraum, Integer personen,
+			Toggle klasse) {
+		
+		List<Fluglinie> fl;
+		QueryBuilder<Fluglinie,Integer> queryFL = flDao.queryBuilder();
+		List<Flug> f;
+		QueryBuilder<Flug,Integer> queryF = flugDao.queryBuilder();
+		// "_id" wird durch Ormlite/h2 angefügt in DB
+		try {
+			//get passende Fluglinie
+			queryFL.where().eq("start", start).and().eq("ziel", ziel);
+			fl = flDao.query(queryFL.prepare());
+			
+			List<Integer> flID = new ArrayList<Integer>();
+			for(Fluglinie fluglinie : fl) {
+				flID.add(fluglinie.getId());
+			}
+			//filter passendes Datum
+			//queryF.where().in("fluglinie_id", subQueryBuilder);
+			
+			//check free seats
+			return fl;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 }
