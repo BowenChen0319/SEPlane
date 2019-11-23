@@ -477,6 +477,8 @@ public class FGM_FLDashboard implements Initializable{
 			Parent root1 = fxmlLoader.load();
 			Scene scene = new Scene(root1);
 			Stage stage = new Stage();
+			FGM_FluegeInstanziierenController fgm_fluegeInstanziierenController = fxmlLoader.getController();
+			fgm_fluegeInstanziierenController.passData(flTable.getSelectionModel().getSelectedItem());
 			stage.setTitle("Flug instantiieren");
 			stage.setScene(scene);
 			stage.showAndWait();
