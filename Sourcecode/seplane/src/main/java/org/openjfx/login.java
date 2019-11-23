@@ -3,6 +3,7 @@ package org.openjfx;
 import Controller.Adminboard;
 import Controller.BooksBoard;
 import Models.Benutzer;
+import Models.Booking;
 import Models.CurrentUser;
 import Toolbox.CSVReader;
 import Toolbox.Encryption;
@@ -29,6 +30,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * JavaFX App
@@ -166,7 +168,7 @@ public class login extends Application {
 
 //                Benutzer b = new Benutzer().getBenutzer(user.getText());
                 Benutzer b = null;
-                b = new DBManager().getUser(user.getText());
+                b = App.db.getUser(user.getText());
                 if(b==null){
                     warning.setText("Wrong Username");
 
@@ -190,12 +192,8 @@ public class login extends Application {
                                                 primaryStage.setResizable(true);
                                                 Parent fgm1 = FXMLLoader.load(getClass().getResource("FGMDashboardMain.fxml"));
                                                 Scene fgmScene = new Scene(fgm1);
-                                                Stage stage = primaryStage;
-
-                                                stage.setScene(fgmScene);
-                                                fitScreen(stage);
-                                                stage.setResizable(true);
-
+                                                primaryStage.setScene(fgmScene);
+                                                fitScreen(primaryStage);
 
                                             } catch (IOException e) {
                                                 e.printStackTrace();
@@ -230,6 +228,7 @@ public class login extends Application {
                                             }
                                         }
                                     });
+                                    warning.setText("");
                                 }else{
                                     warning.setText("Wrong Password!");
                                 }
@@ -240,23 +239,53 @@ public class login extends Application {
                         }else if(b.getBenutzertyp().matches("kunde")){
                             try {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
-                                    warning.setText("Welcome Kunde");
+                                    warning.setText("Welcome Kunde, Loading......");
                                     System.out.println("Welcome kunde");
                                     user.clear();
                                     pwd.clear();
                                     Benutzer finalB1 = b;
-                                    Platform.runLater(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                new CurrentUser().setCurrent(finalB1);
-                                                new BooksBoard().start(new Stage());
-                                            } catch (IOException | SQLException e) {
-                                                e.printStackTrace();
+
+                                    List<Booking> all = null;
+                                    all = App.db.getallBookingFromUser(b.getBenutzername());
+                                    if(all.size()==0){
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    new CurrentUser().setCurrent(finalB1);
+                                                    new kunde_windows().start(new Stage());
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+
+                                                }
 
                                             }
-                                        }
-                                    });
+                                        });
+                                        primaryStage.close();
+                                    }else{
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    new CurrentUser().setCurrent(finalB1);
+                                                    //new BooksBoard().start(new Stage());
+
+                                                    //Flugsuche
+                                                    
+                                                    primaryStage.setResizable(true);
+                                                    Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
+                                                    Scene fgmScene = new Scene(fgm1);
+                                                    primaryStage.setScene(fgmScene);
+                                                    fitScreen(primaryStage);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+
+                                                }
+                                            }
+                                        });
+                                        primaryStage.close();
+                                    }
+
                                 }else{
                                     warning.setText("Wrong Password!");
                                 }
@@ -353,7 +382,7 @@ public class login extends Application {
                 primaryStage.close();
                 try {
                     DBManager.CSVToDB(CSVReader.OwnCSVReader());
-                    new DBManager().addAirportToDb();
+                    App.db.addAirportToDb();
                     new login().start(new Stage());
                 } catch (IOException e) {
                     e.printStackTrace();

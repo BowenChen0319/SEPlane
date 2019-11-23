@@ -21,11 +21,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.openjfx.DBManager;
+import org.openjfx.App;
 import org.openjfx.kunde_windows;
+import org.openjfx.login;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,7 +45,8 @@ public class BooksBoard extends Application {
     @Override
 
     public void start(Stage stage) throws IOException, SQLException {
-        int Height = 800;
+
+        int Height = 700;
         int Width = 1000;
 
 
@@ -61,7 +65,8 @@ public class BooksBoard extends Application {
         text.setFont(Font.font(30));
 
         Label text1 = new Label(
-                "Willkommen " + be.getBenutzername());
+                "Willkommen " + be.getBenutzername()+
+                ".  Ihre CO2 Konto: "+be.getco()+" Kg .  Ihre Kilometer Konto: "+be.getkilo()+" KM");
         text.setFont(Font.font(25));
 
         VBox v0 = new VBox();
@@ -73,35 +78,130 @@ public class BooksBoard extends Application {
         ListView<String> listView = new ListView<String>(data);
         listView.setPrefSize(200, 500);
 
-        List<Booking> all = new DBManager().getallBookingFromUser(be.getBenutzername());
-        for (int i = 0; i < all.size(); i++) {
-            Booking ben = all.get(i);
-            if(ben.getFluglinie()!=null){
-                data.add("ID " + ben.getId()
-                        + " von " + ben.getFluglinie().getStart().getCode()
-                        + " nach " + ben.getFluglinie().getZiel().getCode()
-                        + ". In total " + ben.getFluglinie().getEntfernung().toString()
-                        + " with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
-                        +" " + ben.getFluglinie().getFlugzeug().getType()
-                        +" Time: "+ ben.getZeit()
-                        +" Class: "+ben.getClasse()
-                        +" Seat: "+ben.getSeat()
-                        +" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
-                );
-            }else{
-                data.add("ID " + ben.getId()
-                        +" Sorry, this flight was cancelled. "
-                        +" Time: "+ ben.getZeit()
-                        +" Class: "+ben.getClasse()
-                        +" Seat: "+ben.getSeat()
-                        +" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
-                );
-            }
 
-        }
 
 
         listView.setItems(data);
+
+        Button b1 = new Button("Refresh");
+        b1.setPrefWidth(100);
+        b1.setPrefHeight(20);
+        b1.setFont(Font.font(15));
+        b1.setStyle("-fx-background-color: #7CCD7C;" +
+                "-fx-background-radius: 8;" +
+                "-fx-text-fill: #5CACEE"
+        );
+
+        b1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                List<Booking> all = null;
+                all = App.db.getallBookingFromUser(be.getBenutzername());
+                ArrayList<Integer> notwo = new ArrayList<Integer>();
+                for (int i = 0; i < all.size(); i++) {
+                    Booking ben = all.get(i);
+                    if(ben.getMulti().equals("")){
+                        if(ben.getFlug()!=null){
+                            data.add("BookingID :" + ben.getId()
+                                    + "    Flight von " + ben.getFluglinie().getStart().getCode()
+                                    + " nach " + ben.getFluglinie().getZiel().getCode()
+                                    + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
+                                    + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
+                                    +"   " + ben.getFluglinie().getFlugzeug().getType()
+                                    +"   Time: "+ ben.getFlug().getStartzeit()
+                                    +"   Class: "+ben.getClasse()
+                                    +"   Seat: "+ben.getSeat()
+                                    +"   Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                            );
+                        }else{
+                            data.add("BookingID :" + ben.getId()
+                                    +"    Sorry, this flight was cancelled. "
+                                    +"   Time: "+ ben.getFlug().getStartzeit()
+                                    +"   Class: "+ben.getClasse()
+                                    +"   Seat: "+ben.getSeat()
+                                    +"   Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                            );
+                        }
+
+                    }else{
+                        String multi= ben.getMulti();
+                        ArrayList<String> list = new ArrayList<String>(Arrays.asList(multi.split(",")));
+                        System.out.println(list);
+                        for(int j=0;j<list.size();j++){
+                            //String flugid=list.get(j);
+                            System.out.println(list.get(j));
+                            //int flugid = Integer.parseInt(list.get(j));
+                            //ben=new DBManager().getMultiBook(be.getBenutzername(),flugid);
+                            int index = Integer.parseInt(list.get(j));
+                            ben= App.db.getbkId(index);
+                            if(!notwo.contains(ben.getId())){
+                                if(j==0){
+                                    if(ben.getFlug()!=null){
+                                        data.add("BookingID :" + ben.getId()
+                                                +"    Multistop: "+(j+1)+"."
+                                                + "   From " + ben.getFluglinie().getStart().getCode()
+                                                + " to " + ben.getFluglinie().getZiel().getCode()
+                                                + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
+                                                + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
+                                                +"   " + ben.getFluglinie().getFlugzeug().getType()
+                                                +"   Time: "+ ben.getFlug().getStartzeit()
+                                                +"   Class: "+ben.getClasse()
+                                                +"   Seat: "+ben.getSeat()
+                                                +"   Preise in total: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                        );
+                                    }else{
+                                        data.add("BookingID :" + ben.getId()
+                                                +"    Multistop: "+(j+1)+"."
+                                                +"    Sorry, this flight was cancelled. "
+                                                +"   Time: "+ ben.getFlug().getStartzeit()
+                                                +"   Class: "+ben.getClasse()
+                                                +"   Seat: "+ben.getSeat()
+                                                +"   Preise in total: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                        );
+                                    }
+                                }else{
+                                    if(ben.getFlug()!=null){
+                                        data.add("BookingID :" + ben.getId()
+                                                        +"    Multistop: "+(j+1)+"."
+                                                        + "   From " + ben.getFluglinie().getStart().getCode()
+                                                        + "  to " + ben.getFluglinie().getZiel().getCode()
+                                                        + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
+                                                        + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
+                                                        +"   " + ben.getFluglinie().getFlugzeug().getType()
+                                                        +"   Time: "+ ben.getFlug().getStartzeit()
+                                                        +"   Class: "+ben.getClasse()
+                                                        +"   Seat: "+ben.getSeat()
+                                                //+" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                        );
+                                    }else{
+                                        data.add("BookingID :" + ben.getId()
+                                                        +"    Multistop: "+(j+1)+"."
+                                                        +"   Sorry, this flight was cancelled. "
+                                                        +"   Time: "+ ben.getFlug().getStartzeit()
+                                                        +"   Class: "+ben.getClasse()
+                                                        +"   Seat: "+ben.getSeat()
+                                                //+" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                        );
+                                    }
+                                }
+                            }
+
+                            notwo.add(ben.getId());
+
+                        }
+                    }
+
+
+                }
+                text1.setText(
+                        "Willkommen " + be.getBenutzername()+
+                                ".  Ihre CO2 Konto: "+be.getco()+" Kg .  Ihre Kilometer Konto: "+be.getkilo()+" KM");
+
+                System.out.println("Refresh");
+            }
+
+
+        });
 
 
         Button b3 = new Button("Delect");
@@ -115,48 +215,52 @@ public class BooksBoard extends Application {
         b3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                text1.setText("Delecting.......");
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
-                all= new DBManager().getallBookingFromUser(be.getBenutzername());
-                Booking del = all.get(d);
-                try {
-                    new DBManager().deleteBk(new DBManager().getbkwithbk(del).getId());
-                    List<Booking> all1 = new DBManager().getallBookingFromUser(be.getBenutzername());
-                    data.clear();
-                    for (int i = 0; i < all1.size(); i++) {
-                        Booking ben = all1.get(i);
-                        if(ben.getFluglinie()!=null){
-                            data.add("ID " + ben.getId()
-                                    + " von " + ben.getFluglinie().getStart().getCode()
-                                    + " nach " + ben.getFluglinie().getZiel().getCode()
-                                    + ". In total " + ben.getFluglinie().getEntfernung().toString()
-                                    + " with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
-                                    +" " + ben.getFluglinie().getFlugzeug().getType()
-                                    +" Time: "+ ben.getZeit()
-                                    +" Class: "+ben.getClasse()
-                                    +" Seat: "+ben.getSeat()
-                                    +" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
-                            );
-                        }else{
-                            data.add("ID " + ben.getId()
-                                    +" Sorry, this flight was cancelled. "
-                                    +" Time: "+ ben.getZeit()
-                                    +" Class: "+ben.getClasse()
-                                    +" Seat: "+ben.getSeat()
-                                    +" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
-                            );
+                all= App.db.getallBookingFromUser(be.getBenutzername());
+                if(d<=all.size()){
+                    Booking del = all.get(d);
+                    ArrayList<Integer> notwo = new ArrayList<Integer>();
+                    if(del.getMulti().equals("")){
+                        try {
+                            App.db.deleteBk(App.db.getbkwithbk(del).getId());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        String multi= del.getMulti();
+                        ArrayList<String> list = new ArrayList<String>(Arrays.asList(multi.split(",")));
+                        System.out.println(list);
+                        for(int j=0;j<list.size();j++){
+                            //String flugid=list.get(j);
+                            System.out.println(list.get(j));
+                            //int flugid = Integer.parseInt(list.get(j));
+                            //ben=new DBManager().getMultiBook(be.getBenutzername(),flugid);
+                            int index = Integer.parseInt(list.get(j));
+                            //del= new DBManager().getbkId(index);
+                            if(!notwo.contains(del.getId())){
+                                try {
+                                    App.db.deleteBk(index);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                     }
+                    List<Booking> all1 = App.db.getallBookingFromUser(be.getBenutzername());
+                    data.clear();
+
+
                     System.out.println("delected");
+                    b1.fire();
 
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
             }
-
         });
+
+
 
         listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -165,6 +269,18 @@ public class BooksBoard extends Application {
                     b3.fire();
                 }
                 if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new CurrentUser().setCurrent(null);
+                                new login().start(new Stage());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+
+                            }
+                        }
+                    });
                     stage.close();
                 }
 
@@ -202,49 +318,11 @@ public class BooksBoard extends Application {
             }
         });
 
-        Button b1 = new Button("Refresh");
-        b1.setPrefWidth(100);
-        b1.setPrefHeight(20);
-        b1.setFont(Font.font(15));
-        b1.setStyle("-fx-background-color: #7CCD7C;" +
-                "-fx-background-radius: 8;" +
-                "-fx-text-fill: #5CACEE"
-        );
-
-        b1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                List<Booking> all = null;
-                all = new DBManager().getallBookingFromUser(be.getBenutzername());
-                for (int i = 0; i < all.size(); i++) {
-                    Booking ben = all.get(i);
-                    if(ben.getFluglinie()!=null){
-                        data.add("ID " + ben.getId()
-                                + " von " + ben.getFluglinie().getStart().getCode()
-                                + " nach " + ben.getFluglinie().getZiel().getCode()
-                                + ". In total " + ben.getFluglinie().getEntfernung().toString()
-                                + " with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
-                                +" " + ben.getFluglinie().getFlugzeug().getType()
-                                +" Time: "+ ben.getZeit()
-                                +" Class: "+ben.getClasse()
-                                +" Seat: "+ben.getSeat()
-                                +" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
-                        );
-                    }else{
-                        data.add("ID " + ben.getId()
-                                +" Sorry, this flight was cancelled. "
-                                +" Time: "+ ben.getZeit()
-                                +" Class: "+ben.getClasse()
-                                +" Seat: "+ben.getSeat()
-                                +" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
-                        );
-                    }
-                }
-                System.out.println("Refresh");
-            }
 
 
-        });
+
+
+        b1.fire();
 
 
 
@@ -266,5 +344,6 @@ public class BooksBoard extends Application {
 
 
     }
+
 
 }

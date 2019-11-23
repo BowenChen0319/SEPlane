@@ -8,11 +8,16 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DBManager {
@@ -52,26 +57,35 @@ public class DBManager {
 	
 	public void setUpDatabase() throws SQLException {
 		
-		TableUtils.dropTable(cs, Fluglinie.class, true);
-		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-		TableUtils.dropTable(cs, Benutzer.class, true);
+//		TableUtils.dropTable(cs, Fluglinie.class, true);
+//		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
+//		TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
-		TableUtils.dropTable(cs, Airport.class, true);
-		TableUtils.dropTable(cs, Plane.class, true);
+//		TableUtils.dropTable(cs, Airport.class, true);
+//		TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
 		TableUtils.dropTable(cs, Booking.class,true);
 		
-		TableUtils.createTable(cs, Benutzer.class);
-		TableUtils.createTable(cs, Fluggesellschaft.class);
-		TableUtils.createTable(cs, Fluglinie.class);
+//		TableUtils.createTable(cs, Benutzer.class);
+//		TableUtils.createTable(cs, Fluggesellschaft.class);
+//		TableUtils.createTable(cs, Fluglinie.class);
 		TableUtils.createTable(cs, FlugzeugMapping.class);
-		TableUtils.createTable(cs, Airport.class);
-		TableUtils.createTable(cs, Plane.class);
+//		TableUtils.createTable(cs, Airport.class);
+//		TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
 		TableUtils.createTable(cs, Booking.class);
 	}
-	
-//------Auslesen Flughäfen und Flugzeuge
+
+	public void refreshbooking() throws SQLException {
+
+		TableUtils.dropTable(cs, Booking.class,true);
+
+		TableUtils.createTable(cs, Booking.class);
+	}
+
+
+
+	//------Auslesen Flughäfen und Flugzeuge
 	// Hauptmethode um ein alle Flughäfen aus einer JSON Datei hinzuzufügen
 	public void addAirportToDb() {
 		try {
@@ -144,11 +158,51 @@ public class DBManager {
 
 	public void createBk(Booking bk) {
 		try {
+			String user = bk.getUsername();
+			Benutzer be = App.db.getUser(user);
+			double co=bk.getco()+be.getco();
+			double distence=bk.getdistence()+be.getkilo();
+			System.out.println("CO: "+co+"  Kilo: "+distence);
+			be.setCo(co);
+			be.setKilo(distence);
+			this.updateB(be);
+			be= App.db.getUser(user);
+			System.out.println("CO: "+be.getco()+"  Kilo: "+be.getkilo());
+			Flug fl =bk.getFlug();
+			if(bk.getClass().equals("E")){
+				int anzahl = bk.getFlug().getRestEconomy();
+				fl.setRestEconomy(anzahl-1);
+			}else if(bk.getClass().equals("B")){
+				int anzahl = bk.getFlug().getRestBusiness();
+				fl.setRestBusiness(anzahl-1);
+			}
+			this.updateFlug(fl);
 			bkDao.create(bk);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	public void creatmulti(List<Booking> list){
+		ArrayList<String> index = new ArrayList<String>();
+		for(int i=0;i<list.size();i++){
+			Booking bk = list.get(i);
+			this.createBk(bk);
+			int idint = this.getbkwithbk(bk).getId();
+			String id = Integer.toString(idint);
+			index.add(id);
+		}
+		String index_str = StringUtils.join(index,",");
+		for(int i=0;i<list.size();i++){
+			Booking bk = list.get(i);
+			Booking update = this.getbkwithbk(bk);
+			update.setMulti(index_str);
+			this.updateBk(update);
+		}
+
+	}
+
+
 	
 	public void createF(Plane f) {
 		try {
@@ -191,8 +245,21 @@ public class DBManager {
 		}
 	}
 
-	public void creatAp(Airport ap) throws SQLException {
-		apDao.create(ap);
+	public void creatAp(Airport ap) {
+		try {
+			apDao.create(ap);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void createFlug(Flug f) {
+		try {
+			flugDao.create(f);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 //------Update
@@ -200,6 +267,15 @@ public class DBManager {
 		try {
 			flDao.update(fl);
 		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateFlug(Flug f) {
+		try {
+			flugDao.update(f);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -253,7 +329,7 @@ public class DBManager {
 	}
 	
 //------Delete
-	public void deleteFL(int id)throws Exception{
+	public void deleteFL(int id){
 		try {
 			if(flDao.idExists(id))
 				flDao.deleteById(id);			
@@ -262,7 +338,17 @@ public class DBManager {
 		}
 	}
 	
-	public void deleteF(int id)throws Exception{
+	public void deleteFlug(int id) {
+		try {
+			if(flugDao.idExists(id))
+				flugDao.deleteById(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteF(int id){
 		try {
 			if(planeDao.idExists(id))
 				planeDao.deleteById(id);			
@@ -271,7 +357,7 @@ public class DBManager {
 		}
 	}
 	
-	public void deleteFG(int id)throws Exception{
+	public void deleteFG(int id){
 		try {
 			if(fgDao.idExists(id))
 				fgDao.deleteById(id);			
@@ -280,7 +366,7 @@ public class DBManager {
 		}
 	}
 	
-	public void deleteFH(String id)throws Exception{
+	public void deleteFH(String id){
 		try {
 			if(apDao.idExists(id))
 				apDao.deleteById(id);			
@@ -289,7 +375,7 @@ public class DBManager {
 		}
 	}
 	
-	public void deleteFM(int id)throws Exception{
+	public void deleteFM(int id){
 		try {
 			if(fmDao.idExists(id))
 				fmDao.deleteById(id);			
@@ -298,7 +384,7 @@ public class DBManager {
 		}
 	}
 	
-	public void deleteB(int id)throws Exception{
+	public void deleteB(int id){
 		try {
 			if(bDao.idExists(id))
 				bDao.deleteById(id);			
@@ -307,10 +393,34 @@ public class DBManager {
 		}
 	}
 
-	public void deleteBk(int id)throws Exception{
+	public void deleteBk(int id){
 		try {
-			if(bkDao.idExists(id))
+			if(bkDao.idExists(id)){
+				Booking bk=this.getbkId(id);
+				String user = bk.getUsername();
+				Benutzer be = App.db.getUser(user);
+				double co=bk.getco()+be.getco();
+				double distence=bk.getdistence()+be.getkilo();
+				be.setCo(co);
+				be.setKilo(distence);
+				Flug fl =bk.getFlug();
+				if(fl!=null){
+					if(bk.getClass().equals("E")){
+						int anzahl = bk.getFlug().getRestEconomy();
+						fl.setRestEconomy(anzahl+1);
+					}else if(bk.getClass().equals("B")){
+						int anzahl = bk.getFlug().getRestBusiness();
+						fl.setRestBusiness(anzahl+1);
+					}
+					this.updateFlug(fl);
+				}
+				this.updateB(be);
+
 				bkDao.deleteById(id);
+			}
+
+
+
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -374,6 +484,18 @@ public class DBManager {
 		
 	}
 
+	public Booking getMultiBook(String name,int bookingId) {
+		QueryBuilder<Booking,Integer> query = bkDao.queryBuilder();
+		try {
+			query.where().eq("username", name).and().eq("id",bookingId);
+			return bkDao.queryForFirst(query.prepare());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
 	public List<Booking> getallBookingFromUser(String username) {
 		List<Booking> all;
 		try {
@@ -385,6 +507,7 @@ public class DBManager {
 		}
 
 	}
+
 
 
 
@@ -418,15 +541,27 @@ public class DBManager {
 		QueryBuilder<Booking,Integer> query = bkDao.queryBuilder();
 		try {
 			query.where()
-					.eq("username",bk.getUsername()).and()
-					.eq("flugid", bk.getFlugid()).and()
-					.eq("classe",bk.getClasse()).and()
-					.eq("seat",bk.getSeat()).and()
-					.eq("paytime",bk.getPaytime()).and()
-					.eq("preise",bk.getPreise()).and()
-					.eq("zeit",bk.getZeit());
+					.eq("HashNr",bk.getHashNr());
+//					.eq("username",bk.getUsername()).and()
+//					.eq("flugid", bk.getFlugid()).and()
+//					.eq("classe",bk.getClasse()).and()
+//					.eq("seat",bk.getSeat()).and()
+//					.eq("paytime",bk.getPaytime()).and()
+//					.eq("preise",bk.getPreise()).and()
+//					.eq("zeit",bk.getZeit());
 			return bkDao.queryForFirst(query.prepare());
 		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Flug getFlug(int id){
+		Flug flug  = null;
+		try {
+			flug = flugDao.queryForId(id);
+			return flug;
+		}catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -508,6 +643,36 @@ public class DBManager {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+//----Flugsuche
+	public List<Flug> sucheHinflug(Airport start, Airport ziel, LocalDate abflug, Integer zeitraum, Integer personen,
+			String klasse) {
+
+		QueryBuilder<Fluglinie,Integer> queryFL = flDao.queryBuilder();
+		List<Flug> f;// = new ArrayList<Flug>();
+		QueryBuilder<Flug,Integer> queryF = flugDao.queryBuilder();
+		// "_id" wird durch Ormlite/h2 angefügt in DB
+		try {
+			//get passende Fluglinie
+			queryFL.where().eq("start_id", start).and().eq("ziel_id", ziel);
+			
+			//filter passender Zeitraum, freie Plätze je Klasse
+			//Datum von Anfang des Tages minus Intervall bis Ende/Maximum des Tages plus Intervall
+			if(klasse=="business")
+				queryF.join(queryFL).where().between("startzeit", Date.from(abflug.minusDays(zeitraum).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 
+						Date.from(abflug.plusDays(zeitraum).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant())).and().ge("restBusiness", personen);
+			else
+				queryF.join(queryFL).where().between("startzeit", Date.from(abflug.minusDays(zeitraum).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 
+						Date.from(abflug.plusDays(zeitraum).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant())).and().ge("restEconomy", personen);
+			f = flugDao.query(queryF.prepare());
+			System.out.println(f.get(0));
+			return f;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 }

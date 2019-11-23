@@ -11,7 +11,7 @@ public class Fluggesellschaft {
 
 	@DatabaseField (generatedId=true)
 	private int id;
-	@DatabaseField (foreign = true)
+	@DatabaseField (foreign = true, foreignAutoRefresh = true)
 	private Benutzer fgmanager;
 	@DatabaseField
 	private String name;

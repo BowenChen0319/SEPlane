@@ -19,102 +19,143 @@
 							<children>
 								<HBox VBox.vgrow="ALWAYS">
 									<children>
-										<VBox fx:id="vLinks" HBox.hgrow="ALWAYS">
+										<VBox fx:id="vLinks">
 											<children>
-                                    <VBox fx:id="vChildLinks">
+                                    <VBox fx:id="vChildLinks" VBox.vgrow="ALWAYS">
                                        <children>
-      												<HBox>
+      												<HBox spacing="10.0">
       													<children>
       														<CheckBox fx:id="rueckflugCheck" mnemonicParsing="false" text="mit Rückflug" />
       													</children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
       												</HBox>
-      												<HBox>
+      												<HBox spacing="10.0">
       													<children>
-      														<ComboBox fx:id="startFH" HBox.hgrow="ALWAYS" />
-                                                <ComboBox fx:id="zielFH" />
+      														<ComboBox fx:id="startFH" maxWidth="450.0" HBox.hgrow="ALWAYS" />
+                                                <ComboBox fx:id="zielFH" maxWidth="450.0" HBox.hgrow="ALWAYS" />
       													</children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
       												</HBox>
-      												<HBox>
+      												<HBox spacing="10.0">
       													<children>
-                                                <Label text="Hin:" />
+                                                <Label text="Hin:">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin></Label>
       														<DatePicker fx:id="startDatum" />
       														<ChoiceBox fx:id="zeitraumHin" />
-                                                <Label text="Rück:" />
-      														<DatePicker fx:id="rueckdatum" />
-      														<ChoiceBox fx:id="zeitraumRueck" />
+                                                <HBox fx:id="rueckflugBox" spacing="10.0" visible="false">
+                                                   <children>
+                                                      <Label text="Rück:">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </Label>
+            														<DatePicker fx:id="rueckdatum" />
+            														<ChoiceBox fx:id="zeitraumRueck" />
+                                                   </children>
+                                                </HBox>
       													</children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
       												</HBox>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
                                                 <CheckBox fx:id="multiCheck" mnemonicParsing="false" text="Zwischenziel einfügen" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <VBox fx:id="vChildLinks1">
+                                    <VBox fx:id="vChildLinks1" visible="false" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
-                                                <ComboBox fx:id="startFH1" HBox.hgrow="ALWAYS" />
+                                                <ComboBox fx:id="startFH1" maxWidth="450.0" HBox.hgrow="ALWAYS" />
+                                                <ComboBox fx:id="zielFH1" maxWidth="450.0" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
                                                 <Label text="Hin:" />
                                                 <DatePicker fx:id="startDatum1" />
                                                 <ChoiceBox fx:id="zeitraumHin1" />
-                                                <Label text="Rück:" />
-                                                <DatePicker fx:id="rueckdatum1" />
-                                                <ChoiceBox fx:id="zeitraumRueck1" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
                                                 <CheckBox fx:id="multiCheck1" mnemonicParsing="false" text="Zwischenziel einfügen" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <VBox fx:id="vChildLinks2">
+                                    <VBox fx:id="vChildLinks2" visible="false" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
-                                                <ComboBox fx:id="startFH2" HBox.hgrow="ALWAYS" />
+                                                <ComboBox fx:id="startFH2" maxWidth="450.0" HBox.hgrow="ALWAYS" />
+                                                <ComboBox fx:id="zielFH2" maxWidth="450.0" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
                                                 <Label text="Hin:" />
                                                 <DatePicker fx:id="startDatum2" />
                                                 <ChoiceBox fx:id="zeitraumHin2" />
-                                                <Label text="Rück:" />
-                                                <DatePicker fx:id="rueckdatum2" />
-                                                <ChoiceBox fx:id="zeitraumRueck2" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
                                                 <CheckBox fx:id="multiCheck2" mnemonicParsing="false" text="Zwischenziel einfügen" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <VBox fx:id="vChildLinks3">
+                                    <VBox fx:id="vChildLinks3" visible="false" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
-                                                <ComboBox fx:id="startFH3" HBox.hgrow="ALWAYS" />
+                                                <ComboBox fx:id="startFH3" maxWidth="450.0" HBox.hgrow="ALWAYS" />
+                                                <ComboBox fx:id="zielFH3" maxWidth="450.0" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
-                                          <HBox>
+                                          <HBox spacing="10.0">
                                              <children>
                                                 <Label text="Hin:" />
                                                 <DatePicker fx:id="startDatum3" />
                                                 <ChoiceBox fx:id="zeitraumHin3" />
-                                                <Label text="Rück:" />
-                                                <DatePicker fx:id="rueckdatum3" />
-                                                <ChoiceBox fx:id="zeitraumRueck3" />
                                              </children>
+                                             <padding>
+                                                <Insets bottom="10.0" />
+                                             </padding>
                                           </HBox>
                                        </children>
                                     </VBox>
@@ -125,30 +166,41 @@
 										</VBox>
 										<VBox fx:id="vRechts" HBox.hgrow="ALWAYS">
 											<children>
-                                    <VBox fx:id="vChildRechts">
+                                    <VBox fx:id="vChildRechts" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
       														<ChoiceBox fx:id="personenZahl" />
-      														<ToggleButton fx:id="klasseBE" mnemonicParsing="false" text="ToggleButton" />
+                                          <HBox spacing="10.0">
+                                             <children>
+            														<ToggleButton fx:id="toggleEco" mnemonicParsing="false" text="Economy" />
+                                                <ToggleButton fx:id="toggleBus" mnemonicParsing="false" text="Business" />
+                                             </children>
+                                          </HBox>
                                        </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
                                     </VBox>
-                                    <HBox fx:id="vChildRechts1">
+                                    <HBox fx:id="vChildRechts1" spacing="10.0" visible="false" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <ToggleButton fx:id="klasseBE1" mnemonicParsing="false" text="ToggleButton" />
+                                          <ToggleButton fx:id="toggleEco1" mnemonicParsing="false" text="Economy" />
+                                          <ToggleButton fx:id="toggleBus1" mnemonicParsing="false" text="Business" />
                                        </children>
                                     </HBox>
-                                    <HBox fx:id="vChildRechts2">
+                                    <HBox fx:id="vChildRechts2" spacing="10.0" visible="false" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <ToggleButton fx:id="klasseBE2" mnemonicParsing="false" text="ToggleButton" />
+                                          <ToggleButton fx:id="toggleEco2" mnemonicParsing="false" text="Economy" />
+                                          <ToggleButton fx:id="toggleBus2" mnemonicParsing="false" text="Business" />
                                        </children>
                                     </HBox>
-                                    <HBox fx:id="vChildRechts3">
+                                    <HBox fx:id="vChildRechts3" spacing="10.0" visible="false" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <ToggleButton fx:id="klasseBE3" mnemonicParsing="false" text="ToggleButton" />
+                                          <ToggleButton fx:id="toggleEco3" mnemonicParsing="false" text="Economy" />
+                                          <ToggleButton fx:id="toggleBus3" mnemonicParsing="false" text="Business" />
                                        </children>
                                     </HBox>
 											</children>
 											<HBox.margin>
-												<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+												<Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
 											</HBox.margin>
 										</VBox>
 									</children>
@@ -162,8 +214,8 @@
 								<Insets bottom="10.0" />
 							</padding>
 						</VBox>
-                  <Label fx:id="suchergebnisseLabel" text="Suchergebnisse" />
-                  <TreeTableView fx:id="suchergebnis">
+                  <Label text="Suchergebnisse" />
+                  <!-- TreeTableView fx:id="suchergebnis">
                     <columns>
                       <TreeTableColumn fx:id="uhrzeitCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Uhrzeit" />
                         <TreeTableColumn fx:id="datumCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Datum" />
@@ -180,7 +232,22 @@
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
-                  </TreeTableView>
+                  </TreeTableView-->
+                  <TableView fx:id="suchergebnis1">
+                     <columns>
+                        <TableColumn fx:id="uhrzeitCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Uhrzeit" />
+                        <TableColumn fx:id="datumCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Datum" />
+                        <!-- TableColumn fx:id="dauerCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugdauer" /-->
+                        <TableColumn fx:id="startZielCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="StartZiel" />
+                        <TableColumn fx:id="flCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Fluglinie" />
+                        <TableColumn fx:id="fCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugzeug" />
+                        <TableColumn fx:id="kmCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="km" />
+                        <TableColumn fx:id="co2Col1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CO2" />
+                        <TableColumn fx:id="preisppCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="PreispP" />
+                        <TableColumn fx:id="preisCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Gesamtpreis" />
+                        <TableColumn fx:id="kaufenCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Kaufen" />
+                     </columns>
+                  </TableView>
 					</children>
 				</VBox>
 			</content>

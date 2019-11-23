@@ -96,12 +96,25 @@ public class Benutzer {
 
     public String getPost(){ return post;}
 
+    public double getco(){
+        return this.co;
+    }
 
+    public double getkilo(){
+        return this.kilo;
+    }
 
+    public void setCo(Double co) {
+        this.co = co;
+    }
+
+    public void setKilo(Double kilo) {
+        this.kilo = kilo;
+    }
 
     public boolean checkname(String username) throws SQLException {
         boolean right = true;
-        DBManager db = new DBManager();
+        DBManager db = App.db;
         List<Benutzer> all= db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
@@ -128,7 +141,7 @@ public class Benutzer {
 
 
     public List<Booking> getbookinglist(){
-        return new DBManager().getallBookingFromUser(this.getBenutzername());
+        return App.db.getallBookingFromUser(this.getBenutzername());
     }
 
 

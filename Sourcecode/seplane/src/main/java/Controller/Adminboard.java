@@ -20,7 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.openjfx.DBManager;
+import org.openjfx.App;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -71,7 +71,7 @@ public class Adminboard extends Application {
         ListView<String> listView = new ListView<String>(data);
         listView.setPrefSize(200, 250);
 
-        List<Benutzer> all = new DBManager().getallUser();
+        List<Benutzer> all = App.db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer ben = all.get(i);
             data.add("ID "+ben.getId()
@@ -102,24 +102,27 @@ public class Adminboard extends Application {
                 int d=listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Benutzer> all = null;
-                all = new DBManager().getallUser();
-                Benutzer del = all.get(d);
-                try {
-                    new DBManager().deleteB(del.getId());
-                    List<Benutzer> alle = new DBManager().getallUser();
-                    data.clear();
-                    for(int i=0;i<alle.size();i++){
-                        Benutzer ben = alle.get(i);
-                        data.add("ID "+ben.getId()
-                                +": '"+ben.getBenutzername()
-                                +"' ist "+ben.getBenutzertyp()
-                                +" with name "+ben.getVorname()
-                                +" "+ben.getNachname());
-                    }
-                    System.out.println("delected");
+                all = App.db.getallUser();
+                if(d<=all.size()){
+                    Benutzer del = all.get(d);
+                    try {
+                        App.db.deleteB(del.getId());
+                        List<Benutzer> alle = App.db.getallUser();
+                        data.clear();
+                        for(int i=0;i<alle.size();i++){
+                            Benutzer ben = alle.get(i);
+                            data.add("ID "+ben.getId()
+                                    +": '"+ben.getBenutzername()
+                                    +"' ist "+ben.getBenutzertyp()
+                                    +" with name "+ben.getVorname()
+                                    +" "+ben.getNachname());
+                        }
+                        System.out.println("delected");
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
             }
@@ -181,7 +184,7 @@ public class Adminboard extends Application {
             @Override
             public void handle(ActionEvent event) {
                 List<Benutzer> all = null;
-                all = new DBManager().getallUser();
+                all = App.db.getallUser();
                 data.clear();
                 for(int i=0;i<all.size();i++){
                     Benutzer ben = all.get(i);
