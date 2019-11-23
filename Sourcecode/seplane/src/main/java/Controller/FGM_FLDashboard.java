@@ -467,16 +467,20 @@ public class FGM_FLDashboard implements Initializable{
 
 	public void handleFlugInstantiieren(ActionEvent event) throws IOException {
 
-
-
-		System.out.println("test");
-		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FGM_FluegeInstanziieren.fxml"));
-		Parent root1 = fxmlLoader.load();
-		Scene scene = new Scene(root1);
-		Stage stage = new Stage();
-		stage.setTitle("Flug instantiieren");
-		stage.setScene(scene);
-		stage.showAndWait();
+		if (flTable.getSelectionModel().isEmpty()){
+			String errorMessage = "Bitte waehlen Sie eine Fluglinie aus der Tabelle aus.";
+			Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+			alert.showAndWait();
+		}
+		else {
+			FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FGM_FluegeInstanziieren.fxml"));
+			Parent root1 = fxmlLoader.load();
+			Scene scene = new Scene(root1);
+			Stage stage = new Stage();
+			stage.setTitle("Flug instantiieren");
+			stage.setScene(scene);
+			stage.showAndWait();
+		}
 	}
 
 }
