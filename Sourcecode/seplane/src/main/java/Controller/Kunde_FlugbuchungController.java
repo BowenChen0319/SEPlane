@@ -2,6 +2,7 @@ package Controller;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -16,15 +17,26 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ChoiceBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -113,6 +125,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML TableColumn<ArrayList<Flug>, String> co2Col;
 	@FXML TableColumn<ArrayList<Flug>, String> co2GesCol;
 	@FXML TableColumn<ArrayList<Flug>, String> preisCol;
+	@FXML TableColumn<ArrayList<Flug>, String> kaufenCol;
 	
 	
 	//Nachrichten
@@ -160,7 +173,8 @@ public class Kunde_FlugbuchungController implements Initializable {
 		toggleEco2.setSelected(true);
 		toggleEco3.setSelected(true);
 		
-		
+		//Default Text wenn leer
+		suchergebnis.setPlaceholder(new Label("Starte eine Suche mit SEPlane"));
 		//TreeTableView Flüge momentan TableView
 		uhrzeitCol.setCellValueFactory(cellData ->{
 			if(cellData.getValue()==null)
@@ -258,7 +272,6 @@ public class Kunde_FlugbuchungController implements Initializable {
 			if(cellData.getValue()==null)
 				return new SimpleStringProperty("");
 			else {
-				//TODO rechnet noch falsch...
 				Double d = 0.0;
 				for(int i=0; i<cellData.getValue().size();i++) {
 					if(i==0)
@@ -285,6 +298,36 @@ public class Kunde_FlugbuchungController implements Initializable {
 				return new SimpleStringProperty(d * personenZahl.getValue() +"");
 			}
 		});
+		kaufenCol.setCellValueFactory(cellData ->{ return new SimpleStringProperty("");});
+		Callback<TableColumn<ArrayList<Flug>,String>, TableCell<ArrayList<Flug>, String>> cellFactory = new Callback<TableColumn<ArrayList<Flug>,String>, TableCell<ArrayList<Flug>,String>>() {
+			
+			@Override
+			public TableCell<ArrayList<Flug>, String> call(TableColumn<ArrayList<Flug>, String> param) {
+				final TableCell<ArrayList<Flug>, String> cell = new TableCell<ArrayList<Flug>, String>() {
+
+                    final Button kaufen = new Button("Kaufen");
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                        	kaufen.setOnAction(event -> {
+                        		ArrayList<Flug> fluege = getTableView().getItems().get(getIndex());
+                                kaufe(fluege, event);
+                            });
+                            setGraphic(kaufen);
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        
+        kaufenCol.setCellFactory(cellFactory);
 		
 		//Nachrichten
 		senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
@@ -328,6 +371,35 @@ public class Kunde_FlugbuchungController implements Initializable {
 //					return new SimpleStringProperty(cellData.getValue().getMessage());
 //			});
 //		}
+		
+//------Kaufen
+		private void kaufe(ArrayList<Flug> fluege, ActionEvent event) {
+			//TODO ein Code für die Klasse, haben immer vier, vll ein Array wenn 0, dann keine Wahl, wenn 1 usw.
+			Kunde_buchenController k = new Kunde_buchenController();
+			k.setFlugArray(suchergebnis.getSelectionModel().getSelectedItem());
+			//Open Pop-Up
+			Node source = (Node) event.getSource();
+			Window parentStage = source.getScene().getWindow();
+			AnchorPane neueFL = new AnchorPane();
+			FXMLLoader loader = new FXMLLoader(App.class.getResource("Kunde_buchen.fxml"));
+			loader.setController(k);
+			//TODO check wieso hier initialize dieser TabFxml aufgerufen wird
+			try {
+				neueFL = (AnchorPane)loader.load();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL); //überlagert immer
+			stage.initOwner(parentStage);
+			Scene scene = new Scene(neueFL);
+			stage.setScene(scene);
+			
+			
+			
+			stage.showAndWait();
+		}
 
 //------Suchen
 
