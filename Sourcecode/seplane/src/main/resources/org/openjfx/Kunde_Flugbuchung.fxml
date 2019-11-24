@@ -215,37 +215,18 @@
 							</padding>
 						</VBox>
                   <Label text="Suchergebnisse" />
-                  <!-- TreeTableView fx:id="suchergebnis">
-                    <columns>
-                      <TreeTableColumn fx:id="uhrzeitCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Uhrzeit" />
-                        <TreeTableColumn fx:id="datumCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Datum" />
-                      <TreeTableColumn fx:id="dauerCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugdauer" />
-                        <TreeTableColumn fx:id="startZielCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="StartZiel" />
-                        <TreeTableColumn fx:id="flCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Fluglinie" />
-                        <TreeTableColumn fx:id="fCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugzeug" />
-                        <TreeTableColumn fx:id="kmCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="km" />
-                        <TreeTableColumn fx:id="co2Col" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CO2" />
-                        <TreeTableColumn fx:id="preisppCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="PreispP" />
-                        <TreeTableColumn fx:id="preisCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Gesamtpreis" />
-                        <TreeTableColumn fx:id="kaufenCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Kaufen" />
-                    </columns>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </TreeTableView-->
-                  <TableView fx:id="suchergebnis1">
+                  <TableView fx:id="suchergebnis">
                      <columns>
-                        <TableColumn fx:id="uhrzeitCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Uhrzeit" />
-                        <TableColumn fx:id="datumCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Datum" />
-                        <!-- TableColumn fx:id="dauerCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugdauer" /-->
-                        <TableColumn fx:id="startZielCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="StartZiel" />
-                        <TableColumn fx:id="flCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Fluglinie" />
-                        <TableColumn fx:id="fCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugzeug" />
-                        <TableColumn fx:id="kmCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="km" />
-                        <TableColumn fx:id="co2Col1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CO2" />
-                        <TableColumn fx:id="preisppCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="PreispP" />
-                        <TableColumn fx:id="preisCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Gesamtpreis" />
-                        <TableColumn fx:id="kaufenCol1" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Kaufen" />
+                        <TableColumn fx:id="uhrzeitCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Uhrzeit" />
+                        <TableColumn fx:id="datumCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Datum" />
+                        <!-- TableColumn fx:id="dauerCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugdauer" /-->
+                        <TableColumn fx:id="startZielCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="StartZiel" />
+                        <TableColumn fx:id="flCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Fluglinie" />
+                        <TableColumn fx:id="fCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugzeug" />
+                        <TableColumn fx:id="kmCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="km" />
+                        <TableColumn fx:id="co2Col" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CO2" />
+                        <TableColumn fx:id="co2GesCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CO2" />
+                        <TableColumn fx:id="preisCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Gesamtpreis" />
                      </columns>
                   </TableView>
 					</children>

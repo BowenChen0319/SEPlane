@@ -637,7 +637,7 @@ public class DBManager {
 				queryF.join(queryFL).where().between("startzeit", Date.from(abflug.minusDays(zeitraum).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 
 						Date.from(abflug.plusDays(zeitraum).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant())).and().ge("restEconomy", personen);
 			f = flugDao.query(queryF.prepare());
-			System.out.println(f.get(0));
+
 			return f;
 		} catch (SQLException e) {
 			e.printStackTrace();
