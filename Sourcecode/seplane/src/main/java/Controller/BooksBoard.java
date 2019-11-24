@@ -101,14 +101,14 @@ public class BooksBoard extends Application {
                 for (int i = 0; i < all.size(); i++) {
                     Booking ben = all.get(i);
                     if(ben.getMulti().equals("")){
-                        if(ben.getFluglinie()!=null){
+                        if(ben.getFlug()!=null){
                             data.add("BookingID :" + ben.getId()
                                     + "    Flight von " + ben.getFluglinie().getStart().getCode()
                                     + " nach " + ben.getFluglinie().getZiel().getCode()
                                     + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
                                     + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
                                     +"   " + ben.getFluglinie().getFlugzeug().getType()
-                                    +"   Time: "+ ben.getZeit()
+                                    +"   Time: "+ ben.getFlug().getStartzeit()
                                     +"   Class: "+ben.getClasse()
                                     +"   Seat: "+ben.getSeat()
                                     +"   Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
@@ -116,7 +116,7 @@ public class BooksBoard extends Application {
                         }else{
                             data.add("BookingID :" + ben.getId()
                                     +"    Sorry, this flight was cancelled. "
-                                    +"   Time: "+ ben.getZeit()
+                                    +"   Time: "+ ben.getFlug().getStartzeit()
                                     +"   Class: "+ben.getClasse()
                                     +"   Seat: "+ben.getSeat()
                                     +"   Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
@@ -136,7 +136,7 @@ public class BooksBoard extends Application {
                             ben= App.db.getbkId(index);
                             if(!notwo.contains(ben.getId())){
                                 if(j==0){
-                                    if(ben.getFluglinie()!=null){
+                                    if(ben.getFlug()!=null){
                                         data.add("BookingID :" + ben.getId()
                                                 +"    Multistop: "+(j+1)+"."
                                                 + "   From " + ben.getFluglinie().getStart().getCode()
@@ -144,7 +144,7 @@ public class BooksBoard extends Application {
                                                 + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
                                                 + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
                                                 +"   " + ben.getFluglinie().getFlugzeug().getType()
-                                                +"   Time: "+ ben.getZeit()
+                                                +"   Time: "+ ben.getFlug().getStartzeit()
                                                 +"   Class: "+ben.getClasse()
                                                 +"   Seat: "+ben.getSeat()
                                                 +"   Preise in total: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
@@ -153,14 +153,14 @@ public class BooksBoard extends Application {
                                         data.add("BookingID :" + ben.getId()
                                                 +"    Multistop: "+(j+1)+"."
                                                 +"    Sorry, this flight was cancelled. "
-                                                +"   Time: "+ ben.getZeit()
+                                                +"   Time: "+ ben.getFlug().getStartzeit()
                                                 +"   Class: "+ben.getClasse()
                                                 +"   Seat: "+ben.getSeat()
                                                 +"   Preise in total: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
                                         );
                                     }
                                 }else{
-                                    if(ben.getFluglinie()!=null){
+                                    if(ben.getFlug()!=null){
                                         data.add("BookingID :" + ben.getId()
                                                         +"    Multistop: "+(j+1)+"."
                                                         + "   From " + ben.getFluglinie().getStart().getCode()
@@ -168,7 +168,7 @@ public class BooksBoard extends Application {
                                                         + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
                                                         + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
                                                         +"   " + ben.getFluglinie().getFlugzeug().getType()
-                                                        +"   Time: "+ ben.getZeit()
+                                                        +"   Time: "+ ben.getFlug().getStartzeit()
                                                         +"   Class: "+ben.getClasse()
                                                         +"   Seat: "+ben.getSeat()
                                                 //+" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
@@ -177,7 +177,7 @@ public class BooksBoard extends Application {
                                         data.add("BookingID :" + ben.getId()
                                                         +"    Multistop: "+(j+1)+"."
                                                         +"   Sorry, this flight was cancelled. "
-                                                        +"   Time: "+ ben.getZeit()
+                                                        +"   Time: "+ ben.getFlug().getStartzeit()
                                                         +"   Class: "+ben.getClasse()
                                                         +"   Seat: "+ben.getSeat()
                                                 //+" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""

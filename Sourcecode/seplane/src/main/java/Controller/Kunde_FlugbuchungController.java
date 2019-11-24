@@ -15,6 +15,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
@@ -40,7 +41,9 @@ import org.openjfx.DBManager;
 import com.sun.javafx.binding.StringFormatter;
 
 import Models.Airport;
+import Models.CurrentUser;
 import Models.Flug;
+import Models.Postfach;
 import Toolbox.AlertHandler;
 
 
@@ -110,6 +113,13 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML TableColumn<ArrayList<Flug>, String> co2Col;
 	@FXML TableColumn<ArrayList<Flug>, String> co2GesCol;
 	@FXML TableColumn<ArrayList<Flug>, String> preisCol;
+	
+	
+	//Nachrichten
+	@FXML TableView<Postfach> messageTable;
+	@FXML TableColumn<Postfach, String> senderCol;
+	@FXML TableColumn<Postfach, String> messageCol;
+	@FXML TableColumn<Postfach, String> dateCol;
 	
 	//Inhalte
 	ObservableList<ArrayList<Flug>> flugList;
@@ -276,7 +286,48 @@ public class Kunde_FlugbuchungController implements Initializable {
 			}
 		});
 		
+		//Nachrichten
+		senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
+		dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
+		messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
 	}	
+
+	//-------Nachrichtengedöns
+		public void refreshMessages(ActionEvent actionEvent) {
+			String name = new CurrentUser().getCurrent().getBenutzername();
+			ObservableList<Postfach> messages = FXCollections.observableArrayList();
+			messages.addAll(db.getMessages(name));
+			messageTable.setItems(messages);
+
+			for(Postfach n : messages)
+			{
+				System.out.println(n.getSenderCol() +" " +  n.getMessageCol() + " " + n.getDate());
+			}
+
+//			for(int i=0; i<messages.size();i++)
+//			{
+//				System.out.println(messages.get(i).getMessage());
+////				pF = new Postfach(messages.get(i).getSender(), messages.get(i).getMessage());
+////				nachrichten.getItems().add(pF);
+//			}
+		}
+
+//		private void refreshButtonclicked() {
+
+
+//			senderCol.setCellValueFactory(cellData ->{
+//				if(cellData.getValue().getSender() == "")
+//					return new SimpleStringProperty("");
+//				else
+//					return new SimpleStringProperty(cellData.getValue().getSender());
+//			});
+//			messageCol.setCellValueFactory(cellData ->{
+//				if(cellData.getValue().getMessage() == "")
+//					return new SimpleStringProperty("");
+//				else
+//					return new SimpleStringProperty(cellData.getValue().getMessage());
+//			});
+//		}
 
 //------Suchen
 

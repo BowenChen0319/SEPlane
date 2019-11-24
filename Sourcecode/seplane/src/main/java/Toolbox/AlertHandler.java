@@ -43,4 +43,13 @@ public class AlertHandler {
 		alert.showAndWait();
 	}
 
+	//Postfach - Kein passender User
+	public static void noFittingUser(){
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Kein passender User");
+		alert.setHeaderText("Es wurde kein passender User mit diesem Namen gefunden");
+		alert.showAndWait();
+
+	}
+
 }
