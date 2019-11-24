@@ -1,18 +1,27 @@
 package org.openjfx;
 
 
+import Controller.FGMDashboard;
 import Models.*;
+import Toolbox.AlertHandler;
 import Toolbox.JsonReaderTool;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.swing.table.TableColumn;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -33,9 +42,9 @@ public class DBManager {
 	static Dao<Plane, Object> planeDao;
 	Dao<Flug,Integer> flugDao;
 	Dao<Booking,Integer> bkDao;
+    Dao<Postfach, String> pfDao;
 
 
-	
 	public DBManager() {
 
 		try {       
@@ -49,31 +58,39 @@ public class DBManager {
         	planeDao = DaoManager.createDao(cs,Plane.class);
         	flugDao = DaoManager.createDao(cs,Flug.class);
 			bkDao = DaoManager.createDao(cs,Booking.class);
+            pfDao = DaoManager.createDao(cs, Postfach.class);
         } catch (SQLException ex) {
         	ex.printStackTrace();
         }    
         	
 	}
-	
+
+	public static void main(String[] args) throws SQLException {
+		new DBManager().setUpDatabase();
+	}
+
 	public void setUpDatabase() throws SQLException {
 		
-//		TableUtils.dropTable(cs, Fluglinie.class, true);
-//		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-//		TableUtils.dropTable(cs, Benutzer.class, true);
+		TableUtils.dropTable(cs, Fluglinie.class, true);
+		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
+		//TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
-//		TableUtils.dropTable(cs, Airport.class, true);
-//		TableUtils.dropTable(cs, Plane.class, true);
+		//TableUtils.dropTable(cs, Airport.class, true);
+		//TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
 		TableUtils.dropTable(cs, Booking.class,true);
-		
-//		TableUtils.createTable(cs, Benutzer.class);
-//		TableUtils.createTable(cs, Fluggesellschaft.class);
-//		TableUtils.createTable(cs, Fluglinie.class);
+		TableUtils.dropTable(cs, Postfach.class, true);
+
+
+		//TableUtils.createTable(cs, Benutzer.class);
+		TableUtils.createTable(cs, Fluggesellschaft.class);
+		TableUtils.createTable(cs, Fluglinie.class);
 		TableUtils.createTable(cs, FlugzeugMapping.class);
-//		TableUtils.createTable(cs, Airport.class);
-//		TableUtils.createTable(cs, Plane.class);
+		//TableUtils.createTable(cs, Airport.class);
+		//TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
 		TableUtils.createTable(cs, Booking.class);
+		TableUtils.createTable(cs, Postfach.class);
 	}
 
 	public void refreshbooking() throws SQLException {
@@ -148,6 +165,15 @@ public class DBManager {
 	}
 	
 //------Create
+    public void createPf(Postfach na)
+    {
+        try{
+            pfDao.create(na);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 	public void createFL(Fluglinie fl) {
 		try {
 			flDao.create(fl);
@@ -507,11 +533,6 @@ public class DBManager {
 		}
 
 	}
-
-
-
-
-
 	
 	public List<Airport> getFlughafen(){
 		QueryBuilder<Airport,String> query = apDao.queryBuilder();
@@ -673,6 +694,71 @@ public class DBManager {
 			return null;
 		}
 		
+	}
+	private String changeDateFormat(Date date){
+		String pattern = "dd-MM-yyyy";
+		DateFormat dateFormat = new SimpleDateFormat(pattern);
+		String stringDate = dateFormat.format(date);
+	return stringDate;
+	}
+
+	//nachrichten zeug
+	public ObservableList<Postfach> getMessages(String benutzername){
+		QueryBuilder<Postfach, String> queryP = pfDao.queryBuilder();
+		ObservableList<Postfach> opFList = FXCollections.observableArrayList();
+		List<Postfach> pfListe = null;
+		Date date = null;
+		try{
+			queryP.where().eq("receiver", benutzername);
+			pfListe = pfDao.query(queryP.prepare());
+
+			opFList.addAll(pfListe);
+			System.out.println(pfListe.get(0).getDate());
+//			for(int i=0; i<opFList.size();i++)
+//			{
+//				date = opFList.get(i).getDate();
+//				System.out.println(date);
+//				opFList.get(i).setDateString(changeDateFormat(date));
+//				System.out.println(changeDateFormat(date));
+//			}
+
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+
+		return opFList;
+	}
+
+
+
+	public void sendMessage(String to, String msg) {
+		String sender = new CurrentUser().getCurrent().getBenutzername();
+		FGMDashboard fgD = new FGMDashboard();
+
+		String inUser = to;
+		String message = msg;
+
+		System.out.println(inUser + " " + message + " " + sender);
+		try {
+
+			Dao<Postfach, String> pfDao = DaoManager.createDao(cs, Postfach.class);
+			cs = new JdbcPooledConnectionSource(dbURL, "sa", "");
+
+			if (fgD.checkIfuserExists(inUser, cs)) {
+				Postfach pf = new Postfach(sender, inUser, message);
+				//System.out.println(pf.getSenderCol() + " " + pf.getReceiverCol() + " " + pf.getMessageCol());
+				try {
+					pfDao.create(pf);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else {
+				AlertHandler.noFittingUser();
+			}
+		}catch(SQLException e)
+		{
+			System.out.println("Keine Valide Suchanfrage!");
+		}
 	}
 
 }

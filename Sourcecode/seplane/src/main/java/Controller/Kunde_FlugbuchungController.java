@@ -1,5 +1,7 @@
 package Controller;
 
+import Models.*;
+import javafx.beans.property.Property;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,39 +10,24 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ChoiceBox;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
-import Models.Airport;
-import Models.Flug;
 import Toolbox.AlertHandler;
 
 public class Kunde_FlugbuchungController implements Initializable {
-	
+
 	@FXML private ComboBox<Airport> startFH;
 	@FXML private ComboBox<Airport> zielFH;
 	@FXML private DatePicker startDatum;
@@ -118,13 +105,25 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML TableColumn<Flug, String> preisppCol1;
 	@FXML TableColumn<Flug, String> preisCol1;
 	@FXML TableColumn<Flug, String> kaufenCol1;
-	
+
+
+
+	@FXML TableView<Postfach> messageTable;
+	@FXML TableColumn<Postfach, String> senderCol;
+	@FXML TableColumn<Postfach, String> messageCol;
+	@FXML TableColumn<Postfach, String> dateCol;
+
+
+
+
 	//Inhalte
 	ObservableList<Flug> flugList;
+	ObservableList<Postfach> pFListe;
 	DBManager db = App.db;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		Benutzer currentUser = new CurrentUser().getCurrent();
 		//GUI SetUp und Listener
 		setCascadingVisibility();
 		//Flughäfen einfügen und Listener
@@ -157,8 +156,8 @@ public class Kunde_FlugbuchungController implements Initializable {
 		toggleEco1.setSelected(true);
 		toggleEco2.setSelected(true);
 		toggleEco3.setSelected(true);
-		
-		
+
+
 		//TreeTableView Flüge
 		uhrzeitCol1.setCellValueFactory(cellData ->{
 			if(cellData.getValue().getStartzeit()==null)
@@ -220,11 +219,57 @@ public class Kunde_FlugbuchungController implements Initializable {
 			else
 				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
 		});*/
-		
-		//TODO 
+
+		//TODO
 		//eine zentrale DB Abfrage für alle Ergebnisse und dann zuordnen
-		
-	}	
+
+		//
+		senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
+		dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
+		messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
+
+
+
+	}
+
+
+	//-------Nachrichtengedöns
+	public void refreshMessages(ActionEvent actionEvent) {
+		String name = new CurrentUser().getCurrent().getBenutzername();
+		ObservableList<Postfach> messages = FXCollections.observableArrayList();
+		messages.addAll(db.getMessages(name));
+		messageTable.setItems(messages);
+
+		for(Postfach n : messages)
+		{
+			System.out.println(n.getSenderCol() +" " +  n.getMessageCol() + " " + n.getDate());
+		}
+
+//		for(int i=0; i<messages.size();i++)
+//		{
+//			System.out.println(messages.get(i).getMessage());
+////			pF = new Postfach(messages.get(i).getSender(), messages.get(i).getMessage());
+////			nachrichten.getItems().add(pF);
+//		}
+	}
+
+//	private void refreshButtonclicked() {
+
+
+//		senderCol.setCellValueFactory(cellData ->{
+//			if(cellData.getValue().getSender() == "")
+//				return new SimpleStringProperty("");
+//			else
+//				return new SimpleStringProperty(cellData.getValue().getSender());
+//		});
+//		messageCol.setCellValueFactory(cellData ->{
+//			if(cellData.getValue().getMessage() == "")
+//				return new SimpleStringProperty("");
+//			else
+//				return new SimpleStringProperty(cellData.getValue().getMessage());
+//		});
+//	}
+
 
 //------Suchen
 
@@ -251,7 +296,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//case 3 Zwischenstopps
 			sucheMulti3();
 		}
-	}	
+	}
 
 	public void sucheHinflug() {
 		if(startFH.getSelectionModel().getSelectedItem()==null || zielFH.getSelectionModel().getSelectedItem()==null
@@ -266,7 +311,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 				klasse = "business";
 			else klasse = "economy";
 			flugUnsortiert.addAll(db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse));
-			
+
 			//TODO sortieren nach Preis und TableView.setItems, comparator will net
 			Collections.sort(flugUnsortiert, new Comparator<Flug>() {
 
@@ -276,6 +321,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 					return o1.getFluglinie().getPreisee().compareTo(o2.getFluglinie().getPreisee());
 				}
 			});
+
 			flugList.addAll(flugUnsortiert);
 			//if(!flugList.isEmpty())
 			suchergebnis1.setItems(flugList);
@@ -288,7 +334,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search TableView.setItems	
+			//TODO DB Search TableView.setItems
 		}
 	}
 	//2 foreach jede Kombi die vom Datum mit Uhrzeit her Sinn ergibt nach Preis sortiert ausgeben
@@ -300,10 +346,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search TableView.setItems	
+			//TODO DB Search TableView.setItems
 		}
 	}
-	
+
 	private void sucheMulti2() {
 		if(startFH.getSelectionModel().getSelectedItem()==null || zielFH.getSelectionModel().getSelectedItem()==null
 				|| startFH1.getSelectionModel().getSelectedItem()==null || zielFH1.getSelectionModel().getSelectedItem()==null
@@ -312,10 +358,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search TableView.setItems	
+			//TODO DB Search TableView.setItems
 		}
 	}
-	
+
 	private void sucheMulti3() {
 		if(startFH.getSelectionModel().getSelectedItem()==null || zielFH.getSelectionModel().getSelectedItem()==null
 				|| startFH1.getSelectionModel().getSelectedItem()==null || zielFH1.getSelectionModel().getSelectedItem()==null
@@ -325,15 +371,15 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search TableView.setItems	
+			//TODO DB Search TableView.setItems
 		}
 	}
 
 	//Start und Rückflugdatum an einem Tag
-	
-	
+
+
 //------GUI
-	
+
 	private void setCascadingVisibility() {
 		//Zeilen Buchung gleichmäßig
 		vChildLinks.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
@@ -351,7 +397,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		vChildRechts1.managedProperty().bind(vChildRechts1.visibleProperty());
 		vChildRechts2.managedProperty().bind(vChildRechts2.visibleProperty());
 		vChildRechts3.managedProperty().bind(vChildRechts3.visibleProperty());
-				
+
 		//Listener an CheckBox für Rückflug
 		rueckflugCheck.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -415,18 +461,18 @@ public class Kunde_FlugbuchungController implements Initializable {
 					vChildRechts3.setVisible(false);
 				}
 			}
-		});		
+		});
 	}
-	
+
 	public void setDatePickerRange() {
-		//Disable start vor Heute	
+		//Disable start vor Heute
 		//TODO Disable eigentlich cascading...
 		setzeStartDatum();
 		setzeRueckDatum();
 		setzeStartDatum1();
 		setzeStartDatum2();
 		setzeStartDatum3();
-		
+
 	}
 	public void setzeStartDatum() {
 		startDatum.setDayCellFactory(picker -> new DateCell() {
@@ -467,7 +513,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 			}
 		});
 	}
-	
+
 	public void setzeStartDatum2() {
 		startDatum2.setDayCellFactory(picker -> new DateCell() {
 			public void updateItem(LocalDate date, boolean empty) {
@@ -484,7 +530,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 			}
 		});
 	}
-	
+
 	public void setzeStartDatum3() {
 		startDatum3.setDayCellFactory(picker -> new DateCell() {
 			public void updateItem(LocalDate date, boolean empty) {
@@ -504,11 +550,11 @@ public class Kunde_FlugbuchungController implements Initializable {
 			}
 		});
 	}
-	
+
 	//Listener um zu verhindern, dass Quark eingegeben wird (z.B. zuerst Rückflugdatum und ein späteres Hinflugdatum)
 	//so erspare ich mir Validierung vor der Suchanfrage
 	public void setDatePickerValueCheck() {
-		startDatum.valueProperty().addListener(new ChangeListener<LocalDate>() {	
+		startDatum.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				if(newValue!=null)
@@ -518,7 +564,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 				setzeStartDatum3();
 			}
 		});
-		rueckdatum.valueProperty().addListener(new ChangeListener<LocalDate>() {	
+		rueckdatum.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				setzeStartDatum1();
@@ -526,23 +572,23 @@ public class Kunde_FlugbuchungController implements Initializable {
 				setzeStartDatum3();
 			}
 		});
-		startDatum1.valueProperty().addListener(new ChangeListener<LocalDate>() {	
+		startDatum1.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				setzeStartDatum2();
 				setzeStartDatum3();
 			}
 		});
-		startDatum2.valueProperty().addListener(new ChangeListener<LocalDate>() {	
+		startDatum2.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				setzeStartDatum3();
 			}
 		});
-		
+
 		//Listener der rückflugdaten löscht, wenn dort ein früheres Datum als NewValue für Start steht
-		
-		startDatum.valueProperty().addListener(new ChangeListener<LocalDate>() {	
+
+		startDatum.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				if(rueckdatum.getValue()!= null && rueckdatum.getValue().compareTo(newValue) < 0)
@@ -555,7 +601,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 					startDatum3.setValue(null);
 			}
 		});
-		startDatum1.valueProperty().addListener(new ChangeListener<LocalDate>() {	
+		startDatum1.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				if(startDatum2.getValue()!= null && newValue!= null && startDatum2.getValue().compareTo(newValue) < 0)
@@ -564,7 +610,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 					startDatum3.setValue(null);
 			}
 		});
-		startDatum2.valueProperty().addListener(new ChangeListener<LocalDate>() {	
+		startDatum2.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
 				if(startDatum3.getValue()!= null && newValue!= null && startDatum3.getValue().compareTo(newValue) < 0)
@@ -573,16 +619,16 @@ public class Kunde_FlugbuchungController implements Initializable {
 		});
 
 	}
-	
-	
+
+
 //------Inhalte
-	
+
 	public void fillComboBoxes() {
 		//TODO Listener dass HinRück etc. nicht gleicher FH sind
 		startFH.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(zielFH.getSelectionModel().getSelectedItem() != null && zielFH.getSelectionModel().getSelectedItem().equals(newValue) || 
+				if(zielFH.getSelectionModel().getSelectedItem() != null && zielFH.getSelectionModel().getSelectedItem().equals(newValue) ||
 						startFH1.getSelectionModel().getSelectedItem()!=null && startFH1.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
@@ -593,7 +639,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		startFH1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(startFH.getSelectionModel().getSelectedItem()!=null && startFH.getSelectionModel().getSelectedItem().equals(newValue) || 
+				if(startFH.getSelectionModel().getSelectedItem()!=null && startFH.getSelectionModel().getSelectedItem().equals(newValue) ||
 						zielFH1.getSelectionModel().getSelectedItem()!= null && zielFH1.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
@@ -604,7 +650,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		startFH2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(zielFH1.getSelectionModel().getSelectedItem()!= null && zielFH1.getSelectionModel().getSelectedItem().equals(newValue) || 
+				if(zielFH1.getSelectionModel().getSelectedItem()!= null && zielFH1.getSelectionModel().getSelectedItem().equals(newValue) ||
 						zielFH2.getSelectionModel().getSelectedItem()!= null && zielFH2.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
@@ -615,7 +661,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		startFH3.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(zielFH2.getSelectionModel().getSelectedItem()!= null && zielFH2.getSelectionModel().getSelectedItem().equals(newValue) || 
+				if(zielFH2.getSelectionModel().getSelectedItem()!= null && zielFH2.getSelectionModel().getSelectedItem().equals(newValue) ||
 						zielFH3.getSelectionModel().getSelectedItem()!= null && zielFH3.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
@@ -636,7 +682,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		zielFH1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(startFH1.getSelectionModel().getSelectedItem()!=null && startFH1.getSelectionModel().getSelectedItem().equals(newValue) || 
+				if(startFH1.getSelectionModel().getSelectedItem()!=null && startFH1.getSelectionModel().getSelectedItem().equals(newValue) ||
 						startFH2.getSelectionModel().getSelectedItem()!=null && startFH2.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
@@ -647,7 +693,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		zielFH2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(startFH2.getSelectionModel().getSelectedItem()!=null && startFH2.getSelectionModel().getSelectedItem().equals(newValue) || 
+				if(startFH2.getSelectionModel().getSelectedItem()!=null && startFH2.getSelectionModel().getSelectedItem().equals(newValue) ||
 						startFH3.getSelectionModel().getSelectedItem()!=null && startFH3.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
@@ -665,7 +711,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 				}
 			}
 		});
-		
+
 		ObservableList<Airport> fh = FXCollections.observableArrayList();
 		fh.addAll(db.getFlughafen());
 		startFH.setItems(fh);
@@ -676,7 +722,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		zielFH1.setItems(fh);
 		zielFH2.setItems(fh);
 		zielFH3.setItems(fh);
-		
+
 		StringConverter<Airport> apConverter = new StringConverter<Airport>() {
 			@Override
 			public String toString(Airport object) {
@@ -696,11 +742,11 @@ public class Kunde_FlugbuchungController implements Initializable {
 		zielFH2.setConverter(apConverter);
 		zielFH3.setConverter(apConverter);
 	}
-	
+
 	public void fillChoiceBoxes() {
-		
+
 		ObservableList<Integer> personen = FXCollections.observableArrayList(1,2,3,4,5,6,7,8,9);
-		
+
 		StringConverter<Integer> personenConverter = new StringConverter<Integer>() {
 			@Override
 			public String toString(Integer object) {
@@ -717,9 +763,9 @@ public class Kunde_FlugbuchungController implements Initializable {
 		};
 		personenZahl.setItems(personen);
 		personenZahl.setConverter(personenConverter);
-		
+
 		ObservableList<Integer> zeitraum = FXCollections.observableArrayList(0,1,2,3);
-		
+
 		StringConverter<Integer> zeitraumConverter = new StringConverter<Integer>() {
 			@Override
 			public String toString(Integer object) {
@@ -741,6 +787,8 @@ public class Kunde_FlugbuchungController implements Initializable {
 		zeitraumHin3.setConverter(zeitraumConverter);
 		zeitraumRueck.setItems(zeitraum);
 		zeitraumRueck.setConverter(zeitraumConverter);
-	}	
+	}
+
+
 
 }
