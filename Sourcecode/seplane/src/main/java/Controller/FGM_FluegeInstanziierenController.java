@@ -3,6 +3,7 @@ package Controller;
 import Models.Flug;
 import Models.Fluggesellschaft;
 import Models.Fluglinie;
+import Models.Intervall;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +19,8 @@ import org.openjfx.App;
 import org.openjfx.DBManager;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -87,19 +90,70 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     }
 
     public void handleInstanziieren(ActionEvent event){
-        Flug flug = new Flug();
-        flug.setFluglinie(flugLinie);
-        flug.setRestBusiness(flugLinie.getFlugzeug().getSeats());   //ueberarbeiten, aktuell wird hier die Gesamtanzahl an Sitzplaetzen gespeichert
-        flug.setRestEconomy(flugLinie.getFlugzeug().getSeats());    //ueberarbeiten, aktuell wird hier die Gesamtanzahl an Sitzplaetzen gespeichert
-        Date date = flugLinie.getStartdatum();
-        date.setHours(stunde_choiceBox.getValue());
-        date.setMinutes(minute_choiceBox.getValue());
-        flug.setStartzeit(date);
-        db.createFlug(flug);
+
+        this.flugAnlegen(flugLinie.getStartdatum());
+
+        if (flugLinie.getIntervall()== Intervall.Täglich){
+
+            int a = 1;
+            Date naechsterFlug = flugLinie.getStartdatum();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(naechsterFlug);
+
+
+            while (a < 180){
+
+                // naechsterFlug um einen Tag nach vorne Setzen
+                calendar.add(Calendar.DATE, 1);
+                this.flugAnlegen(calendar.getTime());
+                a++;
+            }
+        }
+        else if (flugLinie.getIntervall()==Intervall.alle_3_Tage){
+
+            int a = 1;
+            Date naechsterFlug = flugLinie.getStartdatum();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(naechsterFlug);
+
+            while (a < 60){
+
+                // naechsterFlug um drei Tage nach vorne Setzen
+                calendar.add(Calendar.DATE, 3);
+                this.flugAnlegen(calendar.getTime());
+                a++;
+            }
+        }
+        else{
+
+            int a = 1;
+            Date naechsterFlug = flugLinie.getStartdatum();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(naechsterFlug);
+
+            while (a < 26){
+
+                // naechsterFlug um eine Woche nach vorne Setzen
+                calendar.add(Calendar.DATE, 7);
+                this.flugAnlegen(calendar.getTime());
+                a++;
+            }
+        }
     }
 
     public void handleAbbrechen (ActionEvent event){
         Stage stage = (Stage) abbrechen_button.getScene().getWindow();
         stage.close();
+    }
+
+    public void flugAnlegen(Date date){
+        Flug flug = new Flug();
+        flug.setFluglinie(flugLinie);
+        flug.setRestBusiness(flugLinie.getAnzb());
+        flug.setRestEconomy(flugLinie.getAnze());
+        date.setHours(stunde_choiceBox.getValue());
+        date.setMinutes(minute_choiceBox.getValue());
+        flug.setStartzeit(date);
+        db.createFlug(flug);
     }
 }
