@@ -160,7 +160,7 @@ public class FGMRegister extends Application {
                             warning.setText("Wrong: Two same username!");
                         }else{
                             try {
-                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),"fgm","","","","",0.0,0.0));
+                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),"fgm","","","",0.0,0.0));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

@@ -24,8 +24,6 @@ public class Benutzer {
     @DatabaseField
     String telnumber;
     @DatabaseField
-    String post;
-    @DatabaseField
     String email;
     @DatabaseField
     String passwort;
@@ -49,7 +47,7 @@ public class Benutzer {
     }
     public Benutzer(String vorname, String nachname, String benutzername,
                     String passwort_klar, String benutzertyp, String email,
-                    String adresse, String telnumber, String post,
+                    String adresse, String telnumber,
                     Double kilo, Double co) throws Exception {
         this.vorname=vorname;
         this.nachname=nachname;
@@ -60,7 +58,6 @@ public class Benutzer {
         this.email=email;
         this.adresse=adresse;
         this.telnumber=telnumber;
-        this.post=post;
         this.kilo=kilo;
         this.co=co;
     }
@@ -97,7 +94,6 @@ public class Benutzer {
 
     public String getEmail(){ return email;}
 
-    public String getPost(){ return post;}
 
     public double getco(){
         return this.co;

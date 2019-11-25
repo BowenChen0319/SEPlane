@@ -31,7 +31,8 @@ import java.util.List;
 
 public class DBManager {
 
-	static final String dbURL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";	
+	static final String dbURL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";
+	//static final String dbURL = "jdbc:h2:./db/SEPlaneDB";
 	static JdbcPooledConnectionSource cs;
 	
 	Dao<Fluggesellschaft,Integer> fgDao;
