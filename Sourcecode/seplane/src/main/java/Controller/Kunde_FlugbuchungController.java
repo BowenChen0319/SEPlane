@@ -440,6 +440,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 			if(tg.getSelectedToggle().equals(toggleBus))
 				klasse = "business";
 			else klasse = "economy";
+			//TODO Index 0 out of bounds for length 0
 			flugUnsortiert.addAll(db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse));
 			
 			//sortieren nach Preis
