@@ -374,9 +374,29 @@ public class Kunde_FlugbuchungController implements Initializable {
 		
 //------Kaufen
 		private void kaufe(ArrayList<Flug> fluege, ActionEvent event) {
-			//TODO ein Code für die Klasse, haben immer vier, vll ein Array wenn 0, dann keine Wahl, wenn 1 usw.
+			//Parameterübergabe zur Flugbuchung
+			//Rückflug ja/nein
+			Boolean rueckflug = false;
+			if(rueckflugCheck.isSelected())
+				rueckflug = true;
+			//Klassen [0][1][2][3] mit 0 für keine Auswahl, 1 Economy, 2 Business
+			int klassen [] = new int[4];
+			if(tg.getSelectedToggle().equals(toggleBus))
+				klassen[0] = 2;
+			else klassen[0] = 1;
+			if(multiCheck.isSelected() && tg1.getSelectedToggle().equals(toggleBus1))
+				klassen[1] = 2;
+			else klassen[1] = 1;
+			if(multiCheck1.isSelected() && tg2.getSelectedToggle().equals(toggleBus2))
+				klassen[2] = 2;
+			else klassen[2] = 1;
+			if(multiCheck2.isSelected() && tg3.getSelectedToggle().equals(toggleBus3))
+				klassen[3] = 2;
+			else klassen[3] = 1;
+			
 			Kunde_buchenController k = new Kunde_buchenController();
-			k.setFlugArray(suchergebnis.getSelectionModel().getSelectedItem());
+			k.setFlugArray(suchergebnis.getSelectionModel().getSelectedItem(), rueckflug, klassen);
+			
 			//Open Pop-Up
 			Node source = (Node) event.getSource();
 			Window parentStage = source.getScene().getWindow();

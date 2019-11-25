@@ -34,7 +34,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox>
+            <VBox fx:id="vRueckflug" visible="false">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
@@ -58,7 +58,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox>
+            <VBox fx:id="vMulti1" visible="false">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
@@ -82,7 +82,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox>
+            <VBox fx:id="vMulti2" visible="false">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
@@ -106,7 +106,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox>
+            <VBox fx:id="vMulti3" visible="false">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
