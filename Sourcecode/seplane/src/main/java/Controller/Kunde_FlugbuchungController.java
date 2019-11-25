@@ -1,6 +1,8 @@
 package Controller;
 
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -14,16 +16,29 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ChoiceBox;
 
+import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,9 +50,14 @@ import java.util.ResourceBundle;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
+import com.sun.javafx.binding.StringFormatter;
+
 import Models.Airport;
+import Models.CurrentUser;
 import Models.Flug;
+import Models.Postfach;
 import Toolbox.AlertHandler;
+
 
 public class Kunde_FlugbuchungController implements Initializable {
 	
@@ -94,33 +114,28 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML private HBox vChildRechts2;
 	@FXML private HBox vChildRechts3;
 	//Tabelle Flüge
-	/*@FXML TreeTableView<Flug> suchergebnis;
-	@FXML TreeTableColumn<Flug, String> uhrzeitCol;
-	@FXML TreeTableColumn<Flug, String> datumCol;
-	@FXML TreeTableColumn<Flug, String> dauerCol;
-	@FXML TreeTableColumn<Flug, String> startZielCol;
-	@FXML TreeTableColumn<Flug, String> flCol;
-	@FXML TreeTableColumn<Flug, String> fCol;
-	@FXML TreeTableColumn<Flug, String> kmCol;
-	@FXML TreeTableColumn<Flug, String> co2Col;
-	@FXML TreeTableColumn<Flug, String> preisppCol;
-	@FXML TreeTableColumn<Flug, String> preisCol;
-	@FXML TreeTableColumn<Flug, String> kaufenCol;*/
-	@FXML TableView<Flug> suchergebnis1;
-	@FXML TableColumn<Flug, String> uhrzeitCol1;
-	@FXML TableColumn<Flug, String> datumCol1;
-	@FXML TableColumn<Flug, String> dauerCol1;
-	@FXML TableColumn<Flug, String> startZielCol1;
-	@FXML TableColumn<Flug, String> flCol1;
-	@FXML TableColumn<Flug, String> fCol1;
-	@FXML TableColumn<Flug, String> kmCol1;
-	@FXML TableColumn<Flug, String> co2Col1;
-	@FXML TableColumn<Flug, String> preisppCol1;
-	@FXML TableColumn<Flug, String> preisCol1;
-	@FXML TableColumn<Flug, String> kaufenCol1;
+	@FXML TableView<ArrayList<Flug>> suchergebnis;
+	@FXML TableColumn<ArrayList<Flug>, String> uhrzeitCol;
+	@FXML TableColumn<ArrayList<Flug>, String> datumCol;
+	@FXML TableColumn<ArrayList<Flug>, String> dauerCol;
+	@FXML TableColumn<ArrayList<Flug>, String> startZielCol;
+	@FXML TableColumn<ArrayList<Flug>, String> flCol;
+	@FXML TableColumn<ArrayList<Flug>, String> fCol;
+	@FXML TableColumn<ArrayList<Flug>, String> kmCol;
+	@FXML TableColumn<ArrayList<Flug>, String> co2Col;
+	@FXML TableColumn<ArrayList<Flug>, String> co2GesCol;
+	@FXML TableColumn<ArrayList<Flug>, String> preisCol;
+	@FXML TableColumn<ArrayList<Flug>, String> kaufenCol;
+	
+	
+	//Nachrichten
+	@FXML TableView<Postfach> messageTable;
+	@FXML TableColumn<Postfach, String> senderCol;
+	@FXML TableColumn<Postfach, String> messageCol;
+	@FXML TableColumn<Postfach, String> dateCol;
 	
 	//Inhalte
-	ObservableList<Flug> flugList;
+	ObservableList<ArrayList<Flug>> flugList;
 	DBManager db = App.db;
 
 	@Override
@@ -158,73 +173,233 @@ public class Kunde_FlugbuchungController implements Initializable {
 		toggleEco2.setSelected(true);
 		toggleEco3.setSelected(true);
 		
+		//Default Text wenn leer
+		suchergebnis.setPlaceholder(new Label("Starte eine Suche mit SEPlane"));
+		//TreeTableView Flüge momentan TableView
+		uhrzeitCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				SimpleDateFormat ft = new SimpleDateFormat("dd.MM.yyyy");
+				SimpleStringProperty string = new SimpleStringProperty("");
+				for(Flug f : cellData.getValue()) {
+					string.setValue(string.getValue() + ft.format(f.getStartzeit())+"\n");
+				}
+				return string;
+			}
+		});
+		datumCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				SimpleDateFormat ft = new SimpleDateFormat("HH:mm z");
+				SimpleStringProperty string = new SimpleStringProperty("");
+				for(Flug f : cellData.getValue()) {
+					string.setValue(string.getValue() + ft.format(f.getStartzeit())+"\n");
+				}
+				return string;
+			}
+		});
+		startZielCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				SimpleStringProperty string = new SimpleStringProperty("");
+				for(Flug f : cellData.getValue()) {
+					string.setValue(string.getValue() + f.getFluglinie().getStart().getCode()+" - "+
+							f.getFluglinie().getZiel().getCode() +"\n");
+				}
+				return string;
+			}
+		});
+		flCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				SimpleStringProperty string = new SimpleStringProperty("");
+				for(Flug f : cellData.getValue()) {
+					string.setValue(string.getValue() + f.getFluglinie().getFluggesellschaft().getName() +"\n");
+				}
+				return string;
+			}
+		});
+		fCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				SimpleStringProperty string = new SimpleStringProperty("");
+				for(Flug f : cellData.getValue()) {
+					string.setValue(string.getValue() + f.getFluglinie().getFlugzeug().getHersteller()+" "+
+							f.getFluglinie().getFlugzeug().getType() +"\n");
+				}
+				return string;
+			}
+		});
+		kmCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				SimpleStringProperty string = new SimpleStringProperty("");
+				for(Flug f : cellData.getValue()) {
+					string.setValue(string.getValue() + f.getFluglinie().getEntfernung() +"\n");
+				}
+				return string;
+			}
+		});
+		co2Col.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				SimpleStringProperty string = new SimpleStringProperty("");
+				for(Flug f : cellData.getValue()) {
+					string.setValue(string.getValue() + f.getFluglinie().getEntfernung()* 0.0571 +"\n");
+				}
+				return string;
+			}
+		});
+		co2GesCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				Double d = 0.0;
+				for(Flug f : cellData.getValue()) {
+					d += f.getFluglinie().getEntfernung()* 0.0571;
+				}
+				return new SimpleStringProperty(d * personenZahl.getValue()+"");
+			}
+		});
+		preisCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue()==null)
+				return new SimpleStringProperty("");
+			else {
+				Double d = 0.0;
+				for(int i=0; i<cellData.getValue().size();i++) {
+					if(i==0)
+						if(tg.getSelectedToggle().equals(toggleBus))
+							d += cellData.getValue().get(i).getFluglinie().getPreiseb();
+						else
+							d += cellData.getValue().get(i).getFluglinie().getPreisee();
+					else if(i==1)//für Rückflug
+						if(tg1.getSelectedToggle().equals(toggleBus1)||tg.getSelectedToggle().equals(toggleBus))
+							d += cellData.getValue().get(i).getFluglinie().getPreiseb();
+						else
+							d += cellData.getValue().get(i).getFluglinie().getPreisee();
+					else if(i==2)
+						if(tg2.getSelectedToggle().equals(toggleBus2))
+							d += cellData.getValue().get(i).getFluglinie().getPreiseb();
+						else
+							d += cellData.getValue().get(i).getFluglinie().getPreisee();
+					else if(i==3)
+						if(tg3.getSelectedToggle().equals(toggleBus3))
+							d += cellData.getValue().get(i).getFluglinie().getPreiseb();
+						else
+							d += cellData.getValue().get(i).getFluglinie().getPreisee();
+				}
+				return new SimpleStringProperty(d * personenZahl.getValue() +"");
+			}
+		});
+		kaufenCol.setCellValueFactory(cellData ->{ return new SimpleStringProperty("");});
+		Callback<TableColumn<ArrayList<Flug>,String>, TableCell<ArrayList<Flug>, String>> cellFactory = new Callback<TableColumn<ArrayList<Flug>,String>, TableCell<ArrayList<Flug>,String>>() {
+			
+			@Override
+			public TableCell<ArrayList<Flug>, String> call(TableColumn<ArrayList<Flug>, String> param) {
+				final TableCell<ArrayList<Flug>, String> cell = new TableCell<ArrayList<Flug>, String>() {
+
+                    final Button kaufen = new Button("Kaufen");
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                        	kaufen.setOnAction(event -> {
+                        		ArrayList<Flug> fluege = getTableView().getItems().get(getIndex());
+                                kaufe(fluege, event);
+                            });
+                            setGraphic(kaufen);
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        
+        kaufenCol.setCellFactory(cellFactory);
 		
-		//TreeTableView Flüge
-		uhrzeitCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getStartzeit().getTime()+"");
-		});
-		datumCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else //TODO Recherche wie aktuell aufzurufen zur Anzeige
-				return new SimpleStringProperty(cellData.getValue().getStartzeit().toLocaleString()+"");
-		});
-		startZielCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getFluglinie().getStart()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getFluglinie().getStart().getCode());
-		});
-		flCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getFluglinie().getZiel()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getFluglinie().getZiel().getCode());
-		});
-		/*fCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
-		kmCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
-		co2Col1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
-		preisppCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
-		preisCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});
-		kaufenCol1.setCellValueFactory(cellData ->{
-			if(cellData.getValue().getValue().getStartzeit()==null)
-				return new SimpleStringProperty("");
-			else
-				return new SimpleStringProperty(cellData.getValue().getValue().getStartzeit().getTime()+"");
-		});*/
-		
-		//TODO 
-		//eine zentrale DB Abfrage für alle Ergebnisse und dann zuordnen
-		
+		//Nachrichten
+		senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
+		dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
+		messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
 	}	
+
+	//-------Nachrichtengedöns
+		public void refreshMessages(ActionEvent actionEvent) {
+			String name = new CurrentUser().getCurrent().getBenutzername();
+			ObservableList<Postfach> messages = FXCollections.observableArrayList();
+			messages.addAll(db.getMessages(name));
+			messageTable.setItems(messages);
+
+			for(Postfach n : messages)
+			{
+				System.out.println(n.getSenderCol() +" " +  n.getMessageCol() + " " + n.getDate());
+			}
+
+//			for(int i=0; i<messages.size();i++)
+//			{
+//				System.out.println(messages.get(i).getMessage());
+////				pF = new Postfach(messages.get(i).getSender(), messages.get(i).getMessage());
+////				nachrichten.getItems().add(pF);
+//			}
+		}
+
+//		private void refreshButtonclicked() {
+
+
+//			senderCol.setCellValueFactory(cellData ->{
+//				if(cellData.getValue().getSender() == "")
+//					return new SimpleStringProperty("");
+//				else
+//					return new SimpleStringProperty(cellData.getValue().getSender());
+//			});
+//			messageCol.setCellValueFactory(cellData ->{
+//				if(cellData.getValue().getMessage() == "")
+//					return new SimpleStringProperty("");
+//				else
+//					return new SimpleStringProperty(cellData.getValue().getMessage());
+//			});
+//		}
+		
+//------Kaufen
+		private void kaufe(ArrayList<Flug> fluege, ActionEvent event) {
+			//TODO ein Code für die Klasse, haben immer vier, vll ein Array wenn 0, dann keine Wahl, wenn 1 usw.
+			Kunde_buchenController k = new Kunde_buchenController();
+			k.setFlugArray(suchergebnis.getSelectionModel().getSelectedItem());
+			//Open Pop-Up
+			Node source = (Node) event.getSource();
+			Window parentStage = source.getScene().getWindow();
+			AnchorPane neueFL = new AnchorPane();
+			FXMLLoader loader = new FXMLLoader(App.class.getResource("Kunde_buchen.fxml"));
+			loader.setController(k);
+			//TODO check wieso hier initialize dieser TabFxml aufgerufen wird
+			try {
+				neueFL = (AnchorPane)loader.load();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL); //überlagert immer
+			stage.initOwner(parentStage);
+			Scene scene = new Scene(neueFL);
+			stage.setScene(scene);
+			
+			
+			
+			stage.showAndWait();
+		}
 
 //------Suchen
 
@@ -254,20 +429,20 @@ public class Kunde_FlugbuchungController implements Initializable {
 	}	
 
 	public void sucheHinflug() {
+		//Angaben prüfen
 		if(startFH.getSelectionModel().getSelectedItem()==null || zielFH.getSelectionModel().getSelectedItem()==null
 				|| startDatum.getValue()==null)
-			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
 			flugList = FXCollections.observableArrayList();
-			List<Flug> flugUnsortiert = new ArrayList<Flug>();
+			ArrayList<Flug> flugUnsortiert = new ArrayList<Flug>();
 			String klasse;
 			if(tg.getSelectedToggle().equals(toggleBus))
 				klasse = "business";
 			else klasse = "economy";
 			flugUnsortiert.addAll(db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse));
 			
-			//TODO sortieren nach Preis und TableView.setItems, comparator will net
+			//sortieren nach Preis
 			Collections.sort(flugUnsortiert, new Comparator<Flug>() {
 
 				@Override
@@ -276,22 +451,50 @@ public class Kunde_FlugbuchungController implements Initializable {
 					return o1.getFluglinie().getPreisee().compareTo(o2.getFluglinie().getPreisee());
 				}
 			});
-			flugList.addAll(flugUnsortiert);
-			//if(!flugList.isEmpty())
-			suchergebnis1.setItems(flugList);
+			for(Flug f : flugUnsortiert) {
+				ArrayList<Flug> fluege = new ArrayList<Flug>();
+				fluege.add(f);
+				flugList.add(fluege);
+			}			
+			suchergebnis.setItems(flugList);
 		}
 	}
 
 	private void sucheHinrueck() {
+		ArrayList<ArrayList<Flug>> unsortiert = new ArrayList<ArrayList<Flug>>();
+		
 		if(startFH.getSelectionModel().getSelectedItem()==null || zielFH.getSelectionModel().getSelectedItem()==null
 				|| startDatum.getValue()==null || rueckdatum.getValue()==null)
-			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search TableView.setItems	
+			flugList = FXCollections.observableArrayList();
+			String klasse;
+			if(tg.getSelectedToggle().equals(toggleBus))
+				klasse = "business";
+			else klasse = "economy";
+			List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
+			List<Flug> rueckflug = db.sucheHinflug(zielFH.getValue(),startFH.getValue(), rueckdatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
+			
+			for(Flug hin:hinflug) {
+				for(Flug rueck: rueckflug) {
+					if(hin.getStartzeit().compareTo(rueck.getStartzeit())<0) {
+						ArrayList<Flug>templist = new ArrayList<Flug>();
+						templist.add(hin);
+						templist.add(rueck);
+						unsortiert.add(templist);
+					}
+				}
+			}
+			//Gesamtpreis
+			ArrayList<Double> preise = preisBerechnung(unsortiert, klasse);
+			//sortieren nach Preis
+			sortieren2Dim(unsortiert, preise);
+
+			flugList.addAll(unsortiert);
+
+			suchergebnis.setItems(flugList);
 		}
 	}
-	//2 foreach jede Kombi die vom Datum mit Uhrzeit her Sinn ergibt nach Preis sortiert ausgeben
 
 	private void sucheMulti1() {
 		if(startFH.getSelectionModel().getSelectedItem()==null || zielFH.getSelectionModel().getSelectedItem()==null
@@ -300,7 +503,38 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search TableView.setItems	
+			flugList = FXCollections.observableArrayList();
+			String klasse;
+			if(tg.getSelectedToggle().equals(toggleBus))
+				klasse = "business";
+			else klasse = "economy";
+			String klasse1;
+			if(tg1.getSelectedToggle().equals(toggleBus1))
+				klasse1 = "business";
+			else klasse1 = "economy";
+			
+			List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
+			List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(), zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), personenZahl.getValue(), klasse1);
+			
+			ArrayList<ArrayList<Flug>> unsortiert = new ArrayList<ArrayList<Flug>>();
+			for(Flug hin:hinflug) {
+				for(Flug m1: multi1) {
+					if(hin.getStartzeit().compareTo(m1.getStartzeit())<0) {
+						ArrayList<Flug>templist = new ArrayList<Flug>();
+						templist.add(hin);
+						templist.add(m1);
+						unsortiert.add(templist);
+					}
+				}
+			}
+			//Gesamtpreis
+			ArrayList<Double> preise = preisBerechnung(unsortiert, klasse);
+			//sortieren nach Preis
+			sortieren2Dim(unsortiert, preise);
+
+			flugList.addAll(unsortiert);
+
+			suchergebnis.setItems(flugList);
 		}
 	}
 	
@@ -312,7 +546,45 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search TableView.setItems	
+			flugList = FXCollections.observableArrayList();
+			String klasse;
+			if(tg.getSelectedToggle().equals(toggleBus))
+				klasse = "business";
+			else klasse = "economy";
+			String klasse1;
+			if(tg1.getSelectedToggle().equals(toggleBus1))
+				klasse1 = "business";
+			else klasse1 = "economy";
+			String klasse2;
+			if(tg2.getSelectedToggle().equals(toggleBus2))
+				klasse2 = "business";
+			else klasse2 = "economy";
+			List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
+			List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(),zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), personenZahl.getValue(), klasse1);
+			List<Flug> multi2 = db.sucheHinflug(startFH2.getValue(),zielFH2.getValue(), startDatum2.getValue(), zeitraumHin2.getValue(), personenZahl.getValue(), klasse2);
+			
+			ArrayList<ArrayList<Flug>> unsortiert = new ArrayList<ArrayList<Flug>>();
+			for(Flug hin:hinflug) {
+				for(Flug m1: multi1) {
+					for(Flug m2: multi2) {
+						
+					if(hin.getStartzeit().compareTo(m1.getStartzeit())<0 && m1.getStartzeit().compareTo(m2.getStartzeit())<0) {
+						ArrayList<Flug>templist = new ArrayList<Flug>();
+						templist.add(hin);
+						templist.add(m1);
+						templist.add(m2);
+						unsortiert.add(templist);
+					}
+				}}
+			}
+			//Gesamtpreis
+			ArrayList<Double> preise = preisBerechnung(unsortiert, klasse);
+			//sortieren nach Preis
+			sortieren2Dim(unsortiert, preise);
+
+			flugList.addAll(unsortiert);
+
+			suchergebnis.setItems(flugList);
 		}
 	}
 	
@@ -325,11 +597,104 @@ public class Kunde_FlugbuchungController implements Initializable {
 			//TODO Kundentext
 			AlertHandler.falscheAngaben();
 		else {
-			//TODO DB Search TableView.setItems	
+			flugList = FXCollections.observableArrayList();
+			String klasse;
+			if(tg.getSelectedToggle().equals(toggleBus))
+				klasse = "business";
+			else klasse = "economy";
+			String klasse1;
+			if(tg1.getSelectedToggle().equals(toggleBus1))
+				klasse1 = "business";
+			else klasse1 = "economy";
+			String klasse2;
+			if(tg2.getSelectedToggle().equals(toggleBus2))
+				klasse2 = "business";
+			else klasse2 = "economy";
+			String klasse3;
+			if(tg2.getSelectedToggle().equals(toggleBus2))
+				klasse3 = "business";
+			else klasse3 = "economy";
+
+			List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
+			List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(),zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), personenZahl.getValue(), klasse1);
+			List<Flug> multi2 = db.sucheHinflug(startFH2.getValue(),zielFH2.getValue(), startDatum2.getValue(), zeitraumHin2.getValue(), personenZahl.getValue(), klasse2);
+			List<Flug> multi3 = db.sucheHinflug(startFH3.getValue(),zielFH3.getValue(), startDatum3.getValue(), zeitraumHin3.getValue(), personenZahl.getValue(), klasse3);
+			
+			ArrayList<ArrayList<Flug>> unsortiert = new ArrayList<ArrayList<Flug>>();
+			for(Flug hin:hinflug) {
+				for(Flug m1: multi1) {
+					for(Flug m2: multi2) {
+						for(Flug m3 : multi3) {
+						
+					if(hin.getStartzeit().compareTo(m1.getStartzeit())<0 && m1.getStartzeit().compareTo(m2.getStartzeit())<0
+							&& m2.getStartzeit().compareTo(m3.getStartzeit())<0) {
+						ArrayList<Flug>templist = new ArrayList<Flug>();
+						templist.add(hin);
+						templist.add(m1);
+						templist.add(m2);
+						templist.add(m3);
+						unsortiert.add(templist);
+					}
+				}}}
+			}
+			//Gesamtpreis
+			ArrayList<Double> preise = preisBerechnung(unsortiert, klasse);
+			//sortieren nach Preis
+			sortieren2Dim(unsortiert, preise);
+
+			flugList.addAll(unsortiert);
+
+			suchergebnis.setItems(flugList);
 		}
 	}
 
-	//Start und Rückflugdatum an einem Tag
+	
+//-----Helper
+	
+	public ArrayList<Double> preisBerechnung(ArrayList<ArrayList<Flug>> fluege, String klasse){
+		ArrayList<Double> preise = new ArrayList<Double>();
+		Double preisEinerGruppe = 0.0;
+		for(ArrayList<Flug> fluggruppe : fluege) {
+			for(Flug flug: fluggruppe) {
+				if(klasse == "business")
+					preisEinerGruppe += flug.getFluglinie().getPreiseb();
+				else
+					preisEinerGruppe += flug.getFluglinie().getPreisee();
+			}
+			preise.add(preisEinerGruppe);
+			preisEinerGruppe = 0.0;
+		}
+		return preise;
+	}
+	
+	//Sortieren 2-Dim Array...Trick 17
+	public ArrayList<ArrayList<Flug>> sortieren2Dim (ArrayList<ArrayList<Flug>> unsortiert, ArrayList<Double> preise) {
+	        Double temp;
+	        ArrayList<Flug> temp2;
+	        //Durchlaufen mit 2 Schleifen, 
+	        //1. Schleife -1 damit vorletztes mit letzem vergleichen
+	        //2. Schleife +1 damit erst zweites mit erstem verglichen
+	        for (int i = 0; i < preise.size() - 1; i++) {
+	            for (int j = i + 1; j < preise.size(); j++) {
+	                if (preise.get(i) > preise.get(j)) {
+	                    temp = preise.get(i);
+	                    temp2 = unsortiert.get(i);
+	                    preise.set(i,preise.get(j));
+	                    preise.set(j,temp); 
+	                    unsortiert.set(i, unsortiert.get(j));
+	                    unsortiert.set(j, temp2);
+	                }
+	            }
+	        }
+	        for(int i=0; i<unsortiert.size();i++) {
+	        	System.out.println(preise.get(i));
+	        	for(int j=0;j<unsortiert.get(i).size();j++) {
+	        		System.out.println("Economy "+ i + " " +unsortiert.get(i).get(j).getFluglinie().getPreisee());
+	        		System.out.println("Business "+ i + " " +unsortiert.get(i).get(j).getFluglinie().getPreiseb());
+	        	}
+	        }
+	    return unsortiert;
+	}
 	
 	
 //------GUI
@@ -420,7 +785,6 @@ public class Kunde_FlugbuchungController implements Initializable {
 	
 	public void setDatePickerRange() {
 		//Disable start vor Heute	
-		//TODO Disable eigentlich cascading...
 		setzeStartDatum();
 		setzeRueckDatum();
 		setzeStartDatum1();
@@ -742,5 +1106,5 @@ public class Kunde_FlugbuchungController implements Initializable {
 		zeitraumRueck.setItems(zeitraum);
 		zeitraumRueck.setConverter(zeitraumConverter);
 	}	
-
 }
+//}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    

@@ -38,6 +38,8 @@ public class Benutzer {
     @DatabaseField
     Double co;
 
+
+
     List<Booking> books;
 
 
@@ -61,8 +63,8 @@ public class Benutzer {
         this.post=post;
         this.kilo=kilo;
         this.co=co;
-
     }
+
 
     public String getBenutzertyp() {
         return benutzertyp;
@@ -89,6 +91,7 @@ public class Benutzer {
     }
 
     public String getAdresse(){ return adresse;}
+
 
     public String getTelnumber(){ return telnumber; }
 

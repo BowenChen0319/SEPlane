@@ -6,15 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SEP" />
-        <module name="Paluno" />
         <module name="SE-Plane" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Paluno" target="1.8" />
       <module name="SE-Plane" target="11" />
-      <module name="SEP" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

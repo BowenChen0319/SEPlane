@@ -88,7 +88,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     }
 
     public void handleInstanziieren(ActionEvent event){
-
+        System.out.println("Instanziieren");
         this.flugAnlegen(flugLinie.getStartdatum());
 
         if (flugLinie.getIntervall()== Intervall.Täglich){
@@ -146,6 +146,10 @@ public class FGM_FluegeInstanziierenController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
             alert.showAndWait();
         }
+
+
+        Stage stage = (Stage) abbrechen_button.getScene().getWindow();
+        stage.close();
     }
 
     public void handleAbbrechen (ActionEvent event){
@@ -161,6 +165,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
         date.setHours(stunde_choiceBox.getValue());
         date.setMinutes(minute_choiceBox.getValue());
         flug.setStartzeit(date);
+        System.out.println("Flug"+ flugLinie.getId()+ "in"+ date.toString());
         db.createFlug(flug);
     }
 }

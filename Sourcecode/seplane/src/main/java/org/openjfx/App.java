@@ -61,9 +61,9 @@ public class App extends Application {
 //    	Date today3 = today;
 //    	today2.setHours(7);
 //    	today3.setHours(15);
-//    	Flug f = new Flug(db.getFLById(1), today , 50, 50);
-//    	Flug f1 = new Flug(db.getFLById(1), today2, 50, 52);
-//    	Flug f2 = new Flug(db.getFLById(1), today3 , 50, 53);
+//    	Flug f = new Flug(db.getFLById(2), today , 50, 50);
+//    	Flug f1 = new Flug(db.getFLById(2), today2, 50, 52);
+//    	Flug f2 = new Flug(db.getFLById(2), today3 , 50, 53);
 //    	db.createFlug(f);
 //    	db.createFlug(f1);
 //    	db.createFlug(f2);

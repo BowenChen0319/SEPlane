@@ -2,16 +2,26 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import Models.Benutzer;
 import Models.CurrentUser;
+import Models.Postfach;
+import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.stmt.QueryBuilder;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TextField;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 import Models.Fluglinie;
@@ -26,10 +36,15 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 import org.openjfx.login;
+import org.w3c.dom.Text;
 
 
 public class FGMDashboard implements Initializable{
-	
+	String dbURL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";
+	JdbcPooledConnectionSource cs;
+
+
+
 	//Anwendung
 	DBManager db = App.db;
 	
@@ -40,11 +55,19 @@ public class FGMDashboard implements Initializable{
 	@FXML FGM_FLDashboard fGM_FluglinieController;
 	@FXML FGM_FGDashboard fluggesellschaftsmanagerController;
 
+
+	//Textfield
+	@FXML TextField messageBox;
+	@FXML TextField receiverBox;
+
 	//Button
 	@FXML Button button_loeschen;
+	@FXML Button sendMessageButton;
 
 	Fluglinie curFL;
-	
+
+	Dao<Benutzer, String> bDao;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		fGM_FluglinieController.setParentController(this);
@@ -123,6 +146,49 @@ public class FGMDashboard implements Initializable{
 			System.out.println("FG Tab");
 	}
 
+	public boolean checkIfuserExists(String user, JdbcPooledConnectionSource sc) {
+		//String currentUser = new CurrentUser().getCurrent().getBenutzername();
+		cs = sc;
+		try {
+			bDao = DaoManager.createDao(cs, Benutzer.class);
+		}catch(SQLException e){
+			System.out.println("Keine Valide Suchanfrage!");
 
-	
+		}
+
+		QueryBuilder<Benutzer, String> queryB = bDao.queryBuilder();
+		ObservableList<Benutzer> obBList = FXCollections.observableArrayList();
+		List<Benutzer> bListe = null;
+		try{
+			queryB.where().eq("benutzername", user);
+			bListe = bDao.query(queryB.prepare());
+			obBList.addAll(bListe);
+		}catch(SQLException e)
+		{
+			System.out.println("Keine gültige Suchanfrage");
+		}
+		if(obBList.size() <= 0)
+		{
+			return false;
+		}else{
+			return true;
+		}
+
+
+	}
+	public void sendMessage(ActionEvent actionEvent){
+//		System.out.println("user: " + receiverBox.getText());
+//		System.out.println("msg: " + messageBox.getText());
+		DBManager db = new DBManager();
+		db.sendMessage(receiverBox.getText(), messageBox.getText());
+	}
+	//getter nötig, damit man Im DBmanager auf die messagebox und receiverbox zugreifen kann
+	public TextField getMessageBox() {
+		return messageBox;
+	}
+	public TextField getReceiverBox() {
+		return receiverBox;
+	}
+
+
 }
