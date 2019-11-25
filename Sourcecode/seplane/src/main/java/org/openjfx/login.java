@@ -268,16 +268,16 @@ public class login extends Application {
                                             public void run() {
                                                 try {
                                                     new CurrentUser().setCurrent(finalB1);
-                                                    //new BooksBoard().start(new Stage());
+                                                    new BooksBoard().start(new Stage());
 
                                                     //Flugsuche
                                                     
-                                                    primaryStage.setResizable(true);
-                                                    Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
-                                                    Scene fgmScene = new Scene(fgm1);
-                                                    primaryStage.setScene(fgmScene);
-                                                    fitScreen(primaryStage);
-                                                } catch (IOException e) {
+//                                                    primaryStage.setResizable(true);
+//                                                    Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
+//                                                    Scene fgmScene = new Scene(fgm1);
+//                                                    primaryStage.setScene(fgmScene);
+//                                                    fitScreen(primaryStage);
+                                                } catch (IOException | SQLException e) {
                                                     e.printStackTrace();
 
                                                 }

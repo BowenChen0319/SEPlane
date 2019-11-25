@@ -31,6 +31,9 @@ public class FGM_FGDashboard implements Initializable {
     private Button FlugzeugKaufen_button;
 
     @FXML
+    private Button fluegeUebersicht_button;
+
+    @FXML
     private Label nameInhalt_label;
 
     @FXML
@@ -40,6 +43,7 @@ public class FGM_FGDashboard implements Initializable {
     private Label bugetInhalt_label;
 
     static DBManager db = App.db;
+
 
     public void handleAnlegen() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fluggesellschaft_anlegen.fxml"));
@@ -89,5 +93,17 @@ public class FGM_FGDashboard implements Initializable {
         nameInhalt_label.setText(fluggesellschaft.getName());
         landInhalt_label.setText(fluggesellschaft.getLand());
         bugetInhalt_label.setText(String.valueOf(fluggesellschaft.getBudget()));*/
+    }
+
+
+
+    public void handleFluegeUebersicht() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FGM_FluegeUebersicht.fxml"));
+        Parent root1 = fxmlLoader.load();
+        Scene scene = new Scene(root1);
+        Stage stage = new Stage();
+        stage.setTitle("Fluege Uebersicht");
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 }

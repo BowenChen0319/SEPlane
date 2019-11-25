@@ -153,20 +153,6 @@ public class register extends Application {
         ht.getChildren().addAll(tt,tel);
 
 
-        Label tp = new Label(
-                "Postfach: ");
-        tp.setFont(Font.font(25));
-        TextField post = new TextField();
-        post.setFont((Font.font(10)));
-        Tooltip tipp = new Tooltip("Postfach Please :)");
-        tipp.setFont(Font.font(12));
-        post.setTooltip(tipp);
-        post.setPromptText("Postfach");
-        HBox hp = new HBox();
-        hp.setAlignment(Pos.CENTER);
-        hp.getChildren().addAll(tp,post);
-
-
 
         Label text5 = new Label(
                 "Passwort: ");
@@ -216,7 +202,7 @@ public class register extends Application {
                             warning.setText("Wrong: Two same username!");
                         }else{
                             try {
-                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),bty.getValue().toString(),email.getText(),adresse.getText(),tel.getText(),post.getText(),0.0,0.0));
+                                db.createB(new Benutzer(vorn.getText(),nachn.getText(),bname.getText(),psw.getText(),bty.getValue().toString(),email.getText(),adresse.getText(),tel.getText(),0.0,0.0));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -245,7 +231,7 @@ public class register extends Application {
 
 
 
-        root.getChildren().addAll(h1,h2,h3,h4,he,ha,ht,hp,h5,warning,b3);
+        root.getChildren().addAll(h1,h2,h3,h4,he,ha,ht,h5,warning,b3);
         Scene scene = new Scene(root);
 
         stage.setWidth(Width);

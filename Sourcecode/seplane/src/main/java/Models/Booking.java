@@ -14,7 +14,7 @@ public class Booking {
     @DatabaseField
     String username;
     @DatabaseField
-    String flugid;
+    Integer flugid;
     @DatabaseField
     String classe;
     @DatabaseField
@@ -31,7 +31,7 @@ public class Booking {
 
     public Booking() {}
 
-    public Booking(String username,String flugid,String classe, String seat,
+    public Booking(String username,Integer flugid,String classe, String seat,
                    String paytime, String preise, String multi) throws Exception {
         this.username=username;
         this.flugid=flugid;
@@ -45,7 +45,7 @@ public class Booking {
 
     }
 
-    public String getFlugid(){
+    public Integer getFlugid(){
         return flugid;
     }
 
@@ -89,7 +89,7 @@ public class Booking {
 
     public Fluglinie getFluglinie(){
         try {
-            return App.db.getFlug(Integer.parseInt(flugid)).getFluglinie();
+            return App.db.getFlug(flugid).getFluglinie();
         }catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -99,7 +99,7 @@ public class Booking {
 
     public Flug getFlug(){
         try {
-            return App.db.getFlug(Integer.parseInt(flugid));
+            return App.db.getFlug(flugid);
         }catch (Exception e) {
             e.printStackTrace();
             return null;

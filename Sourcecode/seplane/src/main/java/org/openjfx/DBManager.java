@@ -31,7 +31,8 @@ import java.util.List;
 
 public class DBManager {
 
-	static final String dbURL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";	
+	static final String dbURL = "jdbc:h2:tcp://localhost/~/SEPlaneDB";
+	//static final String dbURL = "jdbc:h2:./db/SEPlaneDB";
 	static JdbcPooledConnectionSource cs;
 	
 	Dao<Fluggesellschaft,Integer> fgDao;
@@ -73,7 +74,7 @@ public class DBManager {
 		
 		TableUtils.dropTable(cs, Fluglinie.class, true);
 		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-		//TableUtils.dropTable(cs, Benutzer.class, true);
+		TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		//TableUtils.dropTable(cs, Airport.class, true);
 		//TableUtils.dropTable(cs, Plane.class, true);
@@ -82,7 +83,7 @@ public class DBManager {
 		TableUtils.dropTable(cs, Postfach.class, true);
 
 
-		//TableUtils.createTable(cs, Benutzer.class);
+		TableUtils.createTable(cs, Benutzer.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
 		TableUtils.createTable(cs, Fluglinie.class);
 		TableUtils.createTable(cs, FlugzeugMapping.class);
@@ -209,23 +210,31 @@ public class DBManager {
 		}
 	}
 
-	public void creatmulti(List<Booking> list){
+	public void creatbookinginlist(List<Booking> list){
 		ArrayList<String> index = new ArrayList<String>();
-		for(int i=0;i<list.size();i++){
-			Booking bk = list.get(i);
-			this.createBk(bk);
-			int idint = this.getbkwithbk(bk).getId();
-			String id = Integer.toString(idint);
-			index.add(id);
-		}
-		String index_str = StringUtils.join(index,",");
-		for(int i=0;i<list.size();i++){
-			Booking bk = list.get(i);
-			Booking update = this.getbkwithbk(bk);
-			update.setMulti(index_str);
-			this.updateBk(update);
-		}
-
+		if(list.size()==1){
+		    //Single Ticket
+		    this.createBk(list.get(0));
+        }else{
+		    //Multistop Ticket
+            for(int i=0;i<list.size();i++){
+                Booking bk = list.get(i);
+                //add Booking to DB
+                this.createBk(bk);
+                int idint = this.getbkwithbk(bk).getId();
+                String id = Integer.toString(idint);
+                //record id
+                index.add(id);
+            }
+            String index_str = StringUtils.join(index,",");
+            for(int i=0;i<list.size();i++){
+                Booking bk = list.get(i);
+                Booking update = this.getbkwithbk(bk);
+                //setMultistop information
+                update.setMulti(index_str);
+                this.updateBk(update);
+            }
+        }
 	}
 
 

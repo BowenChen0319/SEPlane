@@ -10,9 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.openjfx.App;
@@ -84,13 +82,13 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     public void passData (Fluglinie fluglinie){
         startflughafenInhalt_label.setText(fluglinie.getStart().getName());
         zielflughafenInhalt_label.setText(fluglinie.getZiel().getName());
-        intervall_label.setText(fluglinie.getIntervall().name());
+        intervallInhalt_label.setText(fluglinie.getIntervall().name());
         jungfernflugInhalt_label.setText(fluglinie.getStartdatum().toString());
         this.flugLinie = fluglinie;
     }
 
     public void handleInstanziieren(ActionEvent event){
-
+        System.out.println("Instanziieren");
         this.flugAnlegen(flugLinie.getStartdatum());
 
         if (flugLinie.getIntervall()== Intervall.Täglich){
@@ -108,6 +106,9 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                 this.flugAnlegen(calendar.getTime());
                 a++;
             }
+            String message = "Die Fluege wurden erfolgreich instanziiert.";
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+            alert.showAndWait();
         }
         else if (flugLinie.getIntervall()==Intervall.alle_3_Tage){
 
@@ -123,6 +124,9 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                 this.flugAnlegen(calendar.getTime());
                 a++;
             }
+            String message = "Die Fluege wurden erfolgreich instanziiert.";
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+            alert.showAndWait();
         }
         else{
 
@@ -131,14 +135,21 @@ public class FGM_FluegeInstanziierenController implements Initializable {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(naechsterFlug);
 
-            while (a < 26){
+            while (a < 25){
 
                 // naechsterFlug um eine Woche nach vorne Setzen
                 calendar.add(Calendar.DATE, 7);
                 this.flugAnlegen(calendar.getTime());
                 a++;
             }
+            String message = "Die Fluege wurden erfolgreich instanziiert.";
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+            alert.showAndWait();
         }
+
+
+        Stage stage = (Stage) abbrechen_button.getScene().getWindow();
+        stage.close();
     }
 
     public void handleAbbrechen (ActionEvent event){
@@ -154,6 +165,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
         date.setHours(stunde_choiceBox.getValue());
         date.setMinutes(minute_choiceBox.getValue());
         flug.setStartzeit(date);
+        System.out.println("Flug"+ flugLinie.getId()+ "in"+ date.toString());
         db.createFlug(flug);
     }
 }

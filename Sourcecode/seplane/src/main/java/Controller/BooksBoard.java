@@ -318,6 +318,26 @@ public class BooksBoard extends Application {
             }
         });
 
+        Button b4 = new Button("Export in PDF");
+        b4.setPrefWidth(180);
+        b4.setPrefHeight(20);
+        b4.setFont(Font.font(15));
+        b4.setStyle("-fx-background-color: #5CACEE;" +
+                "-fx-background-radius: 8;" +
+                "-fx-text-fill: #7CCD7C"
+        );
+
+        b4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                //PDF
+
+
+
+            }
+        });
+
 
 
 
@@ -329,7 +349,7 @@ public class BooksBoard extends Application {
 
         HBox butts = new HBox();
         butts.setAlignment(Pos.CENTER);
-        butts.getChildren().addAll(b1, b2, b3);
+        butts.getChildren().addAll(b1, b2, b3,b4);
 
         root.getChildren().addAll(v0, listView, butts);
 

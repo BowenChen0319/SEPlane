@@ -38,11 +38,11 @@ public class App extends Application {
 //    	new DBManager().refreshbooking();
 //        for(int i =0;i<5;i++){
 //
-//            Booking b = new Booking("kunde","1","S","10F", "Time","Paytime",Integer.toString(10000),"");
+//            Booking b = new Booking("kunde","1","S","10F", "Time","Paytime",Integer.toString(10000),"1,2,3");
 //            //new DBManager().createBk(b);
-//            Booking b1 = new Booking("kunde","2","S","10F", "Time","Paytime",Integer.toString(10000),"");
+//            Booking b1 = new Booking("kunde","2","S","10F", "Time","Paytime",Integer.toString(10000),"1,2,3");
 //            //new DBManager().createBk(b1);
-//            Booking b4 = new Booking("kunde","4","S","10F", "Time","Paytime",Integer.toString(10000),"");
+//            Booking b4 = new Booking("kunde","4","S","10F", "Time","Paytime",Integer.toString(10000),"1,2,3");
 //            //new DBManager().createBk(b4);
 //            Booking b5 = new Booking("kunde","5","S","10F", "Time","Paytime",Integer.toString(10000),"");
 //            //new DBManager().createBk(b5);
