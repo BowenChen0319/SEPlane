@@ -82,7 +82,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     public void passData (Fluglinie fluglinie){
         startflughafenInhalt_label.setText(fluglinie.getStart().getName());
         zielflughafenInhalt_label.setText(fluglinie.getZiel().getName());
-        intervall_label.setText(fluglinie.getIntervall().name());
+        intervallInhalt_label.setText(fluglinie.getIntervall().name());
         jungfernflugInhalt_label.setText(fluglinie.getStartdatum().toString());
         this.flugLinie = fluglinie;
     }
