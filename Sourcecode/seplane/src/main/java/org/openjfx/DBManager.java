@@ -209,23 +209,31 @@ public class DBManager {
 		}
 	}
 
-	public void creatmulti(List<Booking> list){
+	public void creatbookinginlist(List<Booking> list){
 		ArrayList<String> index = new ArrayList<String>();
-		for(int i=0;i<list.size();i++){
-			Booking bk = list.get(i);
-			this.createBk(bk);
-			int idint = this.getbkwithbk(bk).getId();
-			String id = Integer.toString(idint);
-			index.add(id);
-		}
-		String index_str = StringUtils.join(index,",");
-		for(int i=0;i<list.size();i++){
-			Booking bk = list.get(i);
-			Booking update = this.getbkwithbk(bk);
-			update.setMulti(index_str);
-			this.updateBk(update);
-		}
-
+		if(list.size()==1){
+		    //Single Ticket
+		    this.createBk(list.get(0));
+        }else{
+		    //Multistop Ticket
+            for(int i=0;i<list.size();i++){
+                Booking bk = list.get(i);
+                //add Booking to DB
+                this.createBk(bk);
+                int idint = this.getbkwithbk(bk).getId();
+                String id = Integer.toString(idint);
+                //record id
+                index.add(id);
+            }
+            String index_str = StringUtils.join(index,",");
+            for(int i=0;i<list.size();i++){
+                Booking bk = list.get(i);
+                Booking update = this.getbkwithbk(bk);
+                //setMultistop information
+                update.setMulti(index_str);
+                this.updateBk(update);
+            }
+        }
 	}
 
 
