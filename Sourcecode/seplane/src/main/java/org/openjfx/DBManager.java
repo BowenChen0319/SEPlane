@@ -197,11 +197,11 @@ public class DBManager {
 			System.out.println("CO: "+be.getco()+"  Kilo: "+be.getkilo());
 			Flug fl =bk.getFlug();
 			if(bk.getClass().equals("E")){
-				int anzahl = bk.getFlug().getRestEconomy();
-				fl.setRestEconomy(anzahl-1);
+			    //int anzahl = bk.getFlug().getRestEconomy();
+				//fl.setRestEconomy(anzahl-1);
 			}else if(bk.getClass().equals("B")){
-				int anzahl = bk.getFlug().getRestBusiness();
-				fl.setRestBusiness(anzahl-1);
+				//int anzahl = bk.getFlug().getRestBusiness();
+				//fl.setRestBusiness(anzahl-1);
 			}
 			this.updateFlug(fl);
 			bkDao.create(bk);
@@ -441,11 +441,11 @@ public class DBManager {
 				Flug fl =bk.getFlug();
 				if(fl!=null){
 					if(bk.getClass().equals("E")){
-						int anzahl = bk.getFlug().getRestEconomy();
-						fl.setRestEconomy(anzahl+1);
+						//int anzahl = bk.getFlug().getRestEconomy();
+						//fl.setRestEconomy(anzahl+1);
 					}else if(bk.getClass().equals("B")){
-						int anzahl = bk.getFlug().getRestBusiness();
-						fl.setRestBusiness(anzahl+1);
+						//int anzahl = bk.getFlug().getRestBusiness();
+						//fl.setRestBusiness(anzahl+1);
 					}
 					this.updateFlug(fl);
 				}
