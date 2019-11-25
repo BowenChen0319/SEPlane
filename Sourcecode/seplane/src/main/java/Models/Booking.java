@@ -115,7 +115,7 @@ public class Booking {
         return dateString;
     }
 
-    public double getco() throws SQLException {
+    public double getco() {
         Fluglinie fl=this.getFluglinie();
         if(fl!=null){
             double distence = fl.getEntfernung();
@@ -127,7 +127,7 @@ public class Booking {
 
     }
 
-    public double getdistence() throws SQLException {
+    public double getdistence() {
         Fluglinie fl=this.getFluglinie();
         if(fl!=null){
             double distence = fl.getEntfernung();

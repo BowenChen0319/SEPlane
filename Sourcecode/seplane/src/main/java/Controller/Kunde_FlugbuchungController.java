@@ -372,6 +372,11 @@ public class Kunde_FlugbuchungController implements Initializable {
 //			});
 //		}
 		
+//------Button zur Buchungsübersicht
+		public void buchugsOverview(ActionEvent event) {
+			//TODO Szenewechsel zu Buchungsübersicht
+		}
+		
 //------Kaufen
 		private void kaufe(ArrayList<Flug> fluege, ActionEvent event) {
 			//Parameterübergabe zur Flugbuchung
@@ -477,7 +482,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 				fluege.add(f);
 				flugList.add(fluege);
 			}			
-			suchergebnis.setItems(flugList);
+			if(flugList==null)
+				suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+			else
+				suchergebnis.setItems(flugList);
 		}
 	}
 
@@ -512,8 +520,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 			sortieren2Dim(unsortiert, preise);
 
 			flugList.addAll(unsortiert);
-
-			suchergebnis.setItems(flugList);
+			if(flugList==null)
+				suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+			else
+				suchergebnis.setItems(flugList);
 		}
 	}
 
@@ -555,7 +565,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 
 			flugList.addAll(unsortiert);
 
-			suchergebnis.setItems(flugList);
+			if(flugList==null)
+				suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+			else
+				suchergebnis.setItems(flugList);
 		}
 	}
 	
@@ -605,7 +618,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 
 			flugList.addAll(unsortiert);
 
-			suchergebnis.setItems(flugList);
+			if(flugList==null)
+				suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+			else
+				suchergebnis.setItems(flugList);
 		}
 	}
 	
@@ -665,7 +681,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 
 			flugList.addAll(unsortiert);
 
-			suchergebnis.setItems(flugList);
+			if(flugList==null)
+				suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+			else
+				suchergebnis.setItems(flugList);
 		}
 	}
 

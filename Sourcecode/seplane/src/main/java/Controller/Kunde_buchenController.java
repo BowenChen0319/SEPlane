@@ -4,6 +4,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
+import org.openjfx.App;
+import org.openjfx.DBManager;
+
+import Models.Booking;
+import Models.CurrentUser;
 import Models.Flug;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,6 +60,9 @@ public class Kunde_buchenController implements Initializable {
 	int klassen[] = new int[4];
 	boolean rueckflug = false;
 	
+	DBManager db = App.db;
+	CurrentUser cur = new CurrentUser();
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -66,92 +75,187 @@ public class Kunde_buchenController implements Initializable {
 			ObservableList<Integer> platz = FXCollections.observableArrayList();
 			platz.addAll(fluege.get(0).getReserviereEconomy());
 			platzCombo.setItems(platz);
+			platzCombo.getSelectionModel().select(0);
 		}
 		else if(klassen[0]==2) {
 			klasseLabel.setText("Business");
 			ObservableList<Integer> platz = FXCollections.observableArrayList();
 			platz.addAll(fluege.get(0).getReserviereBusiness());
 			platzCombo.setItems(platz);
+			platzCombo.getSelectionModel().select(0);
 		}
 		//Rückflug
-		if(rueckflug) {
+		if(rueckflug && fluege.get(1)!=null) {
 			vRueckflug.setVisible(true);
 			startLabel1.setText(fluege.get(1).getFluglinie().getStart().getCode());
 			zielLabel1.setText(fluege.get(1).getFluglinie().getZiel().getCode());
 			airlineLabel1.setText(fluege.get(1).getFluglinie().getFluggesellschaft().getName());
-			if(klassen[1]==1) {
+			if(klassen[0]==1) {
 				klasseLabel.setText("Economy");
 				ObservableList<Integer> platz = FXCollections.observableArrayList();
 				platz.addAll(fluege.get(1).getReserviereEconomy());
 				platzCombo1.setItems(platz);
+				platzCombo1.getSelectionModel().select(0);
+			}
+			else if(klassen[0]==2) {
+				klasseLabel.setText("Business");
+				ObservableList<Integer> platz = FXCollections.observableArrayList();
+				platz.addAll(fluege.get(1).getReserviereBusiness());
+				platzCombo1.setItems(platz);
+				platzCombo1.getSelectionModel().select(0);
+			}
+		}
+		//Multi1
+		if(!rueckflug && fluege.get(1)!=null) {
+			vMulti1.setVisible(true);
+			startLabel2.setText(fluege.get(1).getFluglinie().getStart().getCode());
+			zielLabel2.setText(fluege.get(1).getFluglinie().getZiel().getCode());
+			airlineLabel2.setText(fluege.get(1).getFluglinie().getFluggesellschaft().getName());
+			if(klassen[1]==1) {
+				klasseLabel.setText("Economy");
+				ObservableList<Integer> platz = FXCollections.observableArrayList();
+				platz.addAll(fluege.get(1).getReserviereEconomy());
+				platzCombo2.setItems(platz);
+				platzCombo2.getSelectionModel().select(0);
 			}
 			else if(klassen[1]==2) {
 				klasseLabel.setText("Business");
 				ObservableList<Integer> platz = FXCollections.observableArrayList();
 				platz.addAll(fluege.get(1).getReserviereBusiness());
-				platzCombo1.setItems(platz);
+				platzCombo2.setItems(platz);
+				platzCombo2.getSelectionModel().select(0);
 			}
 		}
-		//Multi1
+		//Multi2
 		if(fluege.get(2)!=null) {
-			vMulti1.setVisible(true);
-			startLabel2.setText(fluege.get(2).getFluglinie().getStart().getCode());
-			zielLabel2.setText(fluege.get(2).getFluglinie().getZiel().getCode());
-			airlineLabel2.setText(fluege.get(2).getFluglinie().getFluggesellschaft().getName());
+			vMulti2.setVisible(true);
+			startLabel3.setText(fluege.get(2).getFluglinie().getStart().getCode());
+			zielLabel3.setText(fluege.get(2).getFluglinie().getZiel().getCode());
+			airlineLabel3.setText(fluege.get(2).getFluglinie().getFluggesellschaft().getName());
 			if(klassen[2]==1) {
 				klasseLabel.setText("Economy");
 				ObservableList<Integer> platz = FXCollections.observableArrayList();
 				platz.addAll(fluege.get(2).getReserviereEconomy());
-				platzCombo2.setItems(platz);
+				platzCombo3.setItems(platz);
+				platzCombo3.getSelectionModel().select(0);
 			}
 			else if(klassen[2]==2) {
 				klasseLabel.setText("Business");
 				ObservableList<Integer> platz = FXCollections.observableArrayList();
 				platz.addAll(fluege.get(2).getReserviereBusiness());
-				platzCombo2.setItems(platz);
+				platzCombo3.setItems(platz);
+				platzCombo3.getSelectionModel().select(0);
 			}
 		}
-		//Multi2
+		//Multi3
 		if(fluege.get(3)!=null) {
-			vMulti2.setVisible(true);
-			startLabel3.setText(fluege.get(3).getFluglinie().getStart().getCode());
-			zielLabel3.setText(fluege.get(3).getFluglinie().getZiel().getCode());
-			airlineLabel3.setText(fluege.get(3).getFluglinie().getFluggesellschaft().getName());
+			vMulti3.setVisible(true);
+			startLabel4.setText(fluege.get(3).getFluglinie().getStart().getCode());
+			zielLabel4.setText(fluege.get(3).getFluglinie().getZiel().getCode());
+			airlineLabel4.setText(fluege.get(3).getFluglinie().getFluggesellschaft().getName());
 			if(klassen[3]==1) {
 				klasseLabel.setText("Economy");
 				ObservableList<Integer> platz = FXCollections.observableArrayList();
 				platz.addAll(fluege.get(3).getReserviereEconomy());
-				platzCombo3.setItems(platz);
+				platzCombo4.setItems(platz);
+				platzCombo4.getSelectionModel().select(0);
 			}
 			else if(klassen[3]==2) {
 				klasseLabel.setText("Business");
 				ObservableList<Integer> platz = FXCollections.observableArrayList();
 				platz.addAll(fluege.get(3).getReserviereBusiness());
-				platzCombo3.setItems(platz);
+				platzCombo4.setItems(platz);
+				platzCombo4.getSelectionModel().select(0);
 			}
 		}
-		//Multi3
-		if(fluege.get(4)!=null) {
-			vMulti3.setVisible(true);
-			startLabel4.setText(fluege.get(4).getFluglinie().getStart().getCode());
-			zielLabel4.setText(fluege.get(4).getFluglinie().getZiel().getCode());
-			airlineLabel4.setText(fluege.get(4).getFluglinie().getFluggesellschaft().getName());
-			if(klassen[4]==1) {
-				klasseLabel.setText("Economy");
-				ObservableList<Integer> platz = FXCollections.observableArrayList();
-				platz.addAll(fluege.get(4).getReserviereEconomy());
-				platzCombo4.setItems(platz);
-			}
-			else if(klassen[4]==2) {
-				klasseLabel.setText("Business");
-				ObservableList<Integer> platz = FXCollections.observableArrayList();
-				platz.addAll(fluege.get(4).getReserviereBusiness());
-				platzCombo4.setItems(platz);
-			}
-		}
+		//TODO Gesamtpreis
 	}
 	
-	public void buchung_step1() {}
+	public void buchung_step1() {//klasse, seat, paytime, preise, multi
+		//stelle Flugkombis zusammenhängende Speicherung von Hin/Rück und Multistopp
+		try {
+		if(fluege.get(3)!=null) {
+			//Multistopp 4 Flüge
+			int multi[] = new int[4];
+			for(int i=0;i<fluege.size();i++)
+				multi[i]=fluege.get(i).getId();
+			if(klassen[0] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[0] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+			if(klassen[1] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(1).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(1).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[1] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(1).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(1).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+			if(klassen[2] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(2).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(2).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[2] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(2).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(2).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+			if(klassen[3] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(3).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(3).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[3] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(3).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(3).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));		
+		}
+		else if(fluege.get(2)!=null) {
+			//Multistopp 3 Flüge
+			int multi[] = new int[3];
+			for(int i=0;i<fluege.size();i++)
+				multi[i]=fluege.get(i).getId();
+			if(klassen[0] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[0] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+			if(klassen[1] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(1).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(1).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[1] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(1).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(1).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+			if(klassen[2] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(2).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(2).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[2] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(2).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(2).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+		}
+		else if(fluege.get(1)!=null && !rueckflug) {
+			//Multistopp 2 Flüge
+			int multi[] = new int[2];
+			for(int i=0;i<fluege.size();i++)
+				multi[i]=fluege.get(i).getId();
+			if(klassen[0] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[0] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+			if(klassen[1] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(1).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(1).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[1] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(1).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(1).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+		}
+		else if(fluege.get(1)!=null) {
+			//Hin- und Rückflug
+			int multi[] = new int[2];
+			for(int i=0;i<fluege.size();i++)
+				multi[i]=fluege.get(i).getId();
+			if(klassen[0] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[0] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+			if(klassen[1] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(1).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(1).getFluglinie().getPreisee().toString(),StringUtils.join(multi,",")));
+			else if(klassen[1] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(1).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(1).getFluglinie().getPreiseb().toString(),StringUtils.join(multi,",")));
+		}
+		else if(fluege.get(0)!=null) {
+			//Hinflug
+			if(klassen[0] == 1)
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(),"E", platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreisee().toString(),""));
+			else if(klassen[0] ==2) 
+				db.createBk(new Booking(cur.getBenutzername(), fluege.get(0).getId(), "B",platzCombo.getValue().toString(),"test", fluege.get(0).getFluglinie().getPreiseb().toString(),""));
+		}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		//TODO Szenewechsel zur Buchungsübersicht
+	}
 	public void abbrechen() {}
 
 	//Param
@@ -160,6 +264,5 @@ public class Kunde_buchenController implements Initializable {
 		this.klassen = klassen;
 		this.rueckflug = rueckflug;
 	}
-
 	
 }
