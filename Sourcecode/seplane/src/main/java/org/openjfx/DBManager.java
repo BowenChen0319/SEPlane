@@ -74,7 +74,7 @@ public class DBManager {
 		
 		TableUtils.dropTable(cs, Fluglinie.class, true);
 		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-		//TableUtils.dropTable(cs, Benutzer.class, true);
+		TableUtils.dropTable(cs, Benutzer.class, true);
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		//TableUtils.dropTable(cs, Airport.class, true);
 		//TableUtils.dropTable(cs, Plane.class, true);
@@ -83,7 +83,7 @@ public class DBManager {
 		TableUtils.dropTable(cs, Postfach.class, true);
 
 
-		//TableUtils.createTable(cs, Benutzer.class);
+		TableUtils.createTable(cs, Benutzer.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
 		TableUtils.createTable(cs, Fluglinie.class);
 		TableUtils.createTable(cs, FlugzeugMapping.class);

@@ -1,5 +1,7 @@
 package Controller;
 
+import Models.Flug;
+import Models.Fluglinie;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -7,10 +9,10 @@ import javafx.scene.control.TableView;
 public class FGM_FluegeUebersichtController {
 
     @FXML
-    private TableView<?> fluegeUebersicht_table;
+    private TableView<Flug> fluegeUebersicht_table;
 
     @FXML
-    private TableColumn<?, ?> startflughafen_column;
+    private TableColumn<Flug, ?> startflughafen_column;
 
     @FXML
     private TableColumn<?, ?> zielflughafen_column;
@@ -35,5 +37,13 @@ public class FGM_FluegeUebersichtController {
 
     @FXML
     private TableColumn<?, ?> preisBusiness_column;
+
+    private Fluglinie fluglinie;
+
+    public void passData (Fluglinie fluglinie){
+        this.fluglinie = fluglinie;
+    }
+
+
 
 }
