@@ -40,12 +40,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.time.ZoneId;
+import java.util.*;
 
 import org.openjfx.App;
 import org.openjfx.DBManager;
@@ -132,7 +128,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML TableView<Postfach> messageTable;
 	@FXML TableColumn<Postfach, String> senderCol;
 	@FXML TableColumn<Postfach, String> messageCol;
-	@FXML TableColumn<Postfach, String> dateCol;
+	@FXML TableColumn<Postfach, Date> dateCol;
 	
 	//Inhalte
 	ObservableList<ArrayList<Flug>> flugList;
@@ -333,9 +329,11 @@ public class Kunde_FlugbuchungController implements Initializable {
 		senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
 		messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
+
 	}	
 
 	//-------Nachrichtengedöns
+
 		public void refreshMessages(ActionEvent actionEvent) {
 			String name = new CurrentUser().getCurrent().getBenutzername();
 			ObservableList<Postfach> messages = FXCollections.observableArrayList();

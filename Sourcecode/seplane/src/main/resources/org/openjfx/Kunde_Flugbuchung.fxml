@@ -288,7 +288,7 @@
                               </TableView>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="openButton" alignment="CENTER" mnemonicParsing="false" onAction="#printHallo" text="Open" />
+                                    <Button fx:id="openButton" alignment="CENTER" mnemonicParsing="false"  text="Open" />
                                     <Button fx:id="refreshButton" alignment="CENTER" mnemonicParsing="false" onAction="#refreshMessages" text="Refresh" />
                                     <TextField fx:id="textFieldBox" />
                                  </children>

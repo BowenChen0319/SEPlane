@@ -35,22 +35,11 @@ public class Postfach {
         this.message = mess;
     }
 
-    public String getDateString() {
-        return dateString;
-    }
-
-    public void setDateString(String dateString) {
-        this.dateString = dateString;
-    }
-
-    public Date getDate() {
-
-
-        return date;
-    }
-
-    public void setDate(Date date) {
+    public Postfach(String sender, String receiver, Date date, String message) {
+        this.sender = sender;
+        this.receiver = receiver;
         this.date = date;
+        this.message = message;
     }
 
     public int getId() {
@@ -65,23 +54,41 @@ public class Postfach {
         return sender;
     }
 
-    public void setSenderCol(String senderCol) {
-        this.sender = senderCol;
+    public void setSenderCol(String sender) {
+        this.sender = sender;
     }
 
     public String getReceiverCol() {
         return receiver;
     }
 
-    public void setReceiverCol(String receiverCol) {
-        this.receiver = receiverCol;
+    public void setReceiverCol(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
     }
 
     public String getMessageCol() {
         return message;
     }
 
-    public void setMessageCol(String messageCol) {
-        this.message = messageCol;
+    public void setMessageCol(String message) {
+        this.message = message;
     }
+
+
 }

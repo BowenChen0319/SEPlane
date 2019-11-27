@@ -78,7 +78,7 @@ public class DBManager {
 		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		//TableUtils.dropTable(cs, Airport.class, true);
 		//TableUtils.dropTable(cs, Plane.class, true);
-		TableUtils.dropTable(cs, Flug.class,true);
+		//TableUtils.dropTable(cs, Flug.class,true);
 		TableUtils.dropTable(cs, Booking.class,true);
 		TableUtils.dropTable(cs, Postfach.class, true);
 
@@ -89,7 +89,7 @@ public class DBManager {
 		TableUtils.createTable(cs, FlugzeugMapping.class);
 		//TableUtils.createTable(cs, Airport.class);
 		//TableUtils.createTable(cs, Plane.class);
-		TableUtils.createTable(cs, Flug.class);
+		//TableUtils.createTable(cs, Flug.class);
 		TableUtils.createTable(cs, Booking.class);
 		TableUtils.createTable(cs, Postfach.class);
 	}
@@ -109,7 +109,7 @@ public class DBManager {
 		try {
 			new JsonReaderTool();
 			int size = JsonReaderTool.getJsonSize();
-			System.out.println(size+" Planes in all, it takes few minutes, please wait :)");
+			System.out.println(size+" Updating Planes. it takes few minutes, please wait :)");
 			for(int i=0; i<JsonReaderTool.getJsonSize();i++) {
 				if(JsonReaderTool.readFromJson(i) != null){
 					System.out.println(i+" / "+size);
@@ -737,10 +737,11 @@ public class DBManager {
 
 		return opFList;
 	}
+	public Date convertLocal (LocalDate date) {
+		return Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+	}
 
-
-
-	public void sendMessage(String to, String msg) {
+	public void sendMessage(String to, Date date, String msg) {
 		String sender = new CurrentUser().getCurrent().getBenutzername();
 		FGMDashboard fgD = new FGMDashboard();
 
@@ -754,7 +755,7 @@ public class DBManager {
 			cs = new JdbcPooledConnectionSource(dbURL, "sa", "");
 
 			if (fgD.checkIfuserExists(inUser, cs)) {
-				Postfach pf = new Postfach(sender, inUser, message);
+				Postfach pf = new Postfach(sender, inUser,date, message);
 				//System.out.println(pf.getSenderCol() + " " + pf.getReceiverCol() + " " + pf.getMessageCol());
 				try {
 					pfDao.create(pf);

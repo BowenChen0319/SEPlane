@@ -3,6 +3,10 @@ package Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -176,11 +180,20 @@ public class FGMDashboard implements Initializable{
 
 
 	}
+	public Date convertLocal (LocalDate date) {
+		return Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+	}
 	public void sendMessage(ActionEvent actionEvent){
 //		System.out.println("user: " + receiverBox.getText());
 //		System.out.println("msg: " + messageBox.getText());
 		DBManager db = new DBManager();
-		db.sendMessage(receiverBox.getText(), messageBox.getText());
+		//db.sendMessage(receiverBox.getText(), messageBox.getText());
+		Date d = new Date();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+
+		System.out.println(simpleDateFormat.format(d));
+
+		db.sendMessage(receiverBox.getText(),d , messageBox.getText());
 	}
 	//getter nötig, damit man Im DBmanager auf die messagebox und receiverbox zugreifen kann
 	public TextField getMessageBox() {
@@ -190,5 +203,11 @@ public class FGMDashboard implements Initializable{
 		return receiverBox;
 	}
 
+	public String getStringDate() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String dateString = formatter.format(currentTime);
+		return dateString;
+	}
 
 }
