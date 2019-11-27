@@ -482,6 +482,7 @@ public class FGM_FLDashboard implements Initializable{
 			stage.setTitle("Flug instantiieren");
 			stage.setScene(scene);
 			stage.showAndWait();
+
 		}
 	}
 

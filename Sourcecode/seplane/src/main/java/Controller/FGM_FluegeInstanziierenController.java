@@ -1,10 +1,8 @@
 package Controller;
 
 import Models.Flug;
-import Models.Fluggesellschaft;
 import Models.Fluglinie;
 import Models.Intervall;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +15,6 @@ import org.openjfx.App;
 import org.openjfx.DBManager;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -167,5 +164,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
         flug.setStartzeit(date);
         System.out.println("Flug"+ flugLinie.getId()+ "in"+ date.toString());
         db.createFlug(flug);
+        System.out.println("bus"+flug.getReserviereBusiness().size()+"eco"+flug.getReserviereEconomy().size());
+
     }
 }
