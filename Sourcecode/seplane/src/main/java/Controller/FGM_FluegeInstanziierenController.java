@@ -161,7 +161,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
         Flug flug = new Flug();
         flug.setFluglinie(flugLinie);
         flug.setRestBusiness(flugLinie.getAnzb());
-        flug.setRestEconomy(flugLinie.getAnze());
+       // flug.setRestEconomy(flugLinie.getAnze());
         date.setHours(stunde_choiceBox.getValue());
         date.setMinutes(minute_choiceBox.getValue());
         flug.setStartzeit(date);

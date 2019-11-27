@@ -82,5 +82,7 @@ public class Flug {
 	public int getRestBusiness() {
 		return getReserviereBusiness().size();
 	}
-	
+
+    public void setRestBusiness(int anzb) {
+    }
 }
