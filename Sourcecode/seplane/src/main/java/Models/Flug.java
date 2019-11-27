@@ -14,10 +14,10 @@ public class Flug {
 	Fluglinie fluglinie;
 	@DatabaseField
 	Date startzeit;
-//	@DatabaseField
-//	Integer restEconomy;
-//	@DatabaseField
-//	Integer restBusiness;
+	@DatabaseField
+	Integer restEconomy;
+	@DatabaseField
+	Integer restBusiness;
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	ArrayList<Integer> reserviereEconomy;
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
@@ -59,11 +59,13 @@ public class Flug {
 
 		//reserviereEconomy = StringUtils.join(economys,",");
 		reserviereEconomy=economys;
+		restEconomy=economys.size();
 	}
 	public void setReserviereBusiness(ArrayList<Integer> business) {
 
 		//reserviereBusiness = StringUtils.join(business,",");
 		reserviereBusiness=business;
+		restBusiness=business.size();
 	}
 	public ArrayList<Integer> getReserviereEconomy () {
 //		ArrayList<String> a = new ArrayList<String>(Arrays.asList(reserviereEconomy.split(",")));
