@@ -684,13 +684,23 @@ public class DBManager {
 			//get passende Fluglinie
 			queryFL.where().eq("start_id", start).and().eq("ziel_id", ziel);
 			
+			//Datum vorbereiten: suche nicht in der Vergangenheit
+			LocalDate abflugVon = abflug.minusDays(zeitraum);
+			if(abflugVon.compareTo(LocalDate.now())<0) {
+				System.out.println(abflugVon);
+				abflugVon = LocalDate.now();
+				System.out.println(abflugVon);
+				System.out.println(Date.from(abflugVon.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+				System.out.println(Date.from(abflug.plusDays(zeitraum).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()));
+			}
+				
 			//filter passender Zeitraum, freie Plätze je Klasse
 			//Datum von Anfang des Tages minus Intervall bis Ende/Maximum des Tages plus Intervall
 			if(klasse=="business")
-				queryF.join(queryFL).where().between("startzeit", Date.from(abflug.minusDays(zeitraum).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 
+				queryF.join(queryFL).where().between("startzeit", Date.from(abflugVon.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 
 						Date.from(abflug.plusDays(zeitraum).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant())).and().ge("restBusiness", personen);
 			else
-				queryF.join(queryFL).where().between("startzeit", Date.from(abflug.minusDays(zeitraum).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 
+				queryF.join(queryFL).where().between("startzeit", Date.from(abflugVon.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 
 						Date.from(abflug.plusDays(zeitraum).atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant())).and().ge("restEconomy", personen);
 			f = flugDao.query(queryF.prepare());
 

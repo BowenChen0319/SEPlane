@@ -47,7 +47,7 @@
                   						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                   					</padding>
                   					<children>
-                                    <Button mnemonicParsing="false" onAction="#buchugsOverview" style="-fx-background-color: #42ADB7;" text="Zur Buchungsübersicht" />
+                                    <Button mnemonicParsing="false" onAction="#buchungsOverview" style="-fx-background-color: #42ADB7;" text="Zur Buchungsübersicht" />
                   						<VBox alignment="CENTER" style="-fx-background-color: #2b7eca;">
                   							<children>
                   								<HBox VBox.vgrow="ALWAYS">

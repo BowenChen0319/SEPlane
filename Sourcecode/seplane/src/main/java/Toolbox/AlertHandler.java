@@ -2,6 +2,7 @@ package Toolbox;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Region;
 
 public class AlertHandler {
 	
@@ -52,4 +53,12 @@ public class AlertHandler {
 
 	}
 
+	//Flugbuchung
+	public static void buchungPerson(int person) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Buchung für Person "+person);
+		alert.setHeaderText("Bitte reservieren Sie die Sitzplätze für Person "+person+" , um Ihre Buchung zu vervollständigen.");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.showAndWait();
+	}
 }
