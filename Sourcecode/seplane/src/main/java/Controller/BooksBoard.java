@@ -29,7 +29,6 @@ import org.openjfx.login;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -126,7 +125,7 @@ public class BooksBoard extends Application {
 
                     }else{
                         String multi= ben.getMulti();
-                        ArrayList<String> list = new StringwithArraylist().alisttostr(multi);
+                        ArrayList<String> list = new StringwithArraylist().str2list(multi);
                         System.out.println(list);
                         for(int j=0;j<list.size();j++){
                             //String flugid=list.get(j);
@@ -232,7 +231,7 @@ public class BooksBoard extends Application {
                         }
                     }else{
                         String multi= del.getMulti();
-                        ArrayList<String> list = new StringwithArraylist().alisttostr(multi);
+                        ArrayList<String> list = new StringwithArraylist().str2list(multi);
                         System.out.println(list);
                         for(int j=0;j<list.size();j++){
                             //String flugid=list.get(j);

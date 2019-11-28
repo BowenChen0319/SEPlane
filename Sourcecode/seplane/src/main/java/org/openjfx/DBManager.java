@@ -222,7 +222,7 @@ public class DBManager {
                 //record id
                 index.add(id);
             }
-            String index_str = new StringwithArraylist().strtoalist(index);
+            String index_str = new StringwithArraylist().list2str(index);
             for(int i=0;i<list.size();i++){
                 Booking bk = list.get(i);
                 Booking update = this.getbkwithbk(bk);

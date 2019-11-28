@@ -7,14 +7,16 @@ import java.util.Arrays;
 
 public class StringwithArraylist {
 
-    public String strtoalist(ArrayList<String> list){
+    public String list2str(ArrayList<String> list){
         String str = StringUtils.join(list,",");
         return str;
     }
 
-    public ArrayList<String> alisttostr(String str){
+    public ArrayList<String> str2list(String str){
         ArrayList<String> list= new ArrayList<String>(Arrays.asList(str.split(",")));
         return list;
     }
+
+
 
 }
