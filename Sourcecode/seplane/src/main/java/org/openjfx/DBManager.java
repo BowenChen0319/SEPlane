@@ -5,6 +5,7 @@ import Controller.FGMDashboard;
 import Models.*;
 import Toolbox.AlertHandler;
 import Toolbox.JsonReaderTool;
+import Toolbox.StringwithArraylist;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
@@ -12,8 +13,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -69,26 +68,26 @@ public class DBManager {
 
 	public void setUpDatabase() throws SQLException {
 		
-		//TableUtils.dropTable(cs, Fluglinie.class, true);
-		//TableUtils.dropTable(cs, Fluggesellschaft.class, true);
+		TableUtils.dropTable(cs, Fluglinie.class, true);
+		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
 		//TableUtils.dropTable(cs, Benutzer.class, true);
 		//TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		//TableUtils.dropTable(cs, Airport.class, true);
 		//TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
 		TableUtils.dropTable(cs, Booking.class,true);
-		//TableUtils.dropTable(cs, Postfach.class, true);
+		TableUtils.dropTable(cs, Postfach.class, true);
 
 
 		//TableUtils.createTable(cs, Benutzer.class);
-		//TableUtils.createTable(cs, Fluggesellschaft.class);
-		//TableUtils.createTable(cs, Fluglinie.class);
+		TableUtils.createTable(cs, Fluggesellschaft.class);
+		TableUtils.createTable(cs, Fluglinie.class);
 		//TableUtils.createTable(cs, FlugzeugMapping.class);
 		//TableUtils.createTable(cs, Airport.class);
 		//TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
 		TableUtils.createTable(cs, Booking.class);
-		//TableUtils.createTable(cs, Postfach.class);
+		  TableUtils.createTable(cs, Postfach.class);
 	}
 
 	public void refreshbooking() throws SQLException {
@@ -223,7 +222,7 @@ public class DBManager {
                 //record id
                 index.add(id);
             }
-            String index_str = StringUtils.join(index,",");
+            String index_str = new StringwithArraylist().strtoalist(index);
             for(int i=0;i<list.size();i++){
                 Booking bk = list.get(i);
                 Booking update = this.getbkwithbk(bk);
