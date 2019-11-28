@@ -95,6 +95,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
             c.setTime(flugLinie.getStartdatum());
             c.add(c.DATE, 180);
             flugLinie.setFluegeInstanziiertBis(c.getTime());
+            db.updateFL(flugLinie);
 
             if (stunde_choiceBox.getValue() != null) {
 
