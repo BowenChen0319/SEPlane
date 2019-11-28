@@ -4,6 +4,7 @@ package Controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -38,6 +39,7 @@ import javafx.scene.control.ChoiceBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -311,6 +313,7 @@ public class Kunde_FlugbuchungController implements Initializable {
                             setText(null);
                         } else {
                         	kaufen.setOnAction(event -> {
+                        		
                         		ArrayList<Flug> fluege = getTableView().getItems().get(getIndex());
                                 kaufe(fluege, event);
                             });
@@ -371,8 +374,20 @@ public class Kunde_FlugbuchungController implements Initializable {
 //		}
 		
 //------Button zur Buchungsübersicht
-		public void buchugsOverview(ActionEvent event) {
-			//TODO Szenewechsel zu Buchungsübersicht
+		public void buchungsOverview(ActionEvent event) {
+			 Platform.runLater(new Runnable() {
+                 @Override
+                 public void run() {
+                     try {
+                         new BooksBoard().start(new Stage());
+
+                     } catch (IOException | SQLException e) {
+                         e.printStackTrace();
+
+                     }
+                 }
+             });
+			 ((Node) event.getSource()).getScene().getWindow().hide();
 		}
 		
 //------Kaufen
@@ -396,11 +411,9 @@ public class Kunde_FlugbuchungController implements Initializable {
 			if(multiCheck2.isSelected() && tg3.getSelectedToggle().equals(toggleBus3))
 				klassen[3] = 2;
 			else klassen[3] = 1;
-			//TODO wnen nix ausgewählt und auf Button klickt... statt selection model button click verfolgen!!!
-			System.out.println(suchergebnis.getSelectionModel().getSelectedItem().get(0).getStartzeit());
 			
 			Kunde_buchenController k = new Kunde_buchenController();
-			k.setFlugArray(suchergebnis.getSelectionModel().getSelectedItem(), rueckflug, klassen);
+			k.setFlugArray(fluege, rueckflug, klassen, personenZahl.getValue());
 			
 			//Open Pop-Up
 			Node source = (Node) event.getSource();
@@ -408,21 +421,17 @@ public class Kunde_FlugbuchungController implements Initializable {
 			AnchorPane neueFL = new AnchorPane();
 			FXMLLoader loader = new FXMLLoader(App.class.getResource("Kunde_buchen.fxml"));
 			loader.setController(k);
-			//TODO check wieso hier initialize dieser TabFxml aufgerufen wird
 			try {
 				neueFL = (AnchorPane)loader.load();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Stage stage = new Stage();
-			stage.initModality(Modality.APPLICATION_MODAL); //überlagert immer
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.initOwner(parentStage);
 			Scene scene = new Scene(neueFL);
 			stage.setScene(scene);
-			
-			
-			
+	
 			stage.showAndWait();
 		}
 

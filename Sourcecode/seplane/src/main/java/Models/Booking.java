@@ -32,7 +32,7 @@ public class Booking {
     public Booking() {}
 
     public Booking(String username,Integer flugid,String classe, String seat,
-                   String paytime, String preise, String multi) throws Exception {
+                   String paytime, String preise, String multi) {
         this.username=username;
         this.flugid=flugid;
         this.classe=classe;
@@ -41,7 +41,12 @@ public class Booking {
         this.preise=preise;
 
         this.multi=multi;
-        this.HashNr= Encryption.getSaltedHash(this.getStringDate());
+        try {
+			this.HashNr= Encryption.getSaltedHash(this.getStringDate());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     }
 

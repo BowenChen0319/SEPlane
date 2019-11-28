@@ -22,7 +22,7 @@ public class Flug {
 	ArrayList<Integer> reserviereEconomy;
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	ArrayList<Integer> reserviereBusiness;
-	//TODO später auch String mit IDs welche vergeben sind!
+
 	
 	public Flug() {}
 	
@@ -101,6 +101,13 @@ public class Flug {
 	}
 	public void setRestEconomy() {
 		restEconomy = getReserviereEconomy().size();
+	}
+	//Sitzplatzreservierung entferne Sitzplatz
+	public void removeEconomy(Integer sitz) {
+		reserviereEconomy.remove(sitz);
+	}
+	public void removeBusiness(Integer sitz) {
+		reserviereBusiness.remove(sitz);
 	}
 
 }

@@ -95,6 +95,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
             c.setTime(flugLinie.getStartdatum());
             c.add(c.DATE, 180);
             flugLinie.setFluegeInstanziiertBis(c.getTime());
+            db.updateFL(flugLinie);
 
             if (stunde_choiceBox.getValue() != null) {
 
@@ -189,8 +190,8 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     public void flugAnlegen(Date date){
         Flug flug = new Flug();
         flug.setFluglinie(flugLinie);
-        //flug.setRestBusiness(flugLinie.getAnzb());
-        //flug.setRestEconomy(flugLinie.getAnze());
+        flug.createReserviereBusiness(flugLinie.getAnzb());
+		flug.createReserviereEconomy(flugLinie.getAnze(), flugLinie.getAnzb());
         date.setHours(stunde_choiceBox.getValue());
         date.setMinutes(minute_choiceBox.getValue());
         flug.setStartzeit(date);
