@@ -3,6 +3,7 @@ package Controller;
 import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentUser;
+import Toolbox.StringwithArraylist;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -125,7 +126,7 @@ public class BooksBoard extends Application {
 
                     }else{
                         String multi= ben.getMulti();
-                        ArrayList<String> list = new ArrayList<String>(Arrays.asList(multi.split(",")));
+                        ArrayList<String> list = new StringwithArraylist().alisttostr(multi);
                         System.out.println(list);
                         for(int j=0;j<list.size();j++){
                             //String flugid=list.get(j);
@@ -231,7 +232,7 @@ public class BooksBoard extends Application {
                         }
                     }else{
                         String multi= del.getMulti();
-                        ArrayList<String> list = new ArrayList<String>(Arrays.asList(multi.split(",")));
+                        ArrayList<String> list = new StringwithArraylist().alisttostr(multi);
                         System.out.println(list);
                         for(int j=0;j<list.size();j++){
                             //String flugid=list.get(j);
