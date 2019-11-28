@@ -47,6 +47,9 @@ public class Fluglinie {
 	@DatabaseField
 	private Double preiseb;
 
+	@DatabaseField
+	Date fluegeInstanziiertBis;
+
 	public Fluglinie() {}
 	
 	public Fluglinie(Airport start, Airport ziel, Date startdatum, Double entf, Intervall intervall, Fluggesellschaft fg,
@@ -164,4 +167,13 @@ public class Fluglinie {
 	public void setPreiseb(Double preiseb) {
 		this.preiseb = preiseb;
 	}
+
+	public Date getFluegeInstanziiertBis() {
+		return fluegeInstanziiertBis;
+	}
+
+	public void setFluegeInstanziiertBis(Date fluegeInstanziiertBis) {
+		this.fluegeInstanziiertBis = fluegeInstanziiertBis;
+	}
+
 }

@@ -69,7 +69,7 @@ public class Flug {
 
 		return reserviereBusiness;
 	}
-	
+
 	//Flüge instantiieren, Array erstellen
 	public void createReserviereEconomy(int anzahlE, int anzahlB) {
 		this.reserviereEconomy = new ArrayList<>();

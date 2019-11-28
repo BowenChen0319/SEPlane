@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.openjfx.App;
 import org.openjfx.DBManager;
@@ -88,59 +89,90 @@ public class FGM_FluegeInstanziierenController implements Initializable {
         System.out.println("Instanziieren");
         this.flugAnlegen(flugLinie.getStartdatum());
 
-        if (flugLinie.getIntervall()== Intervall.Täglich){
+        if (flugLinie.getFluegeInstanziiertBis()==null) {
 
-            int a = 1;
-            Date naechsterFlug = flugLinie.getStartdatum();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(naechsterFlug);
+            Calendar c = Calendar.getInstance();
+            c.setTime(flugLinie.getStartdatum());
+            c.add(c.DATE, 180);
+            flugLinie.setFluegeInstanziiertBis(c.getTime());
+
+            if (stunde_choiceBox.getValue() != null) {
+
+                if(minute_choiceBox.getValue()!=null) {
+
+                    if (flugLinie.getIntervall() == Intervall.Täglich) {
+
+                        int a = 1;
+                        Date naechsterFlug = flugLinie.getStartdatum();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(naechsterFlug);
 
 
-            while (a < 180){
+                        while (a < 180) {
 
-                // naechsterFlug um einen Tag nach vorne Setzen
-                calendar.add(Calendar.DATE, 1);
-                this.flugAnlegen(calendar.getTime());
-                a++;
+                            // naechsterFlug um einen Tag nach vorne Setzen
+                            calendar.add(Calendar.DATE, 1);
+                            this.flugAnlegen(calendar.getTime());
+                            a++;
+                        }
+                        String message = "Die Fluege wurden erfolgreich instanziiert.";
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                        alert.showAndWait();
+                    } else if (flugLinie.getIntervall() == Intervall.alle_3_Tage) {
+
+                        int a = 1;
+                        Date naechsterFlug = flugLinie.getStartdatum();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(naechsterFlug);
+
+                        while (a < 60) {
+
+                            // naechsterFlug um drei Tage nach vorne Setzen
+                            calendar.add(Calendar.DATE, 3);
+                            this.flugAnlegen(calendar.getTime());
+                            a++;
+                        }
+                        String message = "Die Fluege wurden erfolgreich instanziiert.";
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                        alert.showAndWait();
+                    } else {
+
+                        int a = 1;
+                        Date naechsterFlug = flugLinie.getStartdatum();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(naechsterFlug);
+
+                        while (a < 25) {
+
+                            // naechsterFlug um eine Woche nach vorne Setzen
+                            calendar.add(Calendar.DATE, 7);
+                            this.flugAnlegen(calendar.getTime());
+                            a++;
+                        }
+                        String message = "Die Fluege wurden erfolgreich instanziiert.";
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                        alert.showAndWait();
+                    }
+                }
+                else{
+                    String errorMessage = "Bitte geben Sie eine Minute an.";
+                    Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.showAndWait();
+                }
             }
-            String message = "Die Fluege wurden erfolgreich instanziiert.";
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
-            alert.showAndWait();
-        }
-        else if (flugLinie.getIntervall()==Intervall.alle_3_Tage){
 
-            int a = 1;
-            Date naechsterFlug = flugLinie.getStartdatum();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(naechsterFlug);
-
-            while (a < 60){
-
-                // naechsterFlug um drei Tage nach vorne Setzen
-                calendar.add(Calendar.DATE, 3);
-                this.flugAnlegen(calendar.getTime());
-                a++;
+            else{
+                String errorMessage = "Bitte geben Sie eine Stunde an.";
+                Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.showAndWait();
             }
-            String message = "Die Fluege wurden erfolgreich instanziiert.";
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
-            alert.showAndWait();
         }
         else{
-
-            int a = 1;
-            Date naechsterFlug = flugLinie.getStartdatum();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(naechsterFlug);
-
-            while (a < 25){
-
-                // naechsterFlug um eine Woche nach vorne Setzen
-                calendar.add(Calendar.DATE, 7);
-                this.flugAnlegen(calendar.getTime());
-                a++;
-            }
-            String message = "Die Fluege wurden erfolgreich instanziiert.";
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+            String errorMessage = "Die Fluege fuer diese Flluglinie wurden bereits instanziiert.";
+            Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
         }
 
@@ -157,8 +189,8 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     public void flugAnlegen(Date date){
         Flug flug = new Flug();
         flug.setFluglinie(flugLinie);
-        flug.setRestBusiness(flugLinie.getAnzb());
-        flug.setRestEconomy(flugLinie.getAnze());
+        //flug.setRestBusiness(flugLinie.getAnzb());
+        //flug.setRestEconomy(flugLinie.getAnze());
         date.setHours(stunde_choiceBox.getValue());
         date.setMinutes(minute_choiceBox.getValue());
         flug.setStartzeit(date);
