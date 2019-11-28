@@ -29,9 +29,7 @@ public class Flug {
 	public Flug(Fluglinie fl, Date start, ArrayList<Integer> resEco, ArrayList<Integer> resBus) {
 		startzeit = start;
 		fluglinie = fl;
-		//reserviereEconomy = StringUtils.join(resEco,",");
 		reserviereEconomy=resEco;
-		//reserviereBusiness = StringUtils.join(resBus,",");
 		reserviereBusiness=resBus;
 	}
 	
@@ -57,33 +55,39 @@ public class Flug {
 	
 	public void setReserviereEconomy(ArrayList<Integer> economys) {
 
-		//reserviereEconomy = StringUtils.join(economys,",");
 		reserviereEconomy=economys;
-		restEconomy=economys.size();
 	}
 	public void setReserviereBusiness(ArrayList<Integer> business) {
 
-		//reserviereBusiness = StringUtils.join(business,",");
 		reserviereBusiness=business;
-		restBusiness=business.size();
 	}
 	public ArrayList<Integer> getReserviereEconomy () {
-//		ArrayList<String> a = new ArrayList<String>(Arrays.asList(reserviereEconomy.split(",")));
-//		ArrayList<Integer> res = new ArrayList<Integer>();
-//		for(String r : a)
-//			res.add(Integer.parseInt(r));
-//		return res;
+
 		return reserviereEconomy;
 	}
 	public ArrayList<Integer> getReserviereBusiness () {
-//		ArrayList<String> a = new ArrayList<String>(Arrays.asList(reserviereBusiness.split(",")));
-//		ArrayList<Integer> res = new ArrayList<Integer>();
-//		for(String r : a)
-//			res.add(Integer.parseInt(r));
-//		return res;
+
 		return reserviereBusiness;
 	}
 	
+	//Flüge instantiieren, Array erstellen
+	public void createReserviereEconomy(int anzahlE, int anzahlB) {
+		this.reserviereEconomy = new ArrayList<>();
+		for(int i=0; i<anzahlE; i++) {
+			reserviereEconomy.add(i, i+1+anzahlB);
+		}
+		setRestEconomy();
+	}
+	
+	public void createReserviereBusiness(int anzahlB) {
+		this.reserviereBusiness = new ArrayList<>();
+		for(int i=0; i<anzahlB; i++) {
+			reserviereBusiness.add(i, i+1);
+		}
+		setRestBusiness();
+	}
+	
+	//Flugsuche Flüge mit freien Plätzen
 	public int getRestEconomy() {
 		return getReserviereEconomy().size();
 	}
@@ -91,20 +95,12 @@ public class Flug {
 	public int getRestBusiness() {
 		return getReserviereBusiness().size();
 	}
-
-	public void setRestBusiness(int anzb) {
-		ArrayList<Integer> newb = new ArrayList<>();
-		for(int i=0;i<anzb;i++){
-			newb.add(i+1);
-		}
-		this.setReserviereBusiness(newb);
+	//auf DB für Workaround Array-Feld auf DB bei Abfrage zählen
+	public void setRestBusiness() {
+		restBusiness = getReserviereBusiness().size();
+	}
+	public void setRestEconomy() {
+		restEconomy = getReserviereEconomy().size();
 	}
 
-	public void setRestEconomy(int anze) {
-		ArrayList<Integer> newe = new ArrayList<>();
-		for(int i=0;i<anze;i++){
-			newe.add(i+1);
-		}
-		this.setReserviereEconomy(newe);
-	}
 }

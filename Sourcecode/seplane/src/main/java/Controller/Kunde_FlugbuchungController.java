@@ -396,6 +396,8 @@ public class Kunde_FlugbuchungController implements Initializable {
 			if(multiCheck2.isSelected() && tg3.getSelectedToggle().equals(toggleBus3))
 				klassen[3] = 2;
 			else klassen[3] = 1;
+			//TODO wnen nix ausgewählt und auf Button klickt... statt selection model button click verfolgen!!!
+			System.out.println(suchergebnis.getSelectionModel().getSelectedItem().get(0).getStartzeit());
 			
 			Kunde_buchenController k = new Kunde_buchenController();
 			k.setFlugArray(suchergebnis.getSelectionModel().getSelectedItem(), rueckflug, klassen);
@@ -500,10 +502,11 @@ public class Kunde_FlugbuchungController implements Initializable {
 				klasse = "business";
 			else klasse = "economy";
 			List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
-			List<Flug> rueckflug = db.sucheHinflug(zielFH.getValue(),startFH.getValue(), rueckdatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
+			List<Flug> rueckflug = db.sucheHinflug(zielFH.getValue(),startFH.getValue(), rueckdatum.getValue(), zeitraumRueck.getValue(), personenZahl.getValue(), klasse);
 			
 			for(Flug hin:hinflug) {
 				for(Flug rueck: rueckflug) {
+					System.out.println("Hin: "+hin.getStartzeit() + " Rück: "+rueck.getStartzeit());
 					if(hin.getStartzeit().compareTo(rueck.getStartzeit())<0) {
 						ArrayList<Flug>templist = new ArrayList<Flug>();
 						templist.add(hin);
