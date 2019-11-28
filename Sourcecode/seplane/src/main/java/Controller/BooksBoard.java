@@ -100,7 +100,7 @@ public class BooksBoard extends Application {
                 ArrayList<Integer> notwo = new ArrayList<Integer>();
                 for (int i = 0; i < all.size(); i++) {
                     Booking ben = all.get(i);
-                    if(ben.getMulti().equals("")){
+                    if(ben.getMulti().equals("")||ben.getMulti().equals(",")){
                         if(ben.getFlug()!=null){
                             data.add("BookingID :" + ben.getId()
                                     + "    Flight von " + ben.getFluglinie().getStart().getCode()

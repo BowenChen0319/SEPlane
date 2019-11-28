@@ -254,6 +254,18 @@ public class login extends Application {
                                                 try {
                                                     new CurrentUser().setCurrent(finalB1);
                                                     new kunde_windows().start(new Stage());
+                                                    //Flugsuche
+//                                                    new CurrentUser().setCurrent(finalB1);
+//                                                    //new kunde_windows().start(new Stage());
+//                                                    Stage stage1 = new Stage();
+//                                                    primaryStage.setResizable(true);
+//                                                    Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
+//                                                    //Parent fgm1 = FXMLLoader.load(getClass().getResource("booking_overview.fxml"));
+//                                                    Scene fgmScene = new Scene(fgm1);
+//                                                    stage1 = primaryStage;
+//                                                    stage1.setScene(fgmScene);
+//                                                    fitScreen(stage1);
+//                                                    stage1.setResizable(true);
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
 
@@ -270,13 +282,6 @@ public class login extends Application {
                                                     new CurrentUser().setCurrent(finalB1);
                                                     new BooksBoard().start(new Stage());
 
-                                                    //Flugsuche
-                                                    
-//                                                    primaryStage.setResizable(true);
-//                                                    Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
-//                                                    Scene fgmScene = new Scene(fgm1);
-//                                                    primaryStage.setScene(fgmScene);
-//                                                    fitScreen(primaryStage);
                                                 } catch (IOException | SQLException e) {
                                                     e.printStackTrace();
 
