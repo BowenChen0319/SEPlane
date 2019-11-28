@@ -502,6 +502,17 @@ public class DBManager {
 			return null;
 		}	
 	}
+
+	public List<Flug> getFluege(){
+		List<Flug> all;
+		try {
+			all= flugDao.queryForAll();
+			return all;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 
 	public List<Benutzer> getallUser() {
