@@ -85,7 +85,7 @@ public class Kunde_buchenController implements Initializable {
 			platzCombo.getSelectionModel().select(0);
 		}
 		//Rückflug
-		if(rueckflug && fluege.get(1)!=null) {
+		if(rueckflug && fluege.size()==2) {
 			vRueckflug.setVisible(true);
 			startLabel1.setText(fluege.get(1).getFluglinie().getStart().getCode());
 			zielLabel1.setText(fluege.get(1).getFluglinie().getZiel().getCode());
@@ -106,7 +106,7 @@ public class Kunde_buchenController implements Initializable {
 			}
 		}
 		//Multi1
-		if(!rueckflug && fluege.get(1)!=null) {
+		if(!rueckflug && fluege.size()==2) {
 			vMulti1.setVisible(true);
 			startLabel2.setText(fluege.get(1).getFluglinie().getStart().getCode());
 			zielLabel2.setText(fluege.get(1).getFluglinie().getZiel().getCode());
@@ -127,7 +127,7 @@ public class Kunde_buchenController implements Initializable {
 			}
 		}
 		//Multi2
-		if(fluege.get(2)!=null) {
+		if(fluege.size()==3) {
 			vMulti2.setVisible(true);
 			startLabel3.setText(fluege.get(2).getFluglinie().getStart().getCode());
 			zielLabel3.setText(fluege.get(2).getFluglinie().getZiel().getCode());
@@ -148,7 +148,7 @@ public class Kunde_buchenController implements Initializable {
 			}
 		}
 		//Multi3
-		if(fluege.get(3)!=null) {
+		if(fluege.size()==4) {
 			vMulti3.setVisible(true);
 			startLabel4.setText(fluege.get(3).getFluglinie().getStart().getCode());
 			zielLabel4.setText(fluege.get(3).getFluglinie().getZiel().getCode());
