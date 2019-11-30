@@ -176,4 +176,23 @@ public class Fluglinie {
 		this.fluegeInstanziiertBis = fluegeInstanziiertBis;
 	}
 
+	@Override
+	public String toString() {
+		return "Fluglinie{" +
+				"id=" + id +
+				", start=" + start +
+				", ziel=" + ziel +
+				", startdatum=" + startdatum +
+				", entfernung=" + entfernung +
+				", intervall=" + intervall +
+				", fluggesellschaft=" + fluggesellschaft +
+				", flugzeug=" + flugzeug +
+				", flugnummer=" + flugnummer +
+				", anze=" + anze +
+				", anzb=" + anzb +
+				", preisee=" + preisee +
+				", preiseb=" + preiseb +
+				", fluegeInstanziiertBis=" + fluegeInstanziiertBis +
+				'}';
+	}
 }

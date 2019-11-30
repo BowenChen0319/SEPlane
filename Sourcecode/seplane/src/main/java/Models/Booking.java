@@ -142,4 +142,18 @@ public class Booking {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", flugid=" + flugid +
+                ", classe='" + classe + '\'' +
+                ", seat='" + seat + '\'' +
+                ", paytime='" + paytime + '\'' +
+                ", preise='" + preise + '\'' +
+                ", multi='" + multi + '\'' +
+                ", HashNr='" + HashNr + '\'' +
+                '}';
+    }
 }

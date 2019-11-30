@@ -71,7 +71,7 @@ public class DBManager {
 		TableUtils.dropTable(cs, Fluglinie.class, true);
 		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
 		//TableUtils.dropTable(cs, Benutzer.class, true);
-		//TableUtils.dropTable(cs, FlugzeugMapping.class, true);
+		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 		//TableUtils.dropTable(cs, Airport.class, true);
 		//TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
@@ -82,7 +82,7 @@ public class DBManager {
 		//TableUtils.createTable(cs, Benutzer.class);
 		TableUtils.createTable(cs, Fluggesellschaft.class);
 		TableUtils.createTable(cs, Fluglinie.class);
-		//TableUtils.createTable(cs, FlugzeugMapping.class);
+		TableUtils.createTable(cs, FlugzeugMapping.class);
 		//TableUtils.createTable(cs, Airport.class);
 		//TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
@@ -632,7 +632,8 @@ public class DBManager {
 
 
 
-	public Fluglinie getFluglinie(int id) throws SQLException {
+
+	public Fluglinie getFluglinie(int id){
 		Fluglinie fl = null;
 		try {
 			fl = flDao.queryForId(id);
@@ -641,6 +642,46 @@ public class DBManager {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	public List<Fluglinie> getFluglienenListe(int id){
+		QueryBuilder<Fluglinie, Integer> queryFL = flDao.queryBuilder();
+		List<Fluglinie> flugList = null;
+		//ObservableList<Fluglinie> oBFLList = FXCollections.observableArrayList();
+		try{
+			queryFL.where().eq("ID", id);
+			flugList = flDao.query(queryFL.prepare());
+
+			//oBFLList.addAll(flugList);
+//			for(Fluglinie f : flugList )
+//			{
+//				System.out.println(f.toString());
+//			}
+		}catch (SQLException e){
+			e.printStackTrace();
+			System.out.println("Keine valide SQL Anfrage!");
+		}
+		return flugList;
+	}
+	//noch nach MULTI filtern
+	public List<Booking> getBookingsForUser(String benutzername)  {
+		QueryBuilder<Booking, Integer> queryBk = bkDao.queryBuilder();
+		String user = benutzername.toLowerCase();
+		ObservableList<Booking> obBKList = FXCollections.observableArrayList();
+		List<Booking> bkList = null;
+
+		try {
+			queryBk.where().eq("USERNAME", user);
+			bkList = bkDao.query(queryBk.prepare());
+
+			obBKList.addAll(bkList);
+			//System.out.println(bkList.get(0).getFlugid());
+		}catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("Invalides SQL Statement");
+		}
+
+		return obBKList;
 	}
 	
 	//zum Anzeigen der jew. Fluggesellschaft des Managers
