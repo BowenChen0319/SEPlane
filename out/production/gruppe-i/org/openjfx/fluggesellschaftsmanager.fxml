@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FGM_FGDashboard">
+   <children>
+      <HBox alignment="CENTER" layoutX="220.0" layoutY="345.0" spacing="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="anlegen_button" mnemonicParsing="false" onAction="#handleAnlegen" text="anlegen" />
+            <Button fx:id="bearbeiten_button" mnemonicParsing="false" onAction="#handleBearbeiten" text="bearbeiten" visible="false" />
+            <Button fx:id="FlugzeugKaufen_button" mnemonicParsing="false" onAction="#handleFlugzeugKaufen" text="Flugzeug kaufen" />
+            <Button fx:id="fluegeUebersicht_button" mnemonicParsing="false" onAction="#handleFluegeUebersicht" text="Fluege Uebersicht" />
+            <Button mnemonicParsing="false" onAction="#handleRefresh" text="Refresh" />
+         </children>
+      </HBox>
+      <VBox layoutX="100.0" layoutY="119.0" spacing="40.0">
+         <children>
+            <Label text="Name:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="Land:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="Budget (in Mio. €):">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Label layoutX="215.0" layoutY="37.0" text="Fluggesellschaft">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <VBox layoutX="289.0" layoutY="119.0" spacing="40.0">
+         <children>
+            <Label fx:id="nameInhalt_label" onInputMethodTextChanged="#handleRefresh" text="Leer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="landInhalt_label" onInputMethodTextChanged="#handleRefresh" text="Leer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="bugetInhalt_label" onInputMethodTextChanged="#handleRefresh" text="Leer">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
