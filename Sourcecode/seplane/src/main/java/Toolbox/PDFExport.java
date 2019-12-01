@@ -31,10 +31,11 @@ public class PDFExport {
     public void createPdf(String dest) throws IOException, DocumentException {
         Document document = new Document();
         DBManager db = new DBManager();
-        PdfWriter.getInstance(document, new FileOutputStream(dest));
-        //String user = new CurrentUser().getCurrent().getBenutzername();
         String user = "kunde1";
         user.toLowerCase();
+        PdfWriter.getInstance(document, new FileOutputStream(dest + "\\" + user + ".pdf"));
+        //String user = new CurrentUser().getCurrent().getBenutzername();
+
 
         List<Booking> bookingFromKunde = db.getallBookingFromUser(user);
         document.open();
