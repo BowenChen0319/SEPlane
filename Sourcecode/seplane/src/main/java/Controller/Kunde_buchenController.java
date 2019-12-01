@@ -1,16 +1,5 @@
 package Controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openjfx.App;
-import org.openjfx.DBManager;
-
 import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentUser;
@@ -27,6 +16,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.openjfx.App;
+import org.openjfx.DBManager;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class Kunde_buchenController implements Initializable {
 	//Hinflug
@@ -76,6 +73,7 @@ public class Kunde_buchenController implements Initializable {
 	
 	DBManager db = App.db;
 	Benutzer cur = new CurrentUser().getCurrent();
+	String be = cur.getBenutzername();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -207,8 +205,10 @@ public class Kunde_buchenController implements Initializable {
 			buchung();
 		
 		//Buchungen auf DB speichern
-		for(Booking b : booking)
-			db.createBk(b);
+			//TODO Booking List
+			System.out.println(booking);
+		db.creatbookinginlist(booking);
+
 		//Update Fluege auf DB, entferne die freien Plätze
 		for(Flug f : fluege)
 			db.updateFlug(f);
@@ -232,144 +232,205 @@ public class Kunde_buchenController implements Initializable {
 	}
 	public void buchung() {
 		//stelle Flugkombis zusammenhängende Speicherung von Hin/Rück und Multistopp
-		if(fluege.size()==4) {
-			//Multistopp 4 Flüge
-			int multi[] = new int[4];
-			for(int i=0;i<fluege.size();i++)
-				multi[i]=fluege.get(i).getId();
-			
-			//Hinflug
-			if(klassen[0] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(0), "E", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(0).removeEconomy(platzCombo.getValue());
+		Integer anzahl = fluege.size();
+
+		if(fluege.size()==2 && rueckflug){
+			//Hin
+			Integer i=0;
+			if(klassen[i] == 1) {
+				booking.add(new Booking(cur, fluege.get(i), "E", platzCombo.getValue(), fluege.get(i).getFluglinie().getPreisee()));
+				fluege.get(i).removeEconomy(platzCombo.getValue());
 			}
-			else if(klassen[0] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(0), "B", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(0).removeBusiness(platzCombo.getValue());
+			else if(klassen[i] ==2) {
+				booking.add(new Booking(cur, fluege.get(i), "B", platzCombo.getValue(), fluege.get(i).getFluglinie().getPreisee()));
+				fluege.get(i).removeEconomy(platzCombo.getValue());
 			}
-			//Multi1
-			if(klassen[1] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(1), "E", platzCombo2.getValue(),"test", fluege.get(1).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(1).removeEconomy(platzCombo2.getValue());
+			//Rueck
+			i=1;
+			if(klassen[i] == 1) {
+				booking.add(new Booking(cur, fluege.get(i), "E", platzCombo1.getValue(), fluege.get(i).getFluglinie().getPreisee()));
+				fluege.get(i).removeEconomy(platzCombo1.getValue());
 			}
-			else if(klassen[1] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(1), "B", platzCombo2.getValue(),"test", fluege.get(1).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(1).removeBusiness(platzCombo2.getValue());
+			else if(klassen[i] ==2) {
+				booking.add(new Booking(cur, fluege.get(i), "B", platzCombo1.getValue(), fluege.get(i).getFluglinie().getPreisee()));
+				fluege.get(i).removeEconomy(platzCombo1.getValue());
 			}
-			//Multi2
-			if(klassen[2] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(2), "E", platzCombo3.getValue(),"test", fluege.get(2).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(2).removeEconomy(platzCombo3.getValue());
+		}else{
+			//Multistop
+			//Get the Seat
+			ArrayList<Integer> sitz = new ArrayList<Integer>();
+			if(anzahl==1){
+				sitz.clear();
+				sitz.add(platzCombo.getValue());
+			}else if(anzahl==2){
+				sitz.clear();
+				sitz.add(platzCombo.getValue());
+				sitz.add(platzCombo2.getValue());
+			}else if(anzahl==3){
+				sitz.clear();
+				sitz.add(platzCombo.getValue());
+				sitz.add(platzCombo2.getValue());
+				sitz.add(platzCombo3.getValue());
+			}else if(anzahl==4){
+				sitz.clear();
+				sitz.add(platzCombo.getValue());
+				sitz.add(platzCombo2.getValue());
+				sitz.add(platzCombo3.getValue());
+				sitz.add(platzCombo4.getValue());
 			}
-			else if(klassen[2] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(2), "B", platzCombo3.getValue(),"test", fluege.get(2).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(2).removeBusiness(platzCombo3.getValue());
-			}
-			//Multi3
-			if(klassen[3] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(3), "E", platzCombo4.getValue(),"test", fluege.get(3).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(3).removeEconomy(platzCombo4.getValue());
-			}
-			else if(klassen[3] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(3), "B", platzCombo4.getValue(),"test", fluege.get(3).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(3).removeBusiness(platzCombo4.getValue());
-			}
-		}
-		else if(fluege.size()==3) {
-			//Multistopp 3 Flüge
-			int multi[] = new int[3];
-			for(int i=0;i<fluege.size();i++)
-				multi[i]=fluege.get(i).getId();
-			
-			//Hinflug
-			if(klassen[0] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(0), "E", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(0).removeEconomy(platzCombo.getValue());
-			}
-			else if(klassen[0] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(0), "B", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(0).removeBusiness(platzCombo.getValue());
-			}
-			//Multi1
-			if(klassen[1] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(1), "E", platzCombo2.getValue(),"test", fluege.get(1).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(1).removeEconomy(platzCombo2.getValue());
-			}
-			else if(klassen[1] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(1), "B", platzCombo2.getValue(),"test", fluege.get(1).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(1).removeBusiness(platzCombo2.getValue());
-			}
-			//Multi2
-			if(klassen[2] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(2), "E", platzCombo3.getValue(),"test", fluege.get(2).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(2).removeEconomy(platzCombo3.getValue());
-			}
-			else if(klassen[2] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(2), "B", platzCombo3.getValue(),"test", fluege.get(2).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(2).removeBusiness(platzCombo3.getValue());
+			//Add to DB with list
+			for(int i =0;i<anzahl;i++){
+				if(klassen[i] == 1) {
+					booking.add(new Booking(cur, fluege.get(i), "E", sitz.get(i), fluege.get(0).getFluglinie().getPreisee()));
+					fluege.get(i).removeEconomy(sitz.get(i));
+				}
+				else if(klassen[i] ==2) {
+					booking.add(new Booking(cur, fluege.get(i), "B", sitz.get(i), fluege.get(0).getFluglinie().getPreisee()));
+					fluege.get(i).removeEconomy(sitz.get(i));
+				}
 			}
 		}
-		else if(fluege.size()==2 && !rueckflug) {
-			//Multistopp 2 Flüge
-			int multi[] = new int[2];
-			for(int i=0;i<fluege.size();i++)
-				multi[i]=fluege.get(i).getId();
-			
-			//Hinflug
-			if(klassen[0] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(0), "E", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(0).removeEconomy(platzCombo.getValue());
-			}
-			else if(klassen[0] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(0), "B", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(0).removeBusiness(platzCombo.getValue());
-			}
-			//Multi1
-			if(klassen[1] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(1), "E", platzCombo2.getValue(),"test", fluege.get(1).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(1).removeEconomy(platzCombo2.getValue());
-			}
-			else if(klassen[1] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(1), "B", platzCombo2.getValue(),"test", fluege.get(1).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(1).removeBusiness(platzCombo2.getValue());
-			}
-		}
-		else if(fluege.size()==2) {
-			//Hin- und Rückflug
-			int multi[] = new int[2];
-			for(int i=0;i<fluege.size();i++)
-				multi[i]=fluege.get(i).getId();
-			
-			//Hinflug
-			if(klassen[0] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(0), "E", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(0).removeEconomy(platzCombo.getValue());
-			}
-			else if(klassen[0] ==2) { 
-				booking.add(new Booking("test", cur, fluege.get(0), "B", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(0).removeBusiness(platzCombo.getValue());
-			}
-			//Rückflug
-			if(klassen[1] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(1), "E", platzCombo1.getValue(),"test", fluege.get(1).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(1).removeEconomy(platzCombo1.getValue());
-			}
-			else if(klassen[1] ==2) { 
-				booking.add(new Booking("test", cur, fluege.get(1), "B", platzCombo1.getValue(),"test", fluege.get(1).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
-				fluege.get(1).removeBusiness(platzCombo1.getValue());
-			}
-		}
-		else {
-			//Hinflug
-			if(klassen[0] == 1) {
-				booking.add(new Booking("test", cur, fluege.get(0), "E", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreisee(),""));
-				fluege.get(0).removeEconomy(platzCombo.getValue());
-			}
-			else if(klassen[0] ==2) {
-				booking.add(new Booking("test", cur, fluege.get(0), "B", platzCombo.getValue(),"test", fluege.get(0).getFluglinie().getPreiseb(),""));
-				fluege.get(0).removeBusiness(platzCombo.getValue());
-			}
-		}
+
+
+//		if(fluege.size()==4) {
+//			//Multistopp 4 Flüge
+//
+//			int multi[] = new int[4];
+//			for(int i=0;i<fluege.size();i++)
+//				multi[i]=fluege.get(i).getId();
+//
+//			//Hinflug
+//			if(klassen[0] == 1) {
+//				booking.add(new Booking(cur, fluege.get(0), "E", platzCombo.getValue(), fluege.get(0).getFluglinie().getPreisee()));
+//				fluege.get(0).removeEconomy(platzCombo.getValue());
+//			}
+//			else if(klassen[0] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "B", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(0).removeBusiness(platzCombo.getValue());
+//			}
+//			//Multi1
+//			if(klassen[1] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(1), "E", platzCombo2.getValue(),be, fluege.get(1).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(1).removeEconomy(platzCombo2.getValue());
+//			}
+//			else if(klassen[1] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(1), "B", platzCombo2.getValue(),be, fluege.get(1).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(1).removeBusiness(platzCombo2.getValue());
+//			}
+//			//Multi2
+//			if(klassen[2] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(2), "E", platzCombo3.getValue(),be, fluege.get(2).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(2).removeEconomy(platzCombo3.getValue());
+//			}
+//			else if(klassen[2] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(2), "B", platzCombo3.getValue(),be, fluege.get(2).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(2).removeBusiness(platzCombo3.getValue());
+//			}
+//			//Multi3
+//			if(klassen[3] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(3), "E", platzCombo4.getValue(),be, fluege.get(3).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(3).removeEconomy(platzCombo4.getValue());
+//			}
+//			else if(klassen[3] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(3), "B", platzCombo4.getValue(),be, fluege.get(3).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(3).removeBusiness(platzCombo4.getValue());
+//			}
+//		}
+//		else if(fluege.size()==3) {
+//			//Multistopp 3 Flüge
+//			int multi[] = new int[3];
+//			for(int i=0;i<fluege.size();i++)
+//				multi[i]=fluege.get(i).getId();
+//
+//			//Hinflug
+//			if(klassen[0] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "E", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(0).removeEconomy(platzCombo.getValue());
+//			}
+//			else if(klassen[0] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "B", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(0).removeBusiness(platzCombo.getValue());
+//			}
+//			//Multi1
+//			if(klassen[1] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(1), "E", platzCombo2.getValue(),be, fluege.get(1).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(1).removeEconomy(platzCombo2.getValue());
+//			}
+//			else if(klassen[1] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(1), "B", platzCombo2.getValue(),be, fluege.get(1).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(1).removeBusiness(platzCombo2.getValue());
+//			}
+//			//Multi2
+//			if(klassen[2] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(2), "E", platzCombo3.getValue(),be, fluege.get(2).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(2).removeEconomy(platzCombo3.getValue());
+//			}
+//			else if(klassen[2] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(2), "B", platzCombo3.getValue(),be, fluege.get(2).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(2).removeBusiness(platzCombo3.getValue());
+//			}
+//		}
+//		else if(fluege.size()==2 && !rueckflug) {
+//			//Multistopp 2 Flüge
+//			int multi[] = new int[2];
+//			for(int i=0;i<fluege.size();i++)
+//				multi[i]=fluege.get(i).getId();
+//
+//			//Hinflug
+//			if(klassen[0] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "E", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(0).removeEconomy(platzCombo.getValue());
+//			}
+//			else if(klassen[0] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "B", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(0).removeBusiness(platzCombo.getValue());
+//			}
+//			//Multi1
+//			if(klassen[1] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(1), "E", platzCombo2.getValue(),be, fluege.get(1).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(1).removeEconomy(platzCombo2.getValue());
+//			}
+//			else if(klassen[1] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(1), "B", platzCombo2.getValue(),be, fluege.get(1).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(1).removeBusiness(platzCombo2.getValue());
+//			}
+//		}
+//		else if(fluege.size()==2) {
+//			//Hin- und Rückflug
+//			int multi[] = new int[2];
+//			for(int i=0;i<fluege.size();i++)
+//				multi[i]=fluege.get(i).getId();
+//
+//			//Hinflug
+//			if(klassen[0] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "E", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(0).removeEconomy(platzCombo.getValue());
+//			}
+//			else if(klassen[0] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "B", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(0).removeBusiness(platzCombo.getValue());
+//			}
+//			//Rückflug
+//			if(klassen[1] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(1), "E", platzCombo1.getValue(),be, fluege.get(1).getFluglinie().getPreisee(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(1).removeEconomy(platzCombo1.getValue());
+//			}
+//			else if(klassen[1] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(1), "B", platzCombo1.getValue(),be, fluege.get(1).getFluglinie().getPreiseb(),StringUtils.join(ArrayUtils.toObject(multi),",")));
+//				fluege.get(1).removeBusiness(platzCombo1.getValue());
+//			}
+//		}
+//		else {
+//			//Hinflug
+//			if(klassen[0] == 1) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "E", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreisee(),""));
+//				fluege.get(0).removeEconomy(platzCombo.getValue());
+//			}
+//			else if(klassen[0] ==2) {
+//				booking.add(new Booking(be, cur, fluege.get(0), "B", platzCombo.getValue(),be, fluege.get(0).getFluglinie().getPreiseb(),""));
+//				fluege.get(0).removeBusiness(platzCombo.getValue());
+//			}
+//		}
 	}
 	
 	public void abbrechen(ActionEvent event) throws IOException {

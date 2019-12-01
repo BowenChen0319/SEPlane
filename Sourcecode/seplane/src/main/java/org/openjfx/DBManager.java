@@ -178,8 +178,7 @@ public class DBManager {
 	public void createBk(Booking bk) {
 		try {
 			String user = bk.getUsername();
-			//Benutzer be = App.db.getUser(user);
-			Benutzer be = bk.getUserID();
+			Benutzer be = App.db.getUser(user);
 			double co=bk.getco()+be.getco();
 			double distence=bk.getdistence()+be.getkilo();
 			System.out.println("CO: "+co+"  Kilo: "+distence);
@@ -198,9 +197,11 @@ public class DBManager {
 		ArrayList<String> index = new ArrayList<String>();
 		if(list.size()==1){
 		    //Single Ticket
+			System.out.println("Single Ticket");
 		    this.createBk(list.get(0));
         }else{
 		    //Multistop Ticket
+			System.out.println("Multi Ticket");
             for(int i=0;i<list.size();i++){
                 Booking bk = list.get(i);
                 //add Booking to DB
@@ -417,12 +418,11 @@ public class DBManager {
 			if(bkDao.idExists(id)){
 				Booking bk=this.getbkId(id);
 				String user = bk.getUsername();
-				//Benutzer be = App.db.getUser(user);
-				Benutzer be = bk.getUserID();
-				double co=bk.getco()+be.getco();
-				double distence=bk.getdistence()+be.getkilo();
+				Benutzer be = App.db.getUser(user);
+				double co=be.getco()-bk.getco();
+				double distance=be.getkilo()-bk.getdistence();
 				be.setCo(co);
-				be.setKilo(distence);
+				be.setKilo(distance);
 //				Flug fl =bk.getFlug();
 //				if(fl!=null){
 //					if(bk.getClass().equals("E")){
@@ -434,6 +434,7 @@ public class DBManager {
 //					}
 //					this.updateFlug(fl);
 //				}
+				//TODO Give Back Seat
 				this.updateB(be);
 
 				bkDao.deleteById(id);
@@ -527,10 +528,10 @@ public class DBManager {
 
 	}
 
-	public List<Booking> getallBookingFromUser(Benutzer user) {
+	public List<Booking> getallBookingFromUser(String username) {
 		List<Booking> all;
 		try {
-			all = bkDao.queryForEq("userid_id",user);
+			all = bkDao.queryForEq("username",username);
 			return all;
 		} catch (SQLException e) {
 			e.printStackTrace();

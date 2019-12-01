@@ -2,9 +2,7 @@ package Models;
 
 import Toolbox.Encryption;
 import com.j256.ormlite.field.DatabaseField;
-import org.openjfx.App;
 
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,9 +12,9 @@ public class Booking {
     @DatabaseField
     String username;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    Benutzer userID;
+    Benutzer user;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    Flug flugid;
+    Flug flug;
     @DatabaseField
     String classe;
     @DatabaseField
@@ -33,17 +31,16 @@ public class Booking {
 
     public Booking() {}
 
-    public Booking(String username,Benutzer userID, Flug flugid,String classe, Integer seat,
-                   String paytime, Double preise, String multi) {
-        this.username=username;
-        this.userID=userID;
-        this.flugid=flugid;
+    public Booking(Benutzer user, Flug flug,String classe, Integer seat,
+                   Double preise) {
+        this.username=user.getBenutzername();
+        this.user=user;
+        this.flug=flug;
         this.classe=classe;
         this.seat=seat;
         this.paytime=this.getStringDate();
         this.preise=preise;
 
-        this.multi=multi;
         try {
 			this.HashNr= Encryption.getSaltedHash(this.getStringDate());
 		} catch (Exception e) {
@@ -60,18 +57,30 @@ public class Booking {
     	username = un;
     }
 
-    public Benutzer getUserID() {
-    	return userID;
-    }
-    public void setUserID(Benutzer user) {
-    	userID = user;
+    public Integer getUserID() {
+    	return user.getId();
     }
 
-    public Flug getFlugid(){
-        return flugid;
+
+    public Benutzer getUser() {
+        return user;
     }
-    public void setFlugid(Flug fi) {
-    	flugid = fi;
+
+    public void setUser(Benutzer user) {
+        this.user = user;
+    }
+
+    public Integer getFlugid(){
+        return flug.id;
+    }
+
+
+    public Flug getFlug() {
+        return flug;
+    }
+
+    public void setFlug(Flug fi) {
+        flug = fi;
     }
 
     public String getClasse(){
@@ -119,7 +128,7 @@ public class Booking {
     }
 
     public Fluglinie getFluglinie(){
-        return flugid.getFluglinie();
+        return flug.getFluglinie();
     }
 
     public String getStringDate() {
@@ -134,7 +143,7 @@ public class Booking {
         if(fl!=null){
             double distence = fl.getEntfernung();
             double co = 0.0571*distence*1;
-            return  co;
+            return co;
         }else {
             return 0.0;
         }
@@ -156,7 +165,7 @@ public class Booking {
         return "Booking{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", flugid=" + flugid +
+                ", flugid=" + flug +
                 ", classe='" + classe + '\'' +
                 ", seat='" + seat + '\'' +
                 ", paytime='" + paytime + '\'' +
@@ -165,4 +174,5 @@ public class Booking {
                 ", HashNr='" + HashNr + '\'' +
                 '}';
     }
+
 }

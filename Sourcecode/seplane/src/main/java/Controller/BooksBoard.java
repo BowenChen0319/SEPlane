@@ -15,7 +15,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -23,7 +26,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.openjfx.App;
-import org.openjfx.DBManager;
 import org.openjfx.kunde_windows;
 import org.openjfx.login;
 
@@ -65,10 +67,9 @@ public class BooksBoard extends Application {
                 "Booking Overview");
         text.setFont(Font.font(30));
 
-        Label text1 = new Label(
-                "Willkommen " + be.getBenutzername()+
-                ".  Ihre CO2 Konto: "+be.getco()+" Kg .  Ihre Kilometer Konto: "+be.getkilo()+" KM");
+        Label text1 = new Label();
         text.setFont(Font.font(25));
+
 
         VBox v0 = new VBox();
         v0.setAlignment(Pos.CENTER);
@@ -97,12 +98,14 @@ public class BooksBoard extends Application {
         b1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
+                data.clear();
                 List<Booking> all = null;
                 all = App.db.getallBookingFromUser(be.getBenutzername());
                 ArrayList<Integer> notwo = new ArrayList<Integer>();
                 for (int i = 0; i < all.size(); i++) {
                     Booking ben = all.get(i);
-                    if(ben.getMulti().equals("")||ben.getMulti().equals(",")){
+                    if(ben.getMulti()==null){
                         if(ben.getFlug()!=null){
                             data.add("BookingID :" + ben.getId()
                                     + "    Flight von " + ben.getFluglinie().getStart().getCode()
@@ -113,7 +116,7 @@ public class BooksBoard extends Application {
                                     +"   Time: "+ ben.getFlug().getStartzeit()
                                     +"   Class: "+ben.getClasse()
                                     +"   Seat: "+ben.getSeat()
-                                    +"   Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                    +"   Preise: "+Math.round(ben.getPreise()*100.0)/100.0+""
                             );
                         }else{
                             data.add("BookingID :" + ben.getId()
@@ -121,7 +124,7 @@ public class BooksBoard extends Application {
                                     +"   Time: "+ ben.getFlug().getStartzeit()
                                     +"   Class: "+ben.getClasse()
                                     +"   Seat: "+ben.getSeat()
-                                    +"   Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                    +"   Preise: "+Math.round(ben.getPreise()*100.0)/100.0+""
                             );
                         }
 
@@ -149,7 +152,7 @@ public class BooksBoard extends Application {
                                                 +"   Time: "+ ben.getFlug().getStartzeit()
                                                 +"   Class: "+ben.getClasse()
                                                 +"   Seat: "+ben.getSeat()
-                                                +"   Preise in total: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                                +"   Preise in total: "+Math.round(ben.getPreise()*100.0)/100.0+""
                                         );
                                     }else{
                                         data.add("BookingID :" + ben.getId()
@@ -158,7 +161,7 @@ public class BooksBoard extends Application {
                                                 +"   Time: "+ ben.getFlug().getStartzeit()
                                                 +"   Class: "+ben.getClasse()
                                                 +"   Seat: "+ben.getSeat()
-                                                +"   Preise in total: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                                +"   Preise in total: "+Math.round(ben.getPreise()*100.0)/100.0+""
                                         );
                                     }
                                 }else{
@@ -195,10 +198,12 @@ public class BooksBoard extends Application {
 
 
                 }
+                Benutzer newbe =App.db.getUser(be.getBenutzername());
                 text1.setText(
-                        "Willkommen " + be.getBenutzername()+
-                                ".  Ihre CO2 Konto: "+be.getco()+" Kg .  Ihre Kilometer Konto: "+be.getkilo()+" KM");
+                        "Willkommen " + newbe.getBenutzername()+
+                                ".  Ihre CO2 Konto: "+newbe.getco()+" Kg .  Ihre Kilometer Konto: "+newbe.getkilo()+" KM");
 
+                System.out.println("Ihre CO2 Konto: "+newbe.getco()+" Kg .  Ihre Kilometer Konto: "+newbe.getkilo()+" KM");
                 System.out.println("Refresh");
             }
 
@@ -225,7 +230,7 @@ public class BooksBoard extends Application {
                 if(d<=all.size()){
                     Booking del = all.get(d);
                     ArrayList<Integer> notwo = new ArrayList<Integer>();
-                    if(del.getMulti().equals("")){
+                    if(del.getMulti()==null){
                         try {
                             App.db.deleteBk(App.db.getbkwithbk(del).getId());
                         } catch (Exception e) {
