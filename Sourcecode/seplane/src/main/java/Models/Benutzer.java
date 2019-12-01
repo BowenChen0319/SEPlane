@@ -140,7 +140,7 @@ public class Benutzer {
 
 
     public List<Booking> getbookinglist(){
-        return App.db.getallBookingFromUser(this.getBenutzername());
+        return App.db.getallBookingFromUser(this);
     }
 
 

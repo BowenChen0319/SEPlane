@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="20.0">
+         <children>
+            <Pane VBox.vgrow="ALWAYS" />
+            <VBox>
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Ihr gewählter Flug von" />
+                        <Label fx:id="startLabel" text="Start" />
+                        <Label fx:id="zielLabel" text="Ziel" />
+                        <Label text="mit" />
+                        <Label fx:id="airlineLabel" text="Airline" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Bitte wählen Sie einen Sitzplatz für Ihre gewählte Preisklasse" wrapText="true" />
+                        <Label fx:id="klasseLabel" text="Klasse" />
+                        <ComboBox fx:id="platzCombo" prefWidth="150.0" promptText="Sitzplatz">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="vRueckflug" visible="false">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Ihr gewählter Flug von" />
+                        <Label fx:id="startLabel1" text="Start" />
+                        <Label fx:id="zielLabel1" text="Ziel" />
+                        <Label text="mit" />
+                        <Label fx:id="airlineLabel1" text="Airline" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Bitte wählen Sie einen Sitzplatz für Ihre gewählte Preisklasse" wrapText="true" />
+                        <Label fx:id="klasseLabel1" text="Klasse" />
+                        <ComboBox fx:id="platzCombo1" prefWidth="150.0" promptText="Sitzplatz">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="vMulti1" visible="false">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Ihr gewählter Flug von" />
+                        <Label fx:id="startLabel2" text="Start" />
+                        <Label fx:id="zielLabel2" text="Ziel" />
+                        <Label text="mit" />
+                        <Label fx:id="airlineLabel2" text="Airline" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Bitte wählen Sie einen Sitzplatz für Ihre gewählte Preisklasse" wrapText="true" />
+                        <Label fx:id="klasseLabel2" text="Klasse" />
+                        <ComboBox fx:id="platzCombo2" prefWidth="150.0" promptText="Sitzplatz">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="vMulti2" visible="false">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Ihr gewählter Flug von" />
+                        <Label fx:id="startLabel3" text="Start" />
+                        <Label fx:id="zielLabel3" text="Ziel" />
+                        <Label text="mit" />
+                        <Label fx:id="airlineLabel3" text="Airline" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Bitte wählen Sie einen Sitzplatz für Ihre gewählte Preisklasse" wrapText="true" />
+                        <Label fx:id="klasseLabel3" text="Klasse" />
+                        <ComboBox fx:id="platzCombo3" prefWidth="150.0" promptText="Sitzplatz">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="vMulti3" visible="false">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Ihr gewählter Flug von" />
+                        <Label fx:id="startLabel4" text="Start" />
+                        <Label fx:id="zielLabel4" text="Ziel" />
+                        <Label text="mit" />
+                        <Label fx:id="airlineLabel4" text="Airline" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Label text="Bitte wählen Sie einen Sitzplatz für Ihre gewählte Preisklasse" wrapText="true" />
+                        <Label fx:id="klasseLabel4" text="Klasse" />
+                        <ComboBox fx:id="platzCombo4" prefWidth="150.0" promptText="Sitzplatz">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Pane VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#abbrechen" prefWidth="150.0" text="Abbrechen">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#buchung_step1" prefWidth="150.0" text="Bestätigen">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

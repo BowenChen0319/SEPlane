@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FGM_FluegeUebersichtController">
+   <children>
+      <VBox alignment="CENTER_RIGHT" layoutX="499.6666564941406" layoutY="255.6666717529297" spacing="50.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <ScrollPane prefHeight="600.0" prefWidth="200.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="988.0">
+                     <children>
+                        <TableView fx:id="fluegeUebersicht_table" prefHeight="525.0" prefWidth="984.0">
+                          <columns>
+                            <TableColumn fx:id="startflughafen_column" prefWidth="125.0" text="Startflughafen" />
+                            <TableColumn fx:id="zielflughafen_column" prefWidth="125.0" text="Zielflughafen" />
+                              <TableColumn fx:id="datum_column" prefWidth="125.0" text="Datum" />
+                              <TableColumn fx:id="Uhrzeit_column" prefWidth="125.0" text="Uhrzeit" />
+                              <TableColumn fx:id="Flugzeug_column" prefWidth="125.0" text="Flugzeug" />
+                              <TableColumn fx:id="economyPlaetze_column" prefWidth="125.0" text="Economy Plätze" />
+                              <TableColumn fx:id="businessPlaetze_column" prefWidth="125.0" text="Business Plätze" />
+                              <TableColumn fx:id="preisEconomy_column" prefWidth="125.0" text="Preis Economy" />
+                              <TableColumn fx:id="preisBusiness_column" prefWidth="125.0" text="Preis Business" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+            <Button fx:id="abbrechen_button" mnemonicParsing="false" text="abbrechen" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

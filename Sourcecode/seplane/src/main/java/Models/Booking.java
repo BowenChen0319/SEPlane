@@ -13,16 +13,18 @@ public class Booking {
     int id;
     @DatabaseField
     String username;
-    @DatabaseField
-    Integer flugid;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    Benutzer userID;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    Flug flugid;
     @DatabaseField
     String classe;
     @DatabaseField
-    String seat;
+    Integer seat;
     @DatabaseField
     String paytime;
     @DatabaseField
-    String preise;
+    Double preise;
     @DatabaseField
     String multi;
     @DatabaseField
@@ -31,9 +33,10 @@ public class Booking {
 
     public Booking() {}
 
-    public Booking(String username,Integer flugid,String classe, String seat,
-                   String paytime, String preise, String multi) {
+    public Booking(String username,Benutzer userID, Flug flugid,String classe, Integer seat,
+                   String paytime, Double preise, String multi) {
         this.username=username;
+        this.userID=userID;
         this.flugid=flugid;
         this.classe=classe;
         this.seat=seat;
@@ -49,31 +52,54 @@ public class Booking {
 		}
 
     }
+    
+    public String getUsername(){
+        return username;
+    }
+    public void setUsername(String un) {
+    	username = un;
+    }
 
-    public Integer getFlugid(){
+    public Benutzer getUserID() {
+    	return userID;
+    }
+    public void setUserID(Benutzer user) {
+    	userID = user;
+    }
+
+    public Flug getFlugid(){
         return flugid;
+    }
+    public void setFlugid(Flug fi) {
+    	flugid = fi;
     }
 
     public String getClasse(){
         return classe;
+    } 
+    public void setClasse(String c) {
+    	classe = c;
     }
 
-    public String getSeat(){
+    public Integer getSeat(){
         return seat;
+    }
+    public void setSeat(Integer seat) {
+    	this.seat = seat;
     }
 
     public String getPaytime(){
         return paytime;
     }
-
-    public String getPreise(){
-        return preise;
+    public void setPaytime(String pt) {
+    	paytime = pt;
     }
 
-
-
-    public String getUsername(){
-        return username;
+    public Double getPreise(){
+        return preise;
+    }
+    public void setPreise(Double p) {
+    	preise = p;
     }
 
     public int getId(){
@@ -93,25 +119,8 @@ public class Booking {
     }
 
     public Fluglinie getFluglinie(){
-        try {
-            return App.db.getFlug(flugid).getFluglinie();
-        }catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        return flugid.getFluglinie();
     }
-
-    public Flug getFlug(){
-        try {
-            return App.db.getFlug(flugid);
-        }catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
 
     public String getStringDate() {
         Date currentTime = new Date();
@@ -142,4 +151,18 @@ public class Booking {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", flugid=" + flugid +
+                ", classe='" + classe + '\'' +
+                ", seat='" + seat + '\'' +
+                ", paytime='" + paytime + '\'' +
+                ", preise='" + preise + '\'' +
+                ", multi='" + multi + '\'' +
+                ", HashNr='" + HashNr + '\'' +
+                '}';
+    }
 }

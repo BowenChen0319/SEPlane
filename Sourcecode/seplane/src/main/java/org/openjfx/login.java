@@ -246,7 +246,7 @@ public class login extends Application {
                                     Benutzer finalB1 = b;
 
                                     List<Booking> all = null;
-                                    all = App.db.getallBookingFromUser(b.getBenutzername());
+                                    all = App.db.getallBookingFromUser(b);
                                     if(all.size()==0){
                                         Platform.runLater(new Runnable() {
                                             @Override

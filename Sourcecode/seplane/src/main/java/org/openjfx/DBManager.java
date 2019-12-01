@@ -62,32 +62,28 @@ public class DBManager {
         	
 	}
 
-	public static void main(String[] args) throws SQLException {
-		new DBManager().setUpDatabase();
-	}
-
 	public void setUpDatabase() throws SQLException {
 		
-		TableUtils.dropTable(cs, Fluglinie.class, true);
-		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-		//TableUtils.dropTable(cs, Benutzer.class, true);
-		//TableUtils.dropTable(cs, FlugzeugMapping.class, true);
-		//TableUtils.dropTable(cs, Airport.class, true);
-		//TableUtils.dropTable(cs, Plane.class, true);
-		TableUtils.dropTable(cs, Flug.class,true);
+//		TableUtils.dropTable(cs, Fluglinie.class, true);
+//		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
+//		TableUtils.dropTable(cs, Benutzer.class, true);
+//		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
+//		TableUtils.dropTable(cs, Airport.class, true);
+//		TableUtils.dropTable(cs, Plane.class, true);
+//		TableUtils.dropTable(cs, Flug.class,true);
 		TableUtils.dropTable(cs, Booking.class,true);
-		TableUtils.dropTable(cs, Postfach.class, true);
+//		TableUtils.dropTable(cs, Postfach.class, true);
 
 
-		//TableUtils.createTable(cs, Benutzer.class);
-		TableUtils.createTable(cs, Fluggesellschaft.class);
-		TableUtils.createTable(cs, Fluglinie.class);
-		//TableUtils.createTable(cs, FlugzeugMapping.class);
-		//TableUtils.createTable(cs, Airport.class);
-		//TableUtils.createTable(cs, Plane.class);
-		TableUtils.createTable(cs, Flug.class);
+//		TableUtils.createTable(cs, Benutzer.class);
+//		TableUtils.createTable(cs, Fluggesellschaft.class);
+//		TableUtils.createTable(cs, Fluglinie.class);
+//		TableUtils.createTable(cs, FlugzeugMapping.class);
+//		TableUtils.createTable(cs, Airport.class);
+//		TableUtils.createTable(cs, Plane.class);
+//		TableUtils.createTable(cs, Flug.class);
 		TableUtils.createTable(cs, Booking.class);
-		  TableUtils.createTable(cs, Postfach.class);
+//		TableUtils.createTable(cs, Postfach.class);
 	}
 
 	public void refreshbooking() throws SQLException {
@@ -182,24 +178,16 @@ public class DBManager {
 	public void createBk(Booking bk) {
 		try {
 			String user = bk.getUsername();
-			Benutzer be = App.db.getUser(user);
+			//Benutzer be = App.db.getUser(user);
+			Benutzer be = bk.getUserID();
 			double co=bk.getco()+be.getco();
 			double distence=bk.getdistence()+be.getkilo();
 			System.out.println("CO: "+co+"  Kilo: "+distence);
 			be.setCo(co);
 			be.setKilo(distence);
 			this.updateB(be);
-			be= App.db.getUser(user);
+			//be= App.db.getUser(user);
 			System.out.println("CO: "+be.getco()+"  Kilo: "+be.getkilo());
-			Flug fl =bk.getFlug();
-			if(bk.getClass().equals("E")){
-			    //int anzahl = bk.getFlug().getRestEconomy();
-				//fl.setRestEconomy(anzahl-1);
-			}else if(bk.getClass().equals("B")){
-				//int anzahl = bk.getFlug().getRestBusiness();
-				//fl.setRestBusiness(anzahl-1);
-			}
-			this.updateFlug(fl);
 			bkDao.create(bk);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -429,22 +417,23 @@ public class DBManager {
 			if(bkDao.idExists(id)){
 				Booking bk=this.getbkId(id);
 				String user = bk.getUsername();
-				Benutzer be = App.db.getUser(user);
+				//Benutzer be = App.db.getUser(user);
+				Benutzer be = bk.getUserID();
 				double co=bk.getco()+be.getco();
 				double distence=bk.getdistence()+be.getkilo();
 				be.setCo(co);
 				be.setKilo(distence);
-				Flug fl =bk.getFlug();
-				if(fl!=null){
-					if(bk.getClass().equals("E")){
-						//int anzahl = bk.getFlug().getRestEconomy();
-						//fl.setRestEconomy(anzahl+1);
-					}else if(bk.getClass().equals("B")){
-						//int anzahl = bk.getFlug().getRestBusiness();
-						//fl.setRestBusiness(anzahl+1);
-					}
-					this.updateFlug(fl);
-				}
+//				Flug fl =bk.getFlug();
+//				if(fl!=null){
+//					if(bk.getClass().equals("E")){
+//						//int anzahl = bk.getFlug().getRestEconomy();
+//						//fl.setRestEconomy(anzahl+1);
+//					}else if(bk.getClass().equals("B")){
+//						//int anzahl = bk.getFlug().getRestBusiness();
+//						//fl.setRestBusiness(anzahl+1);
+//					}
+//					this.updateFlug(fl);
+//				}
 				this.updateB(be);
 
 				bkDao.deleteById(id);
@@ -538,10 +527,10 @@ public class DBManager {
 
 	}
 
-	public List<Booking> getallBookingFromUser(String username) {
+	public List<Booking> getallBookingFromUser(Benutzer user) {
 		List<Booking> all;
 		try {
-			all = bkDao.queryForEq("username",username);
+			all = bkDao.queryForEq("userid_id",user);
 			return all;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -632,7 +621,8 @@ public class DBManager {
 
 
 
-	public Fluglinie getFluglinie(int id) throws SQLException {
+
+	public Fluglinie getFluglinie(int id){
 		Fluglinie fl = null;
 		try {
 			fl = flDao.queryForId(id);
@@ -641,6 +631,46 @@ public class DBManager {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	public List<Fluglinie> getFluglienenListe(int id){
+		QueryBuilder<Fluglinie, Integer> queryFL = flDao.queryBuilder();
+		List<Fluglinie> flugList = null;
+		//ObservableList<Fluglinie> oBFLList = FXCollections.observableArrayList();
+		try{
+			queryFL.where().eq("ID", id);
+			flugList = flDao.query(queryFL.prepare());
+
+			//oBFLList.addAll(flugList);
+//			for(Fluglinie f : flugList )
+//			{
+//				System.out.println(f.toString());
+//			}
+		}catch (SQLException e){
+			e.printStackTrace();
+			System.out.println("Keine valide SQL Anfrage!");
+		}
+		return flugList;
+	}
+	//noch nach MULTI filtern
+	public List<Booking> getBookingsForUser(String benutzername)  {
+		QueryBuilder<Booking, Integer> queryBk = bkDao.queryBuilder();
+		String user = benutzername.toLowerCase();
+		ObservableList<Booking> obBKList = FXCollections.observableArrayList();
+		List<Booking> bkList = null;
+
+		try {
+			queryBk.where().eq("USERNAME", user);
+			bkList = bkDao.query(queryBk.prepare());
+
+			obBKList.addAll(bkList);
+			//System.out.println(bkList.get(0).getFlugid());
+		}catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("Invalides SQL Statement");
+		}
+
+		return obBKList;
 	}
 	
 	//zum Anzeigen der jew. Fluggesellschaft des Managers
