@@ -15,7 +15,7 @@ class StringwithArraylistTest {
         ArrayList<String> list = new ArrayList<>();
         String text = "";
         for(int i=0;i<anzahl;i++){
-            String str = Integer.toString(i)+" mal "+ RandomStringUtils.randomAlphanumeric(8);
+            String str = Integer.toString(i)+". mal "+ RandomStringUtils.randomAlphanumeric(8);
             list.add(str);
             if(i==anzahl-1){
                text=text+str;
@@ -37,7 +37,7 @@ class StringwithArraylistTest {
         ArrayList<String> list = new ArrayList<>();
         String text = "";
         for(int i=0;i<anzahl;i++){
-            String str = Integer.toString(i)+" mal "+ RandomStringUtils.randomAlphanumeric(8);
+            String str = Integer.toString(i)+". mal "+ RandomStringUtils.randomAlphanumeric(8);
             list.add(str);
             if(i==anzahl-1){
                 text=text+str;
