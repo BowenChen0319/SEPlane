@@ -3,7 +3,9 @@ package Controller;
 import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentUser;
+import Toolbox.PDFExport;
 import Toolbox.StringwithArraylist;
+import com.itextpdf.text.DocumentException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -13,9 +15,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.openjfx.App;
+import org.openjfx.DBManager;
 import org.openjfx.kunde_windows;
 import org.openjfx.login;
 
@@ -41,7 +42,7 @@ public class BooksBoard extends Application {
 //        be=benutzer;
 //        this.start(new Stage());
 //    }
-
+    TableView<Booking> bookingTable;
     @Override
 
     public void start(Stage stage) throws IOException, SQLException {
@@ -77,6 +78,7 @@ public class BooksBoard extends Application {
         ObservableList<String> data = FXCollections.observableArrayList();
         ListView<String> listView = new ListView<String>(data);
         listView.setPrefSize(200, 500);
+
 
 
 
@@ -332,7 +334,16 @@ public class BooksBoard extends Application {
             public void handle(ActionEvent event) {
 
                 //PDF
+                String pfad = System.getProperty("user.dir"); //mit filexplorer tauschen
+                List<Booking> all = App.db.getallBookingFromUser(be.getBenutzername());
+                try {
 
+                    new PDFExport().createPdf(pfad);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (DocumentException e) {
+                    e.printStackTrace();
+                }
 
 
             }

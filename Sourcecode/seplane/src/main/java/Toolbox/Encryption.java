@@ -6,6 +6,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 
 public class Encryption {
@@ -20,7 +21,13 @@ public class Encryption {
 
 
 
+
+
+
+
     public Encryption(){ }
+
+    //Für passwörter
     public static String getSaltedHash(String password) throws Exception {
         byte[] salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen);
         // store the salt with the password
@@ -49,12 +56,48 @@ public class Encryption {
     }
 
     public static void main(String[] args) throws Exception {
-        for(int i=0;i<5;i++){
-
-            System.out.println(i+"Vorher " + password);
-            String tmp = getSaltedHash(password);
-            System.out.println("Hashed Pw: " + tmp);
-            System.out.println("Entschlüsselt: " + check(password, tmp));
-        }
+        int i=0;
+        System.out.println(new Encryption().zeichen[++i]);
     }
+
+    //für nachrichten
+    // hallo
+    private final char[] zeichen = "abcdefghijklmnopqrstuvwxyz0123456789!?.,".toCharArray();
+//
+//    public int checkForCharPos(char ch, char[] inArray){
+//        for(int i = 0; i<inArray.length;i++)
+//        {
+//            if(inArray[i] == ch)
+//            {
+//                return i;
+//            }
+//        }
+//        return ;
+//    }
+//    public char getCharFromArray(char[] arr, int pos){
+//        if(pos > arr.length)
+//        {
+//            return 'a';
+//        }
+//        for(int i =0; i<pos;i++)
+//        {
+//            return arr[i];
+//        }
+//        return 'a';
+//    }
+
+    public String caesarEncryption(String plaintext){
+        char[] decrypted = plaintext.toCharArray();
+        char[] encrypted = new char[plaintext.length()];
+
+        for(int i=0; i<plaintext.length();i++)
+        {
+            if(decrypted[i] >= zeichen[0] && decrypted[i] <= zeichen[zeichen.length]){
+              //  encrypted[i] = (decrypted[i] + );
+            }
+
+        }
+        return Arrays.toString(encrypted);
+    }
+
 }

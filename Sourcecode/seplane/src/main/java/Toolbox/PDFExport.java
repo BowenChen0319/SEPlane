@@ -28,21 +28,20 @@ public class PDFExport {
     public float preisInsg = 0f;
 
 
-    public void createPdf(String dest, List<Booking> bookingFromKunde) throws IOException, DocumentException {
+    public void createPdf(String dest) throws IOException, DocumentException {
         Document document = new Document();
         DBManager db = new DBManager();
         PdfWriter.getInstance(document, new FileOutputStream(dest));
         //String user = new CurrentUser().getCurrent().getBenutzername();
+        String user = "kunde1";
+        user.toLowerCase();
 
+        List<Booking> bookingFromKunde = db.getallBookingFromUser(user);
         document.open();
-        document.add(new Phrase("Name: \t" + db.getUser("kunde1").getNachname()));
-        document.add(new Phrase("\nVorname: \t" + db.getUser("kunde1").getVorname()));
+        document.add(new Phrase("Name: \t" + db.getUser(user).getNachname()));
+        document.add(new Phrase("\nVorname: \t" + db.getUser(user).getVorname()));
 
         document.add(new Phrase("  "));
-
-
-
-
 
         PdfPTable table = new PdfPTable(4);
         PdfPCell cell = new PdfPCell(new Phrase("Flugbuchungsübersicht"));
@@ -132,7 +131,7 @@ public class PDFExport {
 //            System.out.println(b.toString());
 //        }
 //        System.out.println(list.get(0).getFlugid());
-        new PDFExport().createPdf("C:\\Users\\Kevin\\Desktop\\test\\test.pdf", list);
+        new PDFExport().createPdf("C:\\Users\\Kevin\\Desktop\\test\\test.pdf");
 
 
     }

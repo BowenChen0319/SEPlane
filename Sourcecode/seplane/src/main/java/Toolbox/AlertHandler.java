@@ -61,4 +61,12 @@ public class AlertHandler {
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}
+
+	//PDFExport - Invalider Pfad
+	public static void PDFExportPfad(String pfad){
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Der eingegebene Pfad ist falsch");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.showAndWait();
+	}
 }
