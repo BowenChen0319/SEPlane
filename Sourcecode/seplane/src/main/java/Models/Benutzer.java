@@ -60,7 +60,7 @@ public class Benutzer {
         this.adresse=adresse;
         this.telnumber=telnumber;
         this.kilo=zweiziffer(kilo);
-        this.co=co;
+        this.co=zweiziffer(co);
     }
 
 
@@ -105,7 +105,7 @@ public class Benutzer {
     }
 
     public void setCo(Double co) {
-        this.co = co;
+        this.co = zweiziffer(co);
     }
 
     public void setKilo(Double kilo) {
