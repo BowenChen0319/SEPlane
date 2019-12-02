@@ -19,8 +19,8 @@
                           <columns>
                             <TableColumn fx:id="startflughafen_column" prefWidth="125.0" text="Startflughafen" />
                             <TableColumn fx:id="zielflughafen_column" prefWidth="125.0" text="Zielflughafen" />
-                              <TableColumn fx:id="datum_column" prefWidth="125.0" text="Datum" />
-                              <TableColumn fx:id="Uhrzeit_column" prefWidth="125.0" text="Uhrzeit" />
+                              <TableColumn fx:id="intervall_column" prefWidth="125.0" text="Intervall" />
+                              <TableColumn fx:id="jungfernflug_column" prefWidth="125.0" text="1. Flug" />
                               <TableColumn fx:id="Flugzeug_column" prefWidth="125.0" text="Flugzeug" />
                               <TableColumn fx:id="economyPlaetze_column" prefWidth="125.0" text="Economy Plätze" />
                               <TableColumn fx:id="businessPlaetze_column" prefWidth="125.0" text="Business Plätze" />

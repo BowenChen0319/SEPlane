@@ -64,14 +64,14 @@ public class FGM_FluegeUebersichtController implements Initializable {
         this.fluglinie = fluglinie;
     }
 
-    ObservableList<ArrayList<Flug>> flugList;
+    //ObservableList<ArrayList<Flug>> flugList;
     ObservableList<Flug> flugListe;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        flugList = FXCollections.observableArrayList();
-        flugList.addAll((ArrayList<Flug>) db.getFluege());
+        //flugList = FXCollections.observableArrayList();
+        //flugList.addAll((ArrayList<Flug>) db.getFluege());
 
         flugListe = FXCollections.observableArrayList();
         flugListe.addAll(db.getFluege());
@@ -123,7 +123,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
             }
             else{
                 SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
-                simpleStringProperty.setValue(cellData.getValue().getFluglinie().getFlugzeug().toString());
+                simpleStringProperty.setValue(cellData.getValue().getFluglinie().getFlugzeug().getHersteller()+" - "+
+                		cellData.getValue().getFluglinie().getFlugzeug().getType());
                 return simpleStringProperty;
             }
         });

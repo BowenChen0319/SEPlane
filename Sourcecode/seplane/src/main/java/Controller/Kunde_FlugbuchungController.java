@@ -979,8 +979,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		startFH.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(zielFH.getSelectionModel().getSelectedItem() != null && zielFH.getSelectionModel().getSelectedItem().equals(newValue) || 
-						startFH1.getSelectionModel().getSelectedItem()!=null && startFH1.getSelectionModel().getSelectedItem().equals(newValue)) {
+				if(zielFH.getSelectionModel().getSelectedItem() != null && zielFH.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
 					startFH.setValue(oldValue);
@@ -990,8 +989,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		startFH1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(startFH.getSelectionModel().getSelectedItem()!=null && startFH.getSelectionModel().getSelectedItem().equals(newValue) || 
-						zielFH1.getSelectionModel().getSelectedItem()!= null && zielFH1.getSelectionModel().getSelectedItem().equals(newValue)) {
+				if(zielFH1.getSelectionModel().getSelectedItem()!= null && zielFH1.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
 					startFH1.setValue(oldValue);
@@ -1001,8 +999,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		startFH2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(zielFH1.getSelectionModel().getSelectedItem()!= null && zielFH1.getSelectionModel().getSelectedItem().equals(newValue) || 
-						zielFH2.getSelectionModel().getSelectedItem()!= null && zielFH2.getSelectionModel().getSelectedItem().equals(newValue)) {
+				if(zielFH2.getSelectionModel().getSelectedItem()!= null && zielFH2.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
 					startFH2.setValue(oldValue);
@@ -1012,8 +1009,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		startFH3.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(zielFH2.getSelectionModel().getSelectedItem()!= null && zielFH2.getSelectionModel().getSelectedItem().equals(newValue) || 
-						zielFH3.getSelectionModel().getSelectedItem()!= null && zielFH3.getSelectionModel().getSelectedItem().equals(newValue)) {
+				if(zielFH3.getSelectionModel().getSelectedItem()!= null && zielFH3.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
 					startFH3.setValue(oldValue);
@@ -1033,8 +1029,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		zielFH1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(startFH1.getSelectionModel().getSelectedItem()!=null && startFH1.getSelectionModel().getSelectedItem().equals(newValue) || 
-						startFH2.getSelectionModel().getSelectedItem()!=null && startFH2.getSelectionModel().getSelectedItem().equals(newValue)) {
+				if(startFH1.getSelectionModel().getSelectedItem()!=null && startFH1.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
 					zielFH1.setValue(oldValue);
@@ -1044,8 +1039,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		zielFH2.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Airport>() {
 			@Override
 			public void changed(ObservableValue<? extends Airport> observable, Airport oldValue, Airport newValue) {
-				if(startFH2.getSelectionModel().getSelectedItem()!=null && startFH2.getSelectionModel().getSelectedItem().equals(newValue) || 
-						startFH3.getSelectionModel().getSelectedItem()!=null && startFH3.getSelectionModel().getSelectedItem().equals(newValue)) {
+				if(startFH2.getSelectionModel().getSelectedItem()!=null && startFH2.getSelectionModel().getSelectedItem().equals(newValue)) {
 					//TODO was anderes
 					AlertHandler.falscheAngaben();
 					zielFH2.setValue(oldValue);

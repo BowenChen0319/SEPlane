@@ -228,6 +228,7 @@ public class Kunde_buchenController implements Initializable {
             }
         });
 		 ((Node) event.getSource()).getScene().getWindow().hide();
+		 //TODO ((Node) event.getSource()).getParent().getScene().getWindow().hide();
 		}
 	}
 	public void buchung() {
@@ -237,23 +238,23 @@ public class Kunde_buchenController implements Initializable {
 		if(fluege.size()==2 && rueckflug){
 			//Hin
 			Integer i=0;
-			if(klassen[i] == 1) {
+			if(klassen[0] == 1) {
 				booking.add(new Booking(cur, fluege.get(i), "E", platzCombo.getValue(), fluege.get(i).getFluglinie().getPreisee()));
 				fluege.get(i).removeEconomy(platzCombo.getValue());
 			}
-			else if(klassen[i] ==2) {
+			else if(klassen[0] ==2) {
 				booking.add(new Booking(cur, fluege.get(i), "B", platzCombo.getValue(), fluege.get(i).getFluglinie().getPreisee()));
-				fluege.get(i).removeEconomy(platzCombo.getValue());
+				fluege.get(i).removeBusiness(platzCombo.getValue());
 			}
 			//Rueck
 			i=1;
-			if(klassen[i] == 1) {
+			if(klassen[0] == 1) {
 				booking.add(new Booking(cur, fluege.get(i), "E", platzCombo1.getValue(), fluege.get(i).getFluglinie().getPreisee()));
 				fluege.get(i).removeEconomy(platzCombo1.getValue());
 			}
-			else if(klassen[i] ==2) {
+			else if(klassen[0] ==2) {
 				booking.add(new Booking(cur, fluege.get(i), "B", platzCombo1.getValue(), fluege.get(i).getFluglinie().getPreisee()));
-				fluege.get(i).removeEconomy(platzCombo1.getValue());
+				fluege.get(i).removeBusiness(platzCombo1.getValue());
 			}
 		}else{
 			//Multistop
