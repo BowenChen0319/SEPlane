@@ -93,7 +93,7 @@ public class FileExplorer implements Initializable {
                     refreshTable(nextFolder);
                     lastFolder = currentFolder;
                     currentFolder = nextFolder;
-
+                    refreshTable(currentFolder);
                     System.out.println("NF: " + nextFolder);
                     System.out.println("CF: " + currentFolder);
                     System.out.println("LF: " + lastFolder);

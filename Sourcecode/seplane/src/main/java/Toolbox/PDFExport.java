@@ -95,7 +95,7 @@ public class PDFExport {
 
 
         for(int j =0; j< bookingList.size();j++) {
-            System.out.println(list.get(j).getStart().getCode());
+
             cell = new PdfPCell(new Phrase(list.get(j).getStart().getCode()));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
