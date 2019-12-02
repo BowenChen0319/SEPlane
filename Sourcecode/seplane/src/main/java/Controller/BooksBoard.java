@@ -3,17 +3,17 @@ package Controller;
 import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentUser;
-import Toolbox.PDFExport;
 import Toolbox.StringwithArraylist;
-import com.itextpdf.text.DocumentException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -349,14 +349,17 @@ public class BooksBoard extends Application {
             public void handle(ActionEvent event) {
 
                 //PDF
-                String pfad = System.getProperty("user.dir"); //mit filexplorer tauschen
-                List<Booking> all = App.db.getallBookingFromUser(be.getBenutzername());
                 try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FileExplorer.fxml"));
+                    Parent root1 = fxmlLoader.load();
+                    Scene scene = new Scene(root1);
+                    Stage stage = new Stage();
+                    stage.setTitle("Stage");
+                    stage.setScene(scene);
+                    stage.showAndWait();
 
-                    new PDFExport().createPdf(pfad);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (DocumentException e) {
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
