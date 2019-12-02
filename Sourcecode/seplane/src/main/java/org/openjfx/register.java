@@ -126,7 +126,7 @@ public class register extends Application {
         ha.getChildren().addAll(ta,adresse);
 
         Label tt = new Label(
-                "Telephone number: ");
+                "Tel.Nr. or Telegram ChatID: ");
         tt.setFont(Font.font(25));
         TextField tel = new TextField(){
             @Override
