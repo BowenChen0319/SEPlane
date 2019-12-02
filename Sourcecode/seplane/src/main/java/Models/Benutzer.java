@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class Benutzer {
         this.email=email;
         this.adresse=adresse;
         this.telnumber=telnumber;
-        this.kilo=kilo;
+        this.kilo=zweiziffer(kilo);
         this.co=co;
     }
 
@@ -108,7 +109,13 @@ public class Benutzer {
     }
 
     public void setKilo(Double kilo) {
-        this.kilo = kilo;
+        this.kilo = zweiziffer(kilo);
+    }
+
+    public double zweiziffer(double f) {
+        BigDecimal bg = new BigDecimal(f);
+        double f1 = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return f1;
     }
 
     public boolean checkname(String username) throws SQLException {

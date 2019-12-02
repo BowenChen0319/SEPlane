@@ -1,6 +1,7 @@
 package Controller;
 
 import Models.Benutzer;
+import Models.Booking;
 import Models.CurrentUser;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -105,6 +106,10 @@ public class Adminboard extends Application {
                 all = App.db.getallUser();
                 if(d<=all.size()){
                     Benutzer del = all.get(d);
+                    if(del.getBenutzertyp().equals("kunde")){
+                        List<Booking> bks = App.db.getallBookingFromUser(del.getBenutzername());
+                        bks.forEach(Booking->App.db.deleteBk(Booking.getId()));
+                    }
                     try {
                         App.db.deleteB(del.getId());
                         List<Benutzer> alle = App.db.getallUser();

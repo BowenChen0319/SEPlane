@@ -118,7 +118,6 @@ public class BooksBoard extends Application {
                                     +"   Seat: "+buchung.getSeat()
                                     +"   Preise: "+Math.round(buchung.getPreise()*100.0)/100.0+""
                             );
-                            System.out.println(buchung.getFlug());
                         }else{
                             data.add("BookingID :" + buchung.getId()
                                     +"    Sorry, this flight was cancelled. "
