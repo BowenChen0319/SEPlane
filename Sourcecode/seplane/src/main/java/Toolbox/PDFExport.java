@@ -121,14 +121,15 @@ public class PDFExport {
 
     public static void main(String[] args) throws IOException, DocumentException {
         //new PDFExport().createPdf("C:\\Users\\Kevin\\Desktop\\test\\test.pdf");
-        List<Booking> list = new DBManager().getBookingsForUser("Kunde1");
+      //  List<Booking> list = new DBManager().getBookingsForUser("Kunde1");
 //        for(Booking b : list)
 //        {
 //            System.out.println(b.toString());
 //        }
 //        System.out.println(list.get(0).getFlugid());
-        new PDFExport().createPdf("C:\\Users\\Kevin\\Desktop\\test\\test.pdf");
-
+        //new PDFExport().createPdf("C:\\Users\\Kevin\\Desktop\\test\\test.pdf");
+        String currentUsersHomeDir = System.getProperty("user.home");
+        System.out.println(currentUsersHomeDir);
 
     }
 }

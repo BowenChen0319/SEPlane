@@ -38,6 +38,8 @@ public class FileExplorer implements Initializable {
     public static String lastFolder;
     public static String currentFolder;
     public static String nextFolder;
+    public static final String userDir = System.getProperty("user.home");
+
 
 
     public void saveSelected(ActionEvent actionEvent) {
@@ -79,6 +81,7 @@ public class FileExplorer implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
        //nameCol.setCellValueFactory(new PropertyValueFactory<>("nameCol"));
+        pfadText.setText(userDir);
        nameCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         ordnerTable.setRowFactory( tv -> {
             TableRow<String> row = new TableRow<>();

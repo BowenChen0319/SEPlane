@@ -69,4 +69,11 @@ public class AlertHandler {
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}
+
+	public static void keineNachrichten(String user){
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Keine Nachrichten vorhanden");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.showAndWait();
+	}
 }
