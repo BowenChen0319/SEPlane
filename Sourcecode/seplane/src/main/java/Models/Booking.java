@@ -2,6 +2,7 @@ package Models;
 
 import Toolbox.Encryption;
 import com.j256.ormlite.field.DatabaseField;
+import org.openjfx.App;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -75,8 +76,11 @@ public class Booking {
     }
 
 
-    public Flug getFlug() {
-        return flug;
+//    public Flug getFlug() {
+//        return flug;
+//    }
+    public Flug getFlug(){
+        return App.db.getFlug(flug.id);
     }
 
     public void setFlug(Flug fi) {
@@ -128,7 +132,7 @@ public class Booking {
     }
 
     public Fluglinie getFluglinie(){
-        return flug.getFluglinie();
+        return this.getFlug().getFluglinie();
     }
 
     public String getStringDate() {

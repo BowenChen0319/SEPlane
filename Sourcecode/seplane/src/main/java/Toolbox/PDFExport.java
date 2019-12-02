@@ -2,6 +2,7 @@ package Toolbox;
 
 
 import Models.Booking;
+import Models.CurrentUser;
 import Models.Fluglinie;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -25,7 +26,7 @@ public class PDFExport {
     public void createPdf(String dest) throws IOException, DocumentException {
         Document document = new Document();
         DBManager db = new DBManager();
-        String user = "kunde1";
+        String user = new CurrentUser().getCurrent().getBenutzername();
         user.toLowerCase();
         PdfWriter.getInstance(document, new FileOutputStream(dest + "\\" + user + ".pdf"));
         //String user = new CurrentUser().getCurrent().getBenutzername();

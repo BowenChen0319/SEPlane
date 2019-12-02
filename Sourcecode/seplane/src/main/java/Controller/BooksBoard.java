@@ -104,94 +104,105 @@ public class BooksBoard extends Application {
                 all = App.db.getallBookingFromUser(be.getBenutzername());
                 ArrayList<Integer> notwo = new ArrayList<Integer>();
                 for (int i = 0; i < all.size(); i++) {
-                    Booking ben = all.get(i);
-                    if(ben.getMulti()==null){
-                        if(ben.getFlug()!=null){
-                            data.add("BookingID :" + ben.getId()
-                                    + "    Flight von " + ben.getFluglinie().getStart().getCode()
-                                    + " nach " + ben.getFluglinie().getZiel().getCode()
-                                    + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
-                                    + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
-                                    +"   " + ben.getFluglinie().getFlugzeug().getType()
-                                    +"   Time: "+ ben.getFlug().getStartzeit()
-                                    +"   Class: "+ben.getClasse()
-                                    +"   Seat: "+ben.getSeat()
-                                    +"   Preise: "+Math.round(ben.getPreise()*100.0)/100.0+""
+                    Booking buchung = all.get(i);
+                    if(buchung.getMulti()==null){
+                        if(buchung.getFlug()!=null){
+                            data.add("BookingID :" + buchung.getId()
+                                    + "    Flight von " + buchung.getFluglinie().getStart().getCode()
+                                    + " nach " + buchung.getFluglinie().getZiel().getCode()
+                                    + ".   In total " + buchung.getFluglinie().getEntfernung().toString()+" KM "
+                                    + "   with Plane " + buchung.getFluglinie().getFlugzeug().getHersteller()
+                                    +"   " + buchung.getFluglinie().getFlugzeug().getType()
+                                    +"   Time: "+ buchung.getFlug().getStartzeit()
+                                    +"   Class: "+buchung.getClasse()
+                                    +"   Seat: "+buchung.getSeat()
+                                    +"   Preise: "+Math.round(buchung.getPreise()*100.0)/100.0+""
                             );
+                            System.out.println(buchung.getFlug());
                         }else{
-                            data.add("BookingID :" + ben.getId()
+                            data.add("BookingID :" + buchung.getId()
                                     +"    Sorry, this flight was cancelled. "
-                                    +"   Time: "+ ben.getFlug().getStartzeit()
-                                    +"   Class: "+ben.getClasse()
-                                    +"   Seat: "+ben.getSeat()
-                                    +"   Preise: "+Math.round(ben.getPreise()*100.0)/100.0+""
+                                    +"   Time: "+ buchung.getFlug().getStartzeit()
+                                    +"   Class: "+buchung.getClasse()
+                                    +"   Seat: "+buchung.getSeat()
+                                    +"   Preise: "+Math.round(buchung.getPreise()*100.0)/100.0+""
                             );
                         }
 
                     }else{
-                        String multi= ben.getMulti();
+                        //Multistop
+                        String multi= buchung.getMulti();
                         ArrayList<String> list = new StringwithArraylist().str2list(multi);
                         System.out.println(list);
                         for(int j=0;j<list.size();j++){
                             //String flugid=list.get(j);
                             System.out.println(list.get(j));
                             //int flugid = Integer.parseInt(list.get(j));
-                            //ben=new DBManager().getMultiBook(be.getBenutzername(),flugid);
+                            //buchung=new DBManager().getMultiBook(be.getBenutzername(),flugid);
                             int index = Integer.parseInt(list.get(j));
-                            ben= App.db.getbkId(index);
-                            if(!notwo.contains(ben.getId())){
+                            buchung= App.db.getbkId(index);
+                            if(!notwo.contains(buchung.getId())){
                                 if(j==0){
-                                    if(ben.getFlug()!=null){
-                                        data.add("BookingID :" + ben.getId()
+                                    //Preise Insgesamt
+                                    Double preise = 0.0;
+                                    for(int y=0;y<list.size();y++){
+                                        int ind = Integer.parseInt(list.get(y));
+                                        Booking bk = App.db.getbkId(ind);
+                                        preise=preise+bk.getPreise();
+                                    }
+
+                                    if(buchung.getFlug()!=null){
+                                        data.add("BookingID :" + buchung.getId()
                                                 +"    Multistop: "+(j+1)+"."
-                                                + "   From " + ben.getFluglinie().getStart().getCode()
-                                                + " to " + ben.getFluglinie().getZiel().getCode()
-                                                + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
-                                                + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
-                                                +"   " + ben.getFluglinie().getFlugzeug().getType()
-                                                +"   Time: "+ ben.getFlug().getStartzeit()
-                                                +"   Class: "+ben.getClasse()
-                                                +"   Seat: "+ben.getSeat()
-                                                +"   Preise in total: "+Math.round(ben.getPreise()*100.0)/100.0+""
+                                                + "   From " + buchung.getFluglinie().getStart().getCode()
+                                                + " to " + buchung.getFluglinie().getZiel().getCode()
+                                                + ".   In total " + buchung.getFluglinie().getEntfernung().toString()+" KM "
+                                                + "   with Plane " + buchung.getFluglinie().getFlugzeug().getHersteller()
+                                                +"   " + buchung.getFluglinie().getFlugzeug().getType()
+                                                +"   Time: "+ buchung.getFlug().getStartzeit()
+                                                +"   Class: "+buchung.getClasse()
+                                                +"   Seat: "+buchung.getSeat()
+                                                +"   Preise in total: "+Math.round(preise*100.0)/100.0+""
                                         );
                                     }else{
-                                        data.add("BookingID :" + ben.getId()
+                                        //Flight canceled
+                                        data.add("BookingID :" + buchung.getId()
                                                 +"    Multistop: "+(j+1)+"."
                                                 +"    Sorry, this flight was cancelled. "
-                                                +"   Time: "+ ben.getFlug().getStartzeit()
-                                                +"   Class: "+ben.getClasse()
-                                                +"   Seat: "+ben.getSeat()
-                                                +"   Preise in total: "+Math.round(ben.getPreise()*100.0)/100.0+""
+                                                +"   Time: "+ buchung.getFlug().getStartzeit()
+                                                +"   Class: "+buchung.getClasse()
+                                                +"   Seat: "+buchung.getSeat()
+                                                +"   Preise in total: "+Math.round(preise*100.0)/100.0+""
                                         );
                                     }
                                 }else{
-                                    if(ben.getFlug()!=null){
-                                        data.add("BookingID :" + ben.getId()
+                                    if(buchung.getFlug()!=null){
+                                        data.add("BookingID :" + buchung.getId()
                                                         +"    Multistop: "+(j+1)+"."
-                                                        + "   From " + ben.getFluglinie().getStart().getCode()
-                                                        + "  to " + ben.getFluglinie().getZiel().getCode()
-                                                        + ".   In total " + ben.getFluglinie().getEntfernung().toString()+" KM "
-                                                        + "   with Plane " + ben.getFluglinie().getFlugzeug().getHersteller()
-                                                        +"   " + ben.getFluglinie().getFlugzeug().getType()
-                                                        +"   Time: "+ ben.getFlug().getStartzeit()
-                                                        +"   Class: "+ben.getClasse()
-                                                        +"   Seat: "+ben.getSeat()
-                                                //+" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                                        + "   From " + buchung.getFluglinie().getStart().getCode()
+                                                        + "  to " + buchung.getFluglinie().getZiel().getCode()
+                                                        + ".   In total " + buchung.getFluglinie().getEntfernung().toString()+" KM "
+                                                        + "   with Plane " + buchung.getFluglinie().getFlugzeug().getHersteller()
+                                                        +"   " + buchung.getFluglinie().getFlugzeug().getType()
+                                                        +"   Time: "+ buchung.getFlug().getStartzeit()
+                                                        +"   Class: "+buchung.getClasse()
+                                                        +"   Seat: "+buchung.getSeat()
+                                                //+" Preise: "+Math.round(Integer.parseInt(buchung.getPreise())*100.0)/100.0+""
                                         );
                                     }else{
-                                        data.add("BookingID :" + ben.getId()
+                                        data.add("BookingID :" + buchung.getId()
                                                         +"    Multistop: "+(j+1)+"."
                                                         +"   Sorry, this flight was cancelled. "
-                                                        +"   Time: "+ ben.getFlug().getStartzeit()
-                                                        +"   Class: "+ben.getClasse()
-                                                        +"   Seat: "+ben.getSeat()
-                                                //+" Preise: "+Math.round(Integer.parseInt(ben.getPreise())*100.0)/100.0+""
+                                                        +"   Time: "+ buchung.getFlug().getStartzeit()
+                                                        +"   Class: "+buchung.getClasse()
+                                                        +"   Seat: "+buchung.getSeat()
+                                                //+" Preise: "+Math.round(Integer.parseInt(buchung.getPreise())*100.0)/100.0+""
                                         );
                                     }
                                 }
                             }
 
-                            notwo.add(ben.getId());
+                            notwo.add(buchung.getId());
 
                         }
                     }
