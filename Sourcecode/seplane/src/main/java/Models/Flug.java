@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class Flug {
@@ -108,6 +109,14 @@ public class Flug {
 	}
 	public void removeBusiness(Integer sitz) {
 		reserviereBusiness.remove(sitz);
+	}
+	public void returnEconomy(Integer sitz) {
+		reserviereEconomy.add(sitz);
+		Collections.sort(reserviereEconomy);
+	}
+	public void returnBusiness(Integer sitz) {
+		reserviereBusiness.add(sitz);
+		Collections.sort(reserviereBusiness);
 	}
 
 }

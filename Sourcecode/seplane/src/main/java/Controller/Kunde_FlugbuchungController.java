@@ -1,9 +1,11 @@
 package Controller;
 
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import Models.Airport;
+import Models.CurrentUser;
+import Models.Flug;
+import Models.Postfach;
+import Toolbox.AlertHandler;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -11,52 +13,30 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ChoiceBox;
+import org.openjfx.App;
+import org.openjfx.DBManager;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
-
-import org.openjfx.App;
-import org.openjfx.DBManager;
-
-import com.sun.javafx.binding.StringFormatter;
-
-import Models.Airport;
-import Models.CurrentUser;
-import Models.Flug;
-import Models.Postfach;
-import Toolbox.AlertHandler;
 
 
 public class Kunde_FlugbuchungController implements Initializable {
@@ -382,6 +362,7 @@ public class Kunde_FlugbuchungController implements Initializable {
                  public void run() {
                      try {
                          new BooksBoard().start(new Stage());
+
 
                      } catch (IOException | SQLException e) {
                          e.printStackTrace();

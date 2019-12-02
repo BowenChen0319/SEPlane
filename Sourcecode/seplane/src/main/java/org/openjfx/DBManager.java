@@ -423,20 +423,16 @@ public class DBManager {
 				double distance=be.getkilo()-bk.getdistence();
 				be.setCo(co);
 				be.setKilo(distance);
-//				Flug fl =bk.getFlug();
-//				if(fl!=null){
-//					if(bk.getClass().equals("E")){
-//						//int anzahl = bk.getFlug().getRestEconomy();
-//						//fl.setRestEconomy(anzahl+1);
-//					}else if(bk.getClass().equals("B")){
-//						//int anzahl = bk.getFlug().getRestBusiness();
-//						//fl.setRestBusiness(anzahl+1);
-//					}
-//					this.updateFlug(fl);
-//				}
-				//TODO Give Back Seat
-				this.updateB(be);
+				//Give Back Seat
+				Flug fl = App.db.getFlug(bk.getFlugid());
+				if(bk.getClasse().equals("B")){
+					fl.returnBusiness(bk.getSeat());
+				}else{
+					fl.returnEconomy(bk.getSeat());
+				}
 
+				this.updateB(be);
+				this.updateFlug(fl);
 				bkDao.deleteById(id);
 			}
 
