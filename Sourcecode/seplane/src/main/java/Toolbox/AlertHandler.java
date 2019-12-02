@@ -61,6 +61,13 @@ public class AlertHandler {
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}
+	public static void buchungConfirm() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Buchung erfolgreich");
+		alert.setHeaderText("Sie können sich Ihre Buchungen in der Buchungsübersicht anschauen.");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.showAndWait();
+	}
 
 	//PDFExport - Invalider Pfad
 	public static void PDFExportPfad(String pfad){

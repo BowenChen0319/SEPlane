@@ -212,23 +212,10 @@ public class Kunde_buchenController implements Initializable {
 		//Update Fluege auf DB, entferne die freien Plätze
 		for(Flug f : fluege)
 			db.updateFlug(f);
-		//TODO InfoAlert dass feddich
 		
-		//zur Buchungsübersicht und Fenster schließen
-		 Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new BooksBoard().start(new Stage());
+		AlertHandler.buchungConfirm();	
 
-                } catch (IOException | SQLException e) {
-                    e.printStackTrace();
-
-                }
-            }
-        });
-		 ((Node) event.getSource()).getScene().getWindow().hide();
-		 //TODO ((Node) event.getSource()).getParent().getScene().getWindow().hide();
+		((Node) event.getSource()).getScene().getWindow().hide();
 		}
 	}
 	public void buchung() {
