@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FGM_FluegeUebersichtController">
@@ -20,19 +21,23 @@
                             <TableColumn fx:id="startflughafen_column" prefWidth="125.0" text="Startflughafen" />
                             <TableColumn fx:id="zielflughafen_column" prefWidth="125.0" text="Zielflughafen" />
                               <TableColumn fx:id="intervall_column" prefWidth="125.0" text="Intervall" />
-                              <TableColumn fx:id="jungfernflug_column" prefWidth="125.0" text="1. Flug" />
                               <TableColumn fx:id="Flugzeug_column" prefWidth="125.0" text="Flugzeug" />
                               <TableColumn fx:id="economyPlaetze_column" prefWidth="125.0" text="Economy Plätze" />
                               <TableColumn fx:id="businessPlaetze_column" prefWidth="125.0" text="Business Plätze" />
-                              <TableColumn fx:id="preisEconomy_column" prefWidth="125.0" text="Preis Economy" />
-                              <TableColumn fx:id="preisBusiness_column" prefWidth="125.0" text="Preis Business" />
+                              <TableColumn fx:id="abflugdatum_column" prefWidth="125.0" text="Ablflug" />
+                              <TableColumn fx:id="rentabilitaet_column" prefWidth="125.0" text="Rentabilitaet" />
                           </columns>
                         </TableView>
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="abbrechen" />
+            <HBox alignment="BOTTOM_RIGHT" spacing="40.0">
+               <children>
+                  <Button fx:id="flugStornieren_button" mnemonicParsing="false" onAction="#handleFlugStornieren" text="Flug stornieren " />
+                  <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="abbrechen" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>
