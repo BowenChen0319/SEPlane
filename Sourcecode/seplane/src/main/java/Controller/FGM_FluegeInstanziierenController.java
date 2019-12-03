@@ -89,17 +89,18 @@ public class FGM_FluegeInstanziierenController implements Initializable {
 
         if (flugLinie.getFluegeInstanziiertBis()==null) {
 
-            System.out.println("Instanziieren");
-            this.flugAnlegen(flugLinie.getStartdatum());
-            Calendar c = Calendar.getInstance();
-            c.setTime(flugLinie.getStartdatum());
-            c.add(c.DATE, 180);
-            flugLinie.setFluegeInstanziiertBis(c.getTime());
-            db.updateFL(flugLinie);
 
             if (stunde_choiceBox.getValue() != null) {
 
                 if(minute_choiceBox.getValue()!=null) {
+
+                    System.out.println("Instanziieren");
+                    this.flugAnlegen(flugLinie.getStartdatum());
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(flugLinie.getStartdatum());
+                    c.add(c.DATE, 180);
+                    flugLinie.setFluegeInstanziiertBis(c.getTime());
+                    db.updateFL(flugLinie);
 
                     if (flugLinie.getIntervall() == Intervall.Täglich) {
 
@@ -156,6 +157,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                     }
                 }
                 else{
+                    System.out.println("keine Minute");
                     String errorMessage = "Bitte geben Sie eine Minute an.";
                     Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
