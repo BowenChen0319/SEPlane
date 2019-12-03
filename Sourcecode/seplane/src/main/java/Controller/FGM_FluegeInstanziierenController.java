@@ -86,11 +86,11 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     }
 
     public void handleInstanziieren(ActionEvent event){
-        System.out.println("Instanziieren");
-        this.flugAnlegen(flugLinie.getStartdatum());
 
         if (flugLinie.getFluegeInstanziiertBis()==null) {
 
+            System.out.println("Instanziieren");
+            this.flugAnlegen(flugLinie.getStartdatum());
             Calendar c = Calendar.getInstance();
             c.setTime(flugLinie.getStartdatum());
             c.add(c.DATE, 180);
@@ -164,6 +164,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
             }
 
             else{
+                System.out.println("keine Stunde");
                 String errorMessage = "Bitte geben Sie eine Stunde an.";
                 Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

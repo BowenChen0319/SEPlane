@@ -32,7 +32,7 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <Button fx:id="abbrechen_button" mnemonicParsing="false" text="abbrechen" />
+            <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="abbrechen" />
          </children>
       </VBox>
    </children>
