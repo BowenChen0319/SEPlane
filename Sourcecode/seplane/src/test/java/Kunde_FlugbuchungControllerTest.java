@@ -3,8 +3,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import Controller.Kunde_FlugbuchungController;
 import Models.Flug;
@@ -13,27 +18,39 @@ import Models.Fluglinie;
 class Kunde_FlugbuchungControllerTest {
 	
 	@Mock
-	Flug flug;
+	static Flug flug;
 	@Mock
-	Flug flug1;
+	static Flug flug1;
 	@Mock
-	Flug flug2;
+	static Flug flug2;
 	@Mock
-	Flug flug3;
+	static Flug flug3;
 	@Mock
-	Fluglinie line1;
+	static Fluglinie line1;
 	@Mock
-	Fluglinie line2;
+	static Fluglinie line2;
 	
-	ArrayList<Flug> flugGruppe1 = new ArrayList<Flug>();
-	ArrayList<Flug> flugGruppe2 = new ArrayList<Flug>();
+	static ArrayList<Flug> flugGruppe1 = new ArrayList<Flug>();
+	static ArrayList<Flug> flugGruppe2 = new ArrayList<Flug>();
 	
-	ArrayList<ArrayList<Flug>> fluege = new ArrayList<ArrayList<Flug>>();
+	static ArrayList<ArrayList<Flug>> fluege = new ArrayList<ArrayList<Flug>>();
 	
-	ArrayList<Double> preise = new ArrayList<Double>();
+	static ArrayList<Double> preise = new ArrayList<Double>();
 
-	@Before
-	void prepare() {
+	//TODO herausfinden wieso :(
+//	@Rule
+//	public MockitoRule mockitoRule = MockitoJUnit.rule();
+		
+	@BeforeAll
+	static void prepare() {
+		line1 = new Fluglinie();
+		line2 = new Fluglinie();
+		flug = new Flug();
+		flug1 = new Flug();
+		flug2 = new Flug();
+		flug3 = new Flug();
+		
+		
 		System.out.println("test ?");
 		line1.setPreiseb(88.0);
 		line1.setPreisee(30.0);
@@ -50,17 +67,16 @@ class Kunde_FlugbuchungControllerTest {
 		flugGruppe2.add(flug2);
 		flugGruppe2.add(flug3);
 		
+		fluege.add(flugGruppe2);	//E 12€, B 99€
+		fluege.add(flugGruppe1);	//E 30€, B 88€
 		
 	}
 	
 	@Test
 	void testsortieren2DimBusiness() {
+		//prepare();
 		System.out.println("test 1");
 		Kunde_FlugbuchungController kunde_FB = new Kunde_FlugbuchungController();
-		
-		//TODO wieso klappts nicht in Before
-		fluege.add(flugGruppe2);	//E 12€, B 99€
-		fluege.add(flugGruppe1);	//E 30€, B 88€
 		
 		preise = kunde_FB.preisBerechnung(fluege, "business");
 		
@@ -78,16 +94,12 @@ class Kunde_FlugbuchungControllerTest {
 		System.out.println("test 1");
 		Kunde_FlugbuchungController kunde_FB = new Kunde_FlugbuchungController();
 		
-		fluege.add(flugGruppe2);	//E 12€, B 99€
-		fluege.add(flugGruppe1);	//E 30€, B 88€
-		
 		preise = kunde_FB.preisBerechnung(fluege, "else");
 		
-		//Test scheint iwie immer true solange nicht index out of bounds egal ob eig falsch...wtf
-		assertTrue(fluege.get(1).equals(flugGruppe2));
+		assertTrue(fluege.get(0).equals(flugGruppe2));
 		
 		//Sortiere nach günstigster Business Flugkombi
-		assertEquals(fluege.get(1), kunde_FB.sortieren2Dim(fluege, preise).get(0));
+		assertEquals(fluege.get(0), kunde_FB.sortieren2Dim(fluege, preise).get(0));
 
 	}
 }
