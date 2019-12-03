@@ -115,7 +115,8 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML TableColumn<Postfach, Date> dateCol;
 	
 	//Inhalte
-	ObservableList<ArrayList<Flug>> flugList;
+	//public für Test
+	public ObservableList<ArrayList<Flug>> flugList;
 	DBManager db = App.db;
 
 	@Override
