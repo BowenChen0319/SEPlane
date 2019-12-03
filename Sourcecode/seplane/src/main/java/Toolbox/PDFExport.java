@@ -3,6 +3,7 @@ package Toolbox;
 
 import Models.Booking;
 import Models.CurrentUser;
+import Models.Flug;
 import Models.Fluglinie;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -33,11 +34,17 @@ public class PDFExport {
 
 
         List<Booking> bookingFromKunde = db.getallBookingFromUser(user);
+
         document.open();
+        if(bookingFromKunde.size() == 0 || bookingFromKunde == null)
+        {
+            document.add(new Phrase("Fehler"));
+        }
         document.add(new Phrase("Name: \t" + db.getUser(user).getNachname()));
         document.add(new Phrase("\nVorname: \t" + db.getUser(user).getVorname()));
 
         document.add(new Phrase("  "));
+
 
         PdfPTable table = new PdfPTable(4);
         PdfPCell cell = new PdfPCell(new Phrase("Flugbuchungsübersicht"));
@@ -80,21 +87,30 @@ public class PDFExport {
 
     public PdfPTable flightDescription(PdfPTable table, List<Booking> bookingList){
         PdfPCell cell;
-
+        int idd;
+        int id;
         DBManager db = new DBManager();
         List<Fluglinie> list = new ArrayList<>();
+        Flug f;
 
         for(int i=0;i<bookingList.size();i++) {
 
-            int id = bookingList.get(i).getFlugid();
+
+
+
+            idd = bookingList.get(i).getFlugid();
+            id =  db.getFluglinievonFlugIDausBooking(idd).getId();
+
 
             System.out.println("Teil " + i + " aus liste eingefügt");
             list.add(db.getFluglinie(id));
+            System.out.println(list.get(i).toString());
 
         }
 
 
-        for(int j =0; j< bookingList.size();j++) {
+
+        for(int j =0; j < bookingList.size();j++) {
 
             cell = new PdfPCell(new Phrase(list.get(j).getStart().getCode()));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -112,8 +128,10 @@ public class PDFExport {
             cell = new PdfPCell(new Phrase(bookingList.get(j).getPreise() + " €"));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
-
+            System.out.println("Preis: " + bookingList.get(j).getPreise());
+            System.out.println("preisInsg 1");
             preisInsg += Float.valueOf(bookingList.get(j).getPreise().toString());
+            System.out.println("preisInsg 2");
         }
         return table;
     }
