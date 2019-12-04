@@ -64,31 +64,27 @@ public class DBManager {
 
     }
 
-    public static void main(String[] args) throws SQLException {
-        new DBManager().setUpDatabase();
-    }
     public void setUpDatabase() throws SQLException {
 
 		TableUtils.dropTable(cs, Fluglinie.class, true);
-		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-		TableUtils.dropTable(cs, Benutzer.class, true);
-		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
+//		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
+//		TableUtils.dropTable(cs, Benutzer.class, true);
+//		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 //		TableUtils.dropTable(cs, Airport.class, true);
 //		TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
         TableUtils.dropTable(cs, Booking.class, true);
-		TableUtils.dropTable(cs, Postfach.class, true);
+//		TableUtils.dropTable(cs, Postfach.class, true);
 
-
-		TableUtils.createTable(cs, Benutzer.class);
-		TableUtils.createTable(cs, Fluggesellschaft.class);
-		TableUtils.createTable(cs, Fluglinie.class);
-		TableUtils.createTable(cs, FlugzeugMapping.class);
+        TableUtils.createTable(cs, Fluglinie.class);
+//		TableUtils.createTable(cs, Fluggesellschaft.class);
+//		TableUtils.createTable(cs, Benutzer.class);
+//		TableUtils.createTable(cs, FlugzeugMapping.class);
 //		TableUtils.createTable(cs, Airport.class);
 //		TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
         TableUtils.createTable(cs, Booking.class);
-		TableUtils.createTable(cs, Postfach.class);
+//		TableUtils.createTable(cs, Postfach.class);
     }
 
     public void refreshbooking() throws SQLException {
@@ -500,14 +496,6 @@ public class DBManager {
         }
     }
 
-    public Fluglinie getFluglinievonFlugIDausBooking(int flugID){
-        Flug flug;
-        Fluglinie flugLID;
-        flug = getFlug(flugID);
-        flugLID = flug.getFluglinie();
-        return flugLID;
-    }
-
 
     public List<Benutzer> getallUser() {
         List<Benutzer> all;
@@ -520,8 +508,6 @@ public class DBManager {
         }
 
     }
-
-
 
     public Booking getMultiBook(String name, int bookingId) {
         QueryBuilder<Booking, Integer> query = bkDao.queryBuilder();
@@ -537,7 +523,6 @@ public class DBManager {
 
     public List<Booking> getallBookingFromUser(String username) {
         List<Booking> all;
-
         try {
             all = bkDao.queryForEq("username", username);
             return all;
@@ -627,7 +612,7 @@ public class DBManager {
 
 
     public Fluglinie getFluglinie(int id) {
-        Fluglinie fl;
+        Fluglinie fl = null;
         try {
             fl = flDao.queryForId(id);
             return fl;
@@ -674,6 +659,7 @@ public class DBManager {
             e.printStackTrace();
             System.out.println("Invalides SQL Statement");
         }
+
         return obBKList;
     }
 

@@ -99,8 +99,8 @@ public class PDFExport {
 
 
             idd = bookingList.get(i).getFlugid();
-            id =  db.getFluglinievonFlugIDausBooking(idd).getId();
-
+            //id =  db.getFluglinievonFlugIDausBooking(idd).getId();
+            id = db.getbkId(idd).getFlug().getFluglinie().getId();
 
             System.out.println("Teil " + i + " aus liste eingefügt");
             list.add(db.getFluglinie(id));
