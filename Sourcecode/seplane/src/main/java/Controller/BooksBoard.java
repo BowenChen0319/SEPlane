@@ -31,20 +31,141 @@ import org.openjfx.login;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * JavaFX App
  */
 
 public class BooksBoard extends Application {
-//    Benutzer be = null;
+
+    //    Benutzer be = null;
 //    public void setBenutzerRun(Benutzer benutzer) throws IOException {
 //        be=benutzer;
 //        this.start(new Stage());
 //    }
     TableView<Booking> bookingTable;
+    public List<Booking> bookingFromKunde=new List<Booking>() {
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return false;
+        }
+
+        @Override
+        public Iterator<Booking> iterator() {
+            return null;
+        }
+
+        @Override
+        public Object[] toArray() {
+            return new Object[0];
+        }
+
+        @Override
+        public <T> T[] toArray(T[] a) {
+            return null;
+        }
+
+        @Override
+        public boolean add(Booking booking) {
+            return false;
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            return false;
+        }
+
+        @Override
+        public boolean containsAll(Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends Booking> c) {
+            return false;
+        }
+
+        @Override
+        public boolean addAll(int index, Collection<? extends Booking> c) {
+            return false;
+        }
+
+        @Override
+        public boolean removeAll(Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public void clear() {
+
+        }
+
+        @Override
+        public Booking get(int index) {
+            return null;
+        }
+
+        @Override
+        public Booking set(int index, Booking element) {
+            return null;
+        }
+
+        @Override
+        public void add(int index, Booking element) {
+
+        }
+
+        @Override
+        public Booking remove(int index) {
+            return null;
+        }
+
+        @Override
+        public int indexOf(Object o) {
+            return 0;
+        }
+
+        @Override
+        public int lastIndexOf(Object o) {
+            return 0;
+        }
+
+        @Override
+        public ListIterator<Booking> listIterator() {
+            return null;
+        }
+
+        @Override
+        public ListIterator<Booking> listIterator(int index) {
+            return null;
+        }
+
+        @Override
+        public List<Booking> subList(int fromIndex, int toIndex) {
+            return null;
+        }
+    } ;
+
+    public List<Booking> getBookingFromKunde() {
+        return bookingFromKunde;
+    }
+
     @Override
 
     public void start(Stage stage) throws IOException, SQLException {
@@ -349,12 +470,41 @@ public class BooksBoard extends Application {
             public void handle(ActionEvent event) {
 
                 //PDF
+                int d = listView.getSelectionModel().getSelectedIndex();
+                System.out.println(d);
+                List<Booking> all = null;
+                bookingFromKunde.clear();
+                all= App.db.getallBookingFromUser(be.getBenutzername());
+                if(d<=all.size()) {
+                    Booking choose = all.get(d);
+                    //Singel choose
+                    if(choose.getMulti()==null){
+                        bookingFromKunde.add(choose);
+                    }else{
+                        //choose Multistop
+                        String multi= choose.getMulti();
+                        ArrayList<String> list = new StringwithArraylist().str2list(multi);
+                        System.out.println(list);
+                        //add all multistops to List
+                        for(int i=0;i<list.size();i++){
+                            bookingFromKunde.add(App.db.getbkId(Integer.parseInt(list.get(i))));
+                        }
+
+                    }
+                }
+                for(int h=0;h<bookingFromKunde.size();h++){
+                    System.out.println(bookingFromKunde.get(h).getSeat());
+                }
+
+                //diese bookingFromKunde ist die ausgewählte Booking in List, alles ist vorbereitet,
+
+
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FileExplorer.fxml"));
                     Parent root1 = fxmlLoader.load();
                     Scene scene = new Scene(root1);
                     Stage stage = new Stage();
-                    stage.setTitle("Stage");
+                    stage.setTitle("PDF");
                     stage.setScene(scene);
                     stage.showAndWait();
 
@@ -393,6 +543,8 @@ public class BooksBoard extends Application {
 
 
     }
+
+
 
 
 }
