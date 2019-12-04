@@ -495,7 +495,11 @@ public class DBManager {
             return null;
         }
     }
-
+    public Fluglinie getFluglinievonFlugIDausBooking(int flugID){
+        Flug flug = getFlug(flugID);
+        Fluglinie flugLID = flug.getFluglinie();
+        return flugLID;
+    }
 
     public List<Benutzer> getallUser() {
         List<Benutzer> all;
