@@ -9,8 +9,5 @@
         <module name="SE-Plane" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="SE-Plane" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>
