@@ -50,7 +50,7 @@ public class BooksBoard extends Application {
     public void start(Stage stage) throws IOException, SQLException {
 
         int Height = 700;
-        int Width = 1000;
+        int Width = 1100;
 
 
         Benutzer be = new CurrentUser().getCurrent();
