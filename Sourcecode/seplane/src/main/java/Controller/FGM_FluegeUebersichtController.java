@@ -10,10 +10,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import jdk.jfr.Frequency;
 import org.openjfx.App;
@@ -186,8 +185,22 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
 
     public void handleFlugStornieren (ActionEvent event){
-       Flug flug = fluegeUebersicht_table.getSelectionModel().getSelectedItem();
-       db.deleteFlug(flug.getId());
-       this.initialize(null, null);
+        Flug flug = fluegeUebersicht_table.getSelectionModel().getSelectedItem();
+        if(flug==null) {
+            String errorMessage = "Bitte waehlen Sie einen Flug aus der Tabelle aus.";
+            Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+        }
+        else if(this.berechneRentabilitaet(flug)<0){
+            String errorMessage = "Die Rentabilitaet dieses Fluges ist nicht negativ";
+            Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+        }
+        else{
+            db.deleteFlug(flug.getId());
+            this.initialize(null, null);
+        }
     }
 }
