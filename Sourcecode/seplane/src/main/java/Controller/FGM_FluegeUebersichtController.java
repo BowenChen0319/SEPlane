@@ -186,6 +186,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
 
     public void handleFlugStornieren (ActionEvent event){
-
+       Flug flug = fluegeUebersicht_table.getSelectionModel().getSelectedItem();
+       db.deleteFlug(flug.getId());
+       this.initialize(null, null);
     }
 }
