@@ -21,11 +21,13 @@ import java.util.Optional;
 public class PDFExport {
 
     public float preisInsg = 0f;
+    public boolean hasError = false;
 
     private void errorPDFcreate(Document document) {
 
             try {
                 document.add(new Phrase("Fehler!"));
+                hasError = true;
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
@@ -77,19 +79,19 @@ public class PDFExport {
         table = new PdfPTable(4);
 
         document.add(flightDescription(table, bookingFromKunde, document));
-
-        table = new PdfPTable(1);
-        cell = new PdfPCell(new Phrase("Preis ing.: " + preisInsg + "€ "));
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
-        document.add(table);
-
-        document.close();
+        if(!hasError){
+            table = new PdfPTable(1);
+            cell = new PdfPCell(new Phrase("Preis ing.: " + preisInsg + "€ "));
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+            document.add(table);
+            document.close();
+        }
     }
 
     public PdfPTable flightDescription(PdfPTable table, List<Booking> bookingList, Document document) {
         PdfPCell cell;
-        int idd;
+        int flugId;
         int id;
         DBManager db = new DBManager();
         List<Fluglinie> list = new ArrayList<>();
@@ -97,8 +99,8 @@ public class PDFExport {
 
         for (int i = 0; i < bookingList.size(); i++) {
 
-            idd = bookingList.get(i).getFlugid();
-            id = db.getFluglinievonFlugIDausBooking(idd).getId();
+            flugId = bookingList.get(i).getFlugid();
+            id = db.getFluglinievonFlugIDausBooking(flugId).getId();
             //id = db.getbkId(idd).getFlug().getFluglinie().getId();
 
             System.out.println("Teil " + i + " aus liste eingefügt");
