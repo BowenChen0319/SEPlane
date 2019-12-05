@@ -31,7 +31,6 @@ public class PDFExport {
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
-            document.close();
     }
 
 
@@ -78,8 +77,9 @@ public class PDFExport {
 
         table = new PdfPTable(4);
 
-        document.add(flightDescription(table, bookingFromKunde, document));
+
         if(!hasError){
+            document.add(flightDescription(table, bookingFromKunde, document));
             table = new PdfPTable(1);
             cell = new PdfPCell(new Phrase("Preis ing.: " + preisInsg + "€ "));
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
