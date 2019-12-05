@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -149,10 +150,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 		toggleEco3.setToggleGroup(tg3);
 		//TODO Listener on IndexChange für ToggleGroup für hübsche Farben :)
 		//initial eins ausgewählt
-		toggleEco.setSelected(true);
-		toggleEco1.setSelected(true);
-		toggleEco2.setSelected(true);
-		toggleEco3.setSelected(true);
+//		toggleEco.setSelected(true);
+//		toggleEco1.setSelected(true);
+//		toggleEco2.setSelected(true);
+//		toggleEco3.setSelected(true);
 		
 		//Default Text wenn leer
 		suchergebnis.setPlaceholder(new Label("Starte eine Suche mit SEPlane"));
@@ -316,6 +317,62 @@ public class Kunde_FlugbuchungController implements Initializable {
 		dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
 		messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
 
+		toggleBus.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				suche(actionEvent);
+			}
+		});
+
+		toggleBus1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				suche(actionEvent);
+			}
+		});
+
+		toggleBus2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				suche(actionEvent);
+			}
+		});
+
+		toggleBus3.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				suche(actionEvent);
+			}
+		});
+
+		toggleEco.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				suche(actionEvent);
+			}
+		});
+
+		toggleEco1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				suche(actionEvent);
+			}
+		});
+
+		toggleEco2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				suche(actionEvent);
+			}
+		});
+
+		toggleEco3.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				suche(actionEvent);
+			}
+		});
+
 	}	
 
 	//-------Nachrichtengedöns
@@ -373,6 +430,9 @@ public class Kunde_FlugbuchungController implements Initializable {
              });
 			 ((Node) event.getSource()).getScene().getWindow().hide();
 		}
+		//refresh
+
+
 		
 //------Kaufen
 		private void kaufe(ArrayList<Flug> fluege, ActionEvent event) {
@@ -642,7 +702,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 				klasse2 = "business";
 			else klasse2 = "economy";
 			String klasse3;
-			if(tg2.getSelectedToggle().equals(toggleBus2))
+			if(tg3.getSelectedToggle().equals(toggleBus3))
 				klasse3 = "business";
 			else klasse3 = "economy";
 
@@ -655,7 +715,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 			for(Flug hin:hinflug) {
 				for(Flug m1: multi1) {
 					for(Flug m2: multi2) {
-						for(Flug m3 : multi3) {
+						for(Flug m3: multi3) {
 						
 					if(hin.getStartzeit().compareTo(m1.getStartzeit())<0 && m1.getStartzeit().compareTo(m2.getStartzeit())<0
 							&& m2.getStartzeit().compareTo(m3.getStartzeit())<0) {

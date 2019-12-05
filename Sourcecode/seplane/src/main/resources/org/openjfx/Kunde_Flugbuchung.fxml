@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -21,7 +25,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Kunde_FlugbuchungController">
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Kunde_FlugbuchungController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -200,8 +204,8 @@
                         														<ChoiceBox fx:id="personenZahl" />
                                                             <HBox spacing="10.0">
                                                                <children>
-                              														<ToggleButton fx:id="toggleEco" mnemonicParsing="false" text="Economy" />
-                                                                  <ToggleButton fx:id="toggleBus" mnemonicParsing="false" text="Business" />
+                              														<ToggleButton fx:id="toggleEco" mnemonicParsing="false" onAction="#suche" text="Economy" />
+                                                                  <ToggleButton fx:id="toggleBus" mnemonicParsing="false" onAction="#suche" text="Business" />
                                                                </children>
                                                             </HBox>
                                                          </children>
@@ -283,7 +287,7 @@
                               </TableView>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="openButton" alignment="CENTER" mnemonicParsing="false"  text="Open" />
+                                    <Button fx:id="openButton" alignment="CENTER" mnemonicParsing="false" text="Open" />
                                     <Button fx:id="refreshButton" alignment="CENTER" mnemonicParsing="false" onAction="#refreshMessages" text="Refresh" />
                                  </children>
                               </HBox>
