@@ -120,7 +120,7 @@ public class Kunde_buchenController implements Initializable {
 			}
 		}
 		//Multi1
-		if(!rueckflug && fluege.size()==2) {
+		if(!rueckflug && fluege.size()>=2) {
 			vMulti1.setVisible(true);
 			startLabel2.setText(fluege.get(1).getFluglinie().getStart().getCode());
 			zielLabel2.setText(fluege.get(1).getFluglinie().getZiel().getCode());
@@ -141,7 +141,7 @@ public class Kunde_buchenController implements Initializable {
 			}
 		}
 		//Multi2
-		if(fluege.size()==3) {
+		if(fluege.size()>=3) {
 			vMulti2.setVisible(true);
 			startLabel3.setText(fluege.get(2).getFluglinie().getStart().getCode());
 			zielLabel3.setText(fluege.get(2).getFluglinie().getZiel().getCode());
@@ -205,7 +205,7 @@ public class Kunde_buchenController implements Initializable {
 			buchung();
 		
 		//Buchungen auf DB speichern
-			//TODO Booking List
+		//TODO pro Person eine DB Abfrage
 			System.out.println(booking);
 		db.creatbookinginlist(booking);
 
