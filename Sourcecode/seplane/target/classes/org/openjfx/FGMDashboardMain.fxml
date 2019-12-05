@@ -83,7 +83,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <Button fx:id="fileExplorer" mnemonicParsing="false" onAction="#openFIlex" text="fileEx" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <!--<Button fx:id="fileExplorer" mnemonicParsing="false" onAction="#openFIlex" text="fileEx" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
                            </children>
                         </GridPane>
                      </children>

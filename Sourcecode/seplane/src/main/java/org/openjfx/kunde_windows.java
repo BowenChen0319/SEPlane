@@ -38,7 +38,9 @@ public class kunde_windows extends Application {
         root.setPrefWidth(Width);
 
         Label text = new Label(
-                "Willkommen Kunde, Loading");
+                "Willkommen "+
+                        new CurrentUser().getCurrent().getVorname()+" "+new CurrentUser().getCurrent().getNachname()+
+                        " , Loading......");
         text.setFont(Font.font(25));
 
         HBox h0 = new HBox();
