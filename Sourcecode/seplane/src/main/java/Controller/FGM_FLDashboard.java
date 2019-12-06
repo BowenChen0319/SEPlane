@@ -1,6 +1,5 @@
 package Controller;
 
-import Models.*;
 import Toolbox.AlertHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -15,11 +14,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -28,12 +24,19 @@ import javafx.util.StringConverter;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
+import Models.Airport;
+import Models.CurrentUser;
+import Models.Fluggesellschaft;
+import Models.Fluglinie;
+import Models.Intervall;
+import Models.Plane;
+
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class FGM_FLDashboard implements Initializable{
@@ -54,10 +57,6 @@ public class FGM_FLDashboard implements Initializable{
 	@FXML TextField preisE;
 	Double entfernung;
 
-	//Buttons
-	@FXML private Button flugInstantiieren_button;
-
-
 
 	//Fluglinien
 	@FXML TableView<Fluglinie> flTable;
@@ -71,6 +70,7 @@ public class FGM_FLDashboard implements Initializable{
 	@FXML TableColumn <Fluglinie, Integer> sitzECol;
 	@FXML TableColumn <Fluglinie, String> preisBCol;
 	@FXML TableColumn <Fluglinie, String> preisECol;
+	@FXML TableColumn <Fluglinie, String> instanziiertBisCol;
 	
 	//Inhalte
 	ObservableList<Fluglinie> flList;
@@ -100,8 +100,6 @@ public class FGM_FLDashboard implements Initializable{
 		getInhalte();
 
 		//Mapping Fluglinientabelle
-		//TODO Flugnummer
-		//try {
 		idCol.setCellValueFactory(new PropertyValueFactory<Fluglinie,Integer>("id"));
 		startCol.setCellValueFactory(cellData -> {
 			if(cellData.getValue().getStart() == null)
@@ -137,12 +135,17 @@ public class FGM_FLDashboard implements Initializable{
 			else
 				return new SimpleStringProperty(Math.round(cellData.getValue().getPreisee()*100.0)/100.0+"");
 		});
+		instanziiertBisCol.setCellValueFactory(cellData ->{
+			if(cellData.getValue().getFluegeInstanziiertBis() == null)
+				return new SimpleStringProperty("");
+			else {
+				SimpleDateFormat ft = new SimpleDateFormat("dd.MM.yyyy");
+				return new SimpleStringProperty(ft.format(cellData.getValue().getFluegeInstanziiertBis()));
+			}
+		});
 		
 		flTable.setItems(flList);
-		/*}
-		catch(Exception e) {
-			System.out.println("Data not found");
-		}*/
+
 	}
 	
 //-----Anlegen
@@ -252,32 +255,32 @@ public class FGM_FLDashboard implements Initializable{
 		flTable.getSelectionModel().clearSelection();
 	}
 
-//-----Löschen
-	public void fluglinieLoeschen(ActionEvent event) throws Exception{
-		if(flTable.getSelectionModel().isEmpty())
-			AlertHandler.keineAuswahl();
-		else {		
-		fluglinie = flTable.getSelectionModel().getSelectedItem();
-			
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Fluglinie entfernen");
-		alert.setHeaderText("Bitte bestätigen Sie den Löschvorgang");
-		alert.setContentText("Möchten Sie die Fluglinie von '" + fluglinie.getStart().getCode() + "' nach '" + fluglinie.getZiel().getCode() + "' wirklich löschen?");
-		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE); //statt wrap text...
-		ButtonType buttonTypeConfirm = new ButtonType("Bestätigen", ButtonData.LEFT);
-		ButtonType buttonTypeAbbrechen = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
-
-		alert.getButtonTypes().setAll(buttonTypeConfirm, buttonTypeAbbrechen);
-
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonTypeConfirm) {
-			db.deleteFL(fluglinie.getId());
-			initialize(null, null);
-			fluglinie = null;
-		} 
-		else alert.close();
-		}
-	}
+//-----Löschen müsste cascading sein sonst Nullpointer woanders
+//	public void fluglinieLoeschen(ActionEvent event) throws Exception{
+//		if(flTable.getSelectionModel().isEmpty())
+//			AlertHandler.keineAuswahl();
+//		else {		
+//		fluglinie = flTable.getSelectionModel().getSelectedItem();
+//			
+//		Alert alert = new Alert(AlertType.CONFIRMATION);
+//		alert.setTitle("Fluglinie entfernen");
+//		alert.setHeaderText("Bitte bestätigen Sie den Löschvorgang");
+//		alert.setContentText("Möchten Sie die Fluglinie von '" + fluglinie.getStart().getCode() + "' nach '" + fluglinie.getZiel().getCode() + "' wirklich löschen?");
+//		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE); //statt wrap text...
+//		ButtonType buttonTypeConfirm = new ButtonType("Bestätigen", ButtonData.LEFT);
+//		ButtonType buttonTypeAbbrechen = new ButtonType("Abbrechen", ButtonData.CANCEL_CLOSE);
+//
+//		alert.getButtonTypes().setAll(buttonTypeConfirm, buttonTypeAbbrechen);
+//
+//		Optional<ButtonType> result = alert.showAndWait();
+//		if (result.get() == buttonTypeConfirm) {
+//			db.deleteFL(fluglinie.getId());
+//			initialize(null, null);
+//			fluglinie = null;
+//		} 
+//		else alert.close();
+//		}
+//	}
 	
 	public void abbrechen(ActionEvent event) throws IOException {
 		((Node) event.getSource()).getScene().getWindow().hide();
@@ -436,7 +439,7 @@ public class FGM_FLDashboard implements Initializable{
 	StringConverter<Airport> apConverter = new StringConverter<Airport>() {
 		@Override
 		public String toString(Airport object) {
-			return object == null ? null : (object.getCountry() +"\t\t"+ object.getCode()+"\t-\t"+object.getCity()+"\t "+ object.getName());
+			return object == null ? null : (object.getCountry() +"\t\t"+ object.getCode()+"\t\t"+object.getCity()+"\t "+ object.getName());
 		}
 		@Override
 		public Airport fromString(String arg0) { //pflicht
@@ -465,7 +468,7 @@ public class FGM_FLDashboard implements Initializable{
 	};
 
 
-	public void handleFlugInstantiieren(ActionEvent event) throws IOException {
+	public void handleFlugInstanziieren(ActionEvent event) throws IOException {
 
 		if (flTable.getSelectionModel().isEmpty()){
 			String errorMessage = "Bitte waehlen Sie eine Fluglinie aus der Tabelle aus.";
@@ -479,7 +482,7 @@ public class FGM_FLDashboard implements Initializable{
 			Stage stage = new Stage();
 			FGM_FluegeInstanziierenController fgm_fluegeInstanziierenController = fxmlLoader.getController();
 			fgm_fluegeInstanziierenController.passData(flTable.getSelectionModel().getSelectedItem());
-			stage.setTitle("Flug instantiieren");
+			stage.setTitle("Flug instanziieren");
 			stage.setScene(scene);
 			stage.showAndWait();
 

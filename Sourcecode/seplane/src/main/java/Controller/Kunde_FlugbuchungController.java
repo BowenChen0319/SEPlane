@@ -1072,7 +1072,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 		StringConverter<Airport> apConverter = new StringConverter<Airport>() {
 			@Override
 			public String toString(Airport object) {
-				return object == null ? null : (object.getCountry() +"\t\t"+ object.getCode()+"\t-\t"+object.getCity()+"\t "+ object.getName());
+				return object == null ? null : (object.getCountry() +"\t\t"+ object.getCode()+"\t\t"+object.getCity()+"\t "+ object.getName());
 			}
 			@Override
 			public Airport fromString(String arg0) { //pflicht

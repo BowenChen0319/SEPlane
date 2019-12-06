@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 
 public class MapViewerFluglinie implements MapComponentInitializedListener, Initializable{
 
+	//mapView = Scene TODO eine Stage finden
 	GoogleMapView mapView;
 	GoogleMap map;
 	
@@ -26,6 +27,9 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		mapView = new GoogleMapView();
+	    mapView.addMapInializedListener(this);
+
 	}
 
 	

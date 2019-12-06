@@ -2,8 +2,6 @@ package Controller;
 
 import Models.Flug;
 import Models.Fluglinie;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,12 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import jdk.jfr.Frequency;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -60,7 +56,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
     private Button flugStornieren_button;
 
 
-    private Fluglinie fluglinie;
+    @SuppressWarnings("unused")
+	private Fluglinie fluglinie;
 
     static DBManager db = App.db;
 

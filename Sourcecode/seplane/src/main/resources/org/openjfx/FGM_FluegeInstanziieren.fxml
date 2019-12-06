@@ -80,7 +80,7 @@
       </HBox>
       <HBox layoutX="336.0" layoutY="360.0" spacing="50.0">
          <children>
-            <Button fx:id="instantiieren_button" mnemonicParsing="false" onAction="#handleInstanziieren" text="instantiieren" />
+            <Button fx:id="instantiieren_button" mnemonicParsing="false" onAction="#handleInstanziieren" text="instanziieren" />
             <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="abbrechen" />
          </children>
       </HBox>

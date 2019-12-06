@@ -30,7 +30,7 @@
             <HBox alignment="CENTER_RIGHT" spacing="40.0">
                <children>
                   <Button fx:id="kaufen_button" mnemonicParsing="false" onAction="#handleKaufen" text="kaufen" />
-                  <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="abbrechen" />
+                  <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="schließen" />
                </children>
             </HBox>
          </children>

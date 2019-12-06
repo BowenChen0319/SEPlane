@@ -65,18 +65,11 @@ public class FGMDashboard implements Initializable {
     @FXML
     FGM_FGDashboard fluggesellschaftsmanagerController;
 
-
     //Textfield
     @FXML
     TextField messageBox;
     @FXML
     TextField receiverBox;
-
-    //Button
-    @FXML
-    Button button_loeschen;
-    @FXML
-    Button sendMessageButton;
 
     Fluglinie curFL;
 
@@ -87,16 +80,6 @@ public class FGMDashboard implements Initializable {
         fGM_FluglinieController.setParentController(this);
         //TODO setParent Tab 2
 
-        //Blende Löschen-Button aus bei Fluggesellschaft
-        FGMTabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-            @Override
-            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-                if (newValue == fgTab)
-                    button_loeschen.setDisable(true);
-                else
-                    button_loeschen.setDisable(false);
-            }
-        });
     }
 
     public void logout(ActionEvent event) throws IOException {
@@ -149,15 +132,6 @@ public class FGMDashboard implements Initializable {
             fluggesellschaftsmanagerController.handleBearbeiten();
     }
 
-    public void loeschen(ActionEvent event) throws Exception {
-        if (flTab.isSelected()) {
-            if (fGM_FluglinieController.flTable.getSelectionModel().isEmpty())
-                AlertHandler.keineAuswahl();
-            else
-                fGM_FluglinieController.fluglinieLoeschen(event);
-        } else if (fgTab.isSelected())
-            System.out.println("FG Tab");
-    }
 
     public boolean checkIfuserExists(String user, JdbcPooledConnectionSource sc) {
         //String currentUser = new CurrentUser().getCurrent().getBenutzername();

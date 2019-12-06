@@ -8,8 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,9 +34,6 @@ public class FGM_FGDashboard implements Initializable {
     private Button FlugzeugKaufen_button;
 
     @FXML
-    private Button fluegeUebersicht_button;
-
-    @FXML
     private Label nameInhalt_label;
 
     @FXML
@@ -46,6 +46,8 @@ public class FGM_FGDashboard implements Initializable {
 
 
     public void handleAnlegen() throws IOException {
+    	Benutzer currentUser = new CurrentUser().getCurrent();
+        if (db.getFGzuFGM(currentUser) == null) {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("fluggesellschaft_anlegen.fxml"));
         Parent root1 = fxmlLoader.load();
         Scene scene = new Scene(root1);
@@ -53,6 +55,13 @@ public class FGM_FGDashboard implements Initializable {
         stage.setTitle("Fluggesellschaft anlegen");
         stage.setScene(scene);
         stage.showAndWait();
+        }
+        else {
+            String errorMessage = "Als Fluggesllschaftsmanager koennen Sie nur eine Fluggesellschaft anlegen";
+            Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+        }
     }
 
 
@@ -85,25 +94,4 @@ public class FGM_FGDashboard implements Initializable {
         }
     }
 
-
-    public void handleRefresh() {
-    	initialize(null, null);
-        /*Benutzer currentUser = new CurrentUser().getCurrent();
-        Fluggesellschaft fluggesellschaft= db.getFGzuFGM(currentUser);
-        nameInhalt_label.setText(fluggesellschaft.getName());
-        landInhalt_label.setText(fluggesellschaft.getLand());
-        bugetInhalt_label.setText(String.valueOf(fluggesellschaft.getBudget()));*/
-    }
-
-
-
-    public void handleFluegeUebersicht() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FGM_FluegeUebersicht.fxml"));
-        Parent root1 = fxmlLoader.load();
-        Scene scene = new Scene(root1);
-        Stage stage = new Stage();
-        stage.setTitle("Fluege Uebersicht");
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
 }
