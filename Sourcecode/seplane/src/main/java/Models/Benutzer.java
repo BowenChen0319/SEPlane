@@ -124,7 +124,7 @@ public class Benutzer {
         List<Benutzer> all= db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
-            if(b.getBenutzername().equals(username)){
+            if(b.getBenutzername().equals(username.toLowerCase())){
                 System.out.println("Wrong two same username!");
                 right=false;
             }

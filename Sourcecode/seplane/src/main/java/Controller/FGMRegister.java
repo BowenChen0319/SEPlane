@@ -90,10 +90,10 @@ public class FGMRegister extends Application {
                 "Benutzername: ");
         text3.setFont(Font.font(25));
         TextField bname = new TextField(){
-//            @Override
-//            public void replaceText(int start, int end, String text) {
-//                super.replaceText(start, end, text.toLowerCase());
-//            }
+            @Override
+            public void replaceText(int start, int end, String text) {
+                super.replaceText(start, end, text.toLowerCase());
+            }
 
         };
         bname.setFont((Font.font(10)));
