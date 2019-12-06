@@ -792,7 +792,7 @@ public class DBManager {
         String sender = new CurrentUser().getCurrent().getBenutzername();
         FGMDashboard fgD = new FGMDashboard();
 
-        String inUser = to;
+        String inUser = to.toLowerCase();
         String message = msg;
 
         System.out.println(inUser + " " + message + " " + sender);
@@ -808,6 +808,8 @@ public class DBManager {
                     pfDao.create(pf);
                 } catch (SQLException e) {
                     e.printStackTrace();
+                }finally {
+                    AlertHandler.nachrichtGesendet();
                 }
             } else {
                 AlertHandler.noFittingUser();

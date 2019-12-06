@@ -52,7 +52,7 @@ public class Benutzer {
                     Double kilo, Double co) throws Exception {
         this.vorname=vorname;
         this.nachname=nachname;
-        this.benutzername=benutzername;
+        this.benutzername=benutzername.toLowerCase();
         this.passwort_klar=passwort_klar;
         this.benutzertyp=benutzertyp;
         this.passwort= Encryption.getSaltedHash(passwort_klar);
