@@ -27,6 +27,7 @@ public class PDFExport {
 
             try {
                 document.add(new Phrase("Fehler!"));
+                AlertHandler.falscheAngaben();
                 hasError = true;
             } catch (DocumentException e) {
                 e.printStackTrace();

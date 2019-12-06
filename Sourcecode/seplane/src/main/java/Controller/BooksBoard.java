@@ -154,7 +154,7 @@ public class BooksBoard extends Application {
 
                                     if(buchung.getFlug()!=null){
                                         data.add("BookingID :" + buchung.getId()
-                                                +"    Multistop: "+(j+1)+"."
+                                                +"    Multi: "+(j+1)+"."
                                                 + "   From " + buchung.getFluglinie().getStart().getCode()
                                                 + " to " + buchung.getFluglinie().getZiel().getCode()
                                                 + ".   In total " + buchung.getFluglinie().getEntfernung().toString()+" KM "
@@ -168,7 +168,7 @@ public class BooksBoard extends Application {
                                     }else{
                                         //Flight canceled
                                         data.add("BookingID :" + buchung.getId()
-                                                +"    Multistop: "+(j+1)+"."
+                                                +"    Multi: "+(j+1)+"."
                                                 +"    Sorry, this flight was cancelled. "
                                                 +"   Time: "+ buchung.getFlug().getStartzeit()
                                                 +"   Class: "+buchung.getClasse()
@@ -179,7 +179,7 @@ public class BooksBoard extends Application {
                                 }else{
                                     if(buchung.getFlug()!=null){
                                         data.add("BookingID :" + buchung.getId()
-                                                        +"    Multistop: "+(j+1)+"."
+                                                        +"    Multi: "+(j+1)+"."
                                                         + "   From " + buchung.getFluglinie().getStart().getCode()
                                                         + "  to " + buchung.getFluglinie().getZiel().getCode()
                                                         + ".   In total " + buchung.getFluglinie().getEntfernung().toString()+" KM "
@@ -192,7 +192,7 @@ public class BooksBoard extends Application {
                                         );
                                     }else{
                                         data.add("BookingID :" + buchung.getId()
-                                                        +"    Multistop: "+(j+1)+"."
+                                                        +"    Multi: "+(j+1)+"."
                                                         +"   Sorry, this flight was cancelled. "
                                                         +"   Time: "+ buchung.getFlug().getStartzeit()
                                                         +"   Class: "+buchung.getClasse()
