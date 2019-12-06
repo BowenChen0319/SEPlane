@@ -150,10 +150,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 		toggleEco3.setToggleGroup(tg3);
 		//TODO Listener on IndexChange für ToggleGroup für hübsche Farben :)
 		//initial eins ausgewählt
-//		toggleEco.setSelected(true);
-//		toggleEco1.setSelected(true);
-//		toggleEco2.setSelected(true);
-//		toggleEco3.setSelected(true);
+		toggleEco.setSelected(true);
+		toggleEco1.setSelected(true);
+		toggleEco2.setSelected(true);
+		toggleEco3.setSelected(true);
 		
 		//Default Text wenn leer
 		suchergebnis.setPlaceholder(new Label("Starte eine Suche mit SEPlane"));
@@ -316,62 +316,6 @@ public class Kunde_FlugbuchungController implements Initializable {
 		senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
 		messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
-
-		toggleBus.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent actionEvent) {
-				suche(actionEvent);
-			}
-		});
-
-		toggleBus1.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent actionEvent) {
-				suche(actionEvent);
-			}
-		});
-
-		toggleBus2.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent actionEvent) {
-				suche(actionEvent);
-			}
-		});
-
-		toggleBus3.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent actionEvent) {
-				suche(actionEvent);
-			}
-		});
-
-		toggleEco.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent actionEvent) {
-				suche(actionEvent);
-			}
-		});
-
-		toggleEco1.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent actionEvent) {
-				suche(actionEvent);
-			}
-		});
-
-		toggleEco2.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent actionEvent) {
-				suche(actionEvent);
-			}
-		});
-
-		toggleEco3.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent actionEvent) {
-				suche(actionEvent);
-			}
-		});
 
 	}	
 
