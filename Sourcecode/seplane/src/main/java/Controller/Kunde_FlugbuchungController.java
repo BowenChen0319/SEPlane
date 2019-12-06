@@ -324,6 +324,8 @@ public class Kunde_FlugbuchungController implements Initializable {
 		dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
 		messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
 
+		refreshMessages(new ActionEvent());
+
 	}	
 
 	//-------Nachrichtengedöns
