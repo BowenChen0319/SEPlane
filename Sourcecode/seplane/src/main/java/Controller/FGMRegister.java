@@ -89,7 +89,13 @@ public class FGMRegister extends Application {
         Label text3 = new Label(
                 "Benutzername: ");
         text3.setFont(Font.font(25));
-        TextField bname = new TextField();
+        TextField bname = new TextField(){
+            @Override
+            public void replaceText(int start, int end, String text) {
+                super.replaceText(start, end, text.toLowerCase());
+            }
+
+        };
         bname.setFont((Font.font(10)));
         Tooltip tip3 = new Tooltip("Benutzername Please :)");
         tip3.setFont(Font.font(12));
