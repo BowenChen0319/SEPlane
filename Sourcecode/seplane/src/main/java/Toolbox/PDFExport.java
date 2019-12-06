@@ -126,7 +126,7 @@ public class PDFExport {
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(bookingList.get(j).getClasse() +" " + bookingList.get(j).getSeat().toString()));
+                cell = new PdfPCell(new Phrase(bookingList.get(j).getClasse() +"\t " + bookingList.get(j).getSeat().toString()));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 

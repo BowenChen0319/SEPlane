@@ -80,6 +80,15 @@ public class AlertHandler {
 	public static void keineNachrichten(String user){
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Keine Nachrichten vorhanden");
+		alert.setHeaderText("Es sind keine Nachrichtigen vorhanden");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.showAndWait();
+	}
+
+	public static void nachrichtGesendet(){
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Erfolgreich!");
+		alert.setHeaderText("Die Nachricht wurde erfolgreich versandt");
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}

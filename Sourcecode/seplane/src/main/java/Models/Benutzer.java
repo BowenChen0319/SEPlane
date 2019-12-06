@@ -52,7 +52,7 @@ public class Benutzer {
                     Double kilo, Double co) throws Exception {
         this.vorname=vorname;
         this.nachname=nachname;
-        this.benutzername=benutzername;
+        this.benutzername=benutzername.toLowerCase();
         this.passwort_klar=passwort_klar;
         this.benutzertyp=benutzertyp;
         this.passwort= Encryption.getSaltedHash(passwort_klar);
@@ -124,7 +124,7 @@ public class Benutzer {
         List<Benutzer> all= db.getallUser();
         for(int i=0;i<all.size();i++){
             Benutzer b = all.get(i);
-            if(b.getBenutzername().equals(username)){
+            if(b.getBenutzername().equals(username.toLowerCase())){
                 System.out.println("Wrong two same username!");
                 right=false;
             }
