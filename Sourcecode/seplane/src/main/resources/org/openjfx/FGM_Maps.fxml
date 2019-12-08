@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="Toolbox.MapViewerFluglinie">
+<AnchorPane fx:id="test" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Toolbox.MapViewerFluglinie">
 	<children>        
-        <GoogleMapView fx:id="mapView" prefHeight="750.0" prefWidth="761.0" AnchorPane.bottomAnchor="-185.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-441.0" AnchorPane.topAnchor="0.0"/>
+        <GoogleMapView fx:id="mapView"  AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0"/>
     </children>
 </AnchorPane>
 
