@@ -16,6 +16,11 @@ import org.openjfx.App;
 import org.openjfx.DBManager;
 
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -63,6 +68,12 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     @FXML
     private Button abbrechen_button;
 
+    @FXML
+    private Label instanziierenBis_label;
+
+    @FXML
+    private DatePicker instanziierenBis_datepicker;
+
     private Fluglinie flugLinie;
 
     static DBManager db = App.db;
@@ -87,72 +98,110 @@ public class FGM_FluegeInstanziierenController implements Initializable {
 
     public void handleInstanziieren(ActionEvent event){
 
-        if (flugLinie.getFluegeInstanziiertBis()==null) {
+        Calendar cal = Calendar.getInstance();
+        Date today = cal.getTime();
+        System.out.println(today);
+        LocalDate heute = LocalDate.now();
 
+        if (flugLinie.getFluegeInstanziiertBis() == null || flugLinie.getFluegeInstanziiertBis().before(today)) {
 
             if (stunde_choiceBox.getValue() != null) {
 
                 if(minute_choiceBox.getValue()!=null) {
 
-                    System.out.println("Instanziieren");
-                    this.flugAnlegen(flugLinie.getStartdatum());
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(flugLinie.getStartdatum());
-                    c.add(c.DATE, 180);
-                    flugLinie.setFluegeInstanziiertBis(c.getTime());
-                    db.updateFL(flugLinie);
+                    Date startAlsDate = flugLinie.getStartdatum();
+                    LocalDate start = this.convertToLocalDateViaInstant(startAlsDate);
 
-                    if (flugLinie.getIntervall() == Intervall.Täglich) {
+                    if (instanziierenBis_datepicker.getValue()!=null && instanziierenBis_datepicker.getValue().isAfter(heute) && instanziierenBis_datepicker.getValue().isAfter(start)){
 
-                        int a = 1;
-                        Date naechsterFlug = flugLinie.getStartdatum();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(naechsterFlug);
+                        LocalDate grenzeDerInstanziierung = start.plusDays(180);
+
+                        if (instanziierenBis_datepicker.getValue().isBefore(grenzeDerInstanziierung)){
+
+                            System.out.println("Instanziieren");
+                            this.flugAnlegen(flugLinie.getStartdatum());
 
 
-                        while (a < 180) {
+                            LocalDate instanziierenBis = instanziierenBis_datepicker.getValue();
+                            Date instanziierenBisAlsDate = this.convertToDateViaSqlDate(instanziierenBis);
 
-                            // naechsterFlug um einen Tag nach vorne Setzen
-                            calendar.add(Calendar.DATE, 1);
-                            this.flugAnlegen(calendar.getTime());
-                            a++;
+                            flugLinie.setFluegeInstanziiertBis(instanziierenBisAlsDate);
+                            db.updateFL(flugLinie);
+
+                            //Period differenz = Period.between(start, instanziierenBis);
+                            //Integer anzahlAnInstanziierungen = differenz.getDays();
+                            long anzahlAnInstanziierungen = ChronoUnit.DAYS.between(start, instanziierenBis);
+                            System.out.println("die Differenz betraegt " + anzahlAnInstanziierungen);
+
+                            if (flugLinie.getIntervall() == Intervall.Täglich) {
+
+                                int a = 1;
+                                Date naechsterFlug = flugLinie.getStartdatum();
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime(naechsterFlug);
+
+
+                                while (a <= anzahlAnInstanziierungen) {
+
+                                    // naechsterFlug um einen Tag nach vorne Setzen
+                                    calendar.add(Calendar.DATE, 1);
+                                    this.flugAnlegen(calendar.getTime());
+                                    a++;
+                                }
+                                String message = "Die Fluege wurden erfolgreich instanziiert.";
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                                alert.showAndWait();
+                            } else if (flugLinie.getIntervall() == Intervall.alle_3_Tage) {
+
+                                int a = 1;
+                                Date naechsterFlug = flugLinie.getStartdatum();
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime(naechsterFlug);
+
+                                while (a <= anzahlAnInstanziierungen / 3) {
+
+                                    // naechsterFlug um drei Tage nach vorne Setzen
+                                    calendar.add(Calendar.DATE, 3);
+                                    this.flugAnlegen(calendar.getTime());
+                                    a++;
+                                }
+                                String message = "Die Fluege wurden erfolgreich instanziiert.";
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                                alert.showAndWait();
+                            } else {
+
+                                int a = 1;
+                                Date naechsterFlug = flugLinie.getStartdatum();
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime(naechsterFlug);
+
+                                while (a <= anzahlAnInstanziierungen / 7) {
+
+                                    // naechsterFlug um eine Woche nach vorne Setzen
+                                    calendar.add(Calendar.DATE, 7);
+                                    this.flugAnlegen(calendar.getTime());
+                                    a++;
+                                }
+                                String message = "Die Fluege wurden erfolgreich instanziiert.";
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                                alert.showAndWait();
+                            }
+                            Stage stage = (Stage) abbrechen_button.getScene().getWindow();
+                            stage.close();
                         }
-                        String message = "Die Fluege wurden erfolgreich instanziiert.";
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
-                        alert.showAndWait();
-                    } else if (flugLinie.getIntervall() == Intervall.alle_3_Tage) {
-
-                        int a = 1;
-                        Date naechsterFlug = flugLinie.getStartdatum();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(naechsterFlug);
-
-                        while (a < 60) {
-
-                            // naechsterFlug um drei Tage nach vorne Setzen
-                            calendar.add(Calendar.DATE, 3);
-                            this.flugAnlegen(calendar.getTime());
-                            a++;
+                        else{
+                            System.out.println("Datum zu weit hinten");
+                            String errorMessage = "Sie koennen Flug nur bis max. 6 Monate nach dem Startdatum instanziieren.";
+                            Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+                            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                            alert.showAndWait();
                         }
-                        String message = "Die Fluege wurden erfolgreich instanziiert.";
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
-                        alert.showAndWait();
-                    } else {
-
-                        int a = 1;
-                        Date naechsterFlug = flugLinie.getStartdatum();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(naechsterFlug);
-
-                        while (a < 25) {
-
-                            // naechsterFlug um eine Woche nach vorne Setzen
-                            calendar.add(Calendar.DATE, 7);
-                            this.flugAnlegen(calendar.getTime());
-                            a++;
-                        }
-                        String message = "Die Fluege wurden erfolgreich instanziiert.";
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                    }
+                    else{
+                        System.out.println("kein Datum");
+                        String errorMessage = "Bitte geben Sie ein valides Datum an.";
+                        Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+                        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                         alert.showAndWait();
                     }
                 }
@@ -179,10 +228,6 @@ public class FGM_FluegeInstanziierenController implements Initializable {
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.showAndWait();
         }
-
-
-        Stage stage = (Stage) abbrechen_button.getScene().getWindow();
-        stage.close();
     }
 
     public void handleAbbrechen (ActionEvent event){
@@ -203,4 +248,15 @@ public class FGM_FluegeInstanziierenController implements Initializable {
         System.out.println("bus"+flug.getReserviereBusiness().size()+"eco"+flug.getReserviereEconomy().size());
 
     }
+
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    public Date convertToDateViaSqlDate(LocalDate dateToConvert) {
+        return java.sql.Date.valueOf(dateToConvert);
+    }
+
 }

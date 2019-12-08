@@ -133,11 +133,11 @@ public class FGMDashboard implements Initializable {
             System.out.println("Keine Valide Suchanfrage!");
 
         }
-
         QueryBuilder<Benutzer, String> queryB = bDao.queryBuilder();
         ObservableList<Benutzer> obBList = FXCollections.observableArrayList();
         List<Benutzer> bListe = null;
         try {
+            user.toLowerCase();
             queryB.where().eq("benutzername", user);
             bListe = bDao.query(queryB.prepare());
             obBList.addAll(bListe);
@@ -162,12 +162,12 @@ public class FGMDashboard implements Initializable {
 //		System.out.println("msg: " + messageBox.getText());
         DBManager db = new DBManager();
         //db.sendMessage(receiverBox.getText(), messageBox.getText());
-        Date d = new Date();
+        Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
 
-        System.out.println(simpleDateFormat.format(d));
+        System.out.println(simpleDateFormat.format(date));
 
-        db.sendMessage(receiverBox.getText(), d, messageBox.getText());
+        db.sendMessage(receiverBox.getText(), date, messageBox.getText());
     }
 
     //getter nötig, damit man Im DBmanager auf die messagebox und receiverbox zugreifen kann
@@ -186,21 +186,4 @@ public class FGMDashboard implements Initializable {
         return dateString;
     }
 
-
-
-    public void openFIlex(ActionEvent actionEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FileExplorer.fxml"));
-            Parent root1 = fxmlLoader.load();
-            Scene scene = new Scene(root1);
-            Stage stage = new Stage();
-            stage.setTitle("Stage");
-            stage.setScene(scene);
-            stage.showAndWait();
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

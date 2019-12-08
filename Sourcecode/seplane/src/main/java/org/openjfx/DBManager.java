@@ -67,24 +67,24 @@ public class DBManager {
     public void setUpDatabase() throws SQLException {
 
 		TableUtils.dropTable(cs, Fluglinie.class, true);
-//		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-//		TableUtils.dropTable(cs, Benutzer.class, true);
-//		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
+		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
+		TableUtils.dropTable(cs, Benutzer.class, true);
+		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 //		TableUtils.dropTable(cs, Airport.class, true);
 //		TableUtils.dropTable(cs, Plane.class, true);
 		TableUtils.dropTable(cs, Flug.class,true);
         TableUtils.dropTable(cs, Booking.class, true);
-//		TableUtils.dropTable(cs, Postfach.class, true);
+		TableUtils.dropTable(cs, Postfach.class, true);
 
         TableUtils.createTable(cs, Fluglinie.class);
-//		TableUtils.createTable(cs, Fluggesellschaft.class);
-//		TableUtils.createTable(cs, Benutzer.class);
-//		TableUtils.createTable(cs, FlugzeugMapping.class);
+		TableUtils.createTable(cs, Fluggesellschaft.class);
+		TableUtils.createTable(cs, Benutzer.class);
+		TableUtils.createTable(cs, FlugzeugMapping.class);
 //		TableUtils.createTable(cs, Airport.class);
 //		TableUtils.createTable(cs, Plane.class);
 		TableUtils.createTable(cs, Flug.class);
         TableUtils.createTable(cs, Booking.class);
-//		TableUtils.createTable(cs, Postfach.class);
+		TableUtils.createTable(cs, Postfach.class);
     }
 
     public void refreshbooking() throws SQLException {
@@ -792,7 +792,7 @@ public class DBManager {
         String sender = new CurrentUser().getCurrent().getBenutzername();
         FGMDashboard fgD = new FGMDashboard();
 
-        String inUser = to;
+        String inUser = to.toLowerCase();
         String message = msg;
 
         System.out.println(inUser + " " + message + " " + sender);
@@ -808,6 +808,8 @@ public class DBManager {
                     pfDao.create(pf);
                 } catch (SQLException e) {
                     e.printStackTrace();
+                }finally {
+                    AlertHandler.nachrichtGesendet();
                 }
             } else {
                 AlertHandler.noFittingUser();

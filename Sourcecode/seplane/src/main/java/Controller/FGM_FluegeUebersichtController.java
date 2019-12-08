@@ -50,7 +50,7 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
 
     @FXML
-    private Button abbrechen_button;
+    private Button refresh_button;
 
     @FXML
     private Button flugStornieren_button;
@@ -142,11 +142,6 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
     }
 
-    public void handleAbbrechen (ActionEvent event){
-        Stage stage = (Stage) abbrechen_button.getScene().getWindow();
-        stage.close();
-    }
-
 
     public double berechneRentabilitaet(Flug flug){
 
@@ -199,5 +194,9 @@ public class FGM_FluegeUebersichtController implements Initializable {
             db.deleteFlug(flug.getId());
             this.initialize(null, null);
         }
+    }
+
+    public void handlerefresh (ActionEvent event){
+        this.initialize(null, null);
     }
 }

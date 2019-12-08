@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="startflughafen_label" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FGM_FluegeInstanziierenController">
+<AnchorPane fx:id="startflughafen_label" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FGM_FluegeInstanziierenController">
    <children>
       <HBox layoutX="61.0" layoutY="22.0" spacing="200.0">
          <children>
-            <VBox spacing="30.0">
+            <VBox spacing="25.0">
                <children>
                   <Label text="Startflughafen">
                      <font>
@@ -48,9 +45,14 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
+                  <Label fx:id="instanziierenBis_label" text="Instanziieren bis">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </VBox>
-            <VBox spacing="30.0">
+            <VBox spacing="25.0">
                <children>
                   <Label fx:id="startflughafenInhalt_label" text="leer">
                      <font>
@@ -74,11 +76,12 @@
                   </Label>
                   <ChoiceBox fx:id="stunde_choiceBox" prefWidth="150.0" />
                   <ChoiceBox fx:id="minute_choiceBox" prefWidth="150.0" />
+                  <DatePicker fx:id="instanziierenBis_datepicker" />
                </children>
             </VBox>
          </children>
       </HBox>
-      <HBox layoutX="336.0" layoutY="360.0" spacing="50.0">
+      <HBox layoutX="359.0" layoutY="361.0" spacing="50.0">
          <children>
             <Button fx:id="instantiieren_button" mnemonicParsing="false" onAction="#handleInstanziieren" text="instanziieren" />
             <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="abbrechen" />

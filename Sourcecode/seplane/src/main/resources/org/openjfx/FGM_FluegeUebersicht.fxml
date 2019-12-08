@@ -30,7 +30,7 @@
             <HBox alignment="BOTTOM_RIGHT" spacing="40.0">
                <children>
                   <Button fx:id="flugStornieren_button" mnemonicParsing="false" onAction="#handleFlugStornieren" text="Flug stornieren " />
-                  <Button fx:id="abbrechen_button" mnemonicParsing="false" onAction="#handleAbbrechen" text="abbrechen" />
+                  <Button fx:id="refresh_button" mnemonicParsing="false" onAction="#handlerefresh" text="refresh" />
                </children>
             </HBox>
          </children>
