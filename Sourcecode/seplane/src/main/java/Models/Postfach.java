@@ -3,7 +3,6 @@ package Models;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Postfach {

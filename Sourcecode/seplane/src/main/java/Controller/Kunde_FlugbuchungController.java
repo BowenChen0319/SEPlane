@@ -13,7 +13,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -99,7 +98,6 @@ public class Kunde_FlugbuchungController implements Initializable {
 	@FXML TableView<ArrayList<Flug>> suchergebnis;
 	@FXML TableColumn<ArrayList<Flug>, String> uhrzeitCol;
 	@FXML TableColumn<ArrayList<Flug>, String> datumCol;
-	@FXML TableColumn<ArrayList<Flug>, String> dauerCol;
 	@FXML TableColumn<ArrayList<Flug>, String> startZielCol;
 	@FXML TableColumn<ArrayList<Flug>, String> flCol;
 	@FXML TableColumn<ArrayList<Flug>, String> fCol;
@@ -316,8 +314,10 @@ public class Kunde_FlugbuchungController implements Initializable {
                 return cell;
             }
         };
-        
+    	
         kaufenCol.setCellFactory(cellFactory);
+        
+        
 		
 		//Nachrichten
 		senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
@@ -488,7 +488,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 				fluege.add(f);
 				flugList.add(fluege);
 			}			
-			if(flugList==null)
+			if(flugList.isEmpty())
 				suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
 			else
 				suchergebnis.setItems(flugList);

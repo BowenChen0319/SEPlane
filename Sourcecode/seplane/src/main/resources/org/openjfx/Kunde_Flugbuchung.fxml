@@ -238,18 +238,18 @@
                                        </VBox.margin>
                                     </VBox>
                                     <Label text="Suchergebnisse" />
-                                    <TableView fx:id="suchergebnis">
+                                    <TableView fx:id="suchergebnis" minWidth="1000.0">
                                        <columns>
-                                          <TableColumn fx:id="uhrzeitCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Uhrzeit" />
-                                          <TableColumn fx:id="datumCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Datum" />
-                                          <TableColumn fx:id="startZielCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="StartZiel" />
-                                          <TableColumn fx:id="flCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Fluglinie" />
-                                          <TableColumn fx:id="fCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Flugzeug" />
+                                          <TableColumn fx:id="uhrzeitCol" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="Uhrzeit" />
+                                          <TableColumn fx:id="datumCol" maxWidth="-1.0" minWidth="120.0" prefWidth="-1.0" text="Datum" />
+                                          <TableColumn fx:id="startZielCol" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" text="StartZiel" />
+                                          <TableColumn fx:id="flCol" maxWidth="-1.0" minWidth="180.0" prefWidth="-1.0" text="Fluglinie" />
+                                          <TableColumn fx:id="fCol" maxWidth="-1.0" minWidth="180.0" prefWidth="150.0" text="Flugzeug" />
                                           <TableColumn fx:id="kmCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="km" />
                                           <TableColumn fx:id="co2Col" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CO2" />
                                           <TableColumn fx:id="co2GesCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Gesamt CO2" />
                                           <TableColumn fx:id="preisCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="Gesamtpreis" />
-                                          <TableColumn fx:id="kaufenCol" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" />
+                                          <TableColumn fx:id="kaufenCol" maxWidth="-1.0" minWidth="70.0" prefWidth="-1.0" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -278,8 +278,8 @@
                               </TableView>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="openButton" alignment="CENTER" mnemonicParsing="false" text="Open" />
-                                    <Button fx:id="refreshButton" alignment="CENTER" mnemonicParsing="false" onAction="#refreshMessages" text="Refresh" />
+                                    <Button alignment="CENTER" mnemonicParsing="false" text="Open" />
+                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#refreshMessages" text="Refresh" />
                                  </children>
                               </HBox>
                            </children>

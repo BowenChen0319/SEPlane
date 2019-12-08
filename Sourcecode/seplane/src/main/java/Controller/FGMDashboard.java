@@ -6,31 +6,23 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import Models.Benutzer;
 import Models.CurrentUser;
-import Models.Postfach;
-import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
-import javafx.stage.StageStyle;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 import Models.Fluglinie;
@@ -42,7 +34,6 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 
 import org.openjfx.login;
-import org.w3c.dom.Text;
 
 
 public class FGMDashboard implements Initializable {
