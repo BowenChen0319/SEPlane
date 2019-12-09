@@ -767,7 +767,8 @@ public class DBManager {
                 System.out.println(pfListe.get(0).getDate());
 
             }else{
-				AlertHandler.keineNachrichten(benutzername);
+
+				//AlertHandler.keineNachrichten(benutzername);
 			}
 //			for(int i=0; i<opFList.size();i++)
 //			{

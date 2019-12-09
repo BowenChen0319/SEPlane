@@ -74,6 +74,7 @@ public class FileExplorer implements Initializable {
     public void refreshTable(ActionEvent event) {
         currentFolder = pfadText.getText();
         ObservableList<String> list = FXCollections.observableArrayList();
+
         list.addAll(getListOfFiles(currentFolder));
         ordnerTable.setItems(list);
     }
