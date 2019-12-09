@@ -123,7 +123,6 @@ public class BooksBoard extends Application {
                         }else{
                             data.add("BookingID :" + buchung.getId()
                                     +"    Sorry, this flight was cancelled. "
-                                    +"   Time: "+ buchung.getFlug().getStartzeit()
                                     +"   Class: "+buchung.getClasse()
                                     +"   Seat: "+buchung.getSeat()
                                     +"   Preise: "+Math.round(buchung.getPreise()*100.0)/100.0+""
@@ -170,7 +169,6 @@ public class BooksBoard extends Application {
                                         data.add("BookingID :" + buchung.getId()
                                                 +"    Multi: "+(j+1)+"."
                                                 +"    Sorry, this flight was cancelled. "
-                                                +"   Time: "+ buchung.getFlug().getStartzeit()
                                                 +"   Class: "+buchung.getClasse()
                                                 +"   Seat: "+buchung.getSeat()
                                                 +"   Preise in total: "+Math.round(preise*100.0)/100.0+""

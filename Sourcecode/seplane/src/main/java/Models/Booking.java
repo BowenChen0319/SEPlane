@@ -80,7 +80,12 @@ public class Booking {
 //        return flug;
 //    }
     public Flug getFlug(){
-        return App.db.getFlug(flug.id);
+        System.out.println(flug);
+        if(this.flug==null){
+            return null;
+        }else {
+            return App.db.getFlug(flug.getId());
+        }
     }
 
     public void setFlug(Flug fi) {
