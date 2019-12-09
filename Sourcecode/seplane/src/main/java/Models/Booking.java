@@ -72,7 +72,11 @@ public class Booking {
     }
 
     public Integer getFlugid(){
-        return flug.id;
+        if(flug==null){
+            return null;
+        }else {
+            return flug.getId();
+        }
     }
 
 
@@ -137,7 +141,12 @@ public class Booking {
     }
 
     public Fluglinie getFluglinie(){
-        return this.getFlug().getFluglinie();
+        if(this.getFlug()==null){
+            return null;
+        }else {
+            return this.getFlug().getFluglinie();
+        }
+
     }
 
     public String getStringDate() {

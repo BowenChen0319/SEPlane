@@ -97,32 +97,76 @@ public class PDFExport {
         DBManager db = new DBManager();
         List<Fluglinie> list = new ArrayList<>();
         Flug f;
+        System.out.println(bookingList);
 
         for (int i = 0; i < bookingList.size(); i++) {
 
-            flugId = bookingList.get(i).getFlugid();
-            id = db.getFluglinievonFlugIDausBooking(flugId).getId();
-            //id = db.getbkId(idd).getFlug().getFluglinie().getId();
+            if(bookingList.get(i).getFlugid()!=null){
+                flugId = bookingList.get(i).getFlugid();
+                id = db.getFluglinievonFlugIDausBooking(flugId).getId();
+                //id = db.getbkId(idd).getFlug().getFluglinie().getId();
 
-            System.out.println("Teil " + i + " aus liste eingefügt");
-            list.add(db.getFluglinie(id));
-            System.out.println(list.get(i).toString());
+                System.out.println("Teil " + i + " aus liste eingefügt");
+                list.add(db.getFluglinie(id));
+                //System.out.println(list.get(i).toString());
+            }else{
+                list.add(null);
+            }
 
         }
 
         for (int j = 0; j < bookingList.size(); j++) {
-            if ((bookingList.get(j).getSeat() == null) || bookingList.get(j).getSeat().toString().isEmpty()
-            || bookingList.get(j).getPreise() == null || bookingList.get(j).getPreise().toString().isEmpty()
-            || list.get(j).getStart().getCode() == null || list.get(j).getStart().getCode().isEmpty()
-            || list.get(j).getZiel().getCode() == null || list.get(j).getZiel().getCode().isEmpty()) {
-                errorPDFcreate(document);
-            } else {
-
+//            if ((bookingList.get(j).getSeat() == null) || bookingList.get(j).getSeat().toString().isEmpty()
+//            || bookingList.get(j).getPreise() == null || bookingList.get(j).getPreise().toString().isEmpty()
+//            || list.get(j).getStart().getCode() == null || list.get(j).getStart().getCode().isEmpty()
+//            || list.get(j).getZiel().getCode() == null || list.get(j).getZiel().getCode().isEmpty()) {
+//                errorPDFcreate(document);
+//            } else {
+//
+//                cell = new PdfPCell(new Phrase(list.get(j).getStart().getCode()));
+//                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+//                table.addCell(cell);
+//
+//                cell = new PdfPCell(new Phrase(list.get(j).getZiel().getCode()));
+//                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+//                table.addCell(cell);
+//
+//                cell = new PdfPCell(new Phrase(bookingList.get(j).getClasse() +"\t " + bookingList.get(j).getSeat().toString()));
+//                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+//                table.addCell(cell);
+//
+//
+//                cell = new PdfPCell(new Phrase(bookingList.get(j).getPreise() + " €"));
+//                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+//                table.addCell(cell);
+//
+//                preisInsg += Float.valueOf(bookingList.get(j).getPreise().toString());
+//            }
+            if(list.get(j)!=null){
                 cell = new PdfPCell(new Phrase(list.get(j).getStart().getCode()));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
                 cell = new PdfPCell(new Phrase(list.get(j).getZiel().getCode()));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase(bookingList.get(j).getClasse() +"\t " + bookingList.get(j).getSeat().toString()));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+
+
+                cell = new PdfPCell(new Phrase(bookingList.get(j).getPreise() + " €"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+
+                preisInsg += Float.valueOf(bookingList.get(j).getPreise().toString());
+            }else{
+                cell = new PdfPCell(new Phrase("Flight cancelled"));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
+
+                cell = new PdfPCell(new Phrase("Flight cancelled"));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
