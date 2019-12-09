@@ -20,7 +20,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -244,53 +246,20 @@ public class login extends Application {
                                     user.clear();
                                     pwd.clear();
                                     Benutzer finalB1 = b;
-
-                                    List<Booking> all = null;
-                                    all = App.db.getallBookingFromUser(b.getBenutzername());
-                                    if(all.size()==0){
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    new CurrentUser().setCurrent(finalB1);
-                                                    new kunde_windows().start(new Stage());
-                                                    //Flugsuche
-//                                                    new CurrentUser().setCurrent(finalB1);
-//                                                    //new kunde_windows().start(new Stage());
-//                                                    Stage stage1 = new Stage();
-//                                                    primaryStage.setResizable(true);
-//                                                    Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
-//                                                    //Parent fgm1 = FXMLLoader.load(getClass().getResource("booking_overview.fxml"));
-//                                                    Scene fgmScene = new Scene(fgm1);
-//                                                    stage1 = primaryStage;
-//                                                    stage1.setScene(fgmScene);
-//                                                    fitScreen(stage1);
-//                                                    stage1.setResizable(true);
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-
-                                                }
+                                    Platform.runLater(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                new CurrentUser().setCurrent(finalB1);
+                                                new kunde_windows().start(new Stage());
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
 
                                             }
-                                        });
-                                        primaryStage.close();
-                                    }else{
-                                        Platform.runLater(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    new CurrentUser().setCurrent(finalB1);
-                                                    new BooksBoard().start(new Stage());
 
-                                                } catch (IOException | SQLException e) {
-                                                    e.printStackTrace();
-
-                                                }
-                                            }
-                                        });
-                                        primaryStage.close();
-                                    }
-
+                                        }
+                                    });
+                                    primaryStage.close();
                                 }else{
                                     warning.setText("Wrong Password!");
                                 }
@@ -358,7 +327,7 @@ public class login extends Application {
 //        scene.getAccelerators().put(kcb, new Runnable() {
 //            @Override
 //            public void run() {
-//                System.out.println("key q alt");
+//                System.out.println(db.getallUser());
 //            }
 //        });
 
