@@ -179,7 +179,7 @@ public class login extends Application {
                         if(b.getBenutzertyp().matches("fgm")){
                             try {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
-                                    warning.setText("Welcome fgm");
+                                    warning.setText("Welcome fgm, loading...");
                                     System.out.println("Welcome fgm");
                                     user.clear();
                                     pwd.clear();
