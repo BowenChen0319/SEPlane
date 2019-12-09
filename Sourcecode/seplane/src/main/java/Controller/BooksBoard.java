@@ -192,7 +192,6 @@ public class BooksBoard extends Application {
                                         data.add("BookingID :" + buchung.getId()
                                                         +"    Multi: "+(j+1)+"."
                                                         +"   Sorry, this flight was cancelled. "
-                                                        +"   Time: "+ buchung.getFlug().getStartzeit()
                                                         +"   Class: "+buchung.getClasse()
                                                         +"   Seat: "+buchung.getSeat()
                                                 //+" Preise: "+Math.round(Integer.parseInt(buchung.getPreise())*100.0)/100.0+""
