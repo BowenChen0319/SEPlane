@@ -143,22 +143,29 @@ public class PDFExport {
 //                preisInsg += Float.valueOf(bookingList.get(j).getPreise().toString());
 //            }
             if(list.get(j)!=null){
-                cell = new PdfPCell(new Phrase(list.get(j).getStart().getCode()));
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(cell);
+                if ((bookingList.get(j).getSeat() == null) || bookingList.get(j).getSeat().toString().isEmpty()
+            || bookingList.get(j).getPreise() == null || bookingList.get(j).getPreise().toString().isEmpty()
+            || list.get(j).getStart().getCode() == null || list.get(j).getStart().getCode().isEmpty()
+            || list.get(j).getZiel().getCode() == null || list.get(j).getZiel().getCode().isEmpty()) {
+                errorPDFcreate(document);
+            } else {
+                    cell = new PdfPCell(new Phrase(list.get(j).getStart().getCode()));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(list.get(j).getZiel().getCode()));
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(cell);
+                    cell = new PdfPCell(new Phrase(list.get(j).getZiel().getCode()));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(bookingList.get(j).getClasse() +"\t " + bookingList.get(j).getSeat().toString()));
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(cell);
+                    cell = new PdfPCell(new Phrase(bookingList.get(j).getClasse() + "\t " + bookingList.get(j).getSeat().toString()));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(cell);
 
 
-                cell = new PdfPCell(new Phrase(bookingList.get(j).getPreise() + " €"));
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(cell);
+                    cell = new PdfPCell(new Phrase(bookingList.get(j).getPreise() + " €"));
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(cell);
+                }
 
                 preisInsg += Float.valueOf(bookingList.get(j).getPreise().toString());
             }else{
