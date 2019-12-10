@@ -75,8 +75,6 @@ public class FGM_FluegeUebersichtController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //flugList = FXCollections.observableArrayList();
-        //flugList.addAll((ArrayList<Flug>) db.getFluege());
 
         flugListe = FXCollections.observableArrayList();
         flugListe.addAll(db.getFluege());
@@ -147,6 +145,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
     }
 
 
+
+    // Iteration 3
     public double berechneRentabilitaet(Flug flug){
 
         Double kerosinkosten = 3.58 * (flug.getFluglinie().getEntfernung() / 100) * flug.getFluglinie().getFlugzeug().getSeats();
@@ -162,6 +162,7 @@ public class FGM_FluegeUebersichtController implements Initializable {
         return gewinn;
     }
 
+    // Iteration 3
     public String berechneRentabilitaetalsString(Flug flug){
 
         Double kerosinkosten = 3.58 * (flug.getFluglinie().getEntfernung() / 100) * flug.getFluglinie().getFlugzeug().getSeats();
@@ -180,6 +181,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
     }
 
 
+
+    // Iteration 3
     public void handleFlugStornieren (ActionEvent event){
         Flug flug = fluegeUebersicht_table.getSelectionModel().getSelectedItem();
         if(flug==null) {

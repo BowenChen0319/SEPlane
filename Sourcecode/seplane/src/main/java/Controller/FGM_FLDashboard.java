@@ -105,13 +105,17 @@ public class FGM_FLDashboard implements Initializable{
 			if(cellData.getValue().getStart() == null)
 				return new SimpleStringProperty("");
 			else
-				return new SimpleStringProperty(cellData.getValue().getStart().getCode());
+				return new SimpleStringProperty(cellData.getValue().getStart().getCode() +"\n"+ 
+						cellData.getValue().getStart().getCountry() +" - "+ cellData.getValue().getStart().getCity() +"\n"+
+						cellData.getValue().getStart().getName());
 		});
 		zielCol.setCellValueFactory(cellData -> {
 			if(cellData.getValue().getZiel() == null)
 				return new SimpleStringProperty("");
 			else
-				return new SimpleStringProperty(cellData.getValue().getZiel().getCode());
+				return new SimpleStringProperty(cellData.getValue().getZiel().getCode() +"\n"+ 
+						cellData.getValue().getZiel().getCountry() +" - "+ cellData.getValue().getZiel().getCity()+"\n"+
+						cellData.getValue().getZiel().getName());
 		});
 		entfCol.setCellValueFactory(new PropertyValueFactory<>("entfernung"));
 		flugzeugCol.setCellValueFactory(cellData -> {
