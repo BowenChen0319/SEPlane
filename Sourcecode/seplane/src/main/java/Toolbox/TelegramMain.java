@@ -5,10 +5,6 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import java.math.BigInteger;
-import java.time.LocalTime;
-import java.time.ZoneId;
-
 public class TelegramMain {
 
     static int zahl = 200001;

@@ -16,9 +16,7 @@ import org.openjfx.App;
 import org.openjfx.DBManager;
 
 import java.net.URL;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;

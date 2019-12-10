@@ -43,7 +43,7 @@ public class Booking {
         this.seat=seat;
         this.paytime=this.getStringDate();
         this.preise=preise;
-        this.FluglinieID=flug.getFluglinie.getId();
+        this.FluglinieID=flug.getFluglinie().getId();
 
         try {
 			this.HashNr= Encryption.getSaltedHash(this.getStringDate());

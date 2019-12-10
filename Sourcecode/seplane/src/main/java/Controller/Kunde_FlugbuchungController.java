@@ -585,7 +585,7 @@ public class Kunde_FlugbuchungController implements Initializable {
             sortieren2Dim(unsortiert, preise);
 
             flugList.addAll(unsortiert);
-            if (flugList == null)
+            if (flugList.isEmpty())
                 suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
             else
                 suchergebnis.setItems(flugList);
@@ -630,7 +630,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList == null)
+            if (flugList.isEmpty())
                 suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
             else
                 suchergebnis.setItems(flugList);
@@ -684,7 +684,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList == null)
+            if (flugList.isEmpty())
                 suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
             else
                 suchergebnis.setItems(flugList);
@@ -749,7 +749,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList == null)
+            if (flugList.isEmpty())
                 suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
             else
                 suchergebnis.setItems(flugList);

@@ -1,11 +1,18 @@
 package Controller;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import org.openjfx.App;
+import org.openjfx.DBManager;
+
 import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentUser;
 import Models.Flug;
 import Toolbox.AlertHandler;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,15 +22,6 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import org.openjfx.App;
-import org.openjfx.DBManager;
-
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class Kunde_buchenController implements Initializable {
 	//Hinflug

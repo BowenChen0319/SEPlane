@@ -1,20 +1,6 @@
 package org.openjfx;
 
 
-import Controller.FGMDashboard;
-import Models.*;
-import Toolbox.AlertHandler;
-import Toolbox.JsonReaderTool;
-import Toolbox.StringwithArraylist;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.table.TableUtils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -26,6 +12,29 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.TableUtils;
+
+import Controller.FGMDashboard;
+import Models.Airport;
+import Models.Benutzer;
+import Models.Booking;
+import Models.CurrentUser;
+import Models.Flug;
+import Models.Fluggesellschaft;
+import Models.Fluglinie;
+import Models.FlugzeugMapping;
+import Models.Plane;
+import Models.Postfach;
+import Toolbox.AlertHandler;
+import Toolbox.JsonReaderTool;
+import Toolbox.StringwithArraylist;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class DBManager {
 

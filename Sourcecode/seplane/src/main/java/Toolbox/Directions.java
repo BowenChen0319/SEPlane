@@ -1,14 +1,9 @@
 package Toolbox;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.lynden.gmapsfx.service.directions.DirectionsRequest;
 import com.lynden.gmapsfx.service.directions.DirectionsService;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Directions {

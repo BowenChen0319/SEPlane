@@ -19,9 +19,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.openjfx.App;
 import org.openjfx.DBManager;
@@ -48,6 +45,8 @@ public class FGMDashboard implements Initializable {
     Tab flTab;
     @FXML
     Tab fgTab;
+    @FXML
+    Tab fGM_MapsTab;
     @FXML
     TabPane FGMTabs;
     //TabController

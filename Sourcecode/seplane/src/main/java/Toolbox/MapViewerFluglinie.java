@@ -2,7 +2,6 @@ package Toolbox;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.openjfx.App;
@@ -26,7 +25,6 @@ import Models.CurrentUser;
 import Models.Fluglinie;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
 
 
 public class MapViewerFluglinie implements MapComponentInitializedListener, Initializable{
@@ -49,6 +47,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	    MapOptions mapOptions = new MapOptions();
 
 	    mapOptions.center(new LatLong(51.461992, 7.016751))
+	    		.styleString("[ { \"elementType\": \"geometry\", \"stylers\": [ { \"color\": \"#1d2c4d\" } ] }, { \"elementType\": \"labels.text.fill\", \"stylers\": [ { \"color\": \"#8ec3b9\" } ] }, { \"elementType\": \"labels.text.stroke\", \"stylers\": [ { \"color\": \"#1a3646\" } ] }, { \"featureType\": \"administrative.country\", \"elementType\": \"geometry.stroke\", \"stylers\": [ { \"color\": \"#4b6878\" } ] }, { \"featureType\": \"administrative.land_parcel\", \"stylers\": [ { \"visibility\": \"off\" } ] }, { \"featureType\": \"administrative.land_parcel\", \"elementType\": \"labels.text.fill\", \"stylers\": [ { \"color\": \"#64779e\" } ] }, { \"featureType\": \"administrative.neighborhood\", \"stylers\": [ { \"visibility\": \"off\" } ] }, { \"featureType\": \"administrative.province\", \"elementType\": \"geometry.stroke\", \"stylers\": [ { \"color\": \"#4b6878\" } ] }, { \"featureType\": \"landscape.man_made\", \"elementType\": \"geometry.stroke\", \"stylers\": [ { \"color\": \"#334e87\" } ] }, { \"featureType\": \"landscape.natural\", \"elementType\": \"geometry\", \"stylers\": [ { \"color\": \"#023e58\" } ] }, { \"featureType\": \"poi\", \"elementType\": \"geometry\", \"stylers\": [ { \"color\": \"#283d6a\" } ] }, { \"featureType\": \"poi\", \"elementType\": \"labels.text\", \"stylers\": [ { \"visibility\": \"off\" } ] }, { \"featureType\": \"poi\", \"elementType\": \"labels.text.fill\", \"stylers\": [ { \"color\": \"#6f9ba5\" } ] }, { \"featureType\": \"poi\", \"elementType\": \"labels.text.stroke\", \"stylers\": [ { \"color\": \"#1d2c4d\" } ] }, { \"featureType\": \"poi.business\", \"stylers\": [ { \"visibility\": \"off\" } ] }, { \"featureType\": \"poi.park\", \"elementType\": \"geometry.fill\", \"stylers\": [ { \"color\": \"#023e58\" } ] }, { \"featureType\": \"poi.park\", \"elementType\": \"labels.text.fill\", \"stylers\": [ { \"color\": \"#3C7680\" } ] }, { \"featureType\": \"road\", \"elementType\": \"geometry\", \"stylers\": [ { \"color\": \"#304a7d\" } ] }, { \"featureType\": \"road\", \"elementType\": \"labels\", \"stylers\": [ { \"visibility\": \"off\" } ] }, { \"featureType\": \"road\", \"elementType\": \"labels.icon\", \"stylers\": [ { \"visibility\": \"off\" } ] }, { \"featureType\": \"road\", \"elementType\": \"labels.text.fill\", \"stylers\": [ { \"color\": \"#98a5be\" } ] }, { \"featureType\": \"road\", \"elementType\": \"labels.text.stroke\", \"stylers\": [ { \"color\": \"#1d2c4d\" } ] }, { \"featureType\": \"road.highway\", \"elementType\": \"geometry\", \"stylers\": [ { \"color\": \"#2c6675\" } ] }, { \"featureType\": \"road.highway\", \"elementType\": \"geometry.stroke\", \"stylers\": [ { \"color\": \"#255763\" } ] }, { \"featureType\": \"road.highway\", \"elementType\": \"labels.text.fill\", \"stylers\": [ { \"color\": \"#b0d5ce\" } ] }, { \"featureType\": \"road.highway\", \"elementType\": \"labels.text.stroke\", \"stylers\": [ { \"color\": \"#023e58\" } ] }, { \"featureType\": \"transit\", \"stylers\": [ { \"visibility\": \"off\" } ] }, { \"featureType\": \"transit\", \"elementType\": \"labels.text.fill\", \"stylers\": [ { \"color\": \"#98a5be\" } ] }, { \"featureType\": \"transit\", \"elementType\": \"labels.text.stroke\", \"stylers\": [ { \"color\": \"#1d2c4d\" } ] }, { \"featureType\": \"transit.line\", \"elementType\": \"geometry.fill\", \"stylers\": [ { \"color\": \"#283d6a\" } ] }, { \"featureType\": \"transit.station\", \"elementType\": \"geometry\", \"stylers\": [ { \"color\": \"#3a4762\" } ] }, { \"featureType\": \"water\", \"elementType\": \"geometry\", \"stylers\": [ { \"color\": \"#0e1626\" } ] }, { \"featureType\": \"water\", \"elementType\": \"labels.text\", \"stylers\": [ { \"visibility\": \"off\" } ] }, { \"featureType\": \"water\", \"elementType\": \"labels.text.fill\", \"stylers\": [ { \"color\": \"#4e6d70\" } ] } ]")
 	            .mapType(MapTypeIdEnum.ROADMAP)
 	            .overviewMapControl(false)
 	            .panControl(false)
@@ -66,96 +65,66 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	    MarkerOptions markerOptions = new MarkerOptions();
 
 	    markerOptions.position(sepPlaneLocation)
-	                .visible(Boolean.TRUE)
-	                .title("SEPLane");
+	                .visible(Boolean.TRUE);
 
 	    Marker marker = new Marker( markerOptions );
 
 	    map.addMarker(marker);
 
 	    InfoWindowOptions infoWindowOptions = new InfoWindowOptions();
-        infoWindowOptions.content("Universität DUE<br>"
-                                + "Entstehungsort SEPlane" );
+        infoWindowOptions.content("Entstehungsort SEPlane");
         InfoWindow infoTest = new InfoWindow(infoWindowOptions);
         infoTest.open(map, marker);
-//
-//        //Polyline Test
-//        LatLong[] ary = new LatLong[]{sepPlaneLocation, new LatLong(51.463817, 7.070907)};
-//        MVCArray mvc = new MVCArray(ary);
-//        PolylineOptions polyOpts = new PolylineOptions()
-//                .path(mvc)
-//                .strokeColor("red")
-//                .strokeWeight(2);
-//        Polyline poly = new Polyline(polyOpts);
-//        map.addMapShape(poly);
         
         //Polylines Fluglinie
         fluglinien  = new ArrayList<Fluglinie>();
         fluglinien.addAll(db.getFluglinieZuFG(db.getFGzuFGM(new CurrentUser().getCurrent()).getId()));
-        System.out.println("Flug: "+fluglinien);
         
         for(Fluglinie f : fluglinien) {
-//        	LatLong[] coord = new LatLong[]{new LatLong(f.getStart().getLat(),f.getStart().getLon()), new LatLong(f.getStart().getLat(), f.getZiel().getLon())};
-//        	MVCArray mvcArr = new MVCArray(coord);
-//            PolylineOptions polyOptsFL = new PolylineOptions()
-//                    .path(mvcArr)
-//                    .strokeColor("red")
-//                    .strokeWeight(2);
-//            Polyline polyFL = new Polyline(polyOptsFL);
-//            map.addMapShape(polyFL);
 
-			//Mark start
+			//Start
 			LatLong start = new LatLong(f.getStart().getLat(),f.getStart().getLon());
 			MarkerOptions markerOptions1 = new MarkerOptions();
 
 			markerOptions1.position(start)
-					.visible(Boolean.TRUE)
-					.title(Integer.toString(f.getId()));
+					.visible(Boolean.TRUE);
 
 			Marker marker1 = new Marker( markerOptions1 );
 
 			map.addMarker(marker1);
 
 			InfoWindowOptions infoWindowOptions1 = new InfoWindowOptions();
-			infoWindowOptions1.content("Fluglinie: "+Integer.toString(f.getId())
-					+" "
-					+f.getStart().getName()+" "
-					+ f.getZiel().getCode());
-			InfoWindow infoTest1 = new InfoWindow(infoWindowOptions1);
-			infoTest1.open(map, marker1);
+			infoWindowOptions1.content(f.getStart().getCode());
+			InfoWindow startInfo = new InfoWindow(infoWindowOptions1);
+			startInfo.open(map, marker1);
 
-			//Mark Ziel
+			//Ziel
 			LatLong ziel = new LatLong(f.getZiel().getLat(),f.getZiel().getLon());
 			MarkerOptions markerOptions2 = new MarkerOptions();
 
 			markerOptions2.position(ziel)
-					.visible(Boolean.TRUE)
-					.title(Integer.toString(f.getId()));
+					.visible(Boolean.TRUE);
 
 			Marker marker2 = new Marker( markerOptions2 );
 
 			map.addMarker(marker2);
 
 			InfoWindowOptions infoWindowOptions2 = new InfoWindowOptions();
-			infoWindowOptions2.content(f.getZiel().getName()+" "
-					+ f.getZiel().getCode());
-			InfoWindow infoTest2 = new InfoWindow(infoWindowOptions2);
-			infoTest2.open(map, marker2);
-
+			infoWindowOptions2.content(f.getZiel().getCode());
+			InfoWindow zielInfo = new InfoWindow(infoWindowOptions2);
+			zielInfo.open(map, marker2);
 
 
 			//Polyline
-			LatLong[] line = new LatLong[]{new LatLong(f.getStart().getLat(),f.getStart().getLon()),
-					new LatLong(f.getZiel().getLat(),f.getZiel().getLon())};
-			MVCArray mvc1 = new MVCArray(line);
-			PolylineOptions polyOpts1 = new PolylineOptions()
-					.path(mvc1)
-					.strokeColor("red")
+			LatLong[] line = new LatLong[]{start, ziel};
+			MVCArray mvc = new MVCArray(line);
+			PolylineOptions polyOpts = new PolylineOptions()
+					.path(mvc)
+					.strokeColor("purple")
 					.strokeWeight(2);
-			Polyline poly1 = new Polyline(polyOpts1);
-			map.addMapShape(poly1);
+			Polyline poly = new Polyline(polyOpts);
+			map.addMapShape(poly);
         }
-		mapOptions.center(new LatLong(51.461992, 7.016751));
         
 	}
 

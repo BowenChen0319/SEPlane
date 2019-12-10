@@ -47,10 +47,14 @@
    <center>
       <TabPane fx:id="FGMTabs" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #eafcfd;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <!-- Tab fx:id="flTab" text="Fluglinien"-->
           <Tab fx:id="flTab" text="Fluglinien">
              <content>
                <fx:include fx:id="fGM_Fluglinie" source="FGM_Fluglinie.fxml" />
+             </content>
+          </Tab>
+          <Tab fx:id="fGM_MapsTab" text="Karte">
+             <content>
+               <fx:include fx:id="fGM_Maps" source="FGM_Maps.fxml" />
              </content>
           </Tab>
           <Tab fx:id="fgTab" text="Fluggesellschaft">
