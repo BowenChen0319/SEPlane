@@ -126,8 +126,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                             flugLinie.setFluegeInstanziiertBis(instanziierenBisAlsDate);
                             db.updateFL(flugLinie);
 
-                            //Period differenz = Period.between(start, instanziierenBis);
-                            //Integer anzahlAnInstanziierungen = differenz.getDays();
+
                             long anzahlAnInstanziierungen = ChronoUnit.DAYS.between(start, instanziierenBis);
                             System.out.println("die Differenz betraegt " + anzahlAnInstanziierungen);
 
@@ -254,6 +253,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
     }
 
     public Date convertToDateViaSqlDate(LocalDate dateToConvert) {
+
         return java.sql.Date.valueOf(dateToConvert);
     }
 
