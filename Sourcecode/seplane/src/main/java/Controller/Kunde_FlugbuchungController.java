@@ -377,7 +377,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
         //Nachrichten
         senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
-        dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
+       // dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
         messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
         if (db.getMessages(cur.getBenutzername()).size() > 0) {
             refreshMessages(new ActionEvent());

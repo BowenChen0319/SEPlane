@@ -5,6 +5,7 @@ import org.apache.commons.codec.binary.Base64;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.lang.reflect.Array;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -15,13 +16,13 @@ public class Encryption {
     private static String password = "1234";
 
 
-
-    private static final int iterations = 20*1000;
+    private static final int iterations = 20 * 1000;
     private static final int saltLen = 32;
     private static final int desiredKeyLen = 256;
 
 
-    public Encryption(){ }
+    public Encryption() {
+    }
 
     //Für passwörter
     public static String getSaltedHash(String password) throws Exception {
@@ -35,8 +36,10 @@ public class Encryption {
         return Base64.encodeBase64String(salt) + "$" + hash(password, salt);
     }
 
-    /** Checks whether given plaintext password corresponds
-     to a stored salted hash of the password. */
+    /**
+     * Checks whether given plaintext password corresponds
+     * to a stored salted hash of the password.
+     */
     public static boolean check(String password, String stored) {
         String[] saltAndHash = stored.split("\\$");
         if (saltAndHash.length != 2) {
@@ -61,49 +64,37 @@ public class Encryption {
         return Base64.encodeBase64String(key.getEncoded());
     }
 
-    public static void main(String[] args) throws Exception {
-        int i=0;
-        System.out.println(new Encryption().zeichen[++i]);
-    }
 
-    //für nachrichten
-    // hallo
-    private final char[] zeichen = "abcdefghijklmnopqrstuvwxyz0123456789!?.,".toCharArray();
-//
-//    public int checkForCharPos(char ch, char[] inArray){
-//        for(int i = 0; i<inArray.length;i++)
-//        {
-//            if(inArray[i] == ch)
-//            {
-//                return i;
-//            }
-//        }
-//        return ;
-//    }
-//    public char getCharFromArray(char[] arr, int pos){
-//        if(pos > arr.length)
-//        {
-//            return 'a';
-//        }
-//        for(int i =0; i<pos;i++)
-//        {
-//            return arr[i];
-//        }
-//        return 'a';
-//    }
+    //Für Nachrichten
 
-    public String caesarEncryption(String plaintext){
-        char[] decrypted = plaintext.toCharArray();
-        char[] encrypted = new char[plaintext.length()];
-
-        for(int i=0; i<plaintext.length();i++)
-        {
-            if(decrypted[i] >= zeichen[0] && decrypted[i] <= zeichen[zeichen.length]){
-              //  encrypted[i] = (decrypted[i] + );
-            }
-
+    public String caesarEncryption(String plaintext) {
+        String ret ="" ;
+        for (int i = 0; i < plaintext.length(); i++) {
+            char c=plaintext.charAt(i);
+            c++;
+            ret += c ;
         }
-        return Arrays.toString(encrypted);
+
+
+        return ret;
     }
+
+    public String caesarDecryptiuon(String encText) {
+        String ret ="" ;
+        for (int i = 0; i < encText.length(); i++) {
+            char c=encText.charAt(i);
+            c--;
+            ret += c ;
+        }
+        return ret;
+    }
+
+//    public static void main(String[] args) throws Exception {
+//        String d = "Hallo, wie geht es dir! Schalom äöü??";
+//        String e = new Encryption().caesarEncryption(d);
+//        System.out.println(e);
+//        String c = new Encryption().caesarDecryptiuon(e);
+//        System.out.println(c);
+//    }
 
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import Toolbox.Encryption;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
@@ -77,23 +78,27 @@ public class DBManager {
 
 //		TableUtils.dropTable(cs, Fluglinie.class, true);
 //		TableUtils.dropTable(cs, Fluggesellschaft.class, true);
-		TableUtils.dropTable(cs, Benutzer.class, true);
+//		TableUtils.dropTable(cs, Benutzer.class, true);
 //		TableUtils.dropTable(cs, FlugzeugMapping.class, true);
 //		TableUtils.dropTable(cs, Airport.class, true);
 //		TableUtils.dropTable(cs, Plane.class, true);
 //		TableUtils.dropTable(cs, Flug.class,true);
         TableUtils.dropTable(cs, Booking.class, true);
-//		TableUtils.dropTable(cs, Postfach.class, true);
+		TableUtils.dropTable(cs, Postfach.class, true);
 
 //        TableUtils.createTable(cs, Fluglinie.class);
 //		TableUtils.createTable(cs, Fluggesellschaft.class);
-		TableUtils.createTable(cs, Benutzer.class);
+//		TableUtils.createTable(cs, Benutzer.class);
 //		TableUtils.createTable(cs, FlugzeugMapping.class);
 //		TableUtils.createTable(cs, Airport.class);
 //		TableUtils.createTable(cs, Plane.class);
 //		TableUtils.createTable(cs, Flug.class);
         TableUtils.createTable(cs, Booking.class);
-//		TableUtils.createTable(cs, Postfach.class);
+		TableUtils.createTable(cs, Postfach.class);
+    }
+
+    public static void main(String[] args) throws SQLException {
+        new DBManager().setUpDatabase();
     }
 
     public void refreshbooking() throws SQLException {
@@ -577,7 +582,7 @@ public class DBManager {
         try {
             query.where()
                     .eq("HashNr", bk.getHashNr());
-//					.eq("username",bk.getUsername()).and()
+//					.and().eq("username",bk.getUsername()).and()
 //					.eq("flugid", bk.getFlugid()).and()
 //					.eq("classe",bk.getClasse()).and()
 //					.eq("seat",bk.getSeat()).and()
@@ -768,16 +773,22 @@ public class DBManager {
     public ObservableList<Postfach> getMessages(String benutzername) {
         QueryBuilder<Postfach, String> queryP = pfDao.queryBuilder();
         ObservableList<Postfach> opFList = FXCollections.observableArrayList();
+        Encryption enc = new Encryption();
         List<Postfach> pfListe = null;
-        Date date = null;
+
         try {
             queryP.where().eq("receiver", benutzername);
             pfListe = pfDao.query(queryP.prepare());
             if (pfListe.size() > 0) {
+                for(int i=0;i<pfListe.size();i++)
+                {
+                   pfListe.get(i).setMessageCol(enc.caesarDecryptiuon(pfListe.get(i).getMessageCol())) ;
+                }
                 opFList.addAll(pfListe);
-                System.out.println(pfListe.get(0).getDate());
+                //System.out.println(pfListe.get(0).getDate());
 
             }else{
+
 
 				//AlertHandler.keineNachrichten(benutzername);
 			}
@@ -793,12 +804,10 @@ public class DBManager {
             e.printStackTrace();
         }
 
+
         return opFList;
     }
 
-    public Date convertLocal(LocalDate date) {
-        return Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-    }
 
     public void sendMessage(String to, Date date, String msg) {
         String sender = new CurrentUser().getCurrent().getBenutzername();
@@ -814,7 +823,10 @@ public class DBManager {
             cs = new JdbcPooledConnectionSource(dbURL, "sa", "");
 
             if (fgD.checkIfuserExists(inUser, cs)) {
-                Postfach pf = new Postfach(sender, inUser, date, message);
+
+                String enc = new Encryption().caesarEncryption(message);
+
+                Postfach pf = new Postfach(sender, inUser, date, enc);
                 //System.out.println(pf.getSenderCol() + " " + pf.getReceiverCol() + " " + pf.getMessageCol());
                 try {
                     pfDao.create(pf);
