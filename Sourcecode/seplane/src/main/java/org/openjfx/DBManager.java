@@ -431,15 +431,17 @@ public class DBManager {
                 be.setCo(co);
                 be.setKilo(distance);
                 //Give Back Seat
-                Flug fl = App.db.getFlug(bk.getFlugid());
-                if (bk.getClasse().equals("B")) {
-                    fl.returnBusiness(bk.getSeat());
-                } else {
-                    fl.returnEconomy(bk.getSeat());
-                }
+                if(bk.getFlugid()!=null){
+                    Flug fl = App.db.getFlug(bk.getFlugid());
+                    if (bk.getClasse().equals("B")) {
+                        fl.returnBusiness(bk.getSeat());
+                    } else {
+                        fl.returnEconomy(bk.getSeat());
+                    }
 
+                    this.updateFlug(fl);
+                }
                 this.updateB(be);
-                this.updateFlug(fl);
                 bkDao.deleteById(id);
             }
 
