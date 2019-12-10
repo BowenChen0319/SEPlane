@@ -33,7 +33,7 @@
                <content>
                   <BorderPane prefHeight="700.0" prefWidth="1200.0">
                      <center>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+                        <ScrollPane fitToHeight="true" fitToWidth="true" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
                            <content>
                               <VBox style="-fx-background-color: #cbf5f6;">
                                  <children>
