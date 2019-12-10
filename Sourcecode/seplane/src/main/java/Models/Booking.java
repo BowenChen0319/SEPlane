@@ -19,6 +19,8 @@ public class Booking {
     @DatabaseField
     String classe;
     @DatabaseField
+    Integer FluglinieID;
+    @DatabaseField
     Integer seat;
     @DatabaseField
     String paytime;
@@ -41,6 +43,7 @@ public class Booking {
         this.seat=seat;
         this.paytime=this.getStringDate();
         this.preise=preise;
+        this.FluglinieID=flug.getFluglinie.getId();
 
         try {
 			this.HashNr= Encryption.getSaltedHash(this.getStringDate());
@@ -157,7 +160,8 @@ public class Booking {
     }
 
     public double getco() {
-        Fluglinie fl=this.getFluglinie();
+        //Fluglinie fl=this.getFluglinie();
+        Fluglinie fl = App.db.getFluglinie(this.FluglinieID);
         if(fl!=null){
             double distence = fl.getEntfernung();
             double co = 0.0571*distence*1;
@@ -169,7 +173,8 @@ public class Booking {
     }
 
     public double getdistence() {
-        Fluglinie fl=this.getFluglinie();
+        //Fluglinie fl=this.getFluglinie();
+        Fluglinie fl = App.db.getFluglinie(this.FluglinieID);
         if(fl!=null){
             double distence = fl.getEntfernung();
             return distence;
