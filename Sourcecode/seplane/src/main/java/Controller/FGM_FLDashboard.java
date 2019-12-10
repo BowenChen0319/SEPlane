@@ -49,7 +49,7 @@ public class FGM_FLDashboard implements Initializable{
 	@FXML DatePicker jungfernFlug;
 	@FXML ComboBox<Intervall> intervallBox;
 	@FXML ComboBox<Plane> flugzeugBox;
-	@FXML Slider slider;
+	@FXML Slider slider = new Slider(0.0, 100.0, 0.0);
 	@FXML Label prozentLabel;
 	@FXML Label labelB;
 	@FXML Label labelE;
