@@ -577,7 +577,7 @@ public class DBManager {
         try {
             query.where()
                     .eq("HashNr", bk.getHashNr());
-//					.eq("username",bk.getUsername()).and()
+//					.and().eq("username",bk.getUsername()).and()
 //					.eq("flugid", bk.getFlugid()).and()
 //					.eq("classe",bk.getClasse()).and()
 //					.eq("seat",bk.getSeat()).and()
