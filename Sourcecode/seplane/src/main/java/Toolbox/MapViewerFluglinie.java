@@ -55,7 +55,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	            .scaleControl(false)
 	            .streetViewControl(false)
 	            .zoomControl(false)
-	            .zoom(12);
+	            .zoom(3);
 
 	    
 	    map = mapView.createMap(mapOptions, false);

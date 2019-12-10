@@ -24,6 +24,7 @@ import org.openjfx.App;
 import org.openjfx.DBManager;
 import Models.Fluglinie;
 import Toolbox.AlertHandler;
+import Toolbox.MapViewerFluglinie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -54,6 +55,8 @@ public class FGMDashboard implements Initializable {
     FGM_FLDashboard fGM_FluglinieController;
     @FXML
     FGM_FGDashboard fluggesellschaftsmanagerController;
+    @FXML
+    MapViewerFluglinie fGM_MapsController;
 
     //Textfield
     @FXML
@@ -93,6 +96,7 @@ public class FGMDashboard implements Initializable {
     public void refresh(ActionEvent event) {
         fGM_FluglinieController.initialize(null, null);
         fluggesellschaftsmanagerController.initialize(null, null);
+        fGM_MapsController.mapInitialized();
     }
 
     public void anlegen(ActionEvent event) throws IOException {
