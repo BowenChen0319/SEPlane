@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Kunde_FlugbuchungController">
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Kunde_FlugbuchungController">
    <center>
       <TabPane BorderPane.alignment="CENTER">
          <tabs>
@@ -194,8 +194,8 @@
                                                             <ChoiceBox fx:id="personenZahl" />
                                                             <HBox spacing="10.0">
                                                                <children>
-                                                                  <ToggleButton fx:id="toggleEco" mnemonicParsing="false" onAction="#suche" text="Economy" />
-                                                                  <ToggleButton fx:id="toggleBus" mnemonicParsing="false" onAction="#suche" text="Business" />
+                                                                  <ToggleButton fx:id="toggleEco" mnemonicParsing="false" text="Economy" />
+                                                                  <ToggleButton fx:id="toggleBus" mnemonicParsing="false" text="Business" />
                                                                </children>
                                                             </HBox>
                                                          </children>
