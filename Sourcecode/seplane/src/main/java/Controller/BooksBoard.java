@@ -353,7 +353,7 @@ public class BooksBoard extends Application {
                 System.out.println(d);
                 List<Booking> all = null;
                 all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()) {
+                if(d<=all.size()&&d!=-1) {
                     Booking choose = all.get(d);
                     new CurrentBooking().setBookingFromKunde(choose);
                     System.out.println(choose);
