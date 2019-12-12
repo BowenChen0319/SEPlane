@@ -33,7 +33,7 @@ public class Photo extends Application {
         scrollPane.setContent(browser);
 
 
-        webEngine.load("https://www.google.com/search?q="+city+"+sehenswürdigkeiten&hl=de-DE&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiCndLqz7DmAhUP2aQKHUuiBHEQ_AUoA3oECBUQBQ&biw=1280&bih=685");
+        webEngine.load("https://www.google.com/search?q="+city+"+Sehenswürdigkeiten&hl=de-DE&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiCndLqz7DmAhUP2aQKHUuiBHEQ_AUoA3oECBUQBQ&biw=1280&bih=685");
         //webEngine.load("https://lh4.googleusercontent.com/-1wzlVdxiW14/USSFZnhNqxI/AAAAAAAABGw/YpdANqaoGh4/s1600-w400/Google%2BSydney");
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override

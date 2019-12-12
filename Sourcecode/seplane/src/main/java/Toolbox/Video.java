@@ -43,7 +43,7 @@ public class Video extends Application {
 //
 //                    }
 //                });
-        webEngine.load("https://www.youtube.com/results?search_query="+city+"+sehensw%C3%BCrdigkeiten");
+        webEngine.load("https://www.youtube.com/results?search_query="+city+"+Sehensw%C3%BCrdigkeiten");
         //webEngine.load("https://lh4.googleusercontent.com/-1wzlVdxiW14/USSFZnhNqxI/AAAAAAAABGw/YpdANqaoGh4/s1600-w400/Google%2BSydney");
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override

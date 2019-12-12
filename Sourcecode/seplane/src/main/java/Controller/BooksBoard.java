@@ -4,6 +4,7 @@ import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentBooking;
 import Models.CurrentUser;
+import Toolbox.Hotel;
 import Toolbox.Photo;
 import Toolbox.StringwithArraylist;
 import Toolbox.Video;
@@ -455,6 +456,42 @@ public class BooksBoard extends Application {
             }
         });
 
+        Button b7 = new Button("Hotel");
+        b7.setPrefWidth(100);
+        b7.setPrefHeight(20);
+        b7.setFont(Font.font(15));
+        b7.setStyle("-fx-background-color: #e364d8;" +
+                "-fx-background-radius: 8;" +
+                "-fx-text-fill: #7CCD7C"
+        );
+
+        b7.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Photo");
+                //Benutzer finalB1 = be;
+                int d = listView.getSelectionModel().getSelectedIndex();
+                System.out.println(d);
+                List<Booking> all = null;
+                all= App.db.getallBookingFromUser(be.getBenutzername());
+                if(d<=all.size()&&d!=-1) {
+                    Booking choose = all.get(d);
+                    new CurrentBooking().setBookingFromKunde(choose);
+                    System.out.println(choose);
+                    Hotel.setCity(choose.getFluglinie().getZiel().getCity());
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            //new CurrentUser().setCurrent(finalB1);
+                            new Hotel().start(new Stage());
+                        }
+                    });
+                }
+
+                //stage.close();
+            }
+        });
+
 
 
 
@@ -467,7 +504,7 @@ public class BooksBoard extends Application {
 
         HBox butts = new HBox();
         butts.setAlignment(Pos.CENTER);
-        butts.getChildren().addAll(b1, b2, b3,b4,b5,b6);
+        butts.getChildren().addAll(b1, b2, b3,b4,b5,b6,b7);
 
         root.getChildren().addAll(v0, listView, butts);
 
