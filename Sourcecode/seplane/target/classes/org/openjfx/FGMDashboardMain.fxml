@@ -52,7 +52,7 @@
                <fx:include fx:id="fGM_Fluglinie" source="FGM_Fluglinie.fxml" />
              </content>
           </Tab>
-          <Tab fx:id="fGM_MapsTab" text="Karte">
+          <Tab text="Karte">
              <content>
                <fx:include fx:id="fGM_Maps" source="FGM_Maps.fxml" />
              </content>

@@ -41,7 +41,7 @@
          <children>
             <TableView fx:id="ordnerTable" prefHeight="307.0" prefWidth="600.0">
               <columns>
-                <TableColumn prefWidth="599.0" text="Name" />
+                <TableColumn fx:id="nameCol" prefWidth="599.0" text="Name" />
               </columns>
             </TableView>
          </children>

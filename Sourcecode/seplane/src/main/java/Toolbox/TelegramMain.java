@@ -28,7 +28,7 @@ public class TelegramMain {
     }
 
     public void reactOnStorno(TelegramBot bot) throws InterruptedException {
-        String message = "Storno";
+        String message = "Stornojetzt";
         String chatId = "1057235361";
         
         if (storno) {

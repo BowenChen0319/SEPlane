@@ -377,7 +377,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
         //Nachrichten
         senderCol.setCellValueFactory(new PropertyValueFactory<>("senderCol"));
-       // dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
+        //dateCol.setCellValueFactory(new PropertyValueFactory<>("dateCol"));
         messageCol.setCellValueFactory(new PropertyValueFactory<>("messageCol"));
         if (db.getMessages(cur.getBenutzername()).size() > 0) {
             refreshMessages(new ActionEvent());
@@ -585,7 +585,7 @@ public class Kunde_FlugbuchungController implements Initializable {
             sortieren2Dim(unsortiert, preise);
 
             flugList.addAll(unsortiert);
-            if (flugList.isEmpty())
+            if (flugList == null)
                 suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
             else
                 suchergebnis.setItems(flugList);
@@ -630,7 +630,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList.isEmpty())
+            if (flugList == null)
                 suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
             else
                 suchergebnis.setItems(flugList);
@@ -684,7 +684,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList.isEmpty())
+            if (flugList == null)
                 suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
             else
                 suchergebnis.setItems(flugList);
@@ -749,7 +749,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList.isEmpty())
+            if (flugList == null)
                 suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
             else
                 suchergebnis.setItems(flugList);

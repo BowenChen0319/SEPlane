@@ -272,7 +272,7 @@
                               <TableView fx:id="messageTable" prefHeight="667.0" prefWidth="1200.0">
                                  <columns>
                                     <TableColumn fx:id="senderCol" prefWidth="135.0" text="Sender" />
-
+                                    <!--><TableColumn fx:id="dateCol" prefWidth="204.0" text="Date" /><-->
                                     <TableColumn fx:id="messageCol" prefWidth="960.0" text="Nachricht" />
                                  </columns>
                               </TableView>
