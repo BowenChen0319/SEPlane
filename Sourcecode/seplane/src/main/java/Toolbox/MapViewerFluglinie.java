@@ -55,7 +55,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	            .scaleControl(false)
 	            .streetViewControl(false)
 	            .zoomControl(false)
-	            .zoom(12);
+	            .zoom(3);
 
 	    
 	    map = mapView.createMap(mapOptions, false);
@@ -121,7 +121,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 			PolylineOptions polyOpts = new PolylineOptions()
 					.path(mvc)
 					.strokeColor("purple")
-					.strokeWeight(2);
+					.strokeWeight(4);
 			Polyline poly = new Polyline(polyOpts);
 			map.addMapShape(poly);
         }
