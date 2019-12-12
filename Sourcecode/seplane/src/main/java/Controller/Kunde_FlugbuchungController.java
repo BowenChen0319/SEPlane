@@ -208,7 +208,6 @@ public class Kunde_FlugbuchungController implements Initializable {
         toggleEco2.setToggleGroup(tg2);
         toggleBus3.setToggleGroup(tg3);
         toggleEco3.setToggleGroup(tg3);
-        //TODO Listener on IndexChange für ToggleGroup für hübsche Farben :)
         //initial eins ausgewählt
         toggleEco.setSelected(true);
         toggleEco1.setSelected(true);
