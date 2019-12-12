@@ -5,6 +5,7 @@ import Models.Booking;
 import Models.CurrentBooking;
 import Models.CurrentUser;
 import Toolbox.StringwithArraylist;
+import Toolbox.Video;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -357,28 +358,66 @@ public class BooksBoard extends Application {
                     Booking choose = all.get(d);
                     new CurrentBooking().setBookingFromKunde(choose);
                     System.out.println(choose);
+                    //diese bookingFromKunde ist die ausgewählte Booking in List, alles ist vorbereitet,
+
+
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FileExplorer.fxml"));
+                        Parent root1 = fxmlLoader.load();
+                        Scene scene = new Scene(root1);
+                        Stage stage = new Stage();
+                        stage.setTitle("PDF");
+                        stage.setScene(scene);
+                        stage.showAndWait();
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
-                //diese bookingFromKunde ist die ausgewählte Booking in List, alles ist vorbereitet,
 
-
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FileExplorer.fxml"));
-                    Parent root1 = fxmlLoader.load();
-                    Scene scene = new Scene(root1);
-                    Stage stage = new Stage();
-                    stage.setTitle("PDF");
-                    stage.setScene(scene);
-                    stage.showAndWait();
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
 
             }
         });
+
+        Button b5 = new Button("Video");
+        b5.setPrefWidth(100);
+        b5.setPrefHeight(20);
+        b5.setFont(Font.font(15));
+        b5.setStyle("-fx-background-color: #EE5C5C;" +
+                "-fx-background-radius: 8;" +
+                "-fx-text-fill: #7CCD7C"
+        );
+
+        b5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Video");
+                //Benutzer finalB1 = be;
+                int d = listView.getSelectionModel().getSelectedIndex();
+                System.out.println(d);
+                List<Booking> all = null;
+                all= App.db.getallBookingFromUser(be.getBenutzername());
+                if(d<=all.size()&&d!=-1) {
+                    Booking choose = all.get(d);
+                    new CurrentBooking().setBookingFromKunde(choose);
+                    System.out.println(choose);
+                    Video.setCity(choose.getFluglinie().getZiel().getCity());
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            //new CurrentUser().setCurrent(finalB1);
+                            new Video().start(new Stage());
+                        }
+                    });
+                }
+
+                //stage.close();
+            }
+        });
+
 
 
 
@@ -391,7 +430,7 @@ public class BooksBoard extends Application {
 
         HBox butts = new HBox();
         butts.setAlignment(Pos.CENTER);
-        butts.getChildren().addAll(b1, b2, b3,b4);
+        butts.getChildren().addAll(b1, b2, b3,b4,b5);
 
         root.getChildren().addAll(v0, listView, butts);
 
