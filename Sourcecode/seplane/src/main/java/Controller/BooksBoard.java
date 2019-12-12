@@ -4,10 +4,7 @@ import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentBooking;
 import Models.CurrentUser;
-import Toolbox.Hotel;
-import Toolbox.Photo;
-import Toolbox.StringwithArraylist;
-import Toolbox.Video;
+import Toolbox.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -492,6 +489,42 @@ public class BooksBoard extends Application {
             }
         });
 
+        Button b8 = new Button("Restaurant");
+        b8.setPrefWidth(100);
+        b8.setPrefHeight(20);
+        b8.setFont(Font.font(15));
+        b8.setStyle("-fx-background-color: #e36464;" +
+                "-fx-background-radius: 8;" +
+                "-fx-text-fill: #7CCD7C"
+        );
+
+        b8.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Restaurant");
+                //Benutzer finalB1 = be;
+                int d = listView.getSelectionModel().getSelectedIndex();
+                System.out.println(d);
+                List<Booking> all = null;
+                all= App.db.getallBookingFromUser(be.getBenutzername());
+                if(d<=all.size()&&d!=-1) {
+                    Booking choose = all.get(d);
+                    new CurrentBooking().setBookingFromKunde(choose);
+                    System.out.println(choose);
+                    Restaurant.setCity(choose.getFluglinie().getZiel().getCity());
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            //new CurrentUser().setCurrent(finalB1);
+                            new Restaurant().start(new Stage());
+                        }
+                    });
+                }
+
+                //stage.close();
+            }
+        });
+
 
 
 
@@ -504,7 +537,7 @@ public class BooksBoard extends Application {
 
         HBox butts = new HBox();
         butts.setAlignment(Pos.CENTER);
-        butts.getChildren().addAll(b1, b2, b3,b4,b5,b6,b7);
+        butts.getChildren().addAll(b1, b2, b3,b4,b5,b6,b7,b8);
 
         root.getChildren().addAll(v0, listView, butts);
 
