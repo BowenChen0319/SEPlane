@@ -4,6 +4,7 @@ import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentBooking;
 import Models.CurrentUser;
+import Toolbox.Photo;
 import Toolbox.StringwithArraylist;
 import Toolbox.Video;
 import javafx.application.Application;
@@ -93,7 +94,7 @@ public class BooksBoard extends Application {
         b1.setPrefWidth(100);
         b1.setPrefHeight(20);
         b1.setFont(Font.font(15));
-        b1.setStyle("-fx-background-color: #7CCD7C;" +
+        b1.setStyle("-fx-background-color: #5e5cee;" +
                 "-fx-background-radius: 8;" +
                 "-fx-text-fill: #5CACEE"
         );
@@ -225,7 +226,7 @@ public class BooksBoard extends Application {
         b3.setPrefWidth(100);
         b3.setPrefHeight(20);
         b3.setFont(Font.font(15));
-        b3.setStyle("-fx-background-color: #7CCD7C;" +
+        b3.setStyle("-fx-background-color: #bd5cee;" +
                 "-fx-background-radius: 8;" +
                 "-fx-text-fill: #5CACEE"
         );
@@ -306,10 +307,10 @@ public class BooksBoard extends Application {
 
 
         Button b2 = new Button("Buy new ticket?");
-        b2.setPrefWidth(180);
+        b2.setPrefWidth(150);
         b2.setPrefHeight(20);
         b2.setFont(Font.font(15));
-        b2.setStyle("-fx-background-color: #5CACEE;" +
+        b2.setStyle("-fx-background-color: #e6a243;" +
                 "-fx-background-radius: 8;" +
                 "-fx-text-fill: #7CCD7C"
         );
@@ -336,7 +337,7 @@ public class BooksBoard extends Application {
         });
 
         Button b4 = new Button("Export in PDF");
-        b4.setPrefWidth(180);
+        b4.setPrefWidth(150);
         b4.setPrefHeight(20);
         b4.setFont(Font.font(15));
         b4.setStyle("-fx-background-color: #5CACEE;" +
@@ -418,6 +419,42 @@ public class BooksBoard extends Application {
             }
         });
 
+        Button b6 = new Button("Photo");
+        b6.setPrefWidth(100);
+        b6.setPrefHeight(20);
+        b6.setFont(Font.font(15));
+        b6.setStyle("-fx-background-color: #ee8a5c;" +
+                "-fx-background-radius: 8;" +
+                "-fx-text-fill: #7CCD7C"
+        );
+
+        b6.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Photo");
+                //Benutzer finalB1 = be;
+                int d = listView.getSelectionModel().getSelectedIndex();
+                System.out.println(d);
+                List<Booking> all = null;
+                all= App.db.getallBookingFromUser(be.getBenutzername());
+                if(d<=all.size()&&d!=-1) {
+                    Booking choose = all.get(d);
+                    new CurrentBooking().setBookingFromKunde(choose);
+                    System.out.println(choose);
+                    Photo.setCity(choose.getFluglinie().getZiel().getCity());
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            //new CurrentUser().setCurrent(finalB1);
+                            new Photo().start(new Stage());
+                        }
+                    });
+                }
+
+                //stage.close();
+            }
+        });
+
 
 
 
@@ -430,7 +467,7 @@ public class BooksBoard extends Application {
 
         HBox butts = new HBox();
         butts.setAlignment(Pos.CENTER);
-        butts.getChildren().addAll(b1, b2, b3,b4,b5);
+        butts.getChildren().addAll(b1, b2, b3,b4,b5,b6);
 
         root.getChildren().addAll(v0, listView, butts);
 

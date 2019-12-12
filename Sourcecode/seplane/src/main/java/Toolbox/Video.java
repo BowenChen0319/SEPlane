@@ -23,6 +23,7 @@ public class Video extends Application {
     public void start(final Stage stage) {
         stage.setWidth(1100);
         stage.setHeight(700);
+        stage.setTitle("Video für Stadt "+city );
         Scene scene = new Scene(new Group());
 
 
@@ -32,17 +33,16 @@ public class Video extends Application {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(browser);
 
-        webEngine.getLoadWorker().stateProperty()
-                .addListener(new ChangeListener<State>() {
-                    @Override
-                    public void changed(ObservableValue ov, State oldState, State newState) {
-
-                        if (newState == Worker.State.SUCCEEDED) {
-                            stage.setTitle(webEngine.getLocation());
-                        }
-
-                    }
-                });
+//        webEngine.getLoadWorker().stateProperty()
+//                .addListener(new ChangeListener<State>() {
+//                    @Override
+//                    public void changed(ObservableValue ov, State oldState, State newState) {
+//
+//                        if (newState == Worker.State.SUCCEEDED) {
+//                        }
+//
+//                    }
+//                });
         webEngine.load("https://www.youtube.com/results?search_query="+city+"+sehensw%C3%BCrdigkeiten");
         //webEngine.load("https://lh4.googleusercontent.com/-1wzlVdxiW14/USSFZnhNqxI/AAAAAAAABGw/YpdANqaoGh4/s1600-w400/Google%2BSydney");
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -58,7 +58,7 @@ public class Video extends Application {
         });
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
-        
+
         Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX(primaryScreenBounds.getMinX());
         stage.setY(primaryScreenBounds.getMinY());
