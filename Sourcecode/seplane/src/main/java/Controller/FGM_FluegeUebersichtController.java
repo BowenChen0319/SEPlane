@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import Models.CurrentUser;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
@@ -77,7 +78,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
 
         flugListe = FXCollections.observableArrayList();
-        flugListe.addAll(db.getFluege());
+        //flugListe.addAll(db.getFluege());
+        flugListe.addAll(db.getFluegefromUser(new CurrentUser().getCurrent()));
 
         startflughafen_column.setCellValueFactory(cellData ->{
             if (cellData.getValue()==null){

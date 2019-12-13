@@ -12,6 +12,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import Toolbox.Encryption;
 import com.j256.ormlite.dao.Dao;
@@ -510,6 +512,23 @@ public class DBManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<Flug> getFluegefromUser(Benutzer fgm) {
+        List<Flug> fgList = null;
+        Fluggesellschaft fg = this.getFGzuFGM(fgm);
+        fgList=this.getFluege();
+
+        List<Flug> fgfrombe = fgList.stream().filter(new Predicate<Flug>() {
+            @Override
+            public boolean test(Flug flug) {
+                return flug.getFluglinie().getFluggesellschaft().getFgmanager().getId()==(fgm.getId());
+            }
+        }).collect(Collectors.toList());
+
+
+    return fgfrombe;
+
     }
     public Fluglinie getFluglinievonFlugIDausBooking(int flugID){
         Flug flug = getFlug(flugID);
