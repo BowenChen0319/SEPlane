@@ -1,6 +1,26 @@
+/* Farbdefinition */
+* {
+	dunkelblaugrau : #31374D;
+	nightskyblue : #061A29;
+	schwarzgrau : #262830;
+	hellblau : #cbf5f6;
+}
+
+.root {
+	-fx-background-color: nightskyblue;
+}
+.root.popup {
+	-fx-background-color: nightskyblue;
+}
+
+.task-button {
+	-fx-background-color: nightskyblue;
+	-fx-border-color: hellblau;
+	-fx-border-radius: 10px;
+}
+
 .button {
-    -fx-background-color: 
-        #31374D,
+    -fx-background-color: dunkelblaugrau,
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
         linear-gradient(#20262b, #191d22),
         radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
@@ -14,9 +34,9 @@
     -fx-padding: 10 20 10 20;
 }
 .button:hover {
-	-fx-background-color:#314d47,
+	-fx-background-color:schwarzgrau,
         linear-gradient(#38424b 0%, #314d47 20%, #314d47 100%),
-        linear-gradient(#314d47, #191d22),
+        linear-gradient(schwarzgrau, #191d22),
         radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
     -fx-background-radius: 5,4,3,5;
     -fx-background-insets: 0,1,2,0;
@@ -32,13 +52,24 @@
     -fx-background-image: url("bild1.jpg");
 
 }
+.vbox{
+	-fx-background-color: hellblau;
+}
 .tab-pane .tab-header-background{
-	-fx-background-color: #010134;
+	-fx-background-color: nightskyblue;
+}
+
+.tab-pane .tab
+{
+    -fx-background-color: #3c3c3c;
 }
 
 .tab-pane .tab:selected
 {
-    -fx-background-color: #3c3c3c;
+    -fx-background-color: dunkelblaugrau;
+}
+.tab:selected .focus-indicator{
+	-fx-border-color: Transparent;
 }
 
 .tab .tab-label { 
@@ -54,8 +85,21 @@
 }
 
 .column-header {
+	/* TODO Text border color  #d4edff; */
 	-fx-background-color: #175785,
 	radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
 }
+
+/* TODO Table rest ohne Column, Zellen hellgraublau */
+
+.toggle-button:selected {
+	
+}
+.toggle-button:selected {
+	
+}
+
+
+
 
 

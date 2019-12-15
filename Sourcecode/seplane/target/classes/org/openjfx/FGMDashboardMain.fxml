@@ -22,7 +22,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="537.0" prefWidth="823.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FGMDashboard">
    <top>
-      <HBox style="-fx-background-color: BLACK;" BorderPane.alignment="CENTER">
+      <HBox BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#anlegen" text="anlegen" />
             <Button mnemonicParsing="false" onAction="#bearbeiten" text="bearbeiten">
