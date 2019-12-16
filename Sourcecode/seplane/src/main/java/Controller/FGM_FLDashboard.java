@@ -166,6 +166,7 @@ public class FGM_FLDashboard implements Initializable{
 		stage.initModality(Modality.APPLICATION_MODAL); //überlagert immer
 		stage.initOwner(parentStage);
 		Scene scene = new Scene(neueFL);
+		scene.getStylesheets().add(App.class.getResource("style.css").toString());
 		stage.setScene(scene);
 		
 		initParam();
@@ -212,6 +213,7 @@ public class FGM_FLDashboard implements Initializable{
 		stage.initOwner(parentStage);
 		stage.setTitle("Fluglinie bearbeiten");
 		Scene scene = new Scene(editFL);
+		scene.getStylesheets().add(App.class.getResource("style.css").toString());
 		stage.setScene(scene);
 		
 		initParam();
@@ -487,6 +489,7 @@ public class FGM_FLDashboard implements Initializable{
 			FGM_FluegeInstanziierenController fgm_fluegeInstanziierenController = fxmlLoader.getController();
 			fgm_fluegeInstanziierenController.passData(flTable.getSelectionModel().getSelectedItem());
 			stage.setTitle("Flug instanziieren");
+			scene.getStylesheets().add(App.class.getResource("style.css").toString());
 			stage.setScene(scene);
 			stage.showAndWait();
 

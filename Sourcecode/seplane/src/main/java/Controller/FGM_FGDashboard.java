@@ -54,6 +54,7 @@ public class FGM_FGDashboard implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Fluggesellschaft anlegen");
         stage.setScene(scene);
+        scene.getStylesheets().add(App.class.getResource("style.css").toString());
         stage.showAndWait();
         }
         else {
@@ -77,6 +78,7 @@ public class FGM_FGDashboard implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Flugzeug kaufen");
         stage.setScene(scene);
+        scene.getStylesheets().add(App.class.getResource("style.css").toString());
         stage.showAndWait();
     }
 

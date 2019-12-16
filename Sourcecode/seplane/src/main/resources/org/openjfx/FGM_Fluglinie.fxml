@@ -19,22 +19,22 @@
          <children>
             <TableView fx:id="flTable" VBox.vgrow="ALWAYS">
               <columns>
-                <TableColumn fx:id="idCol" prefWidth="20.0" text="ID" />
-                <TableColumn fx:id="startCol" minWidth="60.0" prefWidth="-1.0" text="Start" />
-                  <TableColumn fx:id="zielCol" minWidth="60.0" prefWidth="-1.0" text="Ziel" />
-                  <TableColumn fx:id="entfCol" minWidth="60.0" prefWidth="-1.0" text="Entfernung" />
+                <TableColumn fx:id="idCol" prefWidth="10.0" text="ID" />
+                <TableColumn fx:id="startCol" minWidth="150.0" prefWidth="-1.0" text="Start" />
+                  <TableColumn fx:id="zielCol" minWidth="150.0" prefWidth="-1.0" text="Ziel" />
+                  <TableColumn fx:id="entfCol" minWidth="45.0" prefWidth="-1.0" text="Entfernung" />
                   <TableColumn fx:id="flugzeugCol" minWidth="60.0" prefWidth="-1.0" text="Flugzeug" />
                   <TableColumn fx:id="intervallEinhCol" minWidth="60.0" prefWidth="-1.0" text="Intervall" />
                   <TableColumn minWidth="60.0" prefWidth="-1.0" text="Sitzplätze">
                      <columns>
-                        <TableColumn fx:id="sitzBCol" minWidth="60.0" prefWidth="-1.0" text="Business" />
-                        <TableColumn fx:id="sitzECol" minWidth="60.0" prefWidth="-1.0" text="Economy" />
+                        <TableColumn fx:id="sitzBCol" minWidth="30.0" prefWidth="-1.0" text="Business" />
+                        <TableColumn fx:id="sitzECol" minWidth="30.0" prefWidth="-1.0" text="Economy" />
                      </columns>
                   </TableColumn>
                   <TableColumn minWidth="60.0" prefWidth="-1.0" text="Preise p. P.">
                      <columns>
-                        <TableColumn fx:id="preisBCol" minWidth="60.0" prefWidth="-1.0" text="Business" />
-                        <TableColumn fx:id="preisECol" minWidth="60.0" prefWidth="-1.0" text="Economy" />
+                        <TableColumn fx:id="preisBCol" minWidth="30.0" prefWidth="-1.0" text="Business" />
+                        <TableColumn fx:id="preisECol" minWidth="30.0" prefWidth="-1.0" text="Economy" />
                      </columns>
                   </TableColumn>
                   <TableColumn fx:id="instanziiertBisCol" minWidth="60.0" prefWidth="-1.0" text="Flüge bis" />

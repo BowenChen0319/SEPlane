@@ -466,6 +466,7 @@ public class Kunde_FlugbuchungController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(parentStage);
         Scene scene = new Scene(neueFL);
+        scene.getStylesheets().add(App.class.getResource("style.css").toString());
         stage.setScene(scene);
 
         stage.showAndWait();
