@@ -60,7 +60,7 @@ public class FGMDashboard implements Initializable {
 
     //Textfield
     @FXML
-    TextField messageBox;
+    TextArea messageBox;
     @FXML
     TextField receiverBox;
 
@@ -174,7 +174,7 @@ public class FGMDashboard implements Initializable {
     }
 
     //getter nötig, damit man Im DBmanager auf die messagebox und receiverbox zugreifen kann
-    public TextField getMessageBox() {
+    public TextArea getMessageBox() {
         return messageBox;
     }
 

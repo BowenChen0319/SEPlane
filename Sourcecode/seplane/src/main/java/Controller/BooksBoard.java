@@ -542,6 +542,7 @@ public class BooksBoard extends Application {
         root.getChildren().addAll(v0, listView, butts);
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(App.class.getResource("style.css").toString());
 
         stage.setWidth(Width);
         stage.setHeight(Height);

@@ -147,6 +147,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                                 }
                                 String message = "Die Fluege wurden erfolgreich instanziiert.";
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                                alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
                                 alert.showAndWait();
                             } else if (flugLinie.getIntervall() == Intervall.alle_3_Tage) {
 
@@ -164,6 +165,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                                 }
                                 String message = "Die Fluege wurden erfolgreich instanziiert.";
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                                alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
                                 alert.showAndWait();
                             } else {
 
@@ -181,6 +183,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                                 }
                                 String message = "Die Fluege wurden erfolgreich instanziiert.";
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+                                alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
                                 alert.showAndWait();
                             }
                             Stage stage = (Stage) abbrechen_button.getScene().getWindow();
@@ -191,6 +194,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                             String errorMessage = "Sie koennen Flug nur bis max. 6 Monate nach dem Startdatum instanziieren.";
                             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
                             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                            alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
                             alert.showAndWait();
                         }
                     }
@@ -199,6 +203,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                         String errorMessage = "Bitte geben Sie ein valides Datum an.";
                         Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
                         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                        alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
                         alert.showAndWait();
                     }
                 }
@@ -207,6 +212,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                     String errorMessage = "Bitte geben Sie eine Minute an.";
                     Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
                     alert.showAndWait();
                 }
             }
@@ -216,6 +222,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
                 String errorMessage = "Bitte geben Sie eine Stunde an.";
                 Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
                 alert.showAndWait();
             }
         }
@@ -223,6 +230,7 @@ public class FGM_FluegeInstanziierenController implements Initializable {
             String errorMessage = "Die Fluege fuer diese Flluglinie wurden bereits instanziiert.";
             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
             alert.showAndWait();
         }
     }

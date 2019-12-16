@@ -64,6 +64,7 @@ public class login extends Application {
         root.setPrefHeight(Height);
         root.setPrefWidth(Width);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("style.css").toString());
 
         Label text1 = new Label(
                 "Willkommen bei SE-Plane");
@@ -71,11 +72,11 @@ public class login extends Application {
         root.getChildren().add(text1);
 
         Label text2 = new Label(
-                "                      " +
-                        "deine Flugverwaltungsanwendung :)");
+                "deine Flugverwaltungsanwendung :)");
         text2.setFont(Font.font(20));
         root.getChildren().add(text2);
-
+        text1.setId("label-hell");
+        text2.setId("label-hell");
 
         TextField user = new TextField();
         user.setFont((Font.font(10)));
