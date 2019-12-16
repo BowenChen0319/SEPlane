@@ -23,6 +23,13 @@
 	-fx-font-weight: bold;
 }
 
+.dialog-pane:header .header-panel{
+    -fx-background-color: petrol;
+}
+.dialog-pane{
+    -fx-background-color: hellblau;
+}
+
 .button {
     -fx-background-color: dunkelblaugrau,
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),

@@ -61,6 +61,7 @@ public class FGM_FGDashboard implements Initializable {
             String errorMessage = "Als Fluggesllschaftsmanager koennen Sie nur eine Fluggesellschaft anlegen";
             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
             alert.showAndWait();
         }
     }
