@@ -174,6 +174,8 @@ public class Kunde_FlugbuchungController implements Initializable {
     public ObservableList<ArrayList<Flug>> flugList;
     DBManager db = App.db;
     Benutzer cur = new CurrentUser().getCurrent();
+    Label nixGefunden = new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden.");
+    
     //Suchparameter zwischenspeichern, da der Kunde die Parameter ändern kann und so zu wenig Plätze vergeben werden usw.
     int anzahlPassagiere = 0;
     boolean rueckflug = false;
@@ -182,6 +184,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	nixGefunden.setId("label-hell");
         //GUI SetUp und Listener
         setCascadingVisibility();
         //Flughäfen einfügen und Listener
@@ -216,6 +219,7 @@ public class Kunde_FlugbuchungController implements Initializable {
 
         //Default Text wenn leer
         suchergebnis.setPlaceholder(new Label("Starte eine Suche mit SEPlane"));
+        suchergebnis.getPlaceholder().setId("label-hell");
         //TreeTableView Flüge momentan TableView
         uhrzeitCol.setCellValueFactory(cellData -> {
             if (cellData.getValue() == null)
@@ -526,11 +530,11 @@ public class Kunde_FlugbuchungController implements Initializable {
             flugList = FXCollections.observableArrayList();
             ArrayList<Flug> flugUnsortiert = new ArrayList<Flug>();
             String klasse;
-            if (tg.getSelectedToggle().equals(toggleBus))
+            if (klassen[0] == 2)
                 klasse = "business";
             else klasse = "economy";
             //TODO Index 0 out of bounds for length 0
-            flugUnsortiert.addAll(db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse));
+            flugUnsortiert.addAll(db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), anzahlPassagiere, klasse));
 
             //sortieren nach Preis
             Collections.sort(flugUnsortiert, new Comparator<Flug>() {
@@ -546,8 +550,10 @@ public class Kunde_FlugbuchungController implements Initializable {
                 fluege.add(f);
                 flugList.add(fluege);
             }
-            if (flugList.isEmpty())
-                suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+            if (flugList.isEmpty()){
+            	suchergebnis.setItems(null);
+                suchergebnis.setPlaceholder(nixGefunden);
+            }
             else
                 suchergebnis.setItems(flugList);
         }
@@ -562,11 +568,11 @@ public class Kunde_FlugbuchungController implements Initializable {
         else {
             flugList = FXCollections.observableArrayList();
             String klasse;
-            if (tg.getSelectedToggle().equals(toggleBus))
+            if (klassen[0] == 2)
                 klasse = "business";
             else klasse = "economy";
-            List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
-            List<Flug> rueckflug = db.sucheHinflug(zielFH.getValue(), startFH.getValue(), rueckdatum.getValue(), zeitraumRueck.getValue(), personenZahl.getValue(), klasse);
+            List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), anzahlPassagiere, klasse);
+            List<Flug> rueckflug = db.sucheHinflug(zielFH.getValue(), startFH.getValue(), rueckdatum.getValue(), zeitraumRueck.getValue(), anzahlPassagiere, klasse);
 
             for (Flug hin : hinflug) {
                 for (Flug rueck : rueckflug) {
@@ -585,8 +591,10 @@ public class Kunde_FlugbuchungController implements Initializable {
             sortieren2Dim(unsortiert, preise);
 
             flugList.addAll(unsortiert);
-            if (flugList.isEmpty())
-                suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+            if (flugList.isEmpty()){
+            	suchergebnis.setItems(null);
+                suchergebnis.setPlaceholder(nixGefunden);
+            }
             else
                 suchergebnis.setItems(flugList);
         }
@@ -601,16 +609,16 @@ public class Kunde_FlugbuchungController implements Initializable {
         else {
             flugList = FXCollections.observableArrayList();
             String klasse;
-            if (tg.getSelectedToggle().equals(toggleBus))
+            if (klassen[0] == 2)
                 klasse = "business";
             else klasse = "economy";
             String klasse1;
-            if (tg1.getSelectedToggle().equals(toggleBus1))
+            if (klassen[1] == 2)
                 klasse1 = "business";
             else klasse1 = "economy";
 
-            List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
-            List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(), zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), personenZahl.getValue(), klasse1);
+            List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), anzahlPassagiere, klasse);
+            List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(), zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), anzahlPassagiere, klasse1);
 
             ArrayList<ArrayList<Flug>> unsortiert = new ArrayList<ArrayList<Flug>>();
             for (Flug hin : hinflug) {
@@ -630,8 +638,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList.isEmpty())
-                suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+            if (flugList.isEmpty()){
+            	suchergebnis.setItems(null);
+                suchergebnis.setPlaceholder(nixGefunden);
+            }
             else
                 suchergebnis.setItems(flugList);
         }
@@ -647,20 +657,20 @@ public class Kunde_FlugbuchungController implements Initializable {
         else {
             flugList = FXCollections.observableArrayList();
             String klasse;
-            if (tg.getSelectedToggle().equals(toggleBus))
+            if (klassen[0] == 2)
                 klasse = "business";
             else klasse = "economy";
             String klasse1;
-            if (tg1.getSelectedToggle().equals(toggleBus1))
+            if (klassen[1] == 2)
                 klasse1 = "business";
             else klasse1 = "economy";
             String klasse2;
-            if (tg2.getSelectedToggle().equals(toggleBus2))
+            if (klassen[2] == 2)
                 klasse2 = "business";
             else klasse2 = "economy";
-            List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
-            List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(), zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), personenZahl.getValue(), klasse1);
-            List<Flug> multi2 = db.sucheHinflug(startFH2.getValue(), zielFH2.getValue(), startDatum2.getValue(), zeitraumHin2.getValue(), personenZahl.getValue(), klasse2);
+            List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), anzahlPassagiere, klasse);
+            List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(), zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), anzahlPassagiere, klasse1);
+            List<Flug> multi2 = db.sucheHinflug(startFH2.getValue(), zielFH2.getValue(), startDatum2.getValue(), zeitraumHin2.getValue(), anzahlPassagiere, klasse2);
 
             ArrayList<ArrayList<Flug>> unsortiert = new ArrayList<ArrayList<Flug>>();
             for (Flug hin : hinflug) {
@@ -684,9 +694,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList.isEmpty())
-                suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
-            else
+            if (flugList.isEmpty()) {
+            	suchergebnis.setItems(null);
+                suchergebnis.setPlaceholder(nixGefunden);
+            }            else
                 suchergebnis.setItems(flugList);
         }
     }
@@ -702,26 +713,26 @@ public class Kunde_FlugbuchungController implements Initializable {
         else {
             flugList = FXCollections.observableArrayList();
             String klasse;
-            if (tg.getSelectedToggle().equals(toggleBus))
+            if (klassen[0] == 2)
                 klasse = "business";
             else klasse = "economy";
             String klasse1;
-            if (tg1.getSelectedToggle().equals(toggleBus1))
+            if (klassen[1] == 2)
                 klasse1 = "business";
             else klasse1 = "economy";
             String klasse2;
-            if (tg2.getSelectedToggle().equals(toggleBus2))
+            if (klassen[2] == 2)
                 klasse2 = "business";
             else klasse2 = "economy";
             String klasse3;
-            if (tg3.getSelectedToggle().equals(toggleBus3))
+            if (klassen[3] == 2)
                 klasse3 = "business";
             else klasse3 = "economy";
 
-            List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), personenZahl.getValue(), klasse);
-            List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(), zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), personenZahl.getValue(), klasse1);
-            List<Flug> multi2 = db.sucheHinflug(startFH2.getValue(), zielFH2.getValue(), startDatum2.getValue(), zeitraumHin2.getValue(), personenZahl.getValue(), klasse2);
-            List<Flug> multi3 = db.sucheHinflug(startFH3.getValue(), zielFH3.getValue(), startDatum3.getValue(), zeitraumHin3.getValue(), personenZahl.getValue(), klasse3);
+            List<Flug> hinflug = db.sucheHinflug(startFH.getValue(), zielFH.getValue(), startDatum.getValue(), zeitraumHin.getValue(), anzahlPassagiere, klasse);
+            List<Flug> multi1 = db.sucheHinflug(startFH1.getValue(), zielFH1.getValue(), startDatum1.getValue(), zeitraumHin1.getValue(), anzahlPassagiere, klasse1);
+            List<Flug> multi2 = db.sucheHinflug(startFH2.getValue(), zielFH2.getValue(), startDatum2.getValue(), zeitraumHin2.getValue(), anzahlPassagiere, klasse2);
+            List<Flug> multi3 = db.sucheHinflug(startFH3.getValue(), zielFH3.getValue(), startDatum3.getValue(), zeitraumHin3.getValue(), anzahlPassagiere, klasse3);
 
             ArrayList<ArrayList<Flug>> unsortiert = new ArrayList<ArrayList<Flug>>();
             for (Flug hin : hinflug) {
@@ -749,8 +760,10 @@ public class Kunde_FlugbuchungController implements Initializable {
 
             flugList.addAll(unsortiert);
 
-            if (flugList.isEmpty())
-                suchergebnis.setPlaceholder(new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden."));
+            if (flugList.isEmpty()) {
+            	suchergebnis.setItems(null);
+                suchergebnis.setPlaceholder(nixGefunden);
+            }
             else
                 suchergebnis.setItems(flugList);
         }
