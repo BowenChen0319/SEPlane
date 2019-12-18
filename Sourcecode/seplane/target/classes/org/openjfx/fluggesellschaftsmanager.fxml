@@ -22,41 +22,41 @@
       </HBox>
       <VBox layoutX="100.0" layoutY="119.0" spacing="40.0">
          <children>
-            <Label text="Name:">
+            <Label id="label-hell" text="Name:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="Land:">
+            <Label id="label-hell" text="Land:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="Budget (in Mio. €):">
+            <Label id="label-hell" text="Budget (in Mio. €):">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
          </children>
       </VBox>
-      <Label layoutX="215.0" layoutY="37.0" text="Fluggesellschaft">
+      <Label id="label-hell" layoutX="215.0" layoutY="37.0" text="Fluggesellschaft">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
       <VBox layoutX="289.0" layoutY="119.0" spacing="40.0">
          <children>
-            <Label fx:id="nameInhalt_label" text="Leer">
+            <Label id="label-hell" fx:id="nameInhalt_label" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="landInhalt_label" text="Leer">
+            <Label id="label-hell" fx:id="landInhalt_label" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="bugetInhalt_label" text="Leer">
+            <Label id="label-hell" fx:id="bugetInhalt_label" text="Leer">
                <font>
                   <Font size="18.0" />
                </font>

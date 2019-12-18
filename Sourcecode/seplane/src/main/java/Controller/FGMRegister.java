@@ -17,6 +17,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import org.openjfx.App;
 import org.openjfx.DBManager;
 
 import java.io.IOException;
@@ -204,6 +206,7 @@ public class FGMRegister extends Application {
         stage.setHeight(Height);
         stage.setResizable(false);
         stage.setScene(scene);
+        scene.getStylesheets().add(App.class.getResource("style.css").toString());
         stage.show();
         stage.setTitle("FGM Creat for "+new CurrentUser().getCurrent().getBenutzername());
 

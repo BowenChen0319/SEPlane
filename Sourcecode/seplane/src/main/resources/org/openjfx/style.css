@@ -1,6 +1,38 @@
+/* Farbdefinition */
+* {
+	dunkelblaugrau : #31374D;
+	nightskyblue : #061A29;
+	schwarzgrau : #262830;
+	hellblau : #cbf5f6;
+	hellblau2 : #d4edff;
+	petrol : #175785;
+}
+
+.root {
+	-fx-background-color: nightskyblue;
+}
+#scrollFlugsuche {
+	-fx-background-color: nightskyblue;
+}
+
+.label{
+	-fx-text-fill: linear-gradient(hellblau 20%, petrol 100%);
+	-fx-font-weight: bold;
+}
+#label-hell {
+	-fx-text-fill: linear-gradient(petrol 20%, hellblau 100%);
+	-fx-font-weight: bold;
+}
+
+.dialog-pane:header .header-panel{
+    -fx-background-color: petrol;
+}
+.dialog-pane{
+    -fx-background-color: hellblau;
+}
+
 .button {
-    -fx-background-color: 
-        #31374D,
+    -fx-background-color: dunkelblaugrau,
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
         linear-gradient(#20262b, #191d22),
         radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
@@ -11,34 +43,41 @@
     -fx-font-family: "Arial";
     -fx-text-fill: linear-gradient(white, #d0d0d0);
     -fx-font-size: 12px;
-    -fx-padding: 10 20 10 20;
+    -fx-font-weight: bold;
+   
 }
 .button:hover {
-	-fx-background-color:#314d47,
+	-fx-background-color:schwarzgrau,
         linear-gradient(#38424b 0%, #314d47 20%, #314d47 100%),
-        linear-gradient(#314d47, #191d22),
+        linear-gradient(schwarzgrau, #191d22),
         radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
     -fx-background-radius: 5,4,3,5;
     -fx-background-insets: 0,1,2,0;
 	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 	-fx-text-fill: linear-gradient(white, #d0d0d0);
-	-fx-padding: 10 20 10 20;
 }
 
 
-.tab-pane
-{
+.tab-pane{
     -fx-tab-min-width:90px;
     -fx-background-image: url("bild1.jpg");
-
 }
+
 .tab-pane .tab-header-background{
-	-fx-background-color: #010134;
+	-fx-background-color: nightskyblue;
+}
+
+.tab-pane .tab
+{
+    -fx-background-color: #3c3c3c;
 }
 
 .tab-pane .tab:selected
 {
-    -fx-background-color: #3c3c3c;
+    -fx-background-color: dunkelblaugrau;
+}
+.tab:selected .focus-indicator{
+	-fx-border-color: Transparent;
 }
 
 .tab .tab-label { 
@@ -53,9 +92,79 @@
     -fx-text-fill: #d4edff;
 }
 
-.column-header {
-	-fx-background-color: #175785,
-	radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+.toggle-button:selected {
+	-fx-background-color: nightskyblue;
+	-fx-border-color: hellblau;
+	-fx-border-radius: 2px;
+	-fx-text-fill: hellblau;
+}
+.toggle-button {
+	-fx-background-color: hellblau;
+}
+
+.table-view .column-header {
+	/* TODO Text border color   */
+	-fx-background-color: linear-gradient(#3c3c3c 80%, #828282 100%);
+}
+.column-header .label{
+	-fx-text-fill: #d4edff;
+	-fx-font: 13px "Lucida Console";
+}
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, dunkelblaugrau;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
+}
+.table-row-cell:odd{
+    -fx-background-color: -fx-table-cell-border-color, nightskyblue;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */  
+}
+.table-row-cell:selected{
+    -fx-background-color: -fx-table-cell-border-color, petrol;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */  
+}
+.table-view .table-cell{
+    -fx-text-fill: white;
+    -fx-font: 12px "Lucida Console";
+}
+.table-view{
+   -fx-background-color: transparent;
 }
 
 
+.list-cell{
+    -fx-background-color: dunkelblaugrau;
+}
+.list-cell:even{
+    -fx-background-color: schwarzgrau; 
+}
+.list-cell:filled:selected{
+    -fx-background-color: petrol;
+}
+.list-view .cell{
+    -fx-text-fill: white;
+    -fx-font: 12px "Lucida Console";
+}
+
+.combo-box-base  {
+    -fx-background-color: white, white, white, white;
+    -fx-background-radius: 5, 5, 4, 3;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+	
+}
+.combo-box-base .button {
+    -fx-background-color: white;
+}
+.combo-box .cell:selected {
+    -fx-text-fill: hellblau;
+    -fx-font-weight: bold;
+    -fx-background-color: nightskyblue;
+}
+
+.choice-box {
+    -fx-background-color: white, white, white, white;
+    -fx-background-radius: 5, 5, 4, 3;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+}

@@ -191,12 +191,14 @@ public class FGM_FluegeUebersichtController implements Initializable {
             String errorMessage = "Bitte waehlen Sie einen Flug aus der Tabelle aus.";
             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
             alert.showAndWait();
         }
         else if(this.berechneRentabilitaet(flug)<0){
             String errorMessage = "Die Rentabilitaet dieses Fluges ist nicht negativ";
             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
             alert.showAndWait();
         }
         else{

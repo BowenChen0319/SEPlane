@@ -54,12 +54,14 @@ public class FGM_FGDashboard implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Fluggesellschaft anlegen");
         stage.setScene(scene);
+        scene.getStylesheets().add(App.class.getResource("style.css").toString());
         stage.showAndWait();
         }
         else {
             String errorMessage = "Als Fluggesllschaftsmanager koennen Sie nur eine Fluggesellschaft anlegen";
             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
             alert.showAndWait();
         }
     }
@@ -77,6 +79,7 @@ public class FGM_FGDashboard implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Flugzeug kaufen");
         stage.setScene(scene);
+        scene.getStylesheets().add(App.class.getResource("style.css").toString());
         stage.showAndWait();
     }
 

@@ -76,12 +76,14 @@ public void initialize(URL location, ResourceBundle resources) {
         	if(fluggesellschaft == null) {
 				String errorMessage = "Sie verfuegen nicht ueber eine Fluggesellschaft, mit der Sie ein Flugzeug kaufen koennen.";
 				Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+				alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
 				alert.showAndWait();
         	}
         	else {
         	if(tableview.getSelectionModel().isEmpty()) {
 				String errorMessage = "Bitte waehlen Sie ein Flugzeug aus.";
 				Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+				alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
 				alert.showAndWait();
 			}
 				else {
@@ -92,6 +94,7 @@ public void initialize(URL location, ResourceBundle resources) {
 					if(preis>budget){
 						String errorMessage = "Leider verfuegt Ihre Fluggesellschaft nicht ueber ein ausreichendes Budget.";
 						Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
+						alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
 						alert.showAndWait();
 					}
 					else{
@@ -103,6 +106,7 @@ public void initialize(URL location, ResourceBundle resources) {
 						db.createFM(new FlugzeugMapping(fluggesellschaft, flugzeug));
 						String message = "Der Kauf wurde erfolgreich ausgefuehrt.";
 						Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.CLOSE);
+						alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
 						alert.showAndWait();
 					}
 				}
