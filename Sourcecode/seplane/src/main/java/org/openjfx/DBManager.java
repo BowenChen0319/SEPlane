@@ -558,6 +558,26 @@ public class DBManager {
 
     }
 
+    public List<Flug> getallFlugfromBooking(Booking bk){
+        ArrayList<Flug> fglist = new ArrayList<>();
+            //Singel
+        if(bk.getMulti()==null){
+            fglist.add(bk.getFlug());
+            return fglist;
+        }else{
+            //Multistop
+            String multi= bk.getMulti();
+            ArrayList<String> list = new StringwithArraylist().str2list(multi);
+            System.out.println(list);
+            //add all multistops to List
+            for(int i=0;i<list.size();i++){
+                fglist.add(App.db.getbkId(Integer.parseInt(list.get(i))).getFlug());
+            }
+            return fglist;
+
+        }
+    }
+
     public List<Booking> getBookingfromFlug(Integer flugid) {
         List<Booking> bkList = null;
         bkList=this.getallBooking();
