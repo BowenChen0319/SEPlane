@@ -515,19 +515,17 @@ public class DBManager {
     }
 
     public List<Flug> getFluegefromUser(Benutzer fgm) {
-        List<Flug> fgList = null;
-        Fluggesellschaft fg = this.getFGzuFGM(fgm);
-        fgList=this.getFluege();
+            List<Flug> fgList = null;
+            Fluggesellschaft fg = this.getFGzuFGM(fgm);
+            fgList=this.getFluege();
 
-        List<Flug> fgfrombe = fgList.stream().filter(new Predicate<Flug>() {
-            @Override
-            public boolean test(Flug flug) {
-                return flug.getFluglinie().getFluggesellschaft().getFgmanager().getId()==(fgm.getId());
-            }
-        }).collect(Collectors.toList());
-
-
-    return fgfrombe;
+            List<Flug> fgfrombe = fgList.stream().filter(new Predicate<Flug>() {
+                @Override
+                public boolean test(Flug flug) {
+                    return flug.getFluglinie().getFluggesellschaft().getFgmanager().getId()==(fgm.getId());
+                }
+            }).collect(Collectors.toList());
+            return fgfrombe;
 
     }
     public Fluglinie getFluglinievonFlugIDausBooking(int flugID){
@@ -560,6 +558,18 @@ public class DBManager {
 
     }
 
+    public List<Booking> getBookingfromFlug(Integer flugid) {
+        List<Booking> bkList = null;
+        bkList=this.getallBooking();
+        List<Booking> fgfrombe = bkList.stream().filter(new Predicate<Booking>() {
+            @Override
+            public boolean test(Booking bk) {
+                return bk.getFlugid()==flugid;
+            }
+        }).collect(Collectors.toList());
+        return bkList;
+    }
+
     public List<Booking> getallBookingFromUser(String username) {
         List<Booking> all;
         try {
@@ -570,6 +580,17 @@ public class DBManager {
             return null;
         }
 
+    }
+
+    public List<Booking> getallBooking() {
+        List<Booking> all;
+        try {
+            all = bkDao.queryForAll();
+            return all;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<Airport> getFlughafen() {

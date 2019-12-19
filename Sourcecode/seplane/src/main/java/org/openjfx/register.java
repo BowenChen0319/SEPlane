@@ -142,12 +142,12 @@ public class register extends Application {
                 }
             }
 
-            @Override
-            public void replaceSelection(String text) {
-                if (!text.matches("[a-z]")) {
-                    super.replaceSelection(text);
-                }
-            }
+//            @Override
+//            public void replaceSelection(String text) {
+//                if (!text.matches("[a-z]")) {
+//                    super.replaceSelection(text);
+//                }
+//            }
         };
         tel.setFont((Font.font(10)));
         Tooltip tipt = new Tooltip("Telephone number Please :)");

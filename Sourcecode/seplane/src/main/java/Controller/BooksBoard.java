@@ -45,7 +45,7 @@ public class BooksBoard extends Application {
 //        be=benutzer;
 //        this.start(new Stage());
 //    }
-    TableView<Booking> bookingTable;
+    //TableView<Booking> bookingTable;
 
     @Override
 
@@ -236,7 +236,7 @@ public class BooksBoard extends Application {
                 System.out.println(d);
                 List<Booking> all = null;
                 all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()){
+                if(d<=all.size()&&d!=-1){
                     Booking del = all.get(d);
                     ArrayList<Integer> notwo = new ArrayList<Integer>();
                     if(del.getMulti()==null){
