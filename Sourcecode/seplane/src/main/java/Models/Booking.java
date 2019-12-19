@@ -29,13 +29,15 @@ public class Booking {
     @DatabaseField
     String multi;
     @DatabaseField
+    String gutscheincode;
+    @DatabaseField
     String HashNr;
 
 
     public Booking() {}
 
     public Booking(Benutzer user, Flug flug,String classe, Integer seat,
-                   Double preise) {
+                   Double preise,String gutscheincode) {
         this.username=user.getBenutzername();
         this.user=user;
         this.flug=flug;
@@ -44,6 +46,7 @@ public class Booking {
         this.paytime=this.getStringDate();
         this.preise=preise;
         this.FluglinieID=flug.getFluglinie().getId();
+        this.gutscheincode=gutscheincode;
 
         try {
 			this.HashNr= Encryption.getSaltedHash(this.getStringDate());
@@ -183,6 +186,15 @@ public class Booking {
         }
     }
 
+    public String getGutscheincode(){
+        return this.gutscheincode;
+    }
+
+    public void setGutscheincode(String gttext){
+        this.gutscheincode=gttext;
+    }
+
+
     @Override
     public String toString() {
         return "Booking{" +
@@ -197,5 +209,7 @@ public class Booking {
                 ", HashNr='" + HashNr + '\'' +
                 '}';
     }
+
+
 
 }

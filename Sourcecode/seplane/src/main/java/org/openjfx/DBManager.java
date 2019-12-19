@@ -78,7 +78,7 @@ public class DBManager {
 //		TableUtils.dropTable(cs, Airport.class, true);
 //		TableUtils.dropTable(cs, Plane.class, true);
 //		TableUtils.dropTable(cs, Flug.class,true);
-//        TableUtils.dropTable(cs, Booking.class, true);
+        TableUtils.dropTable(cs, Booking.class, true);
 //		TableUtils.dropTable(cs, Postfach.class, true);
         TableUtils.dropTable(cs, Gutschein.class, true);
 
@@ -89,7 +89,7 @@ public class DBManager {
 //		TableUtils.createTable(cs, Airport.class);
 //		TableUtils.createTable(cs, Plane.class);
 //		TableUtils.createTable(cs, Flug.class);
-//        TableUtils.createTable(cs, Booking.class);
+        TableUtils.createTable(cs, Booking.class);
 //		TableUtils.createTable(cs, Postfach.class);
         TableUtils.createTable(cs, Gutschein.class);
     }
@@ -197,9 +197,33 @@ public class DBManager {
             this.updateB(be);
             //be= App.db.getUser(user);
             System.out.println("CO: " + be.getco() + "  Kilo: " + be.getkilo());
-            bkDao.create(bk);
+            bkDao.create(this.applycode(bk));
+            System.out.println(bk.getGutscheincode());
+            //this.applycode(bk);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public Booking applycode(Booking bk){
+        if(bk.getGutscheincode()!=null){
+            System.out.println(bk.getGutscheincode());
+            Gutschein gt=this.getGutschein(bk.getGutscheincode());
+            //System.out.println(gt.getPercent());
+            if(gt!=null){
+                System.out.println(gt.getPercent());
+                //Booking update = this.getbkwithbk(bk);
+                Double price = bk.getPreise()*gt.getPercent()/100;
+                //update.setPreise(price);
+                //this.updateBk(update);
+                System.out.println(price);
+                bk.setPreise(price);
+                return bk;
+            }else {
+                return bk;
+            }
+        }else {
+            return bk;
         }
     }
 
@@ -540,6 +564,16 @@ public class DBManager {
         return fgfrombe;
     }
 
+    public Gutschein getGutschein(String text) {
+        List<Gutschein> gtList = this.getGutscheinfromtext(text);
+        if(gtList.isEmpty()){
+            return null;
+        }else {
+            return gtList.get(0);
+        }
+    }
+
+
     public List<Flug> getFluegefromUser(Benutzer fgm) {
             List<Flug> fgList = this.getFluege();
             Fluggesellschaft fg = this.getFGzuFGM(fgm);
@@ -709,6 +743,17 @@ public class DBManager {
         try {
             flug = flugDao.queryForId(id);
             return flug;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Gutschein getGutschein(int id) {
+        Gutschein gt = null;
+        try {
+            gt = gtDao.queryForId(id);
+            return gt;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
