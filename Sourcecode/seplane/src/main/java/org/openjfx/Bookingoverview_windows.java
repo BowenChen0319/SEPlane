@@ -70,7 +70,7 @@ public class Bookingoverview_windows extends Application {
 
                     new CurrentUser().setCurrent(finalB1);
                     new BooksBoard().start(new Stage());
-
+                    stage.close();
                 } catch (IOException | SQLException e) {
                     e.printStackTrace();
 
