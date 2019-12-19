@@ -53,7 +53,7 @@ public class Booking {
 		}
 
     }
-    
+
     public String getUsername(){
         return username;
     }

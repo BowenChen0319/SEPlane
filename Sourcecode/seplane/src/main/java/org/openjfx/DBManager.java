@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import Models.*;
 import Toolbox.Encryption;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -23,16 +24,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 import Controller.FGMDashboard;
-import Models.Airport;
-import Models.Benutzer;
-import Models.Booking;
-import Models.CurrentUser;
-import Models.Flug;
-import Models.Fluggesellschaft;
-import Models.Fluglinie;
-import Models.FlugzeugMapping;
-import Models.Plane;
-import Models.Postfach;
 import Toolbox.AlertHandler;
 import Toolbox.JsonReaderTool;
 import Toolbox.StringwithArraylist;
@@ -54,6 +45,7 @@ public class DBManager {
     Dao<Flug, Integer> flugDao;
     Dao<Booking, Integer> bkDao;
     Dao<Postfach, String> pfDao;
+    Dao<Gutschein,Integer> gtDao;
 
 
     public DBManager() {
@@ -70,6 +62,7 @@ public class DBManager {
             flugDao = DaoManager.createDao(cs, Flug.class);
             bkDao = DaoManager.createDao(cs, Booking.class);
             pfDao = DaoManager.createDao(cs, Postfach.class);
+            gtDao = DaoManager.createDao(cs,Gutschein.class);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -85,8 +78,9 @@ public class DBManager {
 //		TableUtils.dropTable(cs, Airport.class, true);
 //		TableUtils.dropTable(cs, Plane.class, true);
 //		TableUtils.dropTable(cs, Flug.class,true);
-        TableUtils.dropTable(cs, Booking.class, true);
-		TableUtils.dropTable(cs, Postfach.class, true);
+//        TableUtils.dropTable(cs, Booking.class, true);
+//		TableUtils.dropTable(cs, Postfach.class, true);
+        TableUtils.dropTable(cs, Gutschein.class, true);
 
 //        TableUtils.createTable(cs, Fluglinie.class);
 //		TableUtils.createTable(cs, Fluggesellschaft.class);
@@ -95,8 +89,9 @@ public class DBManager {
 //		TableUtils.createTable(cs, Airport.class);
 //		TableUtils.createTable(cs, Plane.class);
 //		TableUtils.createTable(cs, Flug.class);
-        TableUtils.createTable(cs, Booking.class);
-		TableUtils.createTable(cs, Postfach.class);
+//        TableUtils.createTable(cs, Booking.class);
+//		TableUtils.createTable(cs, Postfach.class);
+        TableUtils.createTable(cs, Gutschein.class);
     }
 
     public static void main(String[] args) throws SQLException {
@@ -274,6 +269,14 @@ public class DBManager {
     public void createB(Benutzer b) {
         try {
             bDao.create(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void creategt(Gutschein gt) {
+        try {
+            gtDao.create(gt);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -503,6 +506,18 @@ public class DBManager {
         }
     }
 
+    public List<Gutschein> getallGutschein() {
+        List<Gutschein> all;
+        try {
+            all = gtDao.queryForAll();
+            return all;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     public List<Flug> getFluege() {
         List<Flug> all;
         try {
@@ -514,8 +529,19 @@ public class DBManager {
         }
     }
 
+    public List<Gutschein> getGutscheinfromtext(String text) {
+        List<Gutschein> gtList = this.getallGutschein();
+        List<Gutschein> fgfrombe = gtList.stream().filter(new Predicate<Gutschein>() {
+            @Override
+            public boolean test(Gutschein gt) {
+                return gt.getText().equals(text);
+            }
+        }).collect(Collectors.toList());
+        return fgfrombe;
+    }
+
     public List<Flug> getFluegefromUser(Benutzer fgm) {
-            List<Flug> fgList = null;
+            List<Flug> fgList = this.getFluege();
             Fluggesellschaft fg = this.getFGzuFGM(fgm);
             fgList=this.getFluege();
 

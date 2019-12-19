@@ -33,7 +33,7 @@ public class App extends Application {
 
     public static void main(String[] args) throws Exception {
     	//neu aufsetzen der DB
-    	//db.setUpDatabase();
+    	db.setUpDatabase();
 
         launch();
     }
