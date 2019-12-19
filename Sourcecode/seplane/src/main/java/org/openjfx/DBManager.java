@@ -208,7 +208,7 @@ public class DBManager {
     public Booking applycode(Booking bk){
         if(bk.getGutscheincode()!=null){
             System.out.println(bk.getGutscheincode());
-            Gutschein gt=this.getGutschein(bk.getGutscheincode());
+            Gutschein gt=this.getGutschein(bk.getGutscheincode().toLowerCase());
             //System.out.println(gt.getPercent());
             if(gt!=null){
                 System.out.println(gt.getPercent());
