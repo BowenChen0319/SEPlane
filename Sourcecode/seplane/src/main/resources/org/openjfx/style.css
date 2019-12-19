@@ -4,6 +4,7 @@
 	nightskyblue : #061A29;
 	schwarzgrau : #262830;
 	hellblau : #cbf5f6;
+	hellblau2 : #d4edff;
 	petrol : #175785;
 }
 
@@ -15,11 +16,11 @@
 }
 
 .label{
-	-fx-text-fill: dunkelblaugrau;
+	-fx-text-fill: linear-gradient(hellblau 20%, petrol 100%);
 	-fx-font-weight: bold;
 }
 #label-hell {
-	-fx-text-fill: linear-gradient(petrol 50%, hellblau 100%);
+	-fx-text-fill: linear-gradient(petrol 20%, hellblau 100%);
 	-fx-font-weight: bold;
 }
 
@@ -151,10 +152,15 @@
     -fx-background-color: white, white, white, white;
     -fx-background-radius: 5, 5, 4, 3;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
-
+	
 }
 .combo-box-base .button {
     -fx-background-color: white;
+}
+.combo-box .cell:selected {
+    -fx-text-fill: hellblau;
+    -fx-font-weight: bold;
+    -fx-background-color: nightskyblue;
 }
 
 .choice-box {
