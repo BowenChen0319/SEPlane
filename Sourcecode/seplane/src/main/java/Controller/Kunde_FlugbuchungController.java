@@ -26,6 +26,7 @@ import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.openjfx.App;
+import org.openjfx.Bookingoverview_windows;
 import org.openjfx.DBManager;
 import org.openjfx.login;
 
@@ -435,10 +436,8 @@ public class Kunde_FlugbuchungController implements Initializable {
             @Override
             public void run() {
                 try {
-                    new BooksBoard().start(new Stage());
-
-
-                } catch (IOException | SQLException e) {
+                    new Bookingoverview_windows().start(new Stage());
+                } catch (IOException e) {
                     e.printStackTrace();
 
                 }
