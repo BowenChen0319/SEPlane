@@ -145,6 +145,12 @@ public class Benutzer {
 
     }
 
+    public void setPasswort(String pwd) throws Exception {
+        this.passwort_klar=pwd;
+        this.passwort= Encryption.getSaltedHash(pwd);
+
+    }
+
 
     public List<Booking> getbookinglist(){
         return App.db.getallBookingFromUser(this.benutzername);

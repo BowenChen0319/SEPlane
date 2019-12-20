@@ -239,6 +239,7 @@ public class register extends Application {
 
         root.getChildren().addAll(h1,h2,h3,h4,he,ha,ht,h5,warning,b3);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("style.css").toString());
 
         stage.setWidth(Width);
         stage.setHeight(Height);

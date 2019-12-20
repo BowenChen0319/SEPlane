@@ -41,4 +41,19 @@ public class TelegramMain {
 
 
     }
+
+    public void test(TelegramBot bot, String text) throws InterruptedException {
+        String message = text;
+        String chatId = "644260486";
+
+        if (storno) {
+            try {
+                bot.sendMessage(message, chatId);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
 }

@@ -256,6 +256,12 @@ public class DBManager {
         }
     }
 
+    public void resetpwd(Integer id,String pwd) throws Exception {
+        Benutzer update = this.getbeId(id);
+        update.setPasswort(pwd);
+        this.updateB(update);
+    }
+
 
     public void createF(Plane f) {
         try {
