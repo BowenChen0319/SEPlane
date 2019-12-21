@@ -388,23 +388,26 @@ public class login extends Application {
                     warning.setText("Wrong Username");
                 }else{
                     if(pwd.getText().equals("")||pwd.getText().contains(" ")){
-                        Benutzer update = App.db.getUser(user.getText());
-                        String generatedString = RandomStringUtils.randomAlphabetic(7);
-                        //System.out.println(generatedString);
-                        try {
-                            App.db.resetpwd(update.getId(),generatedString);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        //System.out.println(update.getPasswort_klar());
+                        if(b.getTelnumber()!=""){
+                            Benutzer update = App.db.getUser(user.getText());
+                            String generatedString = RandomStringUtils.randomAlphabetic(7);
+                            //System.out.println(generatedString);
+                            try {
+                                App.db.resetpwd(update.getId(),generatedString);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //System.out.println(update.getPasswort_klar());
 
-                        try {
-                            new TelegramBot().sendMessage("Your new password is: "+generatedString,b.getTelnumber());
-                        } catch (TelegramApiException e) {
-                            e.printStackTrace();
+                            try {
+                                new TelegramBot().sendMessage("Your new password is: "+generatedString,b.getTelnumber());
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                            warning.setText("New password has been sent to Telegram ChatID: "+update.getTelnumber());
+                        }else {
+                            warning.setText("Sorry, we don't have your Telegram ChatID");
                         }
-                        warning.setText("New password has been sent to Telegram ChatID: "+update.getTelnumber());
-
                     }else{
                         if(Encryption.check(pwd.getText(),b.getPasswort())){
                             user.clear();
