@@ -42,6 +42,8 @@ public class reset extends Application {
 
 
 
+
+
         Label text5 = new Label(
                 "New Passwort: ");
         text5.setFont(Font.font(25));
@@ -84,6 +86,7 @@ public class reset extends Application {
                 System.out.println("start  reset");
                 try {
                     App.db.resetpwd(new CurrentUser().getCurrent().getId(),psw.getText());
+                    warning.setText("Reset password finished");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

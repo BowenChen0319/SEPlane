@@ -449,7 +449,7 @@ public class login extends Application {
         primaryStage.setScene(scene);
 
         //primaryStage.setFullScreen(true);
-        primaryStage.setOpacity(0.9); //transparency
+        primaryStage.setOpacity(0.95); //transparency
         //primaryStage.setAlwaysOnTop(true);
         //primaryStage.setX(100);
         //primaryStage.setY(100);
