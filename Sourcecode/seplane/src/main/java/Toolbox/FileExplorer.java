@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,19 +21,19 @@ import java.util.ResourceBundle;
 
 public class FileExplorer implements Initializable {
 
-    @FXML TextField pfadText;
-    @FXML TableView<String> ordnerTable;
-    @FXML TableColumn<String, String> nameCol;
+    @FXML
+    TextField pfadText;
+    @FXML
+    TableView<String> ordnerTable;
+    @FXML
+    TableColumn<String, String> nameCol;
 
     ObservableList<String> fileList;
-//    public static void main(String[] args) {
-//        new FileExplorer()
-//    }
+
     public static String lastFolder;
     public static String currentFolder;
     public static String nextFolder;
     public static final String userDir = System.getProperty("user.home");
-
 
 
     public void saveSelected(ActionEvent actionEvent) {
@@ -51,7 +52,7 @@ public class FileExplorer implements Initializable {
         refreshTable(lastFolder);
     }
 
-    public ObservableList<String> getListOfFiles(String path){
+    public ObservableList<String> getListOfFiles(String path) {
         File dir = new File(path);
         fileList = FXCollections.observableArrayList();
         String[] arr = dir.list();
@@ -74,13 +75,13 @@ public class FileExplorer implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       //nameCol.setCellValueFactory(new PropertyValueFactory<>("nameCol"));
+        //nameCol.setCellValueFactory(new PropertyValueFactory<>("nameCol"));
         pfadText.setText(userDir);
-       nameCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-        ordnerTable.setRowFactory( tv -> {
+        nameCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        ordnerTable.setRowFactory(tv -> {
             TableRow<String> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     String rowData = row.getItem();
 
                     nextFolder = currentFolder + ("\\" + rowData);
@@ -93,7 +94,7 @@ public class FileExplorer implements Initializable {
                     System.out.println("LF: " + lastFolder);
                 }
             });
-            return row ;
+            return row;
         });
     }
 

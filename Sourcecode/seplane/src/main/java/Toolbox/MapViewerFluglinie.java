@@ -116,7 +116,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 			zielInfo.open(map, marker2);
 
 
-			//Polyline
+			//Models.Models.GeoRoute.GeoRoute.Models.GeoRoute.Step.Polyline
 			LatLong[] line = new LatLong[]{start, ziel};
 			MVCArray mvc = new MVCArray(line);
 			PolylineOptions polyOpts = new PolylineOptions()
