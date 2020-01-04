@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -10,7 +11,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RoutenansichtController">
    <children>
@@ -44,6 +44,8 @@
                                       <TextField fx:id="startEingabe" prefHeight="26.0" prefWidth="170.0" GridPane.columnIndex="1" />
                                       <TextField fx:id="zielEingabe" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                       <Button fx:id="sucheButton" mnemonicParsing="false" onAction="#routenSuche" text="Suche" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <ChoiceBox fx:id="modeChooser" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Forbewegungsmitte: " GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                                   </children>
                               </GridPane>
                           </children>

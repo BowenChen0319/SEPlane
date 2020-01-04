@@ -12,34 +12,58 @@ import javafx.collections.ObservableList;
 
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 
 public class Directions {
-    enum TransportMode {
+    public enum TransportMode {
         DRIVING, TRANSIT, WALKING
     }
 
+    public String makeSearchUsuable(String string) {
+        String newString = "";
+        newString = string.replace(" ", "+");
+        if (string.contains("ß")) {
+            newString = newString.replace("ß", "ss");
+        } else if (string.contains("ä") || string.contains("Ä")) {
+            newString = newString.replace("ä", "ae");
+            newString = newString.replace("Ä", "ae");
+        } else if (string.contains("ö") || string.contains("Ö")) {
+            newString = newString.replace("ö", "oe");
+            newString = newString.replace("Ö", "oe");
+        } else if (string.contains("ü") || string.contains("Ü")) {
+            newString = newString.replace("ü", "ue");
+            newString = newString.replace("Ü", "ue");
+        }
+        return newString;
+    }
+    public ObservableList<Route> getDirection(String start, String ziel, Enum mode) throws FileNotFoundException {
 
-    public ObservableList<Route> getDirection(String start, String ziel) throws FileNotFoundException {
+        URL url = null;
+        InputStreamReader reader = null;
 
-//        URL url = null;
-//        InputStreamReader reader = null;
-//        try {
-//            url = new URL("https://maps.googleapis.com/maps/api/directions/json?&" +
-//                    "mode=drivingt&origin=" + start +
-//                    "destination=" + ziel + "&key=AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
-//            reader = new InputStreamReader(url.openStream());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            url = new URL("https://maps.googleapis.com/maps/api/directions/json?" +
+                    "origin=" + makeSearchUsuable(start) +
+                    "&destination=" + makeSearchUsuable(ziel) +
+                    "&travel_mode=" + mode.toString().toLowerCase() +
+                    "&alternatives=true" +
+                    "&mode=" + mode.toString().toLowerCase() +
+                    "&units=metric&region=DE&key=AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
+            System.out.println("Suchanfrage: " + url.toString());
+            reader = new InputStreamReader(url.openStream());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        FileReader fr = new FileReader("C:\\Users\\Kevin\\Desktop\\route.json");
-        BufferedReader reader = new BufferedReader(fr);
+//        FileReader fr = new FileReader("C:\\Users\\Kevin\\Desktop\\route.json");
+//        BufferedReader reader = new BufferedReader(fr);
 
 
         Gson gson = new GsonBuilder()
