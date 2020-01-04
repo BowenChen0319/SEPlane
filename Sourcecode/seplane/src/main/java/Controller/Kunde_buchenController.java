@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.scene.control.TextField;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
@@ -30,6 +31,7 @@ public class Kunde_buchenController implements Initializable {
 	@FXML Label airlineLabel;
 	@FXML Label klasseLabel;
 	@FXML ComboBox<Integer> platzCombo;
+	@FXML TextField gtcode;
 	//Rückflug
 	@FXML VBox vRueckflug;
 	@FXML Label startLabel1;
@@ -224,21 +226,21 @@ public class Kunde_buchenController implements Initializable {
 			//Hin
 			Integer i=0;
 			if(klassen[0] == 1) {
-				booking.add(new Booking(cur, fluege.get(i), "E", platzCombo.getValue(), fluege.get(i).getFluglinie().getPreisee()));
+				booking.add(new Booking(cur, fluege.get(i), "E", platzCombo.getValue(), fluege.get(i).getFluglinie().getPreisee(),gtcode.getText()));
 				fluege.get(i).removeEconomy(platzCombo.getValue());
 			}
 			else if(klassen[0] ==2) {
-				booking.add(new Booking(cur, fluege.get(i), "B", platzCombo.getValue(), fluege.get(i).getFluglinie().getPreisee()));
+				booking.add(new Booking(cur, fluege.get(i), "B", platzCombo.getValue(), fluege.get(i).getFluglinie().getPreisee(),gtcode.getText()));
 				fluege.get(i).removeBusiness(platzCombo.getValue());
 			}
 			//Rueck
 			i=1;
 			if(klassen[0] == 1) {
-				booking.add(new Booking(cur, fluege.get(i), "E", platzCombo1.getValue(), fluege.get(i).getFluglinie().getPreisee()));
+				booking.add(new Booking(cur, fluege.get(i), "E", platzCombo1.getValue(), fluege.get(i).getFluglinie().getPreisee(),gtcode.getText()));
 				fluege.get(i).removeEconomy(platzCombo1.getValue());
 			}
 			else if(klassen[0] ==2) {
-				booking.add(new Booking(cur, fluege.get(i), "B", platzCombo1.getValue(), fluege.get(i).getFluglinie().getPreisee()));
+				booking.add(new Booking(cur, fluege.get(i), "B", platzCombo1.getValue(), fluege.get(i).getFluglinie().getPreisee(),gtcode.getText()));
 				fluege.get(i).removeBusiness(platzCombo1.getValue());
 			}
 		}else{
@@ -267,11 +269,11 @@ public class Kunde_buchenController implements Initializable {
 			//Add to DB with list
 			for(int i =0;i<anzahl;i++){
 				if(klassen[i] == 1) {
-					booking.add(new Booking(cur, fluege.get(i), "E", sitz.get(i), fluege.get(i).getFluglinie().getPreisee()));
+					booking.add(new Booking(cur, fluege.get(i), "E", sitz.get(i), fluege.get(i).getFluglinie().getPreisee(),gtcode.getText()));
 					fluege.get(i).removeEconomy(sitz.get(i));
 				}
 				else if(klassen[i] ==2) {
-					booking.add(new Booking(cur, fluege.get(i), "B", sitz.get(i), fluege.get(i).getFluglinie().getPreiseb()));
+					booking.add(new Booking(cur, fluege.get(i), "B", sitz.get(i), fluege.get(i).getFluglinie().getPreiseb(),gtcode.getText()));
 					fluege.get(i).removeBusiness(sitz.get(i));
 				}
 			}

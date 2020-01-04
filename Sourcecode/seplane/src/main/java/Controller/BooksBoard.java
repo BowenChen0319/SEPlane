@@ -16,10 +16,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -45,7 +42,7 @@ public class BooksBoard extends Application {
 //        be=benutzer;
 //        this.start(new Stage());
 //    }
-    TableView<Booking> bookingTable;
+    //TableView<Booking> bookingTable;
 
     @Override
 
@@ -79,14 +76,13 @@ public class BooksBoard extends Application {
 
 
         ObservableList<String> data = FXCollections.observableArrayList();
-        ListView<String> listView = new ListView<String>(data);
+        ListView<String> listView = new ListView<>();
         listView.setPrefSize(200, 500);
 
 
 
-
-
         listView.setItems(data);
+
 
         Button b1 = new Button("Refresh");
         b1.setPrefWidth(100);
@@ -236,7 +232,7 @@ public class BooksBoard extends Application {
                 System.out.println(d);
                 List<Booking> all = null;
                 all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()){
+                if(d<=all.size()&&d!=-1){
                     Booking del = all.get(d);
                     ArrayList<Integer> notwo = new ArrayList<Integer>();
                     if(del.getMulti()==null){
@@ -304,8 +300,8 @@ public class BooksBoard extends Application {
         });
 
 
-        Button b2 = new Button("Buy new ticket?");
-        b2.setPrefWidth(150);
+        Button b2 = new Button("New ticket?");
+        b2.setPrefWidth(100);
         b2.setPrefHeight(20);
         b2.setFont(Font.font(15));
         b2.setStyle("-fx-background-color: #e6a243;" +
@@ -335,7 +331,7 @@ public class BooksBoard extends Application {
         });
 
         Button b4 = new Button("Export in PDF");
-        b4.setPrefWidth(150);
+        b4.setPrefWidth(100);
         b4.setPrefHeight(20);
         b4.setFont(Font.font(15));
         b4.setStyle("-fx-background-color: #5CACEE;" +
@@ -465,7 +461,7 @@ public class BooksBoard extends Application {
         b7.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Photo");
+                System.out.println("Hotel");
                 //Benutzer finalB1 = be;
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
@@ -524,9 +520,6 @@ public class BooksBoard extends Application {
                 //stage.close();
             }
         });
-
-
-
 
 
 

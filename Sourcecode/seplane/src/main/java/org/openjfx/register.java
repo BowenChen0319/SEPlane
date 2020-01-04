@@ -142,12 +142,12 @@ public class register extends Application {
                 }
             }
 
-            @Override
-            public void replaceSelection(String text) {
-                if (!text.matches("[a-z]")) {
-                    super.replaceSelection(text);
-                }
-            }
+//            @Override
+//            public void replaceSelection(String text) {
+//                if (!text.matches("[a-z]")) {
+//                    super.replaceSelection(text);
+//                }
+//            }
         };
         tel.setFont((Font.font(10)));
         Tooltip tipt = new Tooltip("Telephone number Please :)");
@@ -239,6 +239,7 @@ public class register extends Application {
 
         root.getChildren().addAll(h1,h2,h3,h4,he,ha,ht,h5,warning,b3);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("style.css").toString());
 
         stage.setWidth(Width);
         stage.setHeight(Height);

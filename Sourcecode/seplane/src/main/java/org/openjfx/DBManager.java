@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import Models.*;
 import Toolbox.Encryption;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -23,16 +24,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
 
 import Controller.FGMDashboard;
-import Models.Airport;
-import Models.Benutzer;
-import Models.Booking;
-import Models.CurrentUser;
-import Models.Flug;
-import Models.Fluggesellschaft;
-import Models.Fluglinie;
-import Models.FlugzeugMapping;
-import Models.Plane;
-import Models.Postfach;
 import Toolbox.AlertHandler;
 import Toolbox.JsonReaderTool;
 import Toolbox.StringwithArraylist;
@@ -54,6 +45,7 @@ public class DBManager {
     Dao<Flug, Integer> flugDao;
     Dao<Booking, Integer> bkDao;
     Dao<Postfach, String> pfDao;
+    Dao<Gutschein,Integer> gtDao;
 
 
     public DBManager() {
@@ -70,6 +62,7 @@ public class DBManager {
             flugDao = DaoManager.createDao(cs, Flug.class);
             bkDao = DaoManager.createDao(cs, Booking.class);
             pfDao = DaoManager.createDao(cs, Postfach.class);
+            gtDao = DaoManager.createDao(cs,Gutschein.class);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -86,7 +79,8 @@ public class DBManager {
 //		TableUtils.dropTable(cs, Plane.class, true);
 //		TableUtils.dropTable(cs, Flug.class,true);
         TableUtils.dropTable(cs, Booking.class, true);
-		TableUtils.dropTable(cs, Postfach.class, true);
+//		TableUtils.dropTable(cs, Postfach.class, true);
+        TableUtils.dropTable(cs, Gutschein.class, true);
 
 //        TableUtils.createTable(cs, Fluglinie.class);
 //		TableUtils.createTable(cs, Fluggesellschaft.class);
@@ -96,7 +90,8 @@ public class DBManager {
 //		TableUtils.createTable(cs, Plane.class);
 //		TableUtils.createTable(cs, Flug.class);
         TableUtils.createTable(cs, Booking.class);
-		TableUtils.createTable(cs, Postfach.class);
+//		TableUtils.createTable(cs, Postfach.class);
+        TableUtils.createTable(cs, Gutschein.class);
     }
 
     public static void main(String[] args) throws SQLException {
@@ -202,9 +197,33 @@ public class DBManager {
             this.updateB(be);
             //be= App.db.getUser(user);
             System.out.println("CO: " + be.getco() + "  Kilo: " + be.getkilo());
-            bkDao.create(bk);
+            bkDao.create(this.applycode(bk));
+            System.out.println(bk.getGutscheincode());
+            //this.applycode(bk);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public Booking applycode(Booking bk){
+        if(bk.getGutscheincode()!=null){
+            System.out.println(bk.getGutscheincode());
+            Gutschein gt=this.getGutschein(bk.getGutscheincode().toLowerCase());
+            //System.out.println(gt.getPercent());
+            if(gt!=null){
+                System.out.println(gt.getPercent());
+                //Booking update = this.getbkwithbk(bk);
+                Double price = bk.getPreise()*gt.getPercent()/100;
+                //update.setPreise(price);
+                //this.updateBk(update);
+                System.out.println(price);
+                bk.setPreise(price);
+                return bk;
+            }else {
+                return bk;
+            }
+        }else {
+            return bk;
         }
     }
 
@@ -235,6 +254,12 @@ public class DBManager {
                 this.updateBk(update);
             }
         }
+    }
+
+    public void resetpwd(Integer id,String pwd) throws Exception {
+        Benutzer update = this.getbeId(id);
+        update.setPasswort(pwd);
+        this.updateB(update);
     }
 
 
@@ -274,6 +299,14 @@ public class DBManager {
     public void createB(Benutzer b) {
         try {
             bDao.create(b);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void creategt(Gutschein gt) {
+        try {
+            gtDao.create(gt);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -503,6 +536,18 @@ public class DBManager {
         }
     }
 
+    public List<Gutschein> getallGutschein() {
+        List<Gutschein> all;
+        try {
+            all = gtDao.queryForAll();
+            return all;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
     public List<Flug> getFluege() {
         List<Flug> all;
         try {
@@ -514,20 +559,39 @@ public class DBManager {
         }
     }
 
-    public List<Flug> getFluegefromUser(Benutzer fgm) {
-        List<Flug> fgList = null;
-        Fluggesellschaft fg = this.getFGzuFGM(fgm);
-        fgList=this.getFluege();
-
-        List<Flug> fgfrombe = fgList.stream().filter(new Predicate<Flug>() {
+    public List<Gutschein> getGutscheinfromtext(String text) {
+        List<Gutschein> gtList = this.getallGutschein();
+        List<Gutschein> fgfrombe = gtList.stream().filter(new Predicate<Gutschein>() {
             @Override
-            public boolean test(Flug flug) {
-                return flug.getFluglinie().getFluggesellschaft().getFgmanager().getId()==(fgm.getId());
+            public boolean test(Gutschein gt) {
+                return gt.getText().equals(text);
             }
         }).collect(Collectors.toList());
+        return fgfrombe;
+    }
+
+    public Gutschein getGutschein(String text) {
+        List<Gutschein> gtList = this.getGutscheinfromtext(text);
+        if(gtList.isEmpty()){
+            return null;
+        }else {
+            return gtList.get(0);
+        }
+    }
 
 
-    return fgfrombe;
+    public List<Flug> getFluegefromUser(Benutzer fgm) {
+            List<Flug> fgList = this.getFluege();
+            Fluggesellschaft fg = this.getFGzuFGM(fgm);
+            fgList=this.getFluege();
+
+            List<Flug> fgfrombe = fgList.stream().filter(new Predicate<Flug>() {
+                @Override
+                public boolean test(Flug flug) {
+                    return flug.getFluglinie().getFluggesellschaft().getFgmanager().getId()==(fgm.getId());
+                }
+            }).collect(Collectors.toList());
+            return fgfrombe;
 
     }
     public Fluglinie getFluglinievonFlugIDausBooking(int flugID){
@@ -560,6 +624,60 @@ public class DBManager {
 
     }
 
+    public List<Flug> getallFlugfromBooking(Booking bk){
+        ArrayList<Flug> fglist = new ArrayList<>();
+            //Singel
+        if(bk.getMulti()==null){
+            fglist.add(bk.getFlug());
+            return fglist;
+        }else{
+            //Multistop
+            String multi= bk.getMulti();
+            ArrayList<String> list = new StringwithArraylist().str2list(multi);
+            System.out.println(list);
+            //add all multistops to List
+            for(int i=0;i<list.size();i++){
+                fglist.add(App.db.getbkId(Integer.parseInt(list.get(i))).getFlug());
+            }
+            return fglist;
+
+        }
+    }
+
+    public List<Booking> getMultiBookingfromBooking(Booking bk){
+        //Singel choose
+        ArrayList<Booking> bklist = new ArrayList<>();
+        if(bk.getMulti()==null){
+            bklist.add(bk);
+            return bklist;
+        }else{
+            //choose Multistop
+            String multi= bk.getMulti();
+            ArrayList<String> list = new StringwithArraylist().str2list(multi);
+            System.out.println(list);
+            //add all multistops to List
+            for(int i=0;i<list.size();i++){
+                bklist.add(App.db.getbkId(Integer.parseInt(list.get(i))));
+            }
+            return bklist;
+
+        }
+
+    }
+
+
+    public List<Booking> getBookingfromFlug(Integer flugid) {
+        List<Booking> bkList = null;
+        bkList=this.getallBooking();
+        List<Booking> fgfrombe = bkList.stream().filter(new Predicate<Booking>() {
+            @Override
+            public boolean test(Booking bk) {
+                return bk.getFlugid()==flugid;
+            }
+        }).collect(Collectors.toList());
+        return bkList;
+    }
+
     public List<Booking> getallBookingFromUser(String username) {
         List<Booking> all;
         try {
@@ -570,6 +688,17 @@ public class DBManager {
             return null;
         }
 
+    }
+
+    public List<Booking> getallBooking() {
+        List<Booking> all;
+        try {
+            all = bkDao.queryForAll();
+            return all;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<Airport> getFlughafen() {
@@ -620,6 +749,17 @@ public class DBManager {
         try {
             flug = flugDao.queryForId(id);
             return flug;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Gutschein getGutschein(int id) {
+        Gutschein gt = null;
+        try {
+            gt = gtDao.queryForId(id);
+            return gt;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

@@ -176,6 +176,35 @@ public class Adminboard extends Application {
             }
         });
 
+        Button b4 = new Button("Gutschein");
+        b4.setPrefWidth(100);
+        b4.setPrefHeight(20);
+        b4.setFont(Font.font(15));
+        b4.setStyle("-fx-background-color: #5CACEE;"+
+                "-fx-background-radius: 8;"+
+                "-fx-text-fill: #7CCD7C"
+        );
+
+        b4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            new GutscheinCreat().start(new Stage());
+                            stage.close();
+
+
+                        } catch (IOException | SQLException e) {
+                            e.printStackTrace();
+
+                        }
+                    }
+                });
+            }
+        });
+
         Button b1 = new Button("Refresh");
         b1.setPrefWidth(100);
         b1.setPrefHeight(20);
@@ -206,7 +235,7 @@ public class Adminboard extends Application {
 
         HBox butts = new HBox();
         butts.setAlignment(Pos.CENTER);
-        butts.getChildren().addAll(b1,b2,b3);
+        butts.getChildren().addAll(b1,b2,b3,b4);
 
         root.getChildren().addAll(v0,listView,butts);
 

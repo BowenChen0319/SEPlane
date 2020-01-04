@@ -1,13 +1,17 @@
 package org.openjfx;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.sql.SQLException;
+import java.util.Random;
 
 import Controller.Adminboard;
 import Models.Benutzer;
 import Models.CurrentUser;
 import Toolbox.CSVReader;
 import Toolbox.Encryption;
+import Toolbox.TelegramBot;
+import Toolbox.TelegramMain;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -32,6 +36,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 /**
  * JavaFX App
@@ -129,9 +135,9 @@ public class login extends Application {
         b2.setPrefWidth(100);
         b2.setPrefHeight(20);
         b2.setFont(Font.font(15));
-        b2.setStyle("-fx-background-color: #5CACEE;"+
+        b2.setStyle("-fx-background-color: #7CCD7C;"+
                 "-fx-background-radius: 8;"+
-                "-fx-text-fill: #7CCD7C"
+                "-fx-text-fill: #5CACEE"
         );
 
         Button b3 = new Button("Register");
@@ -152,6 +158,15 @@ public class login extends Application {
                 "-fx-text-fill: #7CCD7C"
         );
 
+        Button b5 = new Button("iForgot");
+        b5.setPrefWidth(100);
+        b5.setPrefHeight(20);
+        b5.setFont(Font.font(15));
+        b5.setStyle("-fx-background-color: #5CACEE;"+
+                "-fx-background-radius: 8;"+
+                "-fx-text-fill: #7CCD7C"
+        );
+
 
         Label warning = new Label();
         warning.setFont(Font.font(17));
@@ -159,7 +174,7 @@ public class login extends Application {
 
         HBox butt = new HBox();
         butt.setAlignment(Pos.CENTER);
-        butt.getChildren().addAll(b1,b4,b3,b2);
+        butt.getChildren().addAll(b3,b4,b1,b5,b2);
         root.getChildren().add(butt);
 
 
@@ -364,6 +379,63 @@ public class login extends Application {
             }
         });
 
+        b5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Benutzer b = null;
+                b = App.db.getUser(user.getText());
+                if(b==null){
+                    warning.setText("Wrong Username");
+                }else{
+                    if(pwd.getText().equals("")||pwd.getText().contains(" ")){
+                        if(b.getTelnumber()!=""){
+                            Benutzer update = App.db.getUser(user.getText());
+                            String generatedString = RandomStringUtils.randomAlphabetic(7);
+                            //System.out.println(generatedString);
+                            try {
+                                App.db.resetpwd(update.getId(),generatedString);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //System.out.println(update.getPasswort_klar());
+
+                            try {
+                                new TelegramBot().sendMessage("Your new password is: "+generatedString,b.getTelnumber());
+                            } catch (TelegramApiException e) {
+                                e.printStackTrace();
+                            }
+                            warning.setText("New password has been sent to Telegram ChatID: "+update.getTelnumber());
+                        }else {
+                            warning.setText("Sorry, we don't have your Telegram ChatID");
+                        }
+                    }else{
+                        if(Encryption.check(pwd.getText(),b.getPasswort())){
+                            user.clear();
+                            pwd.clear();
+                            Benutzer finalB = b;
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        new CurrentUser().setCurrent(finalB);
+                                        new reset().start(new Stage());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }else{
+                            warning.setText("Wrong Password!");
+                        }
+
+                    }
+
+
+                }
+
+            }
+        });
+
 
 
         primaryStage.setTitle("SE-Plane Gruppe I");
@@ -377,7 +449,7 @@ public class login extends Application {
         primaryStage.setScene(scene);
 
         //primaryStage.setFullScreen(true);
-        //primaryStage.setOpacity(0.5); //transparency
+        primaryStage.setOpacity(0.95); //transparency
         //primaryStage.setAlwaysOnTop(true);
         //primaryStage.setX(100);
         //primaryStage.setY(100);
