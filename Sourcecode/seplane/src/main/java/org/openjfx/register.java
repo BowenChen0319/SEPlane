@@ -1,7 +1,9 @@
 package org.openjfx;
 
 import Models.Benutzer;
+import Toolbox.TelegramID;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -191,6 +193,15 @@ public class register extends Application {
                 "-fx-text-fill: #5CACEE"
         );
 
+        Button b4 = new Button("Get TelegramID");
+        b4.setPrefWidth(120);
+        b4.setPrefHeight(20);
+        b4.setFont(Font.font(15));
+        b4.setStyle("-fx-background-color: #5CACEE;"+
+                "-fx-background-radius: 8;"+
+                "-fx-text-fill: #7CCD7C"
+        );
+
         Label warning = new Label();
         warning.setFont(Font.font(17));
 
@@ -222,6 +233,20 @@ public class register extends Application {
             }
         });
 
+        b4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        new TelegramID().start(new Stage());
+                    }
+                });
+            }
+        });
+
+
+
         root.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -235,9 +260,11 @@ public class register extends Application {
             }
         });
 
+        HBox bt = new HBox();
+        bt.setAlignment(Pos.CENTER);
+        bt.getChildren().addAll(b3,b4);
 
-
-        root.getChildren().addAll(h1,h2,h3,h4,he,ha,ht,h5,warning,b3);
+        root.getChildren().addAll(h1,h2,h3,h4,he,ha,ht,h5,warning,bt);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("style.css").toString());
 
