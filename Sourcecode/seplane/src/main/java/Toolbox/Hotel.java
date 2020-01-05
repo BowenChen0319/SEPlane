@@ -12,6 +12,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Hotel extends Application {
     private static String city;
@@ -41,6 +42,13 @@ public class Hotel extends Application {
 
                 }
 
+            }
+        });
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                webEngine.load("https://www.google.de");
+                stage.close();
             }
         });
         scrollPane.setFitToHeight(true);
