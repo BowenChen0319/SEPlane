@@ -26,7 +26,8 @@ public class Directions {
 
     public String makeSearchUsuable(String string) {
         String newString = "";
-        newString = string.replace(" ", "+");
+        newString = string.replace(",", "+");
+        newString = newString.replace(" ", "+");
         if (string.contains("ß")) {
             newString = newString.replace("ß", "ss");
         } else if (string.contains("ä") || string.contains("Ä")) {

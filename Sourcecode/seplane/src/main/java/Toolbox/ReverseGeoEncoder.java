@@ -1,25 +1,34 @@
 package Toolbox;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
 
 import java.io.IOException;
 
 public class ReverseGeoEncoder {
     private static final String API_KEY = "AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo";
 
-    public static void GeoCodingRev() throws InterruptedException, ApiException, IOException {
+    public String GeoCodingRev(double lat, double lon) {
+        String adress = "";
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey(API_KEY)
                 .build();
-        GeocodingResult[] results = GeocodingApi.geocode(context,
-                "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(results[0].addressComponents));
+        GeocodingResult[] results = null;
+        try {
+            results = GeocodingApi.newRequest(context).latlng(new LatLng(lat, lon)).await();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        } catch (InterruptedException i) {
+            i.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(results[0].formattedAddress);
+        adress = results[0].formattedAddress;
+        return adress;
     }
 
 }

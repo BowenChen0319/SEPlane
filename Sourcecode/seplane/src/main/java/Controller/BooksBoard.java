@@ -80,7 +80,6 @@ public class BooksBoard extends Application {
         listView.setPrefSize(200, 500);
 
 
-
         listView.setItems(data);
 
 
@@ -103,93 +102,93 @@ public class BooksBoard extends Application {
                 ArrayList<Integer> notwo = new ArrayList<Integer>();
                 for (int i = 0; i < all.size(); i++) {
                     Booking buchung = all.get(i);
-                    if(buchung.getMulti()==null){
-                        if(buchung.getFlug()!=null){
+                    if (buchung.getMulti() == null) {
+                        if (buchung.getFlug() != null) {
                             data.add("BookingID :" + buchung.getId()
                                     + "    Flight von " + buchung.getFluglinie().getStart().getCode()
                                     + " nach " + buchung.getFluglinie().getZiel().getCode()
-                                    + ".   In total " + buchung.getFluglinie().getEntfernung().toString()+" KM "
+                                    + ".   In total " + buchung.getFluglinie().getEntfernung().toString() + " KM "
                                     + "   with Plane " + buchung.getFluglinie().getFlugzeug().getHersteller()
-                                    +"   " + buchung.getFluglinie().getFlugzeug().getType()
-                                    +"   Time: "+ buchung.getFlug().getStartzeit()
-                                    +"   Class: "+buchung.getClasse()
-                                    +"   Seat: "+buchung.getSeat()
-                                    +"   Preise: "+Math.round(buchung.getPreise()*100.0)/100.0+""
+                                    + "   " + buchung.getFluglinie().getFlugzeug().getType()
+                                    + "   Time: " + buchung.getFlug().getStartzeit()
+                                    + "   Class: " + buchung.getClasse()
+                                    + "   Seat: " + buchung.getSeat()
+                                    + "   Preise: " + Math.round(buchung.getPreise() * 100.0) / 100.0 + ""
                             );
-                        }else{
+                        } else {
                             data.add("BookingID :" + buchung.getId()
-                                    +"    Sorry, this flight was cancelled. "
-                                    +"   Class: "+buchung.getClasse()
-                                    +"   Seat: "+buchung.getSeat()
-                                    +"   Preise: "+Math.round(buchung.getPreise()*100.0)/100.0+""
+                                    + "    Sorry, this flight was cancelled. "
+                                    + "   Class: " + buchung.getClasse()
+                                    + "   Seat: " + buchung.getSeat()
+                                    + "   Preise: " + Math.round(buchung.getPreise() * 100.0) / 100.0 + ""
                             );
                         }
 
-                    }else{
+                    } else {
                         //Multistop
-                        String multi= buchung.getMulti();
+                        String multi = buchung.getMulti();
                         ArrayList<String> list = new StringwithArraylist().str2list(multi);
                         System.out.println(list);
-                        for(int j=0;j<list.size();j++){
+                        for (int j = 0; j < list.size(); j++) {
                             //String flugid=list.get(j);
                             System.out.println(list.get(j));
                             //int flugid = Integer.parseInt(list.get(j));
                             //buchung=new DBManager().getMultiBook(be.getBenutzername(),flugid);
                             int index = Integer.parseInt(list.get(j));
-                            buchung= App.db.getbkId(index);
-                            if(!notwo.contains(buchung.getId())){
-                                if(j==0){
+                            buchung = App.db.getbkId(index);
+                            if (!notwo.contains(buchung.getId())) {
+                                if (j == 0) {
                                     //Preise Insgesamt
                                     Double preise = 0.0;
-                                    for(int y=0;y<list.size();y++){
+                                    for (int y = 0; y < list.size(); y++) {
                                         int ind = Integer.parseInt(list.get(y));
                                         Booking bk = App.db.getbkId(ind);
-                                        preise=preise+bk.getPreise();
+                                        preise = preise + bk.getPreise();
                                     }
 
-                                    if(buchung.getFlug()!=null){
+                                    if (buchung.getFlug() != null) {
                                         data.add("BookingID :" + buchung.getId()
-                                                +"    Multi: "+(j+1)+"."
+                                                + "    Multi: " + (j + 1) + "."
                                                 + "   From " + buchung.getFluglinie().getStart().getCode()
                                                 + " to " + buchung.getFluglinie().getZiel().getCode()
-                                                + ".   In total " + buchung.getFluglinie().getEntfernung().toString()+" KM "
+                                                + ".   In total " + buchung.getFluglinie().getEntfernung().toString() + " KM "
                                                 + "   with Plane " + buchung.getFluglinie().getFlugzeug().getHersteller()
-                                                +"   " + buchung.getFluglinie().getFlugzeug().getType()
-                                                +"   Time: "+ buchung.getFlug().getStartzeit()
-                                                +"   Class: "+buchung.getClasse()
-                                                +"   Seat: "+buchung.getSeat()
-                                                +"   Preise in total: "+Math.round(preise*100.0)/100.0+""
+                                                + "   " + buchung.getFluglinie().getFlugzeug().getType()
+                                                + "   Time: " + buchung.getFlug().getStartzeit()
+                                                + "   Class: " + buchung.getClasse()
+                                                + "   Seat: " + buchung.getSeat()
+                                                + "   Preise in total: " + Math.round(preise * 100.0) / 100.0 + ""
                                         );
-                                    }else{
+                                    } else {
                                         //Flight canceled
                                         data.add("BookingID :" + buchung.getId()
-                                                +"    Multi: "+(j+1)+"."
-                                                +"    Sorry, this flight was cancelled. "
-                                                +"   Class: "+buchung.getClasse()
-                                                +"   Seat: "+buchung.getSeat()
-                                                +"   Preise in total: "+Math.round(preise*100.0)/100.0+""
+                                                + "    Multi: " + (j + 1) + "."
+                                                + "    Sorry, this flight was cancelled. "
+                                                + "   Class: " + buchung.getClasse()
+                                                + "   Seat: " + buchung.getSeat()
+                                                + "   Preise in total: " + Math.round(preise * 100.0) / 100.0 + ""
                                         );
                                     }
-                                }else{
-                                    if(buchung.getFlug()!=null){
+                                } else {
+                                    if (buchung.getFlug() != null) {
                                         data.add("BookingID :" + buchung.getId()
-                                                        +"    Multi: "+(j+1)+"."
+                                                        + "    Multi: " + (j + 1) + "."
                                                         + "   From " + buchung.getFluglinie().getStart().getCode()
                                                         + "  to " + buchung.getFluglinie().getZiel().getCode()
-                                                        + ".   In total " + buchung.getFluglinie().getEntfernung().toString()+" KM "
+                                                        + ".   In total " + buchung.getFluglinie().getEntfernung().toString() + " KM "
                                                         + "   with Plane " + buchung.getFluglinie().getFlugzeug().getHersteller()
-                                                        +"   " + buchung.getFluglinie().getFlugzeug().getType()
-                                                        +"   Time: "+ buchung.getFlug().getStartzeit()
-                                                        +"   Class: "+buchung.getClasse()
-                                                        +"   Seat: "+buchung.getSeat()
+                                                        + "   " + buchung.getFluglinie().getFlugzeug().getType()
+                                                        + "   Time: " + buchung.getFlug().getStartzeit()
+                                                        + "   Class: " + buchung.getClasse()
+                                                        + "   Seat: " + buchung.getSeat()
                                                 //+" Preise: "+Math.round(Integer.parseInt(buchung.getPreise())*100.0)/100.0+""
                                         );
-                                    }else{
+                                    } else {
                                         data.add("BookingID :" + buchung.getId()
-                                                        +"    Multi: "+(j+1)+"."
-                                                        +"   Sorry, this flight was cancelled. "
-                                                        +"   Class: "+buchung.getClasse()
-                                                        +"   Seat: "+buchung.getSeat()
+                                                        + "    Multi: " + (j + 1) + "."
+                                                        + "   Sorry, this flight was cancelled. "
+                                                        + "   Class: " + buchung.getClasse()
+                                                        + "   Seat: " + buchung.getSeat()
                                                 //+" Preise: "+Math.round(Integer.parseInt(buchung.getPreise())*100.0)/100.0+""
                                         );
                                     }
@@ -203,12 +202,12 @@ public class BooksBoard extends Application {
 
 
                 }
-                Benutzer newbe =App.db.getUser(be.getBenutzername());
+                Benutzer newbe = App.db.getUser(be.getBenutzername());
                 text1.setText(
-                        "Willkommen " + newbe.getBenutzername()+
-                                ".  Ihre CO2 Konto: "+newbe.getco()+" Kg .  Ihre Kilometer Konto: "+newbe.getkilo()+" KM");
+                        "Willkommen " + newbe.getBenutzername() +
+                                ".  Ihre CO2 Konto: " + newbe.getco() + " Kg .  Ihre Kilometer Konto: " + newbe.getkilo() + " KM");
 
-                System.out.println("Ihre CO2 Konto: "+newbe.getco()+" Kg .  Ihre Kilometer Konto: "+newbe.getkilo()+" KM");
+                System.out.println("Ihre CO2 Konto: " + newbe.getco() + " Kg .  Ihre Kilometer Konto: " + newbe.getkilo() + " KM");
                 System.out.println("Refresh");
             }
 
@@ -216,7 +215,7 @@ public class BooksBoard extends Application {
         });
 
 
-        Button b3 = new Button("Delect");
+        Button b3 = new Button("Cancel Order");
         b3.setPrefWidth(100);
         b3.setPrefHeight(20);
         b3.setFont(Font.font(15));
@@ -227,32 +226,32 @@ public class BooksBoard extends Application {
         b3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                text1.setText("Delecting.......");
+                text1.setText("Caneling Order.......");
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
-                all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()&&d!=-1){
+                all = App.db.getallBookingFromUser(be.getBenutzername());
+                if (d <= all.size() && d != -1) {
                     Booking del = all.get(d);
                     ArrayList<Integer> notwo = new ArrayList<Integer>();
-                    if(del.getMulti()==null){
+                    if (del.getMulti() == null) {
                         try {
                             App.db.deleteBk(App.db.getbkwithbk(del).getId());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }else{
-                        String multi= del.getMulti();
+                    } else {
+                        String multi = del.getMulti();
                         ArrayList<String> list = new StringwithArraylist().str2list(multi);
                         System.out.println(list);
-                        for(int j=0;j<list.size();j++){
+                        for (int j = 0; j < list.size(); j++) {
                             //String flugid=list.get(j);
                             System.out.println(list.get(j));
                             //int flugid = Integer.parseInt(list.get(j));
                             //ben=new DBManager().getMultiBook(be.getBenutzername(),flugid);
                             int index = Integer.parseInt(list.get(j));
                             //del= new DBManager().getbkId(index);
-                            if(!notwo.contains(del.getId())){
+                            if (!notwo.contains(del.getId())) {
                                 try {
                                     App.db.deleteBk(index);
                                 } catch (Exception e) {
@@ -271,7 +270,6 @@ public class BooksBoard extends Application {
                 }
             }
         });
-
 
 
         listView.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -348,8 +346,8 @@ public class BooksBoard extends Application {
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
-                all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()&&d!=-1) {
+                all = App.db.getallBookingFromUser(be.getBenutzername());
+                if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
                     new CurrentBooking().setBookingFromKunde(choose);
                     System.out.println(choose);
@@ -372,8 +370,6 @@ public class BooksBoard extends Application {
                 }
 
 
-
-
             }
         });
 
@@ -394,8 +390,8 @@ public class BooksBoard extends Application {
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
-                all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()&&d!=-1) {
+                all = App.db.getallBookingFromUser(be.getBenutzername());
+                if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
                     new CurrentBooking().setBookingFromKunde(choose);
                     System.out.println(choose);
@@ -430,8 +426,8 @@ public class BooksBoard extends Application {
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
-                all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()&&d!=-1) {
+                all = App.db.getallBookingFromUser(be.getBenutzername());
+                if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
                     new CurrentBooking().setBookingFromKunde(choose);
                     System.out.println(choose);
@@ -466,8 +462,8 @@ public class BooksBoard extends Application {
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
-                all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()&&d!=-1) {
+                all = App.db.getallBookingFromUser(be.getBenutzername());
+                if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
                     new CurrentBooking().setBookingFromKunde(choose);
                     System.out.println(choose);
@@ -502,8 +498,8 @@ public class BooksBoard extends Application {
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
-                all= App.db.getallBookingFromUser(be.getBenutzername());
-                if(d<=all.size()&&d!=-1) {
+                all = App.db.getallBookingFromUser(be.getBenutzername());
+                if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
                     new CurrentBooking().setBookingFromKunde(choose);
                     System.out.println(choose);
@@ -520,17 +516,63 @@ public class BooksBoard extends Application {
                 //stage.close();
             }
         });
+        Button b9 = new Button("Route");
+        b9.setPrefWidth(100);
+        b9.setPrefHeight(20);
+        b9.setFont(Font.font(15));
+        b9.setStyle("-fx-background-color: #5CACEE;" +
+                "-fx-background-radius: 8;" +
+                "-fx-text-fill: #7CCD7C"
+        );
+        b9.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Route");
+                //Benutzer finalB1 = be;
+                int d = listView.getSelectionModel().getSelectedIndex();
+                double lat = 0.0, lon = 0.0;
+                RoutenansichtController route = new RoutenansichtController();
+                System.out.println("Selected index: " + d);
+                List<Booking> all = null;
+                all = App.db.getallBookingFromUser(be.getBenutzername());
+                if (d <= all.size() && d != -1) {
+                    Booking choose = all.get(d);
+                    new CurrentBooking().setBookingFromKunde(choose);
+                    System.out.println(choose);
+                    lat = choose.getFluglinie().getStart().getLat();
+                    lon = choose.getFluglinie().getStart().getLon();
 
+                    System.out.println("Aus Booksboard: " + lat + " " + lon);
+                    try {
+                        if (lat != 0.0 && lon != 0.0) {
+                            route.setZielLat(lat);
+                            route.setZielLon(lon);
+                        }
+                        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Routenansicht.fxml"));
+                        Parent root1 = fxmlLoader.load();
+                        Scene scene = new Scene(root1);
+                        Stage stage = new Stage();
+                        stage.setTitle("Route");
+                        stage.setScene(scene);
+                        stage.showAndWait();
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                //stage.close();
+            }
+        });
 
 
         b1.fire();
 
 
-
-
         HBox butts = new HBox();
         butts.setAlignment(Pos.CENTER);
-        butts.getChildren().addAll(b1, b2, b3,b4,b5,b6,b7,b8);
+        butts.getChildren().addAll(b1, b2, b3, b4, b5, b6, b7, b8, b9);
 
         root.getChildren().addAll(v0, listView, butts);
 

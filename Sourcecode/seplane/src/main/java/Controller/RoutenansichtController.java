@@ -1,23 +1,18 @@
 package Controller;
 
-import Models.Flug;
 import Models.Route;
-import Models.Step;
 import Toolbox.Directions;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import Toolbox.ReverseGeoEncoder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.awt.event.ActionEvent;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class RoutenansichtController implements Initializable {
@@ -35,36 +30,93 @@ public class RoutenansichtController implements Initializable {
     @FXML
     TableColumn<Route, String> anweisungCol;
     @FXML
-    TableColumn<Route,String> distanceCol;
+    TableColumn<Route, String> distanceCol;
     @FXML
     ChoiceBox<Enum> modeChooser;
 
+    private static Double startLat;
+    private static Double startLon;
+    private static Double zielLat;
+    private static Double zielLon;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
         modeChooser.getItems().removeAll(modeChooser.getItems());
         modeChooser.getItems().addAll(Directions.TransportMode.DRIVING, Directions.TransportMode.WALKING, Directions.TransportMode.TRANSIT);
+        modeChooser.setValue(Directions.TransportMode.DRIVING);
 
         anweisungCol.setCellValueFactory(new PropertyValueFactory<Route, String>("street"));
         distanceCol.setCellValueFactory(new PropertyValueFactory<Route, String>("meters"));
+
+        System.out.println("RoutenController: " + getStartLat() + " " + getStartLon());
+        if (getStartLat() != null && getStartLon() != null) {
+            startEingabe.setText("Derzeitige Position");
+            zielEingabe.setText(new ReverseGeoEncoder().GeoCodingRev(getZielLat(), getZielLon()));
+        }
+
+
     }
 
 
-
-
-    public void routenSuche(javafx.event.ActionEvent actionEvent) {
+    public void routenSuche(ActionEvent actionEvent) {
         String ziel = zielEingabe.getText(), start = startEingabe.getText();
         Directions d = new Directions();
         ObservableList<String> list = FXCollections.observableArrayList();
+        //if (startLat == null && startLon == null) {
         try {
             //list.addAll(d.getDirection(start,ziel));
             //System.out.println(Arrays.toString(list.toArray()));
-            routenTable.setItems(d.getDirection(startEingabe.getText(),zielEingabe.getText(), modeChooser.getValue()));
+            routenTable.setItems(d.getDirection(startEingabe.getText(), zielEingabe.getText(), modeChooser.getValue()));
             System.out.println(modeChooser.getValue().toString());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        //}
+//        else {
+//            try {
+//                //list.addAll(d.getDirection(start,ziel));
+//                //System.out.println(Arrays.toString(list.toArray()));
+//
+//                routenTable.setItems(d.getDirection("Derzeitige Position"
+//                        , new ReverseGeoEncoder().GeoCodingRev(getStartLon(),getStartLon()), modeChooser.getValue()));
+//                System.out.println(modeChooser.getValue().toString());
+//
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
+    }
+
+    public static Double getStartLat() {
+        return startLat;
+    }
+
+    public static void setStartLat(Double startLat) {
+        RoutenansichtController.startLat = startLat;
+    }
+
+    public static Double getStartLon() {
+        return startLon;
+    }
+
+    public static void setStartLon(Double startLon) {
+        RoutenansichtController.startLon = startLon;
+    }
+
+    public static Double getZielLat() {
+        return zielLat;
+    }
+
+    public static void setZielLat(Double zielLat) {
+        RoutenansichtController.zielLat = zielLat;
+    }
+
+    public static Double getZielLon() {
+        return zielLon;
+    }
+
+    public static void setZielLon(Double zielLon) {
+        RoutenansichtController.zielLon = zielLon;
     }
 }
