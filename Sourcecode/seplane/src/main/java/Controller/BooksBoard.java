@@ -226,7 +226,7 @@ public class BooksBoard extends Application {
         b3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                text1.setText("Caneling Order.......");
+                text1.setText("Canceling Order.......");
                 int d = listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
                 List<Booking> all = null;
@@ -393,16 +393,21 @@ public class BooksBoard extends Application {
                 all = App.db.getallBookingFromUser(be.getBenutzername());
                 if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
-                    new CurrentBooking().setBookingFromKunde(choose);
-                    System.out.println(choose);
-                    Video.setCity(choose.getFluglinie().getZiel().getCity());
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            //new CurrentUser().setCurrent(finalB1);
-                            new Video().start(new Stage());
-                        }
-                    });
+                    if(choose.getFluglinie()!=null){
+                        new CurrentBooking().setBookingFromKunde(choose);
+                        System.out.println(choose);
+                        Video.setCity(choose.getFluglinie().getZiel().getCity());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                //new CurrentUser().setCurrent(finalB1);
+                                new Video().start(new Stage());
+                            }
+                        });
+                    }else{
+                        text1.setText("Sorry, this flight was cancelled.");
+                    }
+
                 }
 
                 //stage.close();
@@ -429,16 +434,20 @@ public class BooksBoard extends Application {
                 all = App.db.getallBookingFromUser(be.getBenutzername());
                 if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
-                    new CurrentBooking().setBookingFromKunde(choose);
-                    System.out.println(choose);
-                    Photo.setCity(choose.getFluglinie().getZiel().getCity());
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            //new CurrentUser().setCurrent(finalB1);
-                            new Photo().start(new Stage());
-                        }
-                    });
+                    if(choose.getFluglinie()!=null){
+                        new CurrentBooking().setBookingFromKunde(choose);
+                        System.out.println(choose);
+                        Photo.setCity(choose.getFluglinie().getZiel().getCity());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                //new CurrentUser().setCurrent(finalB1);
+                                new Photo().start(new Stage());
+                            }
+                        });
+                    }else {
+                        text1.setText("Sorry, this flight was cancelled.");
+                    }
                 }
 
                 //stage.close();
@@ -465,16 +474,20 @@ public class BooksBoard extends Application {
                 all = App.db.getallBookingFromUser(be.getBenutzername());
                 if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
-                    new CurrentBooking().setBookingFromKunde(choose);
-                    System.out.println(choose);
-                    Hotel.setCity(choose.getFluglinie().getZiel().getCity());
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            //new CurrentUser().setCurrent(finalB1);
-                            new Hotel().start(new Stage());
-                        }
-                    });
+                    if(choose.getFluglinie()!=null){
+                        new CurrentBooking().setBookingFromKunde(choose);
+                        System.out.println(choose);
+                        Hotel.setCity(choose.getFluglinie().getZiel().getCity());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                //new CurrentUser().setCurrent(finalB1);
+                                new Hotel().start(new Stage());
+                            }
+                        });
+                    }else{
+                        text1.setText("Sorry, this flight was cancelled.");
+                    }
                 }
 
                 //stage.close();
@@ -501,16 +514,21 @@ public class BooksBoard extends Application {
                 all = App.db.getallBookingFromUser(be.getBenutzername());
                 if (d <= all.size() && d != -1) {
                     Booking choose = all.get(d);
-                    new CurrentBooking().setBookingFromKunde(choose);
-                    System.out.println(choose);
-                    Restaurant.setCity(choose.getFluglinie().getZiel().getCity());
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            //new CurrentUser().setCurrent(finalB1);
-                            new Restaurant().start(new Stage());
-                        }
-                    });
+                    if(choose.getFluglinie()!=null){
+                        new CurrentBooking().setBookingFromKunde(choose);
+                        System.out.println(choose);
+                        Restaurant.setCity(choose.getFluglinie().getZiel().getCity());
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                //new CurrentUser().setCurrent(finalB1);
+                                new Restaurant().start(new Stage());
+                            }
+                        });
+                    }else{
+                        text1.setText("Sorry, this flight was cancelled.");
+                    }
+
                 }
 
                 //stage.close();
