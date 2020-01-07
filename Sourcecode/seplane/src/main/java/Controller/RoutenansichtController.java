@@ -34,10 +34,10 @@ public class RoutenansichtController implements Initializable {
     @FXML
     ChoiceBox<Enum> modeChooser;
 
-    private static Double startLat;
-    private static Double startLon;
-    private static Double zielLat;
-    private static Double zielLon;
+    private static Double startLat = 0.0;
+    private static Double startLon = 0.0;
+    private static Double zielLat = 0.0;
+    private static Double zielLon = 0.0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,8 +48,9 @@ public class RoutenansichtController implements Initializable {
         anweisungCol.setCellValueFactory(new PropertyValueFactory<Route, String>("street"));
         distanceCol.setCellValueFactory(new PropertyValueFactory<Route, String>("meters"));
 
-        System.out.println("RoutenController: " + getStartLat() + " " + getStartLon());
-        if (getStartLat() != null && getStartLon() != null) {
+        System.out.println("RoutenController: " + getZielLat() + " " + getZielLon());
+        System.out.println("RoutenController: " + zielLat + " " + zielLon);
+        if ((getZielLat() != null && getZielLon() != null) && (getZielLat() != 0.0 && getZielLon() != 0.0)) {
             startEingabe.setText("Derzeitige Position");
             zielEingabe.setText(new ReverseGeoEncoder().GeoCodingRev(getZielLat(), getZielLon()));
         }

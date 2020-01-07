@@ -530,24 +530,24 @@ public class BooksBoard extends Application {
                 System.out.println("Route");
                 //Benutzer finalB1 = be;
                 int d = listView.getSelectionModel().getSelectedIndex();
-                double lat = 0.0, lon = 0.0;
-                RoutenansichtController route = new RoutenansichtController();
+                Double lat, lon;
+                ;
                 System.out.println("Selected index: " + d);
                 List<Booking> all = null;
                 all = App.db.getallBookingFromUser(be.getBenutzername());
                 if (d <= all.size() && d != -1) {
+                    RoutenansichtController route = new RoutenansichtController();
                     Booking choose = all.get(d);
                     new CurrentBooking().setBookingFromKunde(choose);
                     System.out.println(choose);
                     lat = choose.getFluglinie().getStart().getLat();
                     lon = choose.getFluglinie().getStart().getLon();
 
-                    System.out.println("Aus Booksboard: " + lat + " " + lon);
+
                     try {
-                        if (lat != 0.0 && lon != 0.0) {
-                            route.setZielLat(lat);
-                            route.setZielLon(lon);
-                        }
+                        System.out.println("Aus Booksboard: " + lat + " " + lon);
+                        route.setZielLat(lat);
+                        route.setZielLon(lon);
                         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Routenansicht.fxml"));
                         Parent root1 = fxmlLoader.load();
                         Scene scene = new Scene(root1);
