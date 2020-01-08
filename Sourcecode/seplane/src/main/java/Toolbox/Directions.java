@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.grizzly.streams.StreamReader;
+import org.jsoup.Jsoup;
 
 
 import java.io.*;
@@ -49,6 +50,23 @@ public class Directions {
             newString = newString.replace("Ü", "ue");
         }
 
+        return newString;
+    }
+
+    public String makeUTF8(String string) {
+        String newString = string;
+        if (string.contains("ß")) {
+            newString = newString.replace("ß", "ss");
+        } else if (string.contains("ä") || string.contains("Ä")) {
+            newString = newString.replace("ä", "ae");
+            newString = newString.replace("Ä", "ae");
+        } else if (string.contains("ö") || string.contains("Ö")) {
+            newString = newString.replace("ö", "oe");
+            newString = newString.replace("Ö", "oe");
+        } else if (string.contains("ü") || string.contains("Ü")) {
+            newString = newString.replace("ü", "ue");
+            newString = newString.replace("Ü", "ue");
+        }
         return newString;
     }
 
@@ -96,49 +114,22 @@ public class Directions {
         ObservableList<Route> anweisList = FXCollections.observableArrayList();
         Encryption enc = new Encryption();
         List<Route> routenListe = null;
-
+        String nstr = "";
         Collection<Route> routList = new ArrayList<>();
-        Charset charset = StandardCharsets.UTF_8;
-        StringWriter stringWriter = new StringWriter();
-        InputStream  isr = null;
-        String theString ="";
         for (int i = 0; i < size; i++) {
             str = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getHtmlInstructions();
             meter = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getDistance().getValue();
-            String nstr = cleanHTMLInstructions(str);
-            //comb = "Step: " + nstr + " Der Straße " + meter + "m folgen";
-             isr = new ByteArrayInputStream(nstr.getBytes(charset));
-            try {
-                IOUtils.copy(isr, stringWriter, charset);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            theString = stringWriter.toString();
-
-            routList.add(new Route(theString, meter));
+            nstr = html2text(str);
+            nstr = makeUTF8(nstr);
+            routList.add(new Route(nstr, meter));
         }
         ObservableList<Route> oRouteListe = FXCollections.observableArrayList(routList);
         printRoute(oRouteListe);
         return oRouteListe;
     }
 
-
-    public String cleanHTMLInstructions(String uebergString) {
-
-        String[] toReplace = {"<b>", "</b>", "<wbr/>", "<wbr>", "\\u003cb", "\\u003c/b"};
-        String str = uebergString;
-        String newString = "";
-
-        for (int i = 0; i < toReplace.length; i++) {
-
-            if (str.contains(toReplace[i])) {
-
-                newString = str.replace(toReplace[i], " ");
-                str = newString;
-            }
-        }
-
-        return newString;
+    public static String html2text(String html) {
+        return Jsoup.parse(html).text();
     }
 
     public void printRoute(ObservableList<Route> routenListe) {
