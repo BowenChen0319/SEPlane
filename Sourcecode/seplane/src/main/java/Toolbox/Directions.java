@@ -9,11 +9,15 @@ import com.google.gson.GsonBuilder;
 import com.google.maps.errors.ApiException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.commons.io.IOUtils;
+import org.glassfish.grizzly.streams.StreamReader;
 
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,6 +32,10 @@ public class Directions {
         String newString = "";
         newString = string.replace(",", "+");
         newString = newString.replace(" ", "+");
+        newString = newString.replace("–", "+");
+        newString = newString.replace("-", "+");
+        newString = newString.replace("/", "+");
+        newString = newString.replace(".", "+");
         if (string.contains("ß")) {
             newString = newString.replace("ß", "ss");
         } else if (string.contains("ä") || string.contains("Ä")) {
@@ -40,10 +48,11 @@ public class Directions {
             newString = newString.replace("ü", "ue");
             newString = newString.replace("Ü", "ue");
         }
+
         return newString;
     }
-    public ObservableList<Route> getDirection(String start, String ziel, Enum mode) throws FileNotFoundException {
 
+    public ObservableList<Route> getDirection(String start, String ziel, Enum mode) throws FileNotFoundException {
         URL url = null;
         InputStreamReader reader = null;
 
@@ -54,6 +63,7 @@ public class Directions {
                     "&travel_mode=" + mode.toString().toLowerCase() +
                     "&alternatives=true" +
                     "&mode=" + mode.toString().toLowerCase() +
+                    "&language=de" +
                     "&units=metric&region=DE&key=AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
             System.out.println("Suchanfrage: " + url.toString());
             reader = new InputStreamReader(url.openStream());
@@ -87,41 +97,48 @@ public class Directions {
         Encryption enc = new Encryption();
         List<Route> routenListe = null;
 
-
-//        if (routenListe.size() > 0) {
-//            for (int i = 0; i < routenListe.size(); i++) {
-//                str = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getHtmlInstructions();
-//                meter = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getDistance().getValue();
-//                anweisList.add(new Route(str, meter));
-//            }
-//            anweisList.addAll(routenListe);
-//        }
-//
-//    return anweisList;
-
         Collection<Route> routList = new ArrayList<>();
+        Charset charset = StandardCharsets.UTF_8;
+        StringWriter stringWriter = new StringWriter();
+        InputStream  isr = null;
+        String theString ="";
         for (int i = 0; i < size; i++) {
             str = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getHtmlInstructions();
             meter = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getDistance().getValue();
             String nstr = cleanHTMLInstructions(str);
-            comb = "Step: " + nstr + " Der Straße " + meter + "m folgen";
-            routList.add(new Route(nstr, meter));
-            //routList.add(comb);
+            //comb = "Step: " + nstr + " Der Straße " + meter + "m folgen";
+             isr = new ByteArrayInputStream(nstr.getBytes(charset));
+            try {
+                IOUtils.copy(isr, stringWriter, charset);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            theString = stringWriter.toString();
+
+            routList.add(new Route(theString, meter));
         }
         ObservableList<Route> oRouteListe = FXCollections.observableArrayList(routList);
         printRoute(oRouteListe);
-
         return oRouteListe;
     }
 
 
-    public String cleanHTMLInstructions(String str) {
+    public String cleanHTMLInstructions(String uebergString) {
 
-        String nStr = str.replace("</b>-<b>", "");
-        nStr = nStr.replace("[\u0000-\u001f]", "");
-        nStr = nStr.replace("<wbr/>-<wbr>", "");
+        String[] toReplace = {"<b>", "</b>", "<wbr/>", "<wbr>", "\\u003cb", "\\u003c/b"};
+        String str = uebergString;
+        String newString = "";
 
-        return nStr;
+        for (int i = 0; i < toReplace.length; i++) {
+
+            if (str.contains(toReplace[i])) {
+
+                newString = str.replace(toReplace[i], " ");
+                str = newString;
+            }
+        }
+
+        return newString;
     }
 
     public void printRoute(ObservableList<Route> routenListe) {
