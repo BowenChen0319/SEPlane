@@ -5,25 +5,19 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import Controller.Kunde_FlugbuchungController;
 import Models.Flug;
 import Models.Fluglinie;
 
+
 class FlugSortTest {
 	
-	@Mock
 	static Flug flug;
-	@Mock
 	static Flug flug1;
-	@Mock
 	static Flug flug2;
-	@Mock
 	static Flug flug3;
-	@Mock
 	static Fluglinie line1;
-	@Mock
 	static Fluglinie line2;
 	
 	static ArrayList<Flug> flugGruppe1 = new ArrayList<Flug>();
@@ -35,7 +29,7 @@ class FlugSortTest {
 
 		
 	@BeforeAll
-	static void prepare() {
+	public static void prepare() {
 		line1 = new Fluglinie();
 		line2 = new Fluglinie();
 		flug = new Flug();
@@ -44,7 +38,7 @@ class FlugSortTest {
 		flug3 = new Flug();
 		
 		
-		System.out.println("test ?");
+		System.out.println("test prep");
 		line1.setPreiseb(88.0);
 		line1.setPreisee(30.0);
 		line2.setPreiseb(99.0);
@@ -84,7 +78,7 @@ class FlugSortTest {
 
 	@Test
 	void testsortieren2DimEconomy() {
-		System.out.println("test 1");
+		System.out.println("test 2");
 		Kunde_FlugbuchungController kunde_FB = new Kunde_FlugbuchungController();
 		
 		preise = kunde_FB.preisBerechnung(fluege, "else");

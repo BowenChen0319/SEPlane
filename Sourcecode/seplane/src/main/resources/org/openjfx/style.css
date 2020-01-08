@@ -75,6 +75,7 @@
 .tab-pane .tab:selected
 {
     -fx-background-color: dunkelblaugrau;
+    -fx-border-color: Transparent;
 }
 .tab:selected .focus-indicator{
 	-fx-border-color: Transparent;
