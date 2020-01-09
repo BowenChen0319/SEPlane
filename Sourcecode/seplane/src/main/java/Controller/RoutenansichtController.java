@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ResourceBundle;
 
 public class RoutenansichtController implements Initializable {
@@ -41,6 +42,7 @@ public class RoutenansichtController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println(Charset.defaultCharset());
         modeChooser.getItems().removeAll(modeChooser.getItems());
         modeChooser.getItems().addAll(Directions.TransportMode.DRIVING, Directions.TransportMode.WALKING, Directions.TransportMode.TRANSIT);
         modeChooser.setValue(Directions.TransportMode.DRIVING);

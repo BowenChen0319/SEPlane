@@ -30,7 +30,7 @@ public class Directions {
     }
 
     public static String makeSearchUsuable(String input) {
-      //  String newString = "";
+        //  String newString = "";
 //        newString = string.replace(",", "+");
 //        newString = newString.replace(" ", "+");
 //        newString = newString.replace("–", "+");
@@ -125,12 +125,9 @@ public class Directions {
         int size = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().size();
         String str;
         int meter;
-        String comb;
+        byte[] sourcebytes;
 
 
-        ObservableList<Route> anweisList = FXCollections.observableArrayList();
-        Encryption enc = new Encryption();
-        List<Route> routenListe = null;
         String nstr = "";
         Collection<Route> routList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -138,6 +135,13 @@ public class Directions {
             meter = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getDistance().getValue();
             nstr = html2text(str);
             nstr = makeUTF8(nstr);
+            sourcebytes = nstr.getBytes();
+            try {
+                nstr = new String(sourcebytes, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
             routList.add(new Route(nstr, meter));
         }
         ObservableList<Route> oRouteListe = FXCollections.observableArrayList(routList);
