@@ -1,15 +1,15 @@
 package Controller;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import Models.CurrentUser;
+import Models.*;
+import Toolbox.TelegramBot;
 import org.openjfx.App;
 import org.openjfx.DBManager;
 
-import Models.Flug;
-import Models.Fluglinie;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class FGM_FluegeUebersichtController implements Initializable {
 
@@ -185,7 +186,7 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
 
     // Iteration 3
-    public void handleFlugStornieren (ActionEvent event){
+    public void handleFlugStornieren (ActionEvent event) throws TelegramApiException {
         Flug flug = fluegeUebersicht_table.getSelectionModel().getSelectedItem();
         if(flug==null) {
             String errorMessage = "Bitte waehlen Sie einen Flug aus der Tabelle aus.";
@@ -203,11 +204,58 @@ public class FGM_FluegeUebersichtController implements Initializable {
         }
         else{
             db.deleteFlug(flug.getId());
+            //entsprechende Buchungen loeschen
+            this.ermittleStronierungskosten(flug);
             this.initialize(null, null);
         }
     }
 
+    public void ermittleStronierungskosten (Flug flug) throws TelegramApiException {
+        ObservableList<Booking> alleBuchungen = FXCollections.observableArrayList();
+        alleBuchungen.addAll(db.getBookingfromFlug(flug.getId()));
+
+        ObservableList<Booking> multiBuchungenDesStornoFlugs = FXCollections.observableArrayList();
+
+
+        //checken, welche der Buchungen eine Multistop Buchung ist
+        for (Booking booking : alleBuchungen){
+            if (booking.getMulti()!=null){
+                multiBuchungenDesStornoFlugs.add(booking);
+            }
+        }
+
+        for (Booking booking : multiBuchungenDesStornoFlugs){
+            Flug flug1 = booking.getFlug();
+            Benutzer kunde = booking.getUser();
+            Double rueckerstattung = 0.00;
+            ObservableList<Booking> alleBuchungenDerMulti= FXCollections.observableArrayList();
+            alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
+            for (Booking booking1 : alleBuchungenDerMulti){
+                rueckerstattung= rueckerstattung + booking.getPreise();
+            }
+            //Nachricht ins Postfach
+            Postfach nachricht = new Postfach();
+            nachricht.setReceiverCol(kunde.getBenutzername());
+            LocalDate heute = LocalDate.now();
+            nachricht.setDateString(heute.toString());
+            nachricht.setDate(this.convertToDateViaSqlDate(heute));
+            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
+                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.");
+            //Benachrichtigung per Telegram
+            TelegramBot telegramBot = new TelegramBot();
+            telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
+                            "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.",
+                    "");
+        }
+    }
+
+    public Date convertToDateViaSqlDate(LocalDate dateToConvert) {
+
+        return java.sql.Date.valueOf(dateToConvert);
+    }
+
     public void handlerefresh (ActionEvent event){
+
         this.initialize(null, null);
     }
 }
