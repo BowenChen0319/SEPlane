@@ -398,6 +398,15 @@ public class DBManager {
     //------Delete
     public void deleteFL(int id) {
         try {
+            if (gtDao.idExists(id))
+                gtDao.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteGT(int id) {
+        try {
             if (flDao.idExists(id))
                 flDao.deleteById(id);
         } catch (SQLException e) {

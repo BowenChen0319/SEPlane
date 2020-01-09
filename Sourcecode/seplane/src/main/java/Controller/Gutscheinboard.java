@@ -3,6 +3,7 @@ package Controller;
 import Models.Benutzer;
 import Models.Booking;
 import Models.CurrentUser;
+import Models.Gutschein;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -31,12 +32,7 @@ import java.util.List;
  * JavaFX App
  */
 
-public class Adminboard extends Application {
-//    Benutzer be = null;
-//    public void setBenutzerRun(Benutzer benutzer) throws IOException {
-//        be=benutzer;
-//        this.start(new Stage());
-//    }
+public class Gutscheinboard extends Application {
 
     @Override
 
@@ -46,7 +42,7 @@ public class Adminboard extends Application {
 
 
         Benutzer be = new CurrentUser().getCurrent();
-        System.out.println("Account management window");
+        System.out.println("Gutschein management window");
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(10));
@@ -56,7 +52,7 @@ public class Adminboard extends Application {
 
 
         Label text = new Label(
-                "Account management");
+                "Gutschein management");
         text.setFont(Font.font(30));
 
         Label text1 = new Label(
@@ -72,21 +68,33 @@ public class Adminboard extends Application {
         ListView<String> listView = new ListView<String>(data);
         listView.setPrefSize(200, 250);
 
-        List<Benutzer> all = App.db.getallUser();
-        for(int i=0;i<all.size();i++){
-            Benutzer ben = all.get(i);
-            data.add("ID "+ben.getId()
-                    +": '"+ben.getBenutzername()
-                    +"' ist "+ben.getBenutzertyp()
-                    +" with name "+ben.getVorname()
-                    +" "+ben.getNachname());
-        }
+        Button b1 = new Button("Refresh");
+        b1.setPrefWidth(100);
+        b1.setPrefHeight(20);
+        b1.setFont(Font.font(15));
+        b1.setStyle("-fx-background-color: #7CCD7C;"+
+                "-fx-background-radius: 8;"+
+                "-fx-text-fill: #5CACEE"
+        );
 
+        b1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                data.clear();
+                List<Gutschein> all = App.db.getallGutschein();
+                for(int i=0;i<all.size();i++){
+                    Gutschein ben = all.get(i);
+                    data.add("ID "+ben.getId()
+                            +" Code: "+ben.getText()
+                            +" with "+ben.getPercent()
+                            +"%");
+                }
+                listView.setItems(data);
+                System.out.println("Refresh");
+            }
+        });
 
-        listView.setItems(data);
-
-
-
+        b1.fire();
 
 
         Button b3 = new Button("Delect");
@@ -102,26 +110,13 @@ public class Adminboard extends Application {
             public void handle(ActionEvent event) {
                 int d=listView.getSelectionModel().getSelectedIndex();
                 System.out.println(d);
-                List<Benutzer> all = null;
-                all = App.db.getallUser();
+                List<Gutschein> all = null;
+                all = App.db.getallGutschein();
                 if(d<=all.size()){
-                    Benutzer del = all.get(d);
-                    if(del.getBenutzertyp().equals("kunde")){
-                        List<Booking> bks = App.db.getallBookingFromUser(del.getBenutzername());
-                        bks.forEach(Booking->App.db.deleteBk(Booking.getId()));
-                    }
+                    Gutschein del = all.get(d);
                     try {
-                        App.db.deleteB(del.getId());
-                        List<Benutzer> alle = App.db.getallUser();
-                        data.clear();
-                        for(int i=0;i<alle.size();i++){
-                            Benutzer ben = alle.get(i);
-                            data.add("ID "+ben.getId()
-                                    +": '"+ben.getBenutzername()
-                                    +"' ist "+ben.getBenutzertyp()
-                                    +" with name "+ben.getVorname()
-                                    +" "+ben.getNachname());
-                        }
+                        App.db.deleteGT(del.getId());
+                        b1.fire();
                         System.out.println("delected");
 
                     } catch (Exception e) {
@@ -147,8 +142,8 @@ public class Adminboard extends Application {
         });
 
 
-        Button b2 = new Button("New FGM");
-        b2.setPrefWidth(100);
+        Button b2 = new Button("New Gutschein");
+        b2.setPrefWidth(120);
         b2.setPrefHeight(20);
         b2.setFont(Font.font(15));
         b2.setStyle("-fx-background-color: #5CACEE;"+
@@ -163,39 +158,9 @@ public class Adminboard extends Application {
                     @Override
                     public void run() {
                         try {
-                            new FGMRegister().start(new Stage());
-                            stage.close();
-
-
-                        } catch (IOException | SQLException e) {
-                            e.printStackTrace();
-
-                        }
-                    }
-                });
-            }
-        });
-
-        Button b4 = new Button("Gutschein");
-        b4.setPrefWidth(100);
-        b4.setPrefHeight(20);
-        b4.setFont(Font.font(15));
-        b4.setStyle("-fx-background-color: #5CACEE;"+
-                "-fx-background-radius: 8;"+
-                "-fx-text-fill: #7CCD7C"
-        );
-
-        b4.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            new Gutscheinboard().start(new Stage());
+                            new GutscheinCreat().start(new Stage());
                             //stage.close();
 
-
                         } catch (IOException | SQLException e) {
                             e.printStackTrace();
 
@@ -205,37 +170,14 @@ public class Adminboard extends Application {
             }
         });
 
-        Button b1 = new Button("Refresh");
-        b1.setPrefWidth(100);
-        b1.setPrefHeight(20);
-        b1.setFont(Font.font(15));
-        b1.setStyle("-fx-background-color: #7CCD7C;"+
-                "-fx-background-radius: 8;"+
-                "-fx-text-fill: #5CACEE"
-        );
 
-        b1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                List<Benutzer> all = null;
-                all = App.db.getallUser();
-                data.clear();
-                for(int i=0;i<all.size();i++){
-                    Benutzer ben = all.get(i);
-                    data.add("ID "+ben.getId()
-                            +": '"+ben.getBenutzername()
-                            +"' ist "+ben.getBenutzertyp()
-                            +" with name "+ben.getVorname()
-                            +" "+ben.getNachname());
-                }
-                System.out.println("Refresh");
-            }
-        });
+
+
 
 
         HBox butts = new HBox();
         butts.setAlignment(Pos.CENTER);
-        butts.getChildren().addAll(b1,b2,b3,b4);
+        butts.getChildren().addAll(b1,b2,b3);
 
         root.getChildren().addAll(v0,listView,butts);
 

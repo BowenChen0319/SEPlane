@@ -41,4 +41,22 @@ public class Gutschein {
         List<Gutschein> list = App.db.getGutscheinfromtext(text);
         return !list.isEmpty();
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean checkcode(String code) throws SQLException {
+        boolean right = true;
+        DBManager db = App.db;
+        List<Gutschein> all= db.getallGutschein();
+        for(int i=0;i<all.size();i++){
+            Gutschein b = all.get(i);
+            if(b.getText().equals(code.toLowerCase())){
+                System.out.println("Wrong two same code!");
+                right=false;
+            }
+        }
+        return right;
+    }
 }
