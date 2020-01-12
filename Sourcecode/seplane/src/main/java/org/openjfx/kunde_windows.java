@@ -11,6 +11,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -43,11 +44,17 @@ public class kunde_windows extends Application {
                         " , Loading......");
         text.setFont(Font.font(25));
 
-        HBox h0 = new HBox();
-        h0.setAlignment(Pos.CENTER);
-        h0.getChildren().addAll(text);
+//        HBox h0 = new HBox();
+//        h0.setAlignment(Pos.CENTER);
+//        h0.getChildren().addAll(text);
 
-        root.getChildren().addAll(h0);
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setProgress(-1F);
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().addAll(progressIndicator,text);
+
+        root.getChildren().addAll(vbox);
 
         Scene scene = new Scene(root);
 
