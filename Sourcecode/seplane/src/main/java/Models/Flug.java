@@ -135,11 +135,15 @@ public class Flug {
 
 		ObservableList<Booking> multiBuchungenDesStornoFlugs = FXCollections.observableArrayList();
 		multiBuchungenDesStornoFlugs.clear();
+		ObservableList<Booking> singleFlugs = FXCollections.observableArrayList();
+		singleFlugs.clear();
 		//checken, welche der Buchungen eine Multistop Buchung ist
 
 		for (Booking booking : alleBuchungen) {
 			if (booking.getMulti() != null) {
 				multiBuchungenDesStornoFlugs.add(booking);
+			}else {
+				singleFlugs.add(booking);
 			}
 		}
 		System.out.println("multiBuchungenDesStornoFlugs");
@@ -157,6 +161,12 @@ public class Flug {
 
 					System.out.println(booking1.getId());
 					stornokosten = stornokosten + booking1.getPreise();
+
+			}
+			for (Booking booking1 : singleFlugs) {
+
+				System.out.println(booking1.getId());
+				stornokosten = stornokosten + booking1.getPreise();
 
 			}
 			System.out.println("alleBuchungenDerMulti");
