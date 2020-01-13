@@ -54,6 +54,9 @@ public class FGM_FluegeUebersichtController implements Initializable {
     @FXML
     private TableColumn<Flug, String> rentabilitaet_column;
 
+    @FXML
+    private TableColumn<Flug, String> stornokosten_column;
+
 
     @FXML
     private Button refresh_button;
@@ -109,6 +112,18 @@ public class FGM_FluegeUebersichtController implements Initializable {
             else{
                 SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
                 simpleStringProperty.setValue(cellData.getValue().getFluglinie().getIntervall().toString());
+                return simpleStringProperty;
+            }
+        });
+
+
+        stornokosten_column.setCellValueFactory(cellData->{
+            if(cellData.getValue()==null){
+                return new SimpleStringProperty("");
+            }
+            else{
+                SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
+               simpleStringProperty.setValue(cellData.getValue().berechneStornokostenGesamt().toString());
                 return simpleStringProperty;
             }
         });
@@ -247,6 +262,48 @@ public class FGM_FluegeUebersichtController implements Initializable {
                             "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.",
                     "");
         }
+    }
+
+    public Double berechneStornierungskosten (Flug flug) throws TelegramApiException {
+        Double stornokosten = 0.00;
+        ObservableList<Booking> alleBuchungen = FXCollections.observableArrayList();
+        alleBuchungen.clear();
+        alleBuchungen.addAll(db.getBookingfromFlug(flug.getId()));
+
+        ObservableList<Booking> multiBuchungenDesStornoFlugs = FXCollections.observableArrayList();
+        multiBuchungenDesStornoFlugs.clear();
+
+        //checken, welche der Buchungen eine Multistop Buchung ist
+
+        for (Booking booking : alleBuchungen){
+            if (booking.getMulti()!=null){
+                multiBuchungenDesStornoFlugs.add(booking);
+            }
+        }
+        for (Booking booking : multiBuchungenDesStornoFlugs){
+            Flug flug1 = booking.getFlug();
+            Benutzer kunde = booking.getUser();
+
+            ObservableList<Booking> alleBuchungenDerMulti= FXCollections.observableArrayList();
+            alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
+            for (Booking booking1 : alleBuchungenDerMulti){
+                stornokosten= stornokosten + booking1.getPreise();
+            }
+            //Nachricht ins Postfach
+            Postfach nachricht = new Postfach();
+            nachricht.setReceiverCol(kunde.getBenutzername());
+            LocalDate heute = LocalDate.now();
+            nachricht.setDateString(heute.toString());
+            nachricht.setDate(this.convertToDateViaSqlDate(heute));
+            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
+                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + "zurückerstattet.");
+            //Benachrichtigung per Telegram
+            TelegramBot telegramBot = new TelegramBot();
+            telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
+                            "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + "zurückerstattet.",
+                    "");
+        }
+        return stornokosten;
     }
 
     public Date convertToDateViaSqlDate(LocalDate dateToConvert) {

@@ -25,6 +25,7 @@
                   <TableColumn fx:id="businessPlaetze_column" prefWidth="125.0" text="Business Plätze" />
                   <TableColumn fx:id="abflugdatum_column" prefWidth="125.0" text="Ablflug" />
                   <TableColumn fx:id="rentabilitaet_column" prefWidth="125.0" text="Rentabilitaet" />
+                  <TableColumn fx:id="stornokosten_column" prefWidth="125.0" text="Stornokosten" />
                </columns>
             </TableView>
             <HBox alignment="BOTTOM_RIGHT" spacing="40.0">

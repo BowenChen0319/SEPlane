@@ -2,6 +2,10 @@ package Models;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import org.openjfx.App;
+import org.openjfx.DBManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +28,7 @@ public class Flug {
 	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	ArrayList<Integer> reserviereBusiness;
 
+	static DBManager db = App.db;
 	
 	public Flug() {}
 	
@@ -117,6 +122,39 @@ public class Flug {
 	public void returnBusiness(Integer sitz) {
 		reserviereBusiness.add(sitz);
 		Collections.sort(reserviereBusiness);
+	}
+
+	public Double berechneStornokostenGesamt () {
+		Double stornokosten = 0.00;
+		ObservableList<Booking> alleBuchungen = FXCollections.observableArrayList();
+		alleBuchungen.addAll(db.getBookingfromFlug(this.getId()));
+
+		ObservableList<Booking> multiBuchungenDesStornoFlugs = FXCollections.observableArrayList();
+
+		//checken, welche der Buchungen eine Multistop Buchung ist
+
+		for (Booking booking : alleBuchungen) {
+			if (booking.getMulti() != null) {
+				multiBuchungenDesStornoFlugs.add(booking);
+			}
+		}
+		for (Booking booking : multiBuchungenDesStornoFlugs) {
+			Flug flug1 = booking.getFlug();
+			Benutzer kunde = booking.getUser();
+
+
+			ObservableList<Booking> alleBuchungenDerMulti = FXCollections.observableArrayList();
+			alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
+			for (Booking booking1 : alleBuchungenDerMulti) {
+
+					System.out.println(booking1.getId());
+					stornokosten = stornokosten + booking1.getPreise();
+
+			}
+		}
+		System.out.println(stornokosten);
+		return stornokosten;
+
 	}
 
 }
