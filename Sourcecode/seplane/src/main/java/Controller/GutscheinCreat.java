@@ -78,15 +78,19 @@ public class GutscheinCreat extends Application {
         Label text2 = new Label(
                 "Percent: %");
         text2.setFont(Font.font(25));
-        TextField nachn = new TextField(){
-            @Override
-            public void replaceText(int start, int end, String text) {
-                if (!text.matches("[a-z]")) {
-                    super.replaceText(start, end, text);
-                }
-            }
-        };
-        nachn.setFont((Font.font(10)));
+        Spinner<Integer> nachn = new Spinner<>(0, 100, 1);
+//        TextField nachn = new TextField(){
+//            @Override
+//            public void replaceText(int start, int end, String text) {
+//                if (!text.matches("[a-z]")) {
+//                    super.replaceText(start, end, text);
+//                }
+//                if (text.contains(".")) {
+//                    super.replaceText(start, end, text);
+//                }
+//            }
+//        };
+        //nachn.setFont((Font.font(10)));
         Tooltip tip2 = new Tooltip("How many percent :)");
         tip2.setFont(Font.font(12));
         nachn.setTooltip(tip2);
@@ -115,10 +119,28 @@ public class GutscheinCreat extends Application {
                 DBManager db = new DBManager();
                 Gutschein g = new Gutschein();
                 System.out.println("start Gutschein creat");
-                if(vorn.getText().equals("")||nachn.getText().equals("")){
+//                if(vorn.getText().equals("")||nachn.getText().equals("")){
+//                    warning.setText("Code or Percent Please");
+//                }else{
+//                    int pct = Integer.parseInt(nachn.getText());
+//                    if(g.checkcodeused(vorn.getText())==true||pct<0||pct>100){
+//                        warning.setText("Warning!");
+//                    }else{
+//                        try {
+//                            db.creategt(new Gutschein(vorn.getText().toLowerCase(),pct));
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                        System.out.println("Gutschein creat finished");
+//                        warning.setText("Gutschein creat finished, please close this window");
+//
+//
+//                    }
+//                }
+                if(vorn.getText().equals("")){
                     warning.setText("Code or Percent Please");
                 }else{
-                    int pct = Integer.parseInt(nachn.getText());
+                    int pct = nachn.getValue();
                     if(g.checkcodeused(vorn.getText())==true||pct<0||pct>100){
                         warning.setText("Warning!");
                     }else{

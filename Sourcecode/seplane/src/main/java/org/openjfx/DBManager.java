@@ -676,15 +676,26 @@ public class DBManager {
 
 
     public List<Booking> getBookingfromFlug(Integer flugid) {
-        List<Booking> bkList = null;
-        bkList=this.getallBooking();
+        List<Booking> bkList = this.getallBooking();
+        System.out.println("All Size");
+        System.out.println(bkList.size());
+        System.out.println("flugid");
+        System.out.println(flugid);
+
+        //bkList=this.getallBooking();
         List<Booking> fgfrombe = bkList.stream().filter(new Predicate<Booking>() {
             @Override
             public boolean test(Booking bk) {
-                return bk.getFlugid()==flugid;
+                int id = bk.getFgid();
+                if(Integer.toString(id).equals(Integer.toString(flugid))){
+                    return true;
+                }else {
+                    return false;
+                }
+
             }
         }).collect(Collectors.toList());
-        return bkList;
+        return fgfrombe;
     }
 
     public List<Booking> getallBookingFromUser(String username) {

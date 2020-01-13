@@ -78,10 +78,22 @@ public class Booking {
     }
 
     public Integer getFlugid(){
-        if(flug==null){
+        if(flug!=null){
+            int id = flug.getId();
+            System.out.println(id);
+            return id;
+        }else{
             return null;
-        }else {
-            return flug.getId();
+        }
+    }
+
+    public Integer getFgid(){
+        if(flug!=null){
+            int id = flug.getId();
+            System.out.println(id);
+            return id;
+        }else{
+            return -1;
         }
     }
 

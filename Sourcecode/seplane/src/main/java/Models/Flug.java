@@ -127,10 +127,14 @@ public class Flug {
 	public Double berechneStornokostenGesamt () {
 		Double stornokosten = 0.00;
 		ObservableList<Booking> alleBuchungen = FXCollections.observableArrayList();
+		alleBuchungen.clear();
 		alleBuchungen.addAll(db.getBookingfromFlug(this.getId()));
+		System.out.println(this.id);
+		System.out.println("alleBuchungen");
+		System.out.println(alleBuchungen);
 
 		ObservableList<Booking> multiBuchungenDesStornoFlugs = FXCollections.observableArrayList();
-
+		multiBuchungenDesStornoFlugs.clear();
 		//checken, welche der Buchungen eine Multistop Buchung ist
 
 		for (Booking booking : alleBuchungen) {
@@ -138,12 +142,16 @@ public class Flug {
 				multiBuchungenDesStornoFlugs.add(booking);
 			}
 		}
+		System.out.println("multiBuchungenDesStornoFlugs");
+		System.out.println(multiBuchungenDesStornoFlugs);
+
 		for (Booking booking : multiBuchungenDesStornoFlugs) {
-			Flug flug1 = booking.getFlug();
-			Benutzer kunde = booking.getUser();
+			//Flug flug1 = booking.getFlug();
+			//Benutzer kunde = booking.getUser();
 
 
 			ObservableList<Booking> alleBuchungenDerMulti = FXCollections.observableArrayList();
+			alleBuchungenDerMulti.clear();
 			alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
 			for (Booking booking1 : alleBuchungenDerMulti) {
 
@@ -151,8 +159,11 @@ public class Flug {
 					stornokosten = stornokosten + booking1.getPreise();
 
 			}
+			System.out.println("alleBuchungenDerMulti");
+			System.out.println(alleBuchungenDerMulti);
 		}
 		System.out.println(stornokosten);
+		System.out.println(alleBuchungen.size());
 		return stornokosten;
 
 	}
