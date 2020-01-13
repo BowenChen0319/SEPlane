@@ -1,7 +1,7 @@
 package org.openjfx;
 
 import Models.Benutzer;
-import Toolbox.TelegramID;
+import Toolbox.AlertHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -239,7 +239,8 @@ public class register extends Application {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        new TelegramID().start(new Stage());
+                        //new TelegramID().start(new Stage());
+                        AlertHandler.telegram();
                     }
                 });
             }

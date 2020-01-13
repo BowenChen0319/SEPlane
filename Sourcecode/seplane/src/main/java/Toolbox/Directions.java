@@ -29,28 +29,44 @@ public class Directions {
         DRIVING, TRANSIT, WALKING
     }
 
-    public String makeSearchUsuable(String string) {
-        String newString = "";
-        newString = string.replace(",", "+");
-        newString = newString.replace(" ", "+");
-        newString = newString.replace("–", "+");
-        newString = newString.replace("-", "+");
-        newString = newString.replace("/", "+");
-        newString = newString.replace(".", "+");
-        if (string.contains("ß")) {
-            newString = newString.replace("ß", "ss");
-        } else if (string.contains("ä") || string.contains("Ä")) {
-            newString = newString.replace("ä", "ae");
-            newString = newString.replace("Ä", "ae");
-        } else if (string.contains("ö") || string.contains("Ö")) {
-            newString = newString.replace("ö", "oe");
-            newString = newString.replace("Ö", "oe");
-        } else if (string.contains("ü") || string.contains("Ü")) {
-            newString = newString.replace("ü", "ue");
-            newString = newString.replace("Ü", "ue");
-        }
+    public static String makeSearchUsuable(String input) {
+        //  String newString = "";
+//        newString = string.replace(",", "+");
+//        newString = newString.replace(" ", "+");
+//        newString = newString.replace("–", "+");
+//        newString = newString.replace("-", "+");
+//        newString = newString.replace("/", "+");
+//        newString = newString.replace(".", "+");
+//        if (string.contains("ß")) {
+//            newString = newString.replace("ß", "ss");
+//        } else if (string.contains("ä") || string.contains("Ä")) {
+//            newString = newString.replace("ä", "ae");
+//            newString = newString.replace("Ä", "ae");
+//        } else if (string.contains("ö") || string.contains("Ö")) {
+//            newString = newString.replace("ö", "oe");
+//            newString = newString.replace("Ö", "oe");
+//        } else if (string.contains("ü") || string.contains("Ü")) {
+//            newString = newString.replace("ü", "ue");
+//            newString = newString.replace("Ü", "ue");
+//        }
+        String output = input.replace("ü", "ue")
+                .replace("ö", "oe")
+                .replace("ä", "ae")
+                .replace("ß", "ss");
 
-        return newString;
+        //first replace all capital umlaute in a non-capitalized context (e.g. Übung)
+        output = output.replace("Ü(?=[a-zäöüß ])", "Ue")
+                .replace("Ö(?=[a-zäöüß ])", "Oe")
+                .replace("Ä(?=[a-zäöüß ])", "Ae");
+
+        //now replace all the other capital umlaute
+        output = output.replace("Ü", "UE")
+                .replace("Ö", "OE")
+                .replace("Ä", "AE");
+
+        output = output.replace(" ", "+");
+
+        return output;
     }
 
     public String makeUTF8(String string) {
@@ -59,13 +75,14 @@ public class Directions {
             newString = newString.replace("ß", "ss");
         } else if (string.contains("ä") || string.contains("Ä")) {
             newString = newString.replace("ä", "ae");
-            newString = newString.replace("Ä", "ae");
+            newString = newString.replace("Ä", "Ae");
+
         } else if (string.contains("ö") || string.contains("Ö")) {
             newString = newString.replace("ö", "oe");
-            newString = newString.replace("Ö", "oe");
+            newString = newString.replace("Ö", "Ae");
         } else if (string.contains("ü") || string.contains("Ü")) {
             newString = newString.replace("ü", "ue");
-            newString = newString.replace("Ü", "ue");
+            newString = newString.replace("Ü", "Ae");
         }
         return newString;
     }
@@ -108,12 +125,9 @@ public class Directions {
         int size = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().size();
         String str;
         int meter;
-        String comb;
+        byte[] sourcebytes;
 
 
-        ObservableList<Route> anweisList = FXCollections.observableArrayList();
-        Encryption enc = new Encryption();
-        List<Route> routenListe = null;
         String nstr = "";
         Collection<Route> routList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -121,6 +135,13 @@ public class Directions {
             meter = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getDistance().getValue();
             nstr = html2text(str);
             nstr = makeUTF8(nstr);
+            sourcebytes = nstr.getBytes();
+            try {
+                nstr = new String(sourcebytes, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
             routList.add(new Route(nstr, meter));
         }
         ObservableList<Route> oRouteListe = FXCollections.observableArrayList(routList);

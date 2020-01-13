@@ -192,8 +192,8 @@ public class Adminboard extends Application {
                     @Override
                     public void run() {
                         try {
-                            new GutscheinCreat().start(new Stage());
-                            stage.close();
+                            new Gutscheinboard().start(new Stage());
+                            //stage.close();
 
 
                         } catch (IOException | SQLException e) {

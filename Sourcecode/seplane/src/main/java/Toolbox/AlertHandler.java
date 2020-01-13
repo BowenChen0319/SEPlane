@@ -106,4 +106,17 @@ public class AlertHandler {
 		alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
 		alert.showAndWait();
 	}
+
+	public static void telegram(){
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("How to get ChatID!");
+		alert.setHeaderText("Um die chatID zu erhalten, müssen sie mittels Telegram einen Chat mit" +
+				" unserem Bot \"SepBot\" starten. \n Dort erhalten sie ihre ChatID, welche sie dann in das entsprechende Feld eintragen können.\n   ");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
+		alert.showAndWait();
+	}
+
+
+
 }

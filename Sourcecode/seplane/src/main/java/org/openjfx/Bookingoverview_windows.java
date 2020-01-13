@@ -12,11 +12,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -32,6 +35,14 @@ public class Bookingoverview_windows extends Application {
         int Height = 400;
         int Width = 600;
         System.out.println("kunde window");
+
+//        Stage dialogStage = new Stage();
+//        ProgressIndicator progressIndicator = new ProgressIndicator();
+//        dialogStage.initOwner(stage);
+//        dialogStage.initStyle(StageStyle.UNDECORATED);
+//        dialogStage.initStyle(StageStyle.TRANSPARENT);
+//        dialogStage.initModality(Modality.APPLICATION_MODAL);
+
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(10));
@@ -39,17 +50,24 @@ public class Bookingoverview_windows extends Application {
         root.setPrefHeight(Height);
         root.setPrefWidth(Width);
 
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setProgress(-1F);
         Label text = new Label(
                 "Willkommen "+
                         new CurrentUser().getCurrent().getVorname()+" "+new CurrentUser().getCurrent().getNachname()+
                         " , Loading......");
         text.setFont(Font.font(25));
 
-        HBox h0 = new HBox();
-        h0.setAlignment(Pos.CENTER);
-        h0.getChildren().addAll(text);
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().addAll(progressIndicator,text);
 
-        root.getChildren().addAll(h0);
+        //HBox h0 = new HBox();
+        //h0.setAlignment(Pos.CENTER);
+        //h0.getChildren().addAll(text);
+
+        root.getChildren().addAll(vbox);
 
         Scene scene = new Scene(root);
 

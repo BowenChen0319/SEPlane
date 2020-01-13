@@ -351,17 +351,17 @@ public class FGM_FLDashboard implements Initializable{
 				slider.setValue(0);
 				labelE.setText(newValue.getSeats()+"");	
 				labelB.setText("0");
-				labelE.setTextFill(Color.BLACK);
-				labelB.setTextFill(Color.BLACK);
-				prozentLabel.setTextFill(Color.BLACK);
+				labelE.applyCss();
+				labelB.applyCss();
+				prozentLabel.applyCss();
 				if(startBox.getValue()!=null && zielBox.getValue()!=null)
 					if(!checkEntf(entfernung, newValue.getRange())) {
 						kmLabel.setTextFill(Color.RED);
 						kmkmLabel.setTextFill(Color.RED);
 					}
 					else {
-						kmLabel.setTextFill(Color.BLACK);
-						kmkmLabel.setTextFill(Color.BLACK);
+						kmLabel.applyCss();
+						kmkmLabel.applyCss();
 					}
 			}
 		});		
@@ -381,9 +381,9 @@ public class FGM_FLDashboard implements Initializable{
 	            	prozentLabel.setTextFill(Color.RED);
 	            }
 	            else {
-	            	labelB.setTextFill(Color.BLACK);
-	            	labelE.setTextFill(Color.BLACK);
-	            	prozentLabel.setTextFill(Color.BLACK);
+	            	labelB.applyCss();
+	            	labelE.applyCss();
+	            	prozentLabel.applyCss();
 	            }	            	
 	         }	         
 	      });
@@ -466,8 +466,8 @@ public class FGM_FLDashboard implements Initializable{
 						kmkmLabel.setTextFill(Color.RED);
 					}
 					else {
-						kmLabel.setTextFill(Color.BLACK);
-						kmkmLabel.setTextFill(Color.BLACK);
+						kmLabel.applyCss();
+						kmkmLabel.applyCss();
 					}
 				}
 		}			
