@@ -59,6 +59,7 @@ public class Bookingoverview_windows extends Application {
         text.setFont(Font.font(25));
 
         VBox vbox = new VBox();
+        vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(progressIndicator,text);
 
