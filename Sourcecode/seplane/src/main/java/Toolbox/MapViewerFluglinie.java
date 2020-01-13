@@ -37,12 +37,12 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	ArrayList<Fluglinie> fluglinien;
 	CurrentUser cur = new CurrentUser();
 	
+	public boolean test = true;
 	
 	//prüft wann geladen, damit ab da manipulieren kann
 	@Override
 	public void mapInitialized() {
         //zuerst werden die Optionen gesetzt, am Ende erst das eigentliche Objekt erstellt und der Map hinzugefügt
-
 		//Set the initial properties of the map.
 	    MapOptions mapOptions = new MapOptions();
 
@@ -79,7 +79,8 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
         
         //Polylines Fluglinie
         fluglinien  = new ArrayList<Fluglinie>();
-        fluglinien.addAll(db.getFluglinieZuFG(db.getFGzuFGM(new CurrentUser().getCurrent()).getId()));
+        //zu Testzwecken mit Umweg
+        setFluglinien(cur, null);
         
         for(Fluglinie f : fluglinien) {
 
@@ -118,6 +119,11 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 
 			//Models.Models.GeoRoute.GeoRoute.Models.GeoRoute.Step.Polyline
 			LatLong[] line = new LatLong[]{start, ziel};
+			//test
+			System.out.println(start + " TestMap");
+			if((start == null || ziel == null)&& test)
+				test = false;
+			
 			MVCArray mvc = new MVCArray(line);
 			PolylineOptions polyOpts = new PolylineOptions()
 					.path(mvc)
@@ -126,21 +132,31 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 					.strokeWeight(4);
 			Polyline poly = new Polyline(polyOpts);
 			map.addMapShape(poly);
+			
         }
-        
 	}
-
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Fehler WebView is already in use, können nicht wiederverwendet werden
 		mapView.setKey("AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
-	    
-	    
+    
 	    mapView.addMapInializedListener(this);
 	}
 
-	
-	
+	//zum Testen
+	public GoogleMap getMap() {
+		return map;
+	}
+	public void setFluglinien(CurrentUser current, ArrayList<Fluglinie> fluglinie) {
+		//Testwerte
+		if(current == null) {
+			fluglinien = fluglinie;
+			mapView = new GoogleMapView();
+			initialize(null, null);
+		}
+		else {
+			fluglinien.addAll(db.getFluglinieZuFG(db.getFGzuFGM(new CurrentUser().getCurrent()).getId()));
+		}
+	}	
 }
