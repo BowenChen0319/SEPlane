@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import Controller.Kunde_FlugbuchungController;
 import Models.Benutzer;
 import Models.CurrentUser;
 import Toolbox.JsonReaderTool;
@@ -100,7 +101,7 @@ public class kunde_windows extends Application {
                     //new kunde_windows().start(new Stage());
 
                     //stage.setResizable(true);
-                    Parent fgm1 = FXMLLoader.load(getClass().getResource("Kunde_Flugbuchung.fxml"));
+                    Parent fgm1 = FXMLLoader.load(App.class.getResource("Kunde_Flugbuchung.fxml"));
                     //Parent fgm1 = FXMLLoader.load(getClass().getResource("booking_overview.fxml"));
                     Scene fgmScene = new Scene(fgm1);
                     Stage stage1 = new Stage();

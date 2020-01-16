@@ -90,6 +90,10 @@ public class Directions {
     public ObservableList<Route> getDirection(String start, String ziel, Enum mode) throws FileNotFoundException {
         URL url = null;
         InputStreamReader reader = null;
+        int size;
+        String str;
+        int meter;
+        byte[] sourcebytes;
 
         try {
             url = new URL("https://maps.googleapis.com/maps/api/directions/json?" +
@@ -122,11 +126,7 @@ public class Directions {
                 .create();
 
         Step dRoute = gson.fromJson(reader, Step.class);
-        int size = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().size();
-        String str;
-        int meter;
-        byte[] sourcebytes;
-
+        size  = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().size();
 
         String nstr = "";
         Collection<Route> routList = new ArrayList<>();

@@ -526,7 +526,7 @@ public class BooksBoard extends Application {
                             }
                         });
                     }else{
-                        text1.setText("Sorry, this flight was cancelled.");
+                        text1.setText("Sorry, this flight was canceled.");
                     }
 
                 }
