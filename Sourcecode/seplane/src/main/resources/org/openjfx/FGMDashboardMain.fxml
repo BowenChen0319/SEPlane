@@ -97,7 +97,7 @@
                                     <Insets bottom="30.0" right="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <JComboBox fx:id="comboReceiver" prefWidth="150.0" GridPane.columnIndex="1" />
+                              <!--JComboBox fx:id="comboReceiver" prefWidth="150.0" GridPane.columnIndex="1" />-->
                               <!--<Button fx:id="fileExplorer" mnemonicParsing="false" onAction="#openFIlex" text="fileEx" GridPane.columnIndex="1" GridPane.rowIndex="3" />-->
                            </children>
                         </GridPane>

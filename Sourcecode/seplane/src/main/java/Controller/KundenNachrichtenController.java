@@ -29,6 +29,8 @@ public class KundenNachrichtenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        messageField.setWrapText(true);
+
         messageField.setText(message);
         senderField.setText(sender);
     }

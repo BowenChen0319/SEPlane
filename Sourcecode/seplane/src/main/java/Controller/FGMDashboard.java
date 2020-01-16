@@ -174,11 +174,12 @@ public class FGMDashboard implements Initializable {
 
         Object[] userList = new Object[db.getallUser().size()];
         List<Benutzer> benutzerList = db.getallUser();
-        AutoCompleteSupport.install(comboReceiver, GlazedLists.eventList(benutzerList));
+        //AutoCompleteSupport.install(comboReceiver, GlazedLists.eventList(benutzerList));
+
+        Date currentTime = new Date();
 
 
-
-        //db.sendMessage(receiverBox.getText(), date, messageBox.getText());
+        db.sendMessage(receiverBox.getText(), currentTime, messageBox.getText());
 
     }
 
