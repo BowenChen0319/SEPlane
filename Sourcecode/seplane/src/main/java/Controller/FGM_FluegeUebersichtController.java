@@ -1,6 +1,8 @@
 package Controller;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -218,9 +220,11 @@ public class FGM_FluegeUebersichtController implements Initializable {
             alert.showAndWait();
         }
         else{
-            db.deleteFlug(flug.getId());
+
             //entsprechende Buchungen loeschen
+
             this.ermittleStronierungskosten(flug);
+            db.deleteFlug(flug.getId());
             this.initialize(null, null);
         }
     }
@@ -255,37 +259,68 @@ public class FGM_FluegeUebersichtController implements Initializable {
                 rueckerstattung= rueckerstattung + booking.getPreise();
             }
             //Nachricht ins Postfach
-            Postfach nachricht = new Postfach();
-            nachricht.setReceiverCol(kunde.getBenutzername());
-            LocalDate heute = LocalDate.now();
-            nachricht.setDateString(heute.toString());
-            nachricht.setDate(this.convertToDateViaSqlDate(heute));
-            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.");
-            //Benachrichtigung per Telegram
+
+            String msg = "Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit().toString() +
+                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung.toString() + "zurückerstattet.";
+            byte[] sourceBytes = msg.getBytes();
+            try {
+                msg = new String(sourceBytes, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            System.out.println(msg);
+            Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+            System.out.println(kunde.getBenutzername());
+            App.db.sendMessage(kunde.getBenutzername(),date,msg);
+//            Postfach nachricht = new Postfach();
+//            nachricht.setReceiverCol(kunde.getBenutzername());
+//            LocalDate heute = LocalDate.now();
+//            nachricht.setDateString(heute.toString());
+//            nachricht.setDate(this.convertToDateViaSqlDate(heute));
+//            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
+//                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.");
+//            //Benachrichtigung per Telegram
             TelegramBot telegramBot = new TelegramBot();
             telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
                             "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.",
                     "");
         }
 
-        for (Booking booking : singleFlugs){
+        for (Booking booking : singleFlugs) {
             Flug flug1 = booking.getFlug();
             Benutzer kunde = booking.getUser();
+            System.out.println(kunde.getId());
             Double rueckerstattung = 0.00;
-            ObservableList<Booking> alleBuchungenDerMulti= FXCollections.observableArrayList();
+            ObservableList<Booking> alleBuchungenDerMulti = FXCollections.observableArrayList();
             alleBuchungen.clear();
             alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
-            rueckerstattung=booking.getPreise();
+            for (Booking booking1 : alleBuchungenDerMulti) {
+                rueckerstattung = rueckerstattung + booking.getPreise();
+            }
             //Nachricht ins Postfach
-            Postfach nachricht = new Postfach();
-            nachricht.setReceiverCol(kunde.getBenutzername());
-            LocalDate heute = LocalDate.now();
-            nachricht.setDateString(heute.toString());
-            nachricht.setDate(this.convertToDateViaSqlDate(heute));
-            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.");
-            //Benachrichtigung per Telegram
+
+            String msg = "Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit().toString() +
+                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung.toString() + "zurückerstattet.";
+            byte[] sourceBytes = msg.getBytes();
+            try {
+                msg = new String(sourceBytes, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            System.out.println(msg);
+            Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+            System.out.println(kunde.getBenutzername());
+            App.db.sendMessage(kunde.getBenutzername(), date, msg);
+//            Postfach nachricht = new Postfach();
+//            nachricht.setReceiverCol(kunde.getBenutzername());
+//            LocalDate heute = LocalDate.now();
+//            nachricht.setDateString(heute.toString());
+//            nachricht.setDate(this.convertToDateViaSqlDate(heute));
+//            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
+//                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.");
+//            //Benachrichtigung per Telegram
             TelegramBot telegramBot = new TelegramBot();
             telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
                             "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.",

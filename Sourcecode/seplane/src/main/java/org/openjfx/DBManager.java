@@ -991,7 +991,7 @@ public class DBManager {
     public void sendMessage(String to, Date date, String msg) {
         String sender = new CurrentUser().getCurrent().getBenutzername();
         FGMDashboard fgD = new FGMDashboard();
-
+        System.out.println("send");
         String inUser = to.toLowerCase();
         String message = msg;
 
