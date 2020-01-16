@@ -246,6 +246,7 @@ public class FGM_FluegeUebersichtController implements Initializable {
         for (Booking booking : multiBuchungenDesStornoFlugs){
             Flug flug1 = booking.getFlug();
             Benutzer kunde = booking.getUser();
+            System.out.println(kunde.getId());
             Double rueckerstattung = 0.00;
             ObservableList<Booking> alleBuchungenDerMulti= FXCollections.observableArrayList();
             alleBuchungen.clear();

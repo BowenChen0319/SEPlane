@@ -163,14 +163,22 @@ public class Flug {
 					stornokosten = stornokosten + booking1.getPreise();
 
 			}
-			for (Booking booking1 : singleFlugs) {
 
-				System.out.println(booking1.getId());
-				stornokosten = stornokosten + booking1.getPreise();
+		}
 
-			}
+		for (Booking booking : singleFlugs) {
+			//Flug flug1 = booking.getFlug();
+			//Benutzer kunde = booking.getUser();
+
+
+
+
+				System.out.println(booking.getId());
+				stornokosten = stornokosten + booking.getPreise();
+
+
 			System.out.println("alleBuchungenDerMulti");
-			System.out.println(alleBuchungenDerMulti);
+			//System.out.println(alleBuchungenDerMulti);
 		}
 		System.out.println(stornokosten);
 		System.out.println(alleBuchungen.size());
