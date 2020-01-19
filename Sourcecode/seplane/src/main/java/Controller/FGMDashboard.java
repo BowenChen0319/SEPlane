@@ -13,8 +13,8 @@ import java.util.ResourceBundle;
 
 import Models.Benutzer;
 import Models.CurrentUser;
-import ca.odell.glazedlists.GlazedLists;
-import ca.odell.glazedlists.swing.AutoCompleteSupport;
+//import ca.odell.glazedlists.GlazedLists;
+//import ca.odell.glazedlists.swing.AutoCompleteSupport;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
