@@ -21,7 +21,7 @@ public class Gutschein {
     public Gutschein() {}
 
     public Gutschein(String text,Integer percent) {
-        this.text=text;
+        this.text=text.toLowerCase();
         if(percent<=100&&percent>=0){
             this.percent=percent;
         }else{
@@ -38,7 +38,7 @@ public class Gutschein {
     }
 
     public Boolean checkcodeused(String text){
-        List<Gutschein> list = App.db.getGutscheinfromtext(text);
+        List<Gutschein> list = App.db.getGutscheinfromtext(text.toLowerCase());
         return !list.isEmpty();
     }
 
@@ -46,17 +46,17 @@ public class Gutschein {
         return id;
     }
 
-    public boolean checkcode(String code) throws SQLException {
-        boolean right = true;
-        DBManager db = App.db;
-        List<Gutschein> all= db.getallGutschein();
-        for(int i=0;i<all.size();i++){
-            Gutschein b = all.get(i);
-            if(b.getText().equals(code.toLowerCase())){
-                System.out.println("Wrong two same code!");
-                right=false;
-            }
-        }
-        return right;
-    }
+//    public boolean checkcode(String code) throws SQLException {
+//        boolean right = true;
+//        DBManager db = App.db;
+//        List<Gutschein> all= db.getallGutschein();
+//        for(int i=0;i<all.size();i++){
+//            Gutschein b = all.get(i);
+//            if(b.getText().equals(code.toLowerCase())){
+//                System.out.println("Wrong two same code!");
+//                right=false;
+//            }
+//        }
+//        return right;
+//    }
 }
