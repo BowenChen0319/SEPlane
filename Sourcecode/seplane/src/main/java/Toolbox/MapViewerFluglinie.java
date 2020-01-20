@@ -36,8 +36,12 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	DBManager db = App.db;
 	ArrayList<Fluglinie> fluglinien;
 	CurrentUser cur = new CurrentUser();
-	
-	public boolean test = true;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		mapView.setKey("AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
+	    mapView.addMapInializedListener(this);
+	}
 	
 	//prüft wann geladen, damit ab da manipulieren kann
 	@Override
@@ -79,8 +83,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
         
         //Polylines Fluglinie
         fluglinien  = new ArrayList<Fluglinie>();
-        //zu Testzwecken mit Umweg
-        setFluglinien(cur, null);
+        fluglinien.addAll(db.getFluglinieZuFG(cur.getCurrent().getId()));
         
         for(Fluglinie f : fluglinien) {
 
@@ -119,11 +122,6 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 
 			//Models.Models.GeoRoute.GeoRoute.Models.GeoRoute.Step.Polyline
 			LatLong[] line = new LatLong[]{start, ziel};
-			//test
-			System.out.println(start + " TestMap");
-			if((start == null || ziel == null)&& test)
-				test = false;
-			
 			MVCArray mvc = new MVCArray(line);
 			PolylineOptions polyOpts = new PolylineOptions()
 					.path(mvc)
@@ -135,28 +133,4 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 			
         }
 	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		//Fehler WebView is already in use, können nicht wiederverwendet werden
-		mapView.setKey("AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
-    
-	    mapView.addMapInializedListener(this);
-	}
-
-	//zum Testen
-	public GoogleMap getMap() {
-		return map;
-	}
-	public void setFluglinien(CurrentUser current, ArrayList<Fluglinie> fluglinie) {
-		//Testwerte
-		if(current == null) {
-			fluglinien = fluglinie;
-			mapView = new GoogleMapView();
-			initialize(null, null);
-		}
-		else {
-			fluglinien.addAll(db.getFluglinieZuFG(db.getFGzuFGM(new CurrentUser().getCurrent()).getId()));
-		}
-	}	
 }
