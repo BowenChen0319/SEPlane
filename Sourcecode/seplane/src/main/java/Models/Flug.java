@@ -124,6 +124,7 @@ public class Flug {
 		Collections.sort(reserviereBusiness);
 	}
 
+	//berechneStornokostenGesamt geschrieben von Dennis Eichner
 	public Double berechneStornokostenGesamt () {
 		Double stornokosten = 0.00;
 		ObservableList<Booking> alleBuchungen = FXCollections.observableArrayList();

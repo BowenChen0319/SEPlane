@@ -545,6 +545,28 @@ public class DBManager {
         }
     }
 
+    public Plane getFlugzeugewithid(int id) {
+        Plane pl;
+        try {
+            pl = planeDao.queryForId(id);
+            return pl;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Airport getFlughafenById(String id) {
+        Airport airport;
+        try {
+            airport = apDao.queryForId(id);
+            return airport;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<Gutschein> getallGutschein() {
         List<Gutschein> all;
         try {

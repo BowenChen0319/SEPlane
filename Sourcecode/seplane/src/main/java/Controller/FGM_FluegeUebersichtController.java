@@ -119,18 +119,6 @@ public class FGM_FluegeUebersichtController implements Initializable {
         });
 
 
-        stornokosten_column.setCellValueFactory(cellData->{
-            if(cellData.getValue()==null){
-                return new SimpleStringProperty("");
-            }
-            else{
-                SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
-               simpleStringProperty.setValue(cellData.getValue().berechneStornokostenGesamt().toString());
-                return simpleStringProperty;
-            }
-        });
-
-
         Flugzeug_column.setCellValueFactory(cellData->{
             if(cellData.getValue()==null){
                 return new SimpleStringProperty("");
@@ -158,7 +146,16 @@ public class FGM_FluegeUebersichtController implements Initializable {
             }
         });
 
-
+        stornokosten_column.setCellValueFactory(cellData->{
+            if(cellData.getValue()==null){
+                return new SimpleStringProperty("");
+            }
+            else{
+                SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
+                simpleStringProperty.setValue(cellData.getValue().berechneStornokostenGesamt().toString());
+                return simpleStringProperty;
+            }
+        });
 
         fluegeUebersicht_table.setItems(flugListe);
 
@@ -167,6 +164,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
 
     // Iteration 3
+
+    //überprüfen
     public double berechneRentabilitaet(Flug flug){
 
         Double kerosinkosten = 3.58 * (flug.getFluglinie().getEntfernung() / 100) * flug.getFluglinie().getFlugzeug().getSeats();
@@ -177,7 +176,7 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
         Double flughafenpauschale = 0.05 * (flug.getFluglinie().getStart().getRunway_length() + flug.getFluglinie().getZiel().getRunway_length());
 
-        Double gewinn = kerosinkosten + einnahmen + flughafenpauschale;
+        Double gewinn = einnahmen - flughafenpauschale - kerosinkosten;
 
         return gewinn;
     }
