@@ -32,16 +32,12 @@ public class Bookingoverview_windows extends Application {
     @Override
 
     public void start(Stage stage) throws IOException {
-        int Height = 400;
+        int Height = 200;
         int Width = 600;
         System.out.println("kunde window");
 
 //        Stage dialogStage = new Stage();
-//        ProgressIndicator progressIndicator = new ProgressIndicator();
-//        dialogStage.initOwner(stage);
-//        dialogStage.initStyle(StageStyle.UNDECORATED);
-//        dialogStage.initStyle(StageStyle.TRANSPARENT);
-//        dialogStage.initModality(Modality.APPLICATION_MODAL);
+
 
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -50,8 +46,7 @@ public class Bookingoverview_windows extends Application {
         root.setPrefHeight(Height);
         root.setPrefWidth(Width);
 
-        ProgressIndicator progressIndicator = new ProgressIndicator();
-        progressIndicator.setProgress(-1F);
+
         Label text = new Label(
                 "Willkommen "+
                         new CurrentUser().getCurrent().getVorname()+" "+new CurrentUser().getCurrent().getNachname()+
@@ -61,7 +56,7 @@ public class Bookingoverview_windows extends Application {
         VBox vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(progressIndicator,text);
+        vbox.getChildren().addAll(text);
 
         //HBox h0 = new HBox();
         //h0.setAlignment(Pos.CENTER);

@@ -24,11 +24,9 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -196,6 +194,7 @@ public class login extends Application {
                         if(b.getBenutzertyp().matches("fgm")){
                             try {
                                 if(Encryption.check(pwd.getText(),b.getPasswort())){
+
                                     warning.setText("Welcome fgm, loading...");
                                     System.out.println("Welcome fgm");
                                     user.clear();
@@ -205,12 +204,14 @@ public class login extends Application {
                                         @Override
                                         public void run() {
                                             try {
+
                                                 new CurrentUser().setCurrent(finalB2);
                                                 primaryStage.setResizable(true);
                                                 Parent fgm1 = FXMLLoader.load(getClass().getResource("FGMDashboardMain.fxml"));
                                                 Scene fgmScene = new Scene(fgm1);
                                                 primaryStage.setScene(fgmScene);
                                                 fitScreen(primaryStage);
+
 
                                             } catch (IOException e) {
                                                 e.printStackTrace();
