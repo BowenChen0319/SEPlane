@@ -213,15 +213,13 @@ public class FGM_FluegeUebersichtController implements Initializable {
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
             alert.showAndWait();
-        }
-        else if(this.berechneRentabilitaet(flug)>0){
-            String errorMessage = "Die Rentabilitaet dieses Fluges ist nicht negativ";
+        } else if(this.berechneRentabilitaet(flug)<0){
+            String errorMessage = "Die Rentabilitaet dieses Fluges ist positiv";
             Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.CLOSE);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
             alert.getDialogPane().getStylesheets().add(App.class.getResource("style.css").toString());
             alert.showAndWait();
-        }
-        else{
+        } else{
 
             this.ermittleStronierungskosten(flug);
             db.deleteFlug(flug.getId());
