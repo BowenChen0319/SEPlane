@@ -32,7 +32,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	@FXML
 	GoogleMapView mapView;
 	GoogleMap map;
-	
+
 	DBManager db = App.db;
 	ArrayList<Fluglinie> fluglinien;
 	CurrentUser cur = new CurrentUser();
@@ -42,7 +42,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 		mapView.setKey("AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
 	    mapView.addMapInializedListener(this);
 	}
-	
+
 	//prüft wann geladen, damit ab da manipulieren kann
 	@Override
 	public void mapInitialized() {
@@ -62,7 +62,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 	            .zoomControl(false)
 	            .zoom(3);
 
-	    
+
 	    map = mapView.createMap(mapOptions, false);
 
 	    //Add a marker to the map mit Infos
@@ -80,11 +80,13 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
         infoWindowOptions.content("Entstehungsort SEPlane");
         InfoWindow infoTest = new InfoWindow(infoWindowOptions);
         infoTest.open(map, marker);
-        
+
         //Polylines Fluglinie
         fluglinien  = new ArrayList<Fluglinie>();
-        fluglinien.addAll(db.getFluglinieZuFG(cur.getCurrent().getId()));
-        
+        //fluglinien.addAll(db.getFluglinieZuFG(cur.getCurrent().getId()));
+		fluglinien.addAll(db.getFluglinieZuFG(db.getFGzuFGM(new CurrentUser().getCurrent()).getId()));
+
+
         for(Fluglinie f : fluglinien) {
 
 			//Start
@@ -130,7 +132,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 					.strokeWeight(4);
 			Polyline poly = new Polyline(polyOpts);
 			map.addMapShape(poly);
-			
+
         }
 	}
 }
