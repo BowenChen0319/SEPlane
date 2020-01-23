@@ -18,7 +18,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Kunde_FlugbuchungController">
     <center>
         <TabPane BorderPane.alignment="CENTER">
@@ -282,7 +281,6 @@
                     <content>
                         <AnchorPane>
                      <children>
-                        <Button mnemonicParsing="false" text="Button" />
                         <fx:include source="Routenansicht.fxml" />
                      </children>
                         </AnchorPane>
