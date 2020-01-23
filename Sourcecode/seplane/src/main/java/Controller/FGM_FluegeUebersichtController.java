@@ -247,7 +247,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
         }
 
         for (Booking booking : multiBuchungenDesStornoFlugs){
-            Flug flug1 = booking.getFlug();
+            Fluglinie fluglinie = App.db.getFlug(booking.getFlugid()).getFluglinie();
+            Flug flug1=booking.getFlug();
             Benutzer kunde = booking.getUser();
             System.out.println(kunde.getId());
             Double rueckerstattung = 0.00;
@@ -259,8 +260,9 @@ public class FGM_FluegeUebersichtController implements Initializable {
             }
             //Nachricht ins Postfach
 
-            String msg = "Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit().toString() +
-                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung.toString() + "zurückerstattet.";
+            String msg = "Lieber Kunde, leider muessen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit().toString() +
+                    " storniert werden musste. Natuerlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung.toString() + " Euro zurueckerstattet.";
+
             byte[] sourceBytes = msg.getBytes();
             try {
                 msg = new String(sourceBytes, "UTF-8");
@@ -272,22 +274,18 @@ public class FGM_FluegeUebersichtController implements Initializable {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
             System.out.println(kunde.getBenutzername());
             App.db.sendMessage(kunde.getBenutzername(),date,msg);
-//            Postfach nachricht = new Postfach();
-//            nachricht.setReceiverCol(kunde.getBenutzername());
-//            LocalDate heute = LocalDate.now();
-//            nachricht.setDateString(heute.toString());
-//            nachricht.setDate(this.convertToDateViaSqlDate(heute));
-//            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-//                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.");
-//            //Benachrichtigung per Telegram
-            TelegramBot telegramBot = new TelegramBot();
-            telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-                            "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.",
-                    "");
+            Benutzer b = App.db.getUser(kunde.getBenutzername());
+
+            if(!b.getTelnumber().equals("")){
+
+                new TelegramBot().sendMessage(msg,b.getTelnumber());
+            }
+
         }
 
         for (Booking booking : singleFlugs) {
-            Flug flug1 = booking.getFlug();
+            Fluglinie fluglinie = App.db.getFlug(booking.getFlugid()).getFluglinie();
+            Flug flug1=booking.getFlug();
             Benutzer kunde = booking.getUser();
             System.out.println(kunde.getId());
             Double rueckerstattung = 0.00;
@@ -299,8 +297,9 @@ public class FGM_FluegeUebersichtController implements Initializable {
             }
             //Nachricht ins Postfach
 
-            String msg = "Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit().toString() +
-                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung.toString() + "zurückerstattet.";
+            String msg = "Lieber Kunde, leider muessen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit().toString() +
+                    " storniert werden musste. Natuerlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung.toString() + " Euro zurueckerstattet.";
+
             byte[] sourceBytes = msg.getBytes();
             try {
                 msg = new String(sourceBytes, "UTF-8");
@@ -312,18 +311,13 @@ public class FGM_FluegeUebersichtController implements Initializable {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
             System.out.println(kunde.getBenutzername());
             App.db.sendMessage(kunde.getBenutzername(), date, msg);
-//            Postfach nachricht = new Postfach();
-//            nachricht.setReceiverCol(kunde.getBenutzername());
-//            LocalDate heute = LocalDate.now();
-//            nachricht.setDateString(heute.toString());
-//            nachricht.setDate(this.convertToDateViaSqlDate(heute));
-//            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-//                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.");
-//            //Benachrichtigung per Telegram
-            TelegramBot telegramBot = new TelegramBot();
-            telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-                            "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung + "zurückerstattet.",
-                    "");
+
+            Benutzer b = App.db.getUser(kunde.getBenutzername());
+
+            if(!b.getTelnumber().equals("")){
+
+                new TelegramBot().sendMessage(msg,b.getTelnumber());
+            }
         }
     }
 
@@ -346,6 +340,8 @@ public class FGM_FluegeUebersichtController implements Initializable {
         for (Booking booking : multiBuchungenDesStornoFlugs){
             Flug flug1 = booking.getFlug();
             Benutzer kunde = booking.getUser();
+            String msg = "";
+            byte[] sourceByte;
 
             ObservableList<Booking> alleBuchungenDerMulti= FXCollections.observableArrayList();
             alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
@@ -358,13 +354,24 @@ public class FGM_FluegeUebersichtController implements Initializable {
             LocalDate heute = LocalDate.now();
             nachricht.setDateString(heute.toString());
             nachricht.setDate(this.convertToDateViaSqlDate(heute));
-            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + "zurückerstattet.");
-            //Benachrichtigung per Telegram
+            msg = "Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit()
+                    + "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + " Euro zurückerstattet.";
+            sourceByte = msg.getBytes();
+            try {
+                msg = new String(sourceByte,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            nachricht.setMessageCol(msg);
             TelegramBot telegramBot = new TelegramBot();
-            telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-                            "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + "zurückerstattet.",
-                    "");
+            telegramBot.sendMessage(msg,"");
+//            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
+//                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + "zurückerstattet.");
+//            //Benachrichtigung per Telegram
+//            TelegramBot telegramBot = new TelegramBot();
+//            telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
+//                            "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + "zurückerstattet.",
+//                    "");
         }
         return stornokosten;
     }

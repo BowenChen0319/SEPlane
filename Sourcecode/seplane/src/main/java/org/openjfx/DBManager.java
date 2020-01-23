@@ -398,8 +398,8 @@ public class DBManager {
     //------Delete
     public void deleteFL(int id) {
         try {
-            if (gtDao.idExists(id))
-                gtDao.deleteById(id);
+            if (flDao.idExists(id))
+                flDao.deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -407,8 +407,8 @@ public class DBManager {
 
     public void deleteGT(int id) {
         try {
-            if (flDao.idExists(id))
-                flDao.deleteById(id);
+            if (gtDao.idExists(id))
+                gtDao.deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -765,6 +765,17 @@ public class DBManager {
             return null;
         }
 
+    }
+    public Gutschein getgtwithgt(Gutschein gt) {
+        QueryBuilder<Gutschein, Integer> query = gtDao.queryBuilder();
+        try {
+            query.where()
+                    .eq("text", gt.getText());
+            return gtDao.queryForFirst(query.prepare());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Booking getbkwithbk(Booking bk) {

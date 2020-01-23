@@ -10,6 +10,7 @@ import com.google.maps.errors.ApiException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.glassfish.grizzly.streams.StreamReader;
 import org.jsoup.Jsoup;
 
@@ -25,6 +26,7 @@ import java.util.List;
 
 
 public class Directions {
+    Boolean fuerTestKlasse = false;
     public enum TransportMode {
         DRIVING, TRANSIT, WALKING
     }
@@ -87,9 +89,14 @@ public class Directions {
         return newString;
     }
 
+
     public ObservableList<Route> getDirection(String start, String ziel, Enum mode) throws FileNotFoundException {
         URL url = null;
         InputStreamReader reader = null;
+        int size;
+        String str;
+        int meter;
+        byte[] sourcebytes;
 
         try {
             url = new URL("https://maps.googleapis.com/maps/api/directions/json?" +
@@ -120,16 +127,20 @@ public class Directions {
                 .registerTypeAdapter(Double.class, new EmptyStringToNumberTypeAdapter())
                 .setPrettyPrinting()
                 .create();
-
-        Step dRoute = gson.fromJson(reader, Step.class);
-        int size = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().size();
-        String str;
-        int meter;
-        byte[] sourcebytes;
-
-
         String nstr = "";
+        ObservableList<Route> listee = FXCollections.observableArrayList();
         Collection<Route> routList = new ArrayList<>();
+        Step dRoute = gson.fromJson(reader, Step.class);
+
+
+        if(dRoute.getRoutes().size() <= 0)
+        {
+
+            return listee;
+        }
+        size  = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().size();
+
+
         for (int i = 0; i < size; i++) {
             str = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getHtmlInstructions();
             meter = dRoute.getRoutes().get(0).getLegs().get(0).getSteps().get(i).getDistance().getValue();

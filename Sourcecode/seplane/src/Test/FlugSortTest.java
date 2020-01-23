@@ -1,8 +1,7 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +9,10 @@ import Controller.Kunde_FlugbuchungController;
 import Models.Flug;
 import Models.Fluglinie;
 
+/*
+ * funktioniert, sobald das Label "nixGefunden" ohne @FXML Tag auskommentiert wird
+ * sonst folgt der Fehler "Toolkit (JFX) not initialized" bei init() Aufruf des Controllers in dieser Zeile
+ */
 
 class FlugSortTest {
 	
@@ -56,13 +59,12 @@ class FlugSortTest {
 		
 		fluege.add(flugGruppe2);	//E 12€, B 99€
 		fluege.add(flugGruppe1);	//E 30€, B 88€
-		
+			
 	}
 	
 	@Test
 	void testsortieren2DimBusiness() {
-		//prepare();
-		System.out.println("test 1");
+
 		Kunde_FlugbuchungController kunde_FB = new Kunde_FlugbuchungController();
 		
 		preise = kunde_FB.preisBerechnung(fluege, "business");
@@ -78,7 +80,7 @@ class FlugSortTest {
 
 	@Test
 	void testsortieren2DimEconomy() {
-		System.out.println("test 2");
+
 		Kunde_FlugbuchungController kunde_FB = new Kunde_FlugbuchungController();
 		
 		preise = kunde_FB.preisBerechnung(fluege, "else");
@@ -89,4 +91,5 @@ class FlugSortTest {
 		assertEquals(fluege.get(0), kunde_FB.sortieren2Dim(fluege, preise).get(0));
 
 	}
+	
 }

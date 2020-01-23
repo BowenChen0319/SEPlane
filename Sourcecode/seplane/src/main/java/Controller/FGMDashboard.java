@@ -6,12 +6,15 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import Models.Benutzer;
 import Models.CurrentUser;
+//import ca.odell.glazedlists.GlazedLists;
+//import ca.odell.glazedlists.swing.AutoCompleteSupport;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
@@ -32,6 +35,8 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 
 import org.openjfx.login;
+
+import javax.swing.*;
 
 
 public class FGMDashboard implements Initializable {
@@ -63,6 +68,8 @@ public class FGMDashboard implements Initializable {
     TextArea messageBox;
     @FXML
     TextField receiverBox;
+    @FXML
+    JComboBox comboReceiver;
 
     Fluglinie curFL;
 
@@ -164,13 +171,16 @@ public class FGMDashboard implements Initializable {
 //		System.out.println("user: " + receiverBox.getText());
 //		System.out.println("msg: " + messageBox.getText());
         DBManager db = new DBManager();
-        //db.sendMessage(receiverBox.getText(), messageBox.getText());
-        Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
 
-        System.out.println(simpleDateFormat.format(date));
+        Object[] userList = new Object[db.getallUser().size()];
+        List<Benutzer> benutzerList = db.getallUser();
+        //AutoCompleteSupport.install(comboReceiver, GlazedLists.eventList(benutzerList));
 
-        db.sendMessage(receiverBox.getText(), date, messageBox.getText());
+        Date currentTime = new Date();
+
+
+        db.sendMessage(receiverBox.getText(), currentTime, messageBox.getText());
+
     }
 
     //getter nötig, damit man Im DBmanager auf die messagebox und receiverbox zugreifen kann
