@@ -177,7 +177,8 @@ public class Kunde_FlugbuchungController implements Initializable {
     public ObservableList<ArrayList<Flug>> flugList;
     DBManager db = App.db;
     Benutzer cur = new CurrentUser().getCurrent();
-    Label nixGefunden = new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden.");
+    Label nixGefunden
+            = new Label("Ohje! Wir konnten keine Flüge zu Ihrer Auswahl finden.");
 
     //Suchparameter zwischenspeichern, da der Kunde die Parameter ändern kann und so zu wenig Plätze vergeben werden usw.
     int anzahlPassagiere = 0;

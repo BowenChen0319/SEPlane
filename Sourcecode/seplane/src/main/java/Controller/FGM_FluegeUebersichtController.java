@@ -223,24 +223,30 @@ public class FGM_FluegeUebersichtController implements Initializable {
         }
         else{
 
-            //entsprechende Buchungen loeschen
-
             this.ermittleStronierungskosten(flug);
             db.deleteFlug(flug.getId());
             this.initialize(null, null);
         }
     }
 
+
+
     public void ermittleStronierungskosten (Flug flug) throws TelegramApiException {
+
+        //Alle  Buchungen für den Flug, der storiniert werden soll
         ObservableList<Booking> alleBuchungen = FXCollections.observableArrayList();
         alleBuchungen.clear();
         alleBuchungen.addAll(db.getBookingfromFlug(flug.getId()));
 
+        //alle Multi-Stopp Buchungen des zu stonierenden Flugs
         ObservableList<Booking> multiBuchungenDesStornoFlugs = FXCollections.observableArrayList();
         multiBuchungenDesStornoFlugs.clear();
+
+        //alle Einzelbuchungen des zu stornierenden Flugs
         ObservableList<Booking> singleFlugs = FXCollections.observableArrayList();
         singleFlugs.clear();
-        //checken, welche der Buchungen eine Multistop Buchung ist
+
+        //Buchungen in beide Listen einsortieren
         for (Booking booking : alleBuchungen){
             if (booking.getMulti()!=null){
                 multiBuchungenDesStornoFlugs.add(booking);
@@ -249,135 +255,88 @@ public class FGM_FluegeUebersichtController implements Initializable {
             }
         }
 
+        //Berechnung der Stornokosten für die Multi-Stopp Buchungen und Übermittlung der entsprechenden Nachricht
         for (Booking booking : multiBuchungenDesStornoFlugs){
+
             Fluglinie fluglinie = App.db.getFlug(booking.getFlugid()).getFluglinie();
             Flug flug1=booking.getFlug();
             Benutzer kunde = booking.getUser();
             System.out.println(kunde.getId());
             Double rueckerstattung = 0.00;
+
             ObservableList<Booking> alleBuchungenDerMulti= FXCollections.observableArrayList();
             alleBuchungen.clear();
             alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
+
+            //Ermittlung der Summe
             for (Booking booking1 : alleBuchungenDerMulti){
                 rueckerstattung= rueckerstattung + booking.getPreise();
             }
-            //Nachricht ins Postfach
 
+            //Nachricht ins Postfach
             String msg = "Lieber Kunde, leider muessen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit().toString() +
                     " storniert werden musste. Natuerlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung.toString() + " Euro zurueckerstattet.";
-
+            //wegen Umlauten
             byte[] sourceBytes = msg.getBytes();
             try {
                 msg = new String(sourceBytes, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            System.out.println(msg);
             Date date = new Date();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
-            System.out.println(kunde.getBenutzername());
             App.db.sendMessage(kunde.getBenutzername(),date,msg);
-            Benutzer b = App.db.getUser(kunde.getBenutzername());
 
-            if(!b.getTelnumber().equals("")){
+            //versenden der Nachricht per Telegram
+            Benutzer benutzer = App.db.getUser(kunde.getBenutzername());
+            if(!benutzer.getTelnumber().equals("")){
 
-                new TelegramBot().sendMessage(msg,b.getTelnumber());
+                new TelegramBot().sendMessage(msg,benutzer.getTelnumber());
             }
 
         }
 
+        //Berechnung der Stornokosten für die Einzelbuchungen und Übermittlung der entsprechenden Nachricht
         for (Booking booking : singleFlugs) {
             Fluglinie fluglinie = App.db.getFlug(booking.getFlugid()).getFluglinie();
             Flug flug1=booking.getFlug();
             Benutzer kunde = booking.getUser();
             System.out.println(kunde.getId());
             Double rueckerstattung = 0.00;
+
+
             ObservableList<Booking> alleBuchungenDerMulti = FXCollections.observableArrayList();
             alleBuchungen.clear();
             alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
+
+            //Emittlung der Summe
             for (Booking booking1 : alleBuchungenDerMulti) {
                 rueckerstattung = rueckerstattung + booking.getPreise();
             }
-            //Nachricht ins Postfach
 
+            //Nachricht ins Postfach
             String msg = "Lieber Kunde, leider muessen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit().toString() +
                     " storniert werden musste. Natuerlich bekonnen Sie die anfallenden Kosten von " + rueckerstattung.toString() + " Euro zurueckerstattet.";
-
+            //wegen Umlauten
             byte[] sourceBytes = msg.getBytes();
             try {
                 msg = new String(sourceBytes, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            System.out.println(msg);
             Date date = new Date();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
-            System.out.println(kunde.getBenutzername());
             App.db.sendMessage(kunde.getBenutzername(), date, msg);
 
-            Benutzer b = App.db.getUser(kunde.getBenutzername());
+            //versenden der Nachricht per Telegram
+            Benutzer benutzer = App.db.getUser(kunde.getBenutzername());
+            if(!benutzer.getTelnumber().equals("")){
 
-            if(!b.getTelnumber().equals("")){
-
-                new TelegramBot().sendMessage(msg,b.getTelnumber());
+                new TelegramBot().sendMessage(msg,benutzer.getTelnumber());
             }
         }
     }
 
-    public Double berechneStornierungskosten (Flug flug) throws TelegramApiException {
-        Double stornokosten = 0.00;
-        ObservableList<Booking> alleBuchungen = FXCollections.observableArrayList();
-        alleBuchungen.clear();
-        alleBuchungen.addAll(db.getBookingfromFlug(flug.getId()));
-
-        ObservableList<Booking> multiBuchungenDesStornoFlugs = FXCollections.observableArrayList();
-        multiBuchungenDesStornoFlugs.clear();
-
-        //checken, welche der Buchungen eine Multistop Buchung ist
-
-        for (Booking booking : alleBuchungen){
-            if (booking.getMulti()!=null){
-                multiBuchungenDesStornoFlugs.add(booking);
-            }
-        }
-        for (Booking booking : multiBuchungenDesStornoFlugs){
-            Flug flug1 = booking.getFlug();
-            Benutzer kunde = booking.getUser();
-            String msg = "";
-            byte[] sourceByte;
-
-            ObservableList<Booking> alleBuchungenDerMulti= FXCollections.observableArrayList();
-            alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
-            for (Booking booking1 : alleBuchungenDerMulti){
-                stornokosten= stornokosten + booking1.getPreise();
-            }
-            //Nachricht ins Postfach
-            Postfach nachricht = new Postfach();
-            nachricht.setReceiverCol(kunde.getBenutzername());
-            LocalDate heute = LocalDate.now();
-            nachricht.setDateString(heute.toString());
-            nachricht.setDate(this.convertToDateViaSqlDate(heute));
-            msg = "Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit()
-                    + "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + " Euro zurückerstattet.";
-            sourceByte = msg.getBytes();
-            try {
-                msg = new String(sourceByte,"UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            nachricht.setMessageCol(msg);
-            TelegramBot telegramBot = new TelegramBot();
-            telegramBot.sendMessage(msg,"");
-//            nachricht.setMessageCol("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-//                    "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + "zurückerstattet.");
-//            //Benachrichtigung per Telegram
-//            TelegramBot telegramBot = new TelegramBot();
-//            telegramBot.sendMessage("Lieber Kunde, leider müssen wir Ihnen mitteilen, dass Ihr Flug vom " + flug1.getStartzeit() +
-//                            "storniert werden musste. Natürlich bekonnen Sie die anfallenden Kosten von " + stornokosten + "zurückerstattet.",
-//                    "");
-        }
-        return stornokosten;
-    }
 
     public Date convertToDateViaSqlDate(LocalDate dateToConvert) {
 

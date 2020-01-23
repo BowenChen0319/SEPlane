@@ -124,22 +124,25 @@ public class Flug {
 		Collections.sort(reserviereBusiness);
 	}
 
+
 	//berechneStornokostenGesamt geschrieben von Dennis Eichner
 	public Double berechneStornokostenGesamt () {
 		Double stornokosten = 0.00;
+
+		//alle Buchungen des zu stornierenden Flugs
 		ObservableList<Booking> alleBuchungen = FXCollections.observableArrayList();
 		alleBuchungen.clear();
 		alleBuchungen.addAll(db.getBookingfromFlug(this.getId()));
-		System.out.println(this.id);
-		System.out.println("alleBuchungen");
-		System.out.println(alleBuchungen);
 
+		//alle Multi-Stop Buchungen des zu stornierenden Flugs
 		ObservableList<Booking> multiBuchungenDesStornoFlugs = FXCollections.observableArrayList();
 		multiBuchungenDesStornoFlugs.clear();
+
+		//alle Einzelbuchungen des zu stornierendes Flugs
 		ObservableList<Booking> singleFlugs = FXCollections.observableArrayList();
 		singleFlugs.clear();
-		//checken, welche der Buchungen eine Multistop Buchung ist
 
+		//Buchungen den jeweiligen Listen zuordnen
 		for (Booking booking : alleBuchungen) {
 			if (booking.getMulti() != null) {
 				multiBuchungenDesStornoFlugs.add(booking);
@@ -147,17 +150,15 @@ public class Flug {
 				singleFlugs.add(booking);
 			}
 		}
-		System.out.println("multiBuchungenDesStornoFlugs");
-		System.out.println(multiBuchungenDesStornoFlugs);
+
 
 		for (Booking booking : multiBuchungenDesStornoFlugs) {
-			//Flug flug1 = booking.getFlug();
-			//Benutzer kunde = booking.getUser();
-
 
 			ObservableList<Booking> alleBuchungenDerMulti = FXCollections.observableArrayList();
 			alleBuchungenDerMulti.clear();
 			alleBuchungenDerMulti.addAll(db.getMultiBookingfromBooking(booking));
+
+			//alle zugehörigen Buchungen zu einer Multi-Stop Buchung durchlaufen
 			for (Booking booking1 : alleBuchungenDerMulti) {
 
 					System.out.println(booking1.getId());
