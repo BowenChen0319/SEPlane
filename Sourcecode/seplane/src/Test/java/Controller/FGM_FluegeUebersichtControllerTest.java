@@ -31,11 +31,7 @@ class FGM_FluegeUebersichtControllerTest {
 
         flug.createReserviereEconomy(80, 6);
         flug.createReserviereBusiness(6);
-        //Plaetze fuer den Flug reservieren
-       // flug.setRestEconomy();
-       // flug.setRestBusiness();
 
-        //0-(307,88+738,2)
 
         FGM_FluegeUebersichtController fgm_fluegeUebersichtController= new FGM_FluegeUebersichtController();
         double ergebnis = fgm_fluegeUebersichtController.berechneRentabilitaet(flug);
