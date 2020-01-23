@@ -105,7 +105,6 @@ Controller\Kunde_FlugbuchungController$22.class
 Controller\Kunde_FlugbuchungController$28.class
 Models\Fluggesellschaft.class
 Models\Step$Southwest.class
-Toolbox\News.class
 Toolbox\ReverseGeoEncoder.class
 org\openjfx\App.class
 Controller\GutscheinCreat$1.class
@@ -183,5 +182,4 @@ Controller\BooksBoard$7.class
 Toolbox\Restaurant$2.class
 Controller\FGM_FluegeInstanziierenController.class
 org\openjfx\register.class
-Toolbox\News$1.class
 org\openjfx\login$4.class

@@ -170,13 +170,16 @@ public class FGM_FluegeUebersichtController implements Initializable {
 
         Double kerosinkosten = 3.58 * (flug.getFluglinie().getEntfernung() / 100) * flug.getFluglinie().getFlugzeug().getSeats();
 
-        Integer gebuchtePlaetzeEconomy = flug.getFluglinie().getAnze() - flug.getRestEconomy();
-        Integer gebuchtePlaetzeBusiness = flug.getFluglinie().getAnzb() - flug.getRestBusiness();
+        Integer gebuchtePlaetzeEconomy = flug.getReserviereEconomy().size();
+        Integer gebuchtePlaetzeBusiness = flug.getReserviereBusiness().size();
         Double einnahmen = (gebuchtePlaetzeEconomy * flug.getFluglinie().getPreisee()) + (gebuchtePlaetzeBusiness * flug.getFluglinie().getPreiseb());
 
         Double flughafenpauschale = 0.05 * (flug.getFluglinie().getStart().getRunway_length() + flug.getFluglinie().getZiel().getRunway_length());
 
         Double gewinn = einnahmen - flughafenpauschale - kerosinkosten;
+        System.out.println(einnahmen);
+        System.out.println(flughafenpauschale);
+        System.out.println(kerosinkosten);
 
         return gewinn;
     }

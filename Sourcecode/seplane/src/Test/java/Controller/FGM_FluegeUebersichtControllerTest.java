@@ -42,7 +42,7 @@ class FGM_FluegeUebersichtControllerTest {
 
         System.out.println(ergebnis);
 
-        assertTrue(ergebnis==-1132.08);
+        assertTrue(ergebnis==-954.08);
 
 
     }
