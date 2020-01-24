@@ -202,11 +202,6 @@ public class Kunde_FlugbuchungController implements Initializable {
             zeitraumHin2.setValue(0);
             zeitraumHin3.setValue(0);
             zeitraumRueck.setValue(0);
-            //DatePicker Auswahl
-            //setDatePickerRange();
-            //DatePicker Listener wenn start nach rück eingebe und startdatum nach rückdatum
-            //ruft jew. Range Methode auf und löscht value überall wo unsinn
-            //setDatePickerValueCheck();
             //Toggle Gruppen für Klasse Economy/Business
             toggleBus.setToggleGroup(tg);
             toggleEco.setToggleGroup(tg);
@@ -390,8 +385,6 @@ public class Kunde_FlugbuchungController implements Initializable {
         if (db.getMessages(cur.getBenutzername()).size() > 0) {
             refreshMessages(new ActionEvent());
         }
-
-
     }
 
     //-------Nachrichtengedöns
@@ -408,31 +401,7 @@ public class Kunde_FlugbuchungController implements Initializable {
         for (Postfach n : messages) {
             System.out.println(n.getSenderCol() + " " + n.getMessageCol() + " " + n.getDate());
         }
-
-//			for(int i=0; i<messages.size();i++)
-//			{
-//				System.out.println(messages.get(i).getMessage());
-////				pF = new Postfach(messages.get(i).getSender(), messages.get(i).getMessage());
-////				nachrichten.getItems().add(pF);
-//			}
     }
-
-//		private void refreshButtonclicked() {
-
-
-//			senderCol.setCellValueFactory(cellData ->{
-//				if(cellData.getValue().getSender() == "")
-//					return new SimpleStringProperty("");
-//				else
-//					return new SimpleStringProperty(cellData.getValue().getSender());
-//			});
-//			messageCol.setCellValueFactory(cellData ->{
-//				if(cellData.getValue().getMessage() == "")
-//					return new SimpleStringProperty("");
-//				else
-//					return new SimpleStringProperty(cellData.getValue().getMessage());
-//			});
-//		}
 
     //------Button zur Buchungsübersicht
     public void buchungsOverview(ActionEvent event) {
@@ -449,7 +418,6 @@ public class Kunde_FlugbuchungController implements Initializable {
         });
         ((Node) event.getSource()).getScene().getWindow().hide();
     }
-    //refresh
 
 
     //------Kaufen
@@ -1225,10 +1193,6 @@ public class Kunde_FlugbuchungController implements Initializable {
         zeitraumRueck.setConverter(zeitraumConverter);
     }
 
-    public void openFilexplorer(ActionEvent actionEvent) {
-
-    }
-
     public void logout(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
@@ -1246,8 +1210,6 @@ public class Kunde_FlugbuchungController implements Initializable {
             }
         });
     }
-
-
 
     public void extendMessage(ActionEvent actionEvent) {
         Postfach postfach = getMessageTable().getSelectionModel().getSelectedItem();
