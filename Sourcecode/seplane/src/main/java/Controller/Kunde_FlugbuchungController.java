@@ -789,16 +789,18 @@ public class Kunde_FlugbuchungController implements Initializable {
 //------GUI
 
     private void setCascadingVisibility() {
+    	setDatePickerRange();
+    	setDatePickerValueCheck();
         //Zeilen Buchung gleichmäßig
-        vChildLinks.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
-        vChildLinks1.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
-        vChildLinks2.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
-        vChildLinks3.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
-        vChildRechts.prefHeightProperty().bind(vChildLinks.heightProperty());
-        vChildRechts1.prefHeightProperty().bind(vChildLinks1.heightProperty());
-        vChildRechts2.prefHeightProperty().bind(vChildLinks2.heightProperty());
-        vChildRechts3.prefHeightProperty().bind(vChildLinks3.heightProperty());
-        //bind an visibility um Platz zu machen
+//        vChildLinks.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
+//        vChildLinks1.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
+//        vChildLinks2.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
+//        vChildLinks3.prefHeightProperty().bind(vLinks.heightProperty().divide(4));
+//        vChildRechts.prefHeightProperty().bind(vChildLinks.heightProperty());
+//        vChildRechts1.prefHeightProperty().bind(vChildLinks1.heightProperty());
+//        vChildRechts2.prefHeightProperty().bind(vChildLinks2.heightProperty());
+//        vChildRechts3.prefHeightProperty().bind(vChildLinks3.heightProperty());
+//        //bind an visibility um Platz zu machen
         vChildLinks1.managedProperty().bind(vChildLinks1.visibleProperty());
         vChildLinks2.managedProperty().bind(vChildLinks2.visibleProperty());
         vChildLinks3.managedProperty().bind(vChildLinks3.visibleProperty());
