@@ -39,7 +39,7 @@ public class MapViewerFluglinie implements MapComponentInitializedListener, Init
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		mapView.setKey("AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
+		//mapView.setKey("InsertAPIKeyHere");
 	    mapView.addMapInializedListener(this);
 	}
 

@@ -106,7 +106,7 @@ public class Directions {
                     "&alternatives=true" +
                     "&mode=" + mode.toString().toLowerCase() +
                     "&language=de" +
-                    "&units=metric&region=DE&key=AIzaSyCueqaRjrGLGd6mYhJCpRvnkoDpOz3PgYo");
+                    "&units=metric&region=DE&key=InsertAPIKeyHere");
             System.out.println("Suchanfrage: " + url.toString());
             reader = new InputStreamReader(url.openStream());
         } catch (MalformedURLException e) {
