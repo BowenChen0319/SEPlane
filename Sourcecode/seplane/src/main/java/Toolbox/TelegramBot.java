@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TelegramBot extends TelegramLongPollingBot {
-    String chatIDsdf = "1057235361";
+    String chatIDsdf = ""; //insert ChatID
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -25,7 +25,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "1045586215:AAG_QDa31xpAMsQbFX2-4B0VSmKKipS_sDE";
+        return "InsertTelegramKeyHere";
     }
 
     public boolean flugStorniert(){

@@ -29,7 +29,7 @@ public class TelegramMain {
 
     public void reactOnStorno(TelegramBot bot) throws InterruptedException {
         String message = "Stornojetzt";
-        String chatId = "1057235361";
+        String chatId = ""; //insert ChatID
         
         if (storno) {
             try {
@@ -44,7 +44,7 @@ public class TelegramMain {
 
     public void test(TelegramBot bot, String text) throws InterruptedException {
         String message = text;
-        String chatId = "644260486";
+        String chatId = ""; //insert ChatID
 
         if (storno) {
             try {
