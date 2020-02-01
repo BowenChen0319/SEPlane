@@ -27,7 +27,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -339,13 +341,14 @@ public class login extends Application {
             }
         });
 
-//        KeyCombination kcb = new KeyCharacterCombination(String.valueOf(KeyCode.Q),KeyCombination.ALT_ANY);
-//        scene.getAccelerators().put(kcb, new Runnable() {
-//            @Override
-//            public void run() {
-//                System.out.println(db.getallUser());
-//            }
-//        });
+        KeyCombination kcb = new KeyCharacterCombination(String.valueOf(KeyCode.Q),KeyCombination.ALT_ANY);
+        scene.getAccelerators().put(kcb, new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("当我作为自变量趋近于正无穷的时候，得到的函数值就是你。-Bowen Chen");
+
+            }
+        });
 
         b3.setOnAction(new EventHandler<ActionEvent>() {
             @Override

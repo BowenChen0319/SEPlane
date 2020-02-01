@@ -115,6 +115,7 @@ public class kunde_windows extends Application {
         stage.setWidth(primaryScreenBounds.getWidth());
         stage.setHeight(primaryScreenBounds.getHeight());
     }
+
 }
 
 
